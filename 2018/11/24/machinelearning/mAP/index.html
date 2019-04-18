@@ -1,0 +1,1576 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/needsharebutton/needsharebutton.css">
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="1 &amp;#x8BCD;&amp;#x8BED;&amp;#x89E3;&amp;#x91CA;   mAP &amp;#x662F; Mean Average Precision &amp;#x7684;&amp;#x7F29;&amp;#x5199;&amp;#xFF0C;&amp;#x662F;&amp;#x68C0;&amp;#x6D4B;&amp;#x7B97;&amp;#x6CD5;&amp;#x7684;&amp;#x8BC4;&amp;#x4EF7;&amp;#x6307;&amp;#x6807;&amp;#x3002;&amp;#x">
+<meta name="keywords" content="深度学习,性能测量">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mAP">
+<meta property="og:url" content="https://kylestones.github.io/2018/11/24/machinelearning/mAP/index.html">
+<meta property="og:site_name" content="All in Org-mode">
+<meta property="og:description" content="1 &amp;#x8BCD;&amp;#x8BED;&amp;#x89E3;&amp;#x91CA;   mAP &amp;#x662F; Mean Average Precision &amp;#x7684;&amp;#x7F29;&amp;#x5199;&amp;#xFF0C;&amp;#x662F;&amp;#x68C0;&amp;#x6D4B;&amp;#x7B97;&amp;#x6CD5;&amp;#x7684;&amp;#x8BC4;&amp;#x4EF7;&amp;#x6307;&amp;#x6807;&amp;#x3002;&amp;#x">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-11-25T11:11:55.234Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mAP">
+<meta name="twitter:description" content="1 &amp;#x8BCD;&amp;#x8BED;&amp;#x89E3;&amp;#x91CA;   mAP &amp;#x662F; Mean Average Precision &amp;#x7684;&amp;#x7F29;&amp;#x5199;&amp;#xFF0C;&amp;#x662F;&amp;#x68C0;&amp;#x6D4B;&amp;#x7B97;&amp;#x6CD5;&amp;#x7684;&amp;#x8BC4;&amp;#x4EF7;&amp;#x6307;&amp;#x6807;&amp;#x3002;&amp;#x">
+
+
+
+
+
+
+  <link rel="canonical" href="https://kylestones.github.io/2018/11/24/machinelearning/mAP/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>mAP | All in Org-mode</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">All in Org-mode</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Keep it Simple, Stuped.</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://kylestones.github.io/2018/11/24/machinelearning/mAP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Kyle Three Stone">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/polarbear.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="All in Org-mode">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">mAP
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-11-24 00:00:00" itemprop="dateCreated datePublished" datetime="2018-11-24T00:00:00+08:00">2018-11-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-11-25 19:11:55" itemprop="dateModified" datetime="2018-11-25T19:11:55+08:00">2018-11-25</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/深度学习/" itemprop="url" rel="index"><span itemprop="name">深度学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Symbols count in article: </span>
+                
+                <span title="Symbols count in article">12k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">11 mins.</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <div id="content">
+
+
+<div id="outline-container-orgb9531e8" class="outline-2">
+<h2 id="orgb9531e8"><span class="section-number-2">1</span> &#x8BCD;&#x8BED;&#x89E3;&#x91CA;</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+mAP &#x662F; Mean Average Precision &#x7684;&#x7F29;&#x5199;&#xFF0C;&#x662F;&#x68C0;&#x6D4B;&#x7B97;&#x6CD5;&#x7684;&#x8BC4;&#x4EF7;&#x6307;&#x6807;&#x3002;&#x8FD9;&#x4E2A;&#x540D;&#x8BCD;&#x4E2D;&#x5305;&#x542B;&#x4E24;&#x4E2A;&#x5E73;&#x5747;&#xFF0C;&#x5176;&#x4E2D; Mean &#x53D6;&#x7684;&#x662F;&#x4E0D;&#x540C;&#x7C7B;&#x522B;&#x7684;&#x5E73;&#x5747;&#x503C;&#xFF0C;
+Average &#x53D6;&#x7684;&#x662F;&#x4E0D;&#x540C;&#x7684;&#x53EC;&#x56DE;&#x7387;&#x7684;&#x5E73;&#x5747;&#x503C;&#xFF0C;&#x5F53;&#x7136;&#x8BA1;&#x7B97;&#x7684;&#x662F;&#x6B63;&#x786E;&#x7387; Precision &#x7684;&#x5E73;&#x5747;&#x503C;&#x3002;&#x53E6;&#x5916; coco &#x6570;&#x636E;&#x96C6;&#x8FD8;&#x53D6;&#x4E86;&#x4E0D;&#x540C; IoU &#x9608;&#x503C;&#x7684;&#x5E73;&#x5747;&#x3002;
+</p>
+
+<p>
+&#x53E6;&#x5916;&#x60F3;&#x8BF4;&#x4E00;&#x4E0B;&#xFF0C;recall &#x8FD9;&#x4E2A;&#x5355;&#x8BCD;&#x88AB;&#x56FD;&#x5185;&#x5E7F;&#x6CDB;&#x7FFB;&#x8BD1;&#x79F0;&#x53EC;&#x56DE;&#x7387;&#xFF0C;&#x5927;&#x591A;&#x6570;&#x4EBA;&#x6839;&#x672C;&#x65E0;&#x6CD5;&#x4ECE;&#x5B57;&#x9762;&#x7406;&#x89E3;&#x8FD9;&#x4E2A;&#x53EC;&#x56DE;&#x7387;&#x5230;&#x5E95;&#x662F;&#x4E2A;&#x4EC0;&#x4E48;&#x9B3C;&#x3002;&#x800C;&#x5468;&#x5FD7;&#x534E;&#x8001;&#x5E08;&#x5728;
+&#x5176;&#x897F;&#x74DC;&#x4E66;&#x4E2D;&#xFF0C;&#x5C06; recall &#x7FFB;&#x8BD1;&#x6210;&#x67E5;&#x5168;&#x7387;&#xFF0C;&#x5C06; precision &#x7FFB;&#x8BD1;&#x6210;&#x67E5;&#x51C6;&#x7387;&#x3002;&#x4E00;&#x4E0B;&#x5B50;&#x76F4;&#x89C2;&#x4E86;&#x5F88;&#x591A;&#x3002;&#x67E5;&#x51C6;&#x7387;&#x8868;&#x793A;&#x6A21;&#x578B;&#x67E5;&#x627E;&#x5230;&#x7ED3;&#x679C;&#x7684;&#x51C6;&#x786E;&#x7387;&#xFF0C;&#x5C31;&#x662F;
+&#x4F60;&#x8BF4;&#x8FD9;&#x4E9B;&#x90FD;&#x662F;&#x597D;&#x74DC;&#xFF0C;&#x4F46;&#x5176;&#x4E2D;&#x771F;&#x6B63;&#x662F;&#x597D;&#x74DC;&#x7684;&#x6BD4;&#x4F8B;&#xFF1B;&#x67E5;&#x5168;&#x7387;&#x8868;&#x793A;&#x6A21;&#x578B;&#x627E;&#x5230;&#x6240;&#x6709;&#x6B63;&#x6837;&#x672C;&#x7684;&#x6BD4;&#x4F8B;&#xFF0C;&#x5C31;&#x662F;&#x8BF4;&#x5728;&#x6240;&#x6709;&#x597D;&#x74DC;&#x4E2D;&#xFF0C;&#x4F60;&#x5224;&#x522B;&#x51FA;&#x6765;&#x4E86;&#x591A;&#x5C11;&#x3002;
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org9bfe838" class="outline-2">
+<h2 id="org9bfe838"><span class="section-number-2">2</span> &#x8BA1;&#x7B97;&#x65B9;&#x6CD5;</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+&#x4E0D;&#x540C;&#x7684;&#x6570;&#x636E;&#x96C6;&#x6709;&#x4E0D;&#x540C;&#x7684; mAP &#x8BA1;&#x7B97;&#x65B9;&#x6CD5;&#x3002;&#x4E3B;&#x8981;&#x5305;&#x62EC; PASCAL 07 &#x3001;PASCAL 10&#x3001;COCO &#x6570;&#x636E;&#x96C6;&#x7684;&#x8BA1;&#x7B97;&#x65B9;&#x6CD5;&#x8F83;&#x5E38;&#x7528;&#x3002;
+</p>
+
+<p>
+PASCAL &#x6570;&#x636E;&#x96C6;&#x4F7F;&#x7528;&#x7684;&#x90FD;&#x662F;&#x56FA;&#x5B9A;&#x7684; IoU &#x9608;&#x503C;&#xFF08;&#x9ED8;&#x8BA4;&#x4E3A; 0.5&#xFF09;&#xFF0C;&#x5C31;&#x662F;&#x53EA;&#x8981;&#x9884;&#x6D4B;&#x7684; box &#x548C;&#x771F;&#x5B9E;&#x7684; box &#x7684; IoU &#x5927;&#x4E8E;&#x7B49;&#x4E8E; 0.5 &#xFF0C;&#x5C31;&#x8BA4;&#x4E3A;&#x68C0;&#x6D4B;&#x6B63;
+&#x786E;&#xFF08;&#x5F53;&#x7136;&#x7C7B;&#x522B;&#x4E5F;&#x5FC5;&#x987B;&#x6B63;&#x786E;&#xFF09;&#x3002;&#x6240;&#x4E0D;&#x540C;&#x7684;&#x662F; PASCAL 07 &#x53EA;&#x8BA1;&#x7B97; 11 &#x4E2A;&#x67E5;&#x51C6;&#x7387; precision &#x7684;&#x5E73;&#x5747;&#x503C;&#xFF0C;&#x800C; PASCAL 10 &#x5219;&#x8981;&#x6C42;&#x6240;&#x6709;&#x7684;&#x68C0;&#x6D4B;&#x7ED3;&#x679C;
+&#x90FD;&#x7528;&#x4E8E;&#x8BA1;&#x7B97; AP &#x3002;
+</p>
+
+<p>
+PASCAL 07 &#x53EA;&#x8BA1;&#x7B97;&#x67E5;&#x5168;&#x7387; recall &#x5728; 0.1-1 &#x4E4B;&#x95F4;&#xFF0C;&#x4EE5; 0.01 &#x4E3A;&#x95F4;&#x9694;&#xFF0C;&#x5171; 11 &#x4E2A;&#x70B9;&#x6240;&#x5BF9;&#x5E94;&#x7684;&#x67E5;&#x51C6;&#x7387;&#x7684;&#x5E73;&#x5747;&#x503C;&#x3002;&#x800C; PASCAL 10 &#x5219;&#x5728;&#x8BA1;&#x7B97; PR
+&#x66F2;&#x7EBF;&#x7684; AUC &#x3002;coco &#x6570;&#x636E;&#x96C6;&#x5219;&#x4F1A;&#x5206;&#x522B;&#x8BA1;&#x7B97; IoU &#x4E3A; 0.5 &#x5230; 0.95 &#x95F4;&#x9694;&#x4E3A; 0.05 &#xFF0C;&#x5171; 10 &#x4E2A;&#x4E0D;&#x540C;&#x9608;&#x503C;&#x4E0B;&#x7684; PR &#x66F2;&#x7EBF;&#x7684; AUC &#x3002;
+</p>
+
+<p>
+&#x901A;&#x7528;&#x6B65;&#x9AA4;
+</p>
+<ol class="org-ol">
+<li>&#x5C06;&#x68C0;&#x6D4B;&#x6846;&#x6309;&#x7167; confidence &#xFF08;&#x5C31;&#x662F;&#x9884;&#x6D4B;&#x8FD9;&#x4E2A;&#x6846;&#x662F;&#x67D0;&#x4E2A;&#x76EE;&#x6807;&#x7684;&#x6982;&#x7387;&#xFF09;&#x4ECE;&#x5927;&#x5230;&#x5C0F;&#x6392;&#x5E8F;</li>
+<li>&#x4F9D;&#x636E;&#x8BE5;&#x68C0;&#x6D4B;&#x6846;&#x4E0E; ground truth box IoU &#x662F;&#x5426;&#x5927;&#x4E8E;&#x6307;&#x5B9A;&#x7684;&#x9608;&#x503C;&#xFF0C;&#x5224;&#x5B9A;&#x5176;&#x662F; TP &#x8FD8;&#x662F; FP</li>
+<li>&#x9010;&#x4E2A;&#x7D2F;&#x52A0; TP &#x548C; FP &#xFF0C;&#x5206;&#x522B;&#x8BA1;&#x7B97;&#x7D2F;&#x52A0;&#x5230;&#x6BCF;&#x4E00;&#x4E2A; box &#x65F6;&#x7684;&#x67E5;&#x51C6;&#x7387; P &#x548C;&#x67E5;&#x5168;&#x7387; R</li>
+</ol>
+
+<p>
+PASCAL 07
+</p>
+<ol class="org-ol">
+<li>&#x8BA1;&#x7B97;&#x67E5;&#x5168;&#x7387;&#x5206;&#x522B;&#x5728; 0.1:1:0.01 &#x5171; 11 &#x4E2A;&#x70B9;&#x6240;&#x5BF9;&#x5E94;&#x7684; 11 &#x4E2A;&#x67E5;&#x5168;&#x7387;&#x7684;&#x5E73;&#x5747;&#x503C;&#x5C31;&#x662F; AP</li>
+<li>&#x53D6;&#x67E5;&#x5168;&#x7387;&#x6240;&#x5BF9;&#x5E94;&#x7684;&#x67E5;&#x51C6;&#x7387;&#x4E3A;&#x5927;&#x4E8E;&#x7B49;&#x4E8E;&#x8BE5;&#x67E5;&#x5168;&#x7387;&#x6240;&#x5BF9;&#x5E94;&#x7684;&#x67E5;&#x51C6;&#x7387;&#x4E2D;&#xFF0C;&#x6700;&#x5927;&#x7684;&#x90A3;&#x4E2A;&#xFF1B;&#x8BF4;&#x662F;&#x4E3A;&#x4E86;&#x51CF;&#x5C11;&#x6CE2;&#x52A8;&#xFF0C;&#x4E0D;&#x662F;&#x5F88;&#x7406;&#x89E3;</li>
+<li>&#x4E0A;&#x8FF0;&#x8BA1;&#x7B97;&#x4E86;&#x4E00;&#x4E2A;&#x7C7B;&#x522B;&#x7684; AP &#xFF0C;&#x5206;&#x522B;&#x8BA1;&#x7B97;&#x6240;&#x6709;&#x7C7B;&#x522B;&#x7684; AP &#xFF0C;&#x7136;&#x540E;&#x53D6;&#x5E73;&#x5747;&#x503C;&#x5373;&#x53EF;&#x5F97;&#x5230; mAP</li>
+</ol>
+
+<p>
+PASCAL 10
+</p>
+<ol class="org-ol">
+<li>&#x53EA;&#x8981;&#x53EC;&#x56DE;&#x7387;&#x53D1;&#x751F;&#x53D8;&#x5316;&#xFF0C;&#x4FBF;&#x7D2F;&#x52A0;&#x4E00;&#x4E2A;&#x77E9;&#x5F62;&#x7684;&#x9762;&#x79EF;&#xFF0C;&#x8BE5;&#x77E9;&#x5F62;&#x7531;&#x67E5;&#x5168;&#x7387;&#x548C;&#x67E5;&#x51C6;&#x7387;&#x7684;&#x53D8;&#x5316;&#x503C;&#x7EC4;&#x6210;</li>
+<li>&#x540C;&#x6837;&#xFF0C;&#x53D6;&#x67E5;&#x5168;&#x7387;&#x6240;&#x5BF9;&#x5E94;&#x7684;&#x67E5;&#x51C6;&#x7387;&#x4E3A;&#x5927;&#x4E8E;&#x7B49;&#x4E8E;&#x8BE5;&#x67E5;&#x5168;&#x7387;&#x6240;&#x5BF9;&#x5E94;&#x7684;&#x67E5;&#x51C6;&#x7387;&#x4E2D;&#xFF0C;&#x6700;&#x5927;&#x7684;&#x90A3;&#x4E2A;</li>
+<li>&#x76F8;&#x540C;&#x7684;&#x65B9;&#x6CD5;&#x6C42;&#x5F97;&#x6240;&#x6709;&#x7C7B;&#x522B;&#x7684; AP &#xFF0C;&#x7136;&#x540E;&#x53D6;&#x5E73;&#x5747;</li>
+</ol>
+
+<p>
+coco
+</p>
+<ol class="org-ol">
+<li>&#x9010;&#x4E2A;&#x8BA1;&#x7B97; IOU &#x9608;&#x503C;&#x4E3A; 0.5:1:0.05 &#x4E0B;&#x7684; AP</li>
+<li>&#x76F8;&#x540C;&#x7684;&#x65B9;&#x6CD5;&#x6C42;&#x5F97;&#x6240;&#x6709;&#x7C7B;&#x522B;&#x7684; AP &#xFF0C;&#x7136;&#x540E;&#x53D6;&#x5E73;&#x5747;</li>
+</ol>
+
+
+<p>
+&#x5982;&#x679C;&#x6709;&#x591A;&#x4E2A; box &#x5BF9;&#x5E94;&#x4E00;&#x4E2A; gtbb &#xFF0C;&#x53EA;&#x53D6; IOU &#x6700;&#x5927;&#x7684;&#x90A3;&#x4E2A;&#x4E3A; TP &#xFF0C;&#x5176;&#x4F59;&#x7684;&#x4E3A; FP
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org7b79c0e" class="outline-2">
+<h2 id="org7b79c0e"><span class="section-number-2">3</span> &#x7262;&#x9A9A;</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+&#x56FD;&#x5185;&#x7684;&#x5C0F;&#x4F19;&#x4F34;&#x90FD;&#x8FD8;&#x662F;&#x5F88;&#x52E4;&#x594B;&#x7684;&#xFF0C;&#x7F51;&#x4E0A;&#x53EF;&#x4EE5;&#x641C;&#x7D22;&#x5230;&#x5F88;&#x591A;&#x5F88;&#x591A;&#x5199; mAP &#x7684;&#x535A;&#x5BA2;&#x6587;&#x7AE0;&#x3002;&#x4F46;&#x662F;&#x633A;&#x591A;&#x90FD;&#x662F;&#x76F4;&#x63A5;&#x8F6C;&#x8F7D;&#xFF0C;&#x6709;&#x4E00;&#x4E9B;&#x5C0F;&#x4F19;&#x4F34;&#x5728;&#x770B;&#x4E86;&#x8BB8;&#x591A;&#x522B;&#x4EBA;&#x7684;
+&#x535A;&#x5BA2;&#x4E4B;&#x540E;&#xFF0C;&#x589E;&#x52A0;&#x81EA;&#x5DF1;&#x7684;&#x4E00;&#x70B9;&#x5FC3;&#x5F97;&#x4F53;&#x4F1A;&#xFF0C;&#x81EA;&#x5DF1;&#x5199;&#x4E00;&#x7BC7;&#xFF0C;&#x4F46;&#x660E;&#x663E;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x7684;&#x662F;&#xFF0C;&#x5199;&#x7684;&#x6587;&#x7AE0;&#x57FA;&#x672C;&#x4E0A;&#x4ECE;&#x5934;&#x5230;&#x5C3E;&#x90FD;&#x662F;&#x4ECE;&#x4E0D;&#x540C;&#x7684;&#x5730;&#x65B9;&#x6458;&#x6284;&#x8FC7;&#x6765;&#x7684;&#xFF0C;&#x4E5F;&#x5C31;
+&#x662F;&#x8BF4;&#x6574;&#x7BC7;&#x6587;&#x7AE0;&#x90FD;&#x662F;&#x5728;&#x5806;&#x780C;&#x522B;&#x4EBA;&#x7684;&#x4E1C;&#x897F;&#xFF0C;&#x5E76;&#x4E14;&#x4F1A;&#x4EE5;&#x5176;&#x4E2D;&#x7684;&#x67D0;&#x4E00;&#x7BC7;&#x7684;&#x4E3A;&#x57FA;&#x672C;&#x6846;&#x67B6;&#x3002;&#x6587;&#x7AE0;&#x7684;&#x4F5C;&#x8005;&#x5F88;&#x53EF;&#x80FD;&#x5E76;&#x6CA1;&#x6709;&#x5BF9;&#x8BE5;&#x77E5;&#x8BC6;&#x70B9;&#x6709;&#x5F88;&#x597D;&#x7684;&#x628A;&#x63E1;&#xFF0C;&#x4E1C;&#x62FC;&#x897F;
+&#x51D1;&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#x8FD8;&#x5F88;&#x6709;&#x53EF;&#x80FD;&#x6709;&#x4E00;&#x4E9B;&#x7EC6;&#x8282;&#x4F1A;&#x6709;&#x4E00;&#x4E9B;&#x51B2;&#x7A81;&#xFF0C;&#x4E5F;&#x6709;&#x4E00;&#x4E9B;&#x70B9;&#x6CA1;&#x6709;&#x70B9;&#x7834;&#x3002;&#x7ECF;&#x5E38;&#x4F1A;&#x8BA9;&#x8BFB;&#x8005;&#x611F;&#x89C9;&#x4E91;&#x91CC;&#x6765;&#x96FE;&#x91CC;&#x53BB;&#xFF0C;&#x65E0;&#x6CD5;&#x5F97;&#x5176;&#x8981;&#x9886;&#xFF0C;&#x767D;&#x767D;&#x6D6A;&#x8D39;&#x4E86;&#x5F88;
+&#x591A;&#x65F6;&#x95F4;&#xFF0C;&#x5173;&#x952E;&#x4E5F;&#x4F1A;&#x6253;&#x51FB;&#x81EA;&#x5DF1;&#x7684;&#x81EA;&#x4FE1;&#x5FC3;&#xFF0C;&#x600E;&#x4E48;&#x770B;&#x4E86;&#x8FD9;&#x4E48;&#x591A;&#xFF0C;&#x8FD8;&#x662F;&#x4E0D;&#x61C2;?!@#$%^&amp;*&#xFF0C;&#x6211;&#x548B;&#x8FD9;&#x4E48;&#x8822;!!!!&#x3002;&#x5F53;&#x7136;&#x4E5F;&#x6709;&#x5F88;&#x591A;&#x5927;&#x725B;&#x7684;&#x6587;&#x7AE0;&#x90FD;&#x662F;&#x4EB2;&#x529B;&#x4EB2;&#x4E3A;&#xFF0C;
+&#x5199;&#x7684;&#x5F88;&#x4E0D;&#x9519;&#xFF0C;&#x4F46;&#x5360;&#x603B;&#x4F53;&#x7684;&#x6BD4;&#x4F8B;&#x5E76;&#x4E0D;&#x9AD8;&#x3002;
+</p>
+
+<p>
+&#x53CD;&#x89C2;&#x90A3;&#x4E9B;&#x5199;&#x7684;&#x6BD4;&#x8F83;&#x597D;&#x7684;&#x82F1;&#x6587;&#x6587;&#x7AE0;&#xFF0C;&#x4F5C;&#x8005;&#x662F;&#x5728;&#x5BF9;&#x8FD9;&#x4E2A;&#x6982;&#x5FF5;&#x6574;&#x4F53;&#x548C;&#x7EC6;&#x8282;&#x90FD;&#x4E86;&#x89E3;&#x5F88;&#x900F;&#x5F7B;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x81EA;&#x5DF1;&#x601D;&#x8003;&#x8BBE;&#x8BA1;&#xFF0C;&#x5E94;&#x8BE5;&#x4EE5;&#x4EC0;&#x4E48;&#x6837;&#x7684;&#x65B9;&#x5F0F;&#x6765;&#x8BB2;&#x89E3;&#xFF1B;
+&#x600E;&#x6837;&#x8BBE;&#x8BA1;&#x4F8B;&#x5B50;&#xFF0C;&#x80FD;&#x591F;&#x8F83;&#x597D;&#x7684;&#x8986;&#x76D6;&#x8FD9;&#x4E2A;&#x77E5;&#x8BC6;&#x70B9;&#xFF1B;&#x600E;&#x6837;&#x7531;&#x6613;&#x5230;&#x96BE;&#x4E00;&#x70B9;&#x4E00;&#x70B9;&#x7684;&#x8BB2;&#x89E3;&#x8FD9;&#x4E2A;&#x77E5;&#x8BC6;&#x70B9;&#x3002;&#x6574;&#x4E2A;&#x6587;&#x7AE0;&#x8BA9;&#x4EBA;&#x8BFB;&#x4E0B;&#x6765;&#x611F;&#x89C9;&#x5F88;&#x8212;&#x670D;&#xFF0C;&#x65F6;&#x4E0D;&#x65F6;&#x4F1A;&#x53D1;&#x51FA;&#xFF1A;
+&#x201C;&#x5965;&#x2026;&#x539F;&#x6765;&#x662F;&#x8FD9;&#x4E2A;&#x610F;&#x601D;&#x201D;&#x7684;&#x58F0;&#x97F3;&#x3002;&#x53EF;&#x4EE5;&#x8BA9;&#x8BFB;&#x8005;&#x5FEB;&#x901F;&#x7406;&#x89E3;&#x8FD9;&#x4E2A;&#x6982;&#x5FF5;&#x3002;
+</p>
+
+<p>
+&#x5F53;&#x7136;&#x4E5F;&#x6709;&#x4E00;&#x4E9B;&#x5C0F;&#x4F19;&#x4F34;&#x501F;&#x53E3;&#x8BF4;&#x82F1;&#x6587;&#x4E0D;&#x597D;&#xFF0C;&#x4E0D;&#x60F3;&#x770B;&#x82F1;&#x6587;&#x7684;&#x3002;&#x5F53;&#x7136;&#x90A3;&#x4E9B;&#x7ECF;&#x5178;&#x7684;&#x6587;&#x7AE0;&#x4F1A;&#x6709;&#x76F8;&#x5E94;&#x7684;&#x4E2D;&#x6587;&#x7FFB;&#x8BD1;&#xFF0C;&#x4F46;&#x7FFB;&#x8BD1;&#x7684;&#x8D28;&#x91CF;&#x53C2;&#x5DEE;&#x4E0D;&#x9F50;&#xFF0C;&#x6709;&#x4E9B;&#x70B9;&#x4F1A;&#x7FFB;&#x8BD1;
+&#x7684;&#x4E0D;&#x786E;&#x5207;&#xFF0C;&#x751A;&#x81F3;&#x4F1A;&#x6709;&#x51FA;&#x9519;&#x7684;&#x5730;&#x65B9;&#x3002;&#x5F3A;&#x70C8;&#x5EFA;&#x8BAE;&#x770B;&#x82F1;&#x6587;&#x539F;&#x7248;&#x7684;&#xFF0C;&#x4F46;&#x5927;&#x591A;&#x6570;&#x4EBA;&#x603B;&#x611F;&#x89C9;&#x82F1;&#x6587;&#x4E0D;&#x597D;&#xFF0C;&#x4F1A;&#x770B;&#x7684;&#x6BD4;&#x8F83;&#x6162;&#xFF0C;&#x4F1A;&#x6D6A;&#x8D39;&#x65F6;&#x95F4;&#xFF0C;&#x5176;&#x5B9E;&#x5982;&#x679C;&#x5148;&#x770B;&#x4E2D;&#x6587;
+&#x7FFB;&#x8BD1;&#x7684;&#xFF0C;&#x770B;&#x4E86;&#x5F88;&#x591A;&#x4F9D;&#x7136;&#x6CA1;&#x6709;&#x641E;&#x61C2;&#xFF0C;&#x6700;&#x540E;&#x53EA;&#x80FD;&#x7A00;&#x91CC;&#x7CCA;&#x6D82;&#x7684;&#x7406;&#x89E3;&#xFF0C;&#x6216;&#x8005;&#x518D;&#x53BB;&#x770B;&#x82F1;&#x6587;&#x539F;&#x7248;&#x7684;&#x3002;&#x8FD9;&#x6837;&#x53EA;&#x4F1A;&#x6D6A;&#x8D39;&#x66F4;&#x591A;&#x7684;&#x65F6;&#x95F4;&#x3002;&#x5728;&#x6B64;&#x4E3B;&#x8981;&#x5728;&#x63D0;&#x9192;&#x81EA;&#x5DF1;&#xFF0C;
+&#x56E0;&#x4E3A;&#x6211;&#x5C31;&#x7ECF;&#x5E38;&#x8FD9;&#x4E48;&#x505A;-_-&#x3002;
+</p>
+
+<p>
+&#x4E0B;&#x9762;&#x4E24;&#x4E2A;&#x6587;&#x7AE0;&#x5199;&#x7684;&#x90FD;&#x975E;&#x5E38;&#x975E;&#x5E38;&#x7684;&#x597D;&#xFF0C;&#x5EFA;&#x8BAE;&#x76F4;&#x63A5;&#x9605;&#x8BFB;&#xFF0C;&#x4E0D;&#x8981;&#x6D6A;&#x8D39;&#x65F6;&#x95F4;&#x770B;&#x6211;&#x5728;&#x8FD9;&#x91CC;&#x5E9F;&#x8BDD;&#x3002;
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org37d4119" class="outline-2">
+<h2 id="org37d4119"><span class="section-number-2">4</span> &#x53C2;&#x8003;&#x6587;&#x6863;</h2>
+<div class="outline-text-2" id="text-4">
+<ol class="org-ol">
+<li><a href="https://github.com/rafaelpadilla/Object-Detection-Metrics" target="_blank" rel="noopener">Object-Detection-Metrics</a></li>
+<li><a href="http://tarangshah.com/blog/2018-01-27/what-is-map-understanding-the-statistic-of-choice-for-comparing-object-detection-models/" target="_blank" rel="noopener">&#x200A;What is Mean Average Precision</a></li>
+</ol>
+</div>
+</div>
+
+
+<div id="outline-container-org4592aa0" class="outline-2">
+<h2 id="org4592aa0"><span class="section-number-2">5</span> &#x53C2;&#x8003;&#x4EE3;&#x7801;</h2>
+<div class="outline-text-2" id="text-5">
+<ol class="org-ol">
+<li><a href="https://github.com/matterport/Mask_RCNN/blob/master/mrcnn/utils.py" target="_blank" rel="noopener">Mask RCNN TensorFlow</a></li>
+<li><a href="https://github.com/facebookresearch/Detectron/blob/05d04d3a024f0991339de45872d02f2f50669b3d/lib/datasets/voc_eval.py" target="_blank" rel="noopener">MaskRCNN Detectron</a></li>
+</ol>
+</div>
+</div>
+</div>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/深度学习/" rel="tag"># 深度学习</a>
+          
+            <a href="/tags/性能测量/" rel="tag"># 性能测量</a>
+          
+        </div>
+      
+
+      
+      
+        <div class="post-widgets">
+        
+
+        
+
+        
+          
+          <div id="needsharebutton-postbottom">
+            <span class="btn">
+              <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </span>
+          </div>
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/31/machinelearning/gluon/" rel="next" title="mxnet">
+                <i class="fa fa-chevron-left"></i> mxnet
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/27/machinelearning/MaskRCNN/" rel="prev" title="Mask R-CNN">
+                Mask R-CNN <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzU0Ny8xNDA3OQ=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/polarbear.jpg" alt="Kyle Three Stone">
+            
+              <p class="site-author-name" itemprop="name">Kyle Three Stone</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">57</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-globe"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://github.com/kylestones" title="GitHub" target="_blank">GitHub</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="mailto:kyleemail@163.com" title="E-Mail" target="_blank">E-Mail</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgb9531e8"><span class="nav-text">1 词语解释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9bfe838"><span class="nav-text">2 计算方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7b79c0e"><span class="nav-text">3 牢骚</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org37d4119"><span class="nav-text">4 参考文档</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4592aa0"><span class="nav-text">5 参考代码</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kyle Three Stone</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="Symbols count total">1.9m</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="Reading time total">28:45</span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="Total Visitors">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="Total Views">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+  
+  <script src="/lib/needsharebutton/needsharebutton.js"></script>
+
+  <script>
+    
+      pbOptions = {};
+      
+          pbOptions.iconStyle = "box";
+      
+          pbOptions.boxForm = "horizontal";
+      
+          pbOptions.position = "bottomCenter";
+      
+          pbOptions.networks = "Wechat,Weibo,Douban,QQZone,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-postbottom', pbOptions);
+    
+    
+  </script>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

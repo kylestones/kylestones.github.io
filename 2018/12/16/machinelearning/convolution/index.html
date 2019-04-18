@@ -1,0 +1,2209 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/needsharebutton/needsharebutton.css">
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="1 cs231n   &amp;#x65AF;&amp;#x5766;&amp;#x798F;&amp;#x5927;&amp;#x5B66;&amp;#x7684;&amp;#x8BFE;&amp;#x7A0B; CS231n: Convolutional Neural Networks for Visual Recognition &amp;#x3002;&amp;#x53D1;&amp;#x73B0;&amp;#x5199;&amp;#x7684;&amp;#x5F88;&amp;#x597D;&amp;#x">
+<meta name="keywords" content="深度学习,卷积">
+<meta property="og:type" content="article">
+<meta property="og:title" content="convolution">
+<meta property="og:url" content="https://kylestones.github.io/2018/12/16/machinelearning/convolution/index.html">
+<meta property="og:site_name" content="All in Org-mode">
+<meta property="og:description" content="1 cs231n   &amp;#x65AF;&amp;#x5766;&amp;#x798F;&amp;#x5927;&amp;#x5B66;&amp;#x7684;&amp;#x8BFE;&amp;#x7A0B; CS231n: Convolutional Neural Networks for Visual Recognition &amp;#x3002;&amp;#x53D1;&amp;#x73B0;&amp;#x5199;&amp;#x7684;&amp;#x5F88;&amp;#x597D;&amp;#x">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-03-07T15:38:21.921Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="convolution">
+<meta name="twitter:description" content="1 cs231n   &amp;#x65AF;&amp;#x5766;&amp;#x798F;&amp;#x5927;&amp;#x5B66;&amp;#x7684;&amp;#x8BFE;&amp;#x7A0B; CS231n: Convolutional Neural Networks for Visual Recognition &amp;#x3002;&amp;#x53D1;&amp;#x73B0;&amp;#x5199;&amp;#x7684;&amp;#x5F88;&amp;#x597D;&amp;#x">
+
+
+
+
+
+
+  <link rel="canonical" href="https://kylestones.github.io/2018/12/16/machinelearning/convolution/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>convolution | All in Org-mode</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">All in Org-mode</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Keep it Simple, Stuped.</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://kylestones.github.io/2018/12/16/machinelearning/convolution/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Kyle Three Stone">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/polarbear.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="All in Org-mode">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">convolution
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-12-16 00:00:00" itemprop="dateCreated datePublished" datetime="2018-12-16T00:00:00+08:00">2018-12-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-03-07 23:38:21" itemprop="dateModified" datetime="2019-03-07T23:38:21+08:00">2019-03-07</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/深度学习/" itemprop="url" rel="index"><span itemprop="name">深度学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Symbols count in article: </span>
+                
+                <span title="Symbols count in article">51k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">47 mins.</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <div id="content">
+
+
+<div id="outline-container-org1b9c1d7" class="outline-2">
+<h2 id="org1b9c1d7"><span class="section-number-2">1</span> <a href="http://cs231n.github.io/convolutional-networks/" target="_blank" rel="noopener">cs231n</a></h2>
+<div class="outline-text-2" id="text-1">
+<p>
+&#x65AF;&#x5766;&#x798F;&#x5927;&#x5B66;&#x7684;&#x8BFE;&#x7A0B; <a href="http://cs231n.stanford.edu/" target="_blank" rel="noopener">CS231n: Convolutional Neural Networks for Visual Recognition</a> &#x3002;&#x53D1;&#x73B0;&#x5199;&#x7684;&#x5F88;&#x597D;&#xFF0C;&#x540E;&#x6094;&#x6CA1;&#x6709;&#x65E9;&#x70B9;&#x770B;&#x3002;&#x53EF;&#x60DC;&#x53EA;&#x770B;&#x4E86;
+&#x5377;&#x79EF;&#x8FD9;&#x4E00;&#x90E8;&#x5206;&#x3002;&#x6709;&#x4E2D;&#x6587;&#x7FFB;&#x8BD1;&#x7684;&#x90E8;&#x5206;&#x53EF;&#x4EE5;&#x53EA;&#x770B;&#x4E2D;&#x6587;&#x603B;&#x7ED3;&#xFF0C;&#x540E;&#x9762;&#x7684;&#x82F1;&#x6587;&#x539F;&#x6587;&#x66F4;&#x65B9;&#x4FBF;&#x7406;&#x89E3;&#x3002;
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgf6296ec" class="outline-2">
+<h2 id="orgf6296ec"><span class="section-number-2">2</span> &#x5377;&#x79EF;</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+&#x5377;&#x79EF;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x660E;&#x786E;&#x5047;&#x8BBE;&#x8F93;&#x5165;&#x662F; <b>images</b> &#xFF0C;&#x6839;&#x636E;&#x8FD9;&#x4E2A;&#x5047;&#x8BBE;&#x53EF;&#x4EE5;&#x5927;&#x91CF;&#x7684;&#x51CF;&#x5C11;&#x53C2;&#x6570;&#x7684;&#x4E2A;&#x6570;&#x3002;&#x540C;&#x65F6;&#x6709;&#x5229;&#x4E8E;&#x66F4; efficient &#x7684;&#x5B9E;&#x73B0;&#x3002;&#x666E;&#x901A;&#x7684;&#x795E;&#x7ECF;&#x7F51;
+&#x7EDC;&#x91C7;&#x7528;&#x5168;&#x8FDE;&#x63A5;&#xFF0C;&#x7528;&#x4E8E;&#x56FE;&#x50CF;&#x4E2D;&#x4F1A;&#x4EA7;&#x751F;&#x592A;&#x591A;&#x7684;&#x53C2;&#x6570;&#xFF0C;&#x5BFC;&#x81F4; <b>overfitting</b> &#x3002;&#x5377;&#x79EF;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x7684; layers &#x62E5;&#x6709;&#x795E;&#x7ECF;&#x5143;&#x7684;&#x7EF4;&#x6570;&#x4E3A;
+(width,height,channels) &#x3002;
+</p>
+
+<p>
+A ConvNet is made up of Layers. Every Layer has a simple API: It transforms an input 3D volume to an output 3D volume
+with some differentiable function that may or may not have parameters.
+</p>
+
+<p>
+&#x5377;&#x79EF;&#x64CD;&#x4F5C;&#x7684;&#x672C;&#x8D28;&#x5C31;&#x662F;&#x6EE4;&#x6CE2;&#x5668;&#x548C;&#x8F93;&#x5165;&#x7684;&#x90E8;&#x5206;&#x533A;&#x57DF;&#x505A;&#x70B9;&#x79EF;&#x3002;&#x5377;&#x79EF;&#x7684;&#x53CD;&#x5411;&#x4F20;&#x64AD;&#x4E5F;&#x662F;&#x5377;&#x79EF;&#xFF0C;&#x53EA;&#x662F;&#x505A;&#x4E86;&#x8F6C;&#x7F6E;&#x3002;Note that the convolution
+operation essentially performs dot products between the filters and local regions of the input. The backward pass for a
+convolution operation (for both the data and the weights) is also a convolution (but with spatially-flipped filters).
+</p>
+
+<p>
+&#x5377;&#x79EF;&#x8F93;&#x51FA;&#x7684;&#x6BCF;&#x4E2A;&#x5143;&#x7D20;&#x90FD;&#x662F;&#x8F93;&#x5165;&#x7684;&#x4E00;&#x4E2A;&#x533A;&#x57DF;&#x548C;&#x6EE4;&#x6CE2;&#x5668;&#x9010;&#x5143;&#x7D20;&#x76F8;&#x4E58;&#x5E76;&#x6C42;&#x548C;&#xFF0C;&#x7136;&#x540E;&#x518D;&#x52A0;&#x4E0A;&#x4E00;&#x4E2A; bias &#x5F97;&#x5230;&#x7684;&#x3002;The visualization below
+iterates over the output activations (green), and shows that each element is computed by elementwise multiplying the
+highlighted input (blue) with the filter (red), summing it up, and then offsetting the result by the bias.
+</p>
+</div>
+
+
+<div id="outline-container-orge6a247f" class="outline-3">
+<h3 id="orge6a247f"><span class="section-number-3">2.1</span> &#x5377;&#x79EF;&#x5C42;&#x7279;&#x6027;&#xFF1A;</h3>
+<div class="outline-text-3" id="text-2-1">
+<ol class="org-ol">
+<li>&#x8F93;&#x5165;&#x7EF4;&#x5EA6; \(W_1 * H_1 * D_1\)</li>
+<li>&#x56DB;&#x4E2A;&#x8D85;&#x53C2;&#xFF1A; filters number K , fileter spatial size F , stride S , padding P</li>
+<li>&#x8F93;&#x51FA;&#x7EF4;&#x5EA6; \(W_2 * H_2 * D_2\) , &#x5176;&#x4E2D; \(W_2=(W_1-F+2P)/S+1, \ D_2=K\)</li>
+<li>&#x7531;&#x4E8E;&#x53C2;&#x6570;&#x5171;&#x4EAB;&#xFF0C;&#x6BCF;&#x4E2A; filter &#x6709; \(F \cdot F \cdot D_1\) &#x4E2A;&#x6743;&#x91CD;&#xFF0C;&#x6574;&#x4E2A;&#x5377;&#x79EF;&#x5C42;&#x6709; \((F \cdot F \cdot D_1) \cdot K\) &#x4E2A;&#x6743;&#x91CD;&#x548C;
+\(K\) &#x4E2A; biases</li>
+<li>&#x7531; d-th &#x4E2A; filter &#x4F7F;&#x7528; stride S &#x548C; d-th &#x4E2A; bias &#x751F;&#x6210;&#x8F93;&#x51FA;&#x7684; d-th &#x901A;&#x9053;&#xFF08; size \(W_2*H_2\) &#xFF09;</li>
+</ol>
+</div>
+</div>
+
+
+<div id="outline-container-org32ce2e7" class="outline-3">
+<h3 id="org32ce2e7"><span class="section-number-3">2.2</span> Converting FC layers to CONV layers</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+&#x5377;&#x79EF;&#x5C42;&#x548C;&#x5168;&#x8FDE;&#x63A5;&#x5C42;&#x53EF;&#x4EE5;&#x76F8;&#x4E92;&#x8F6C;&#x5316;&#x3002;It is worth noting that the only difference between FC and CONV layers is that the neurons
+in the CONV layer are connected only to a local region in the input, and that many of the neurons in a CONV volume share
+parameters. However, the neurons in both layers still compute dot products, so their functional form is identical.
+Therefore, it turns out that it&#x2019;s possible to convert between FC and CONV layers:
+</p>
+
+<ol class="org-ol">
+<li>For any CONV layer there is an FC layer that implements the same forward function. The weight matrix would be a large
+matrix that is mostly zero except for at certain blocks (due to local connectivity) where the weights in many of the
+blocks are equal (due to parameter sharing).</li>
+<li>Conversely, any FC layer can be converted to a CONV layer. For example, an FC layer with K=4096 that is looking at
+some input volume of size 7&#xD7;7&#xD7;512 can be equivalently expressed as a CONV layer with F=7,P=0,S=1,K=4096. In other
+words, we are setting the filter size to be exactly the size of the input volume, and hence the output will simply be
+1&#xD7;1&#xD7;4096 since only a single depth column &#x201C;fits&#x201D; across the input volume, giving identical result as the initial FC
+layer.</li>
+</ol>
+
+<p>
+Evaluating the original ConvNet (with FC layers) independently across 224x224 crops of the 384x384 image in strides of
+32 pixels gives an identical result to forwarding the converted ConvNet one time.
+</p>
+
+<p>
+&#x5C06;&#x56FE;&#x7247;&#x653E;&#x5927;&#xFF0C;&#x7136;&#x540E;&#x8F93;&#x5165;&#x7F51;&#x7EDC;&#xFF0C;&#x76F8;&#x5F53;&#x4E8E; crop &#x539F;&#x56FE;&#x50CF;&#x5927;&#x5C0F;&#x7684;&#x8F93;&#x5165;&#xFF0C;&#x7136;&#x540E;&#x5728;&#x76F8;&#x5E94;&#x7684;&#x4F4D;&#x7F6E;&#x6C42;&#x5E73;&#x5747;&#xFF0C;&#x6765;&#x5F97;&#x5230;&#x66F4;&#x597D;&#x7684;&#x7ED3;&#x679C;&#xFF0C;&#x8FD9;&#x6837;&#x6BD4; crop &#x591A;&#x6B21;&#xFF0C;&#x7136;&#x540E;
+&#x5728;&#x5377;&#x79EF;&#x591A;&#x6B21;&#x8981;&#x5FEB;&#x7684;&#x591A;&#xFF0C;&#x56E0;&#x4E3A;&#x8FD9;&#x6837;&#x4F1A;&#x6709;&#x5F88;&#x591A;&#x91CD;&#x590D;&#x7684;&#x8BA1;&#x7B97;&#xFF1A;Naturally, forwarding the converted ConvNet a single time is much more
+efficient than iterating the original ConvNet over all those 36 locations, since the 36 evaluations share computation.
+This trick is often used in practice to get better performance, where for example, it is common to resize an image to
+make it bigger, use a converted ConvNet to evaluate the class scores at many spatial positions and then average the
+class scores.
+</p>
+
+<p>
+&#x6CA1;&#x61C2;&#x4E0B;&#x9762;&#x7684;&#x5185;&#x5BB9;&#xFF1A;&#x901A;&#x8FC7;&#x6267;&#x884C;&#x4E24;&#x6B21;&#x5377;&#x79EF;&#xFF0C;&#x4EE5;&#x539F;&#x56FE;&#x50CF;&#x548C;&#x79FB;&#x4F4D; 16 &#x4E2A;&#x50CF;&#x7D20;&#x7684;&#x56FE;&#x50CF;&#x5206;&#x522B;&#x4F5C;&#x4E3A;&#x8F93;&#x5165;&#xFF0C;&#x53EF;&#x4EE5;&#x5C06;&#x672C;&#x6765;&#x7F29;&#x5C0F;&#x6BD4;&#x4F8B;&#x4E3A; 32 &#x7684;&#x7F51;&#x7EDC;&#xFF0C;&#x6C42;&#x89E3;&#x51FA;&#x7F29;&#x5C0F;
+&#x6BD4;&#x4F8B;&#x4E3A; 16 &#x7684;&#x7F51;&#x7EDC;&#xFF1F; Lastly, what if we wanted to efficiently apply the original ConvNet over the image but at a stride
+smaller than 32 pixels? We could achieve this with multiple forward passes. For example, note that if we wanted to use a
+stride of 16 pixels we could do so by combining the volumes received by forwarding the converted ConvNet twice: First
+over the original image and second over the image but with the image shifted spatially by 16 pixels along both width and
+height.
+</p>
+</div>
+
+
+<div id="outline-container-org1024063" class="outline-4">
+<h4 id="org1024063"><span class="section-number-4">2.2.1</span> Padding</h4>
+<div class="outline-text-4" id="text-2-2-1">
+<p>
+&#x4F7F;&#x7528; padding &#x4FDD;&#x6301;&#x5377;&#x79EF;&#x4E4B;&#x540E;&#xFF0C;&#x56FE;&#x50CF;&#x7684;&#x5C3A;&#x5BF8;&#x4E0D;&#x53D8;&#xFF0C;&#x7F51;&#x7EDC;&#x7684;&#x8868;&#x73B0;&#x4F1A;&#x66F4;&#x597D;&#x3002;valid &#x5377;&#x79EF;&#x65E0;&#x6CD5;&#x5145;&#x5206;&#x83B7;&#x53D6;&#x56FE;&#x50CF;&#x8FB9;&#x754C;&#x7684;&#x4FE1;&#x606F;&#x3002; Why use padding? In
+addition to the aforementioned benefit of keeping the spatial sizes constant after CONV, doing this actually improves
+performance. If the CONV layers were to not zero-pad the inputs and only perform valid convolutions, then the size of
+the volumes would reduce by a small amount after each CONV, and the information at the borders would be &#x201C;washed away&#x201D;
+too quickly.
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org2b47dae" class="outline-3">
+<h3 id="org2b47dae"><span class="section-number-3">2.3</span> &#x4F7F;&#x7528;&#x77E9;&#x9635;&#x4E58;&#x6CD5;&#x5B9E;&#x73B0;&#x5377;&#x79EF;</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+caffe &#x4E2D;&#x7684; im2col &#x5B9E;&#x73B0;&#x56FE;&#x50CF;&#x5377;&#x79EF;&#x5C55;&#x5F00;&#x6210;&#x77E9;&#x9635;&#x3002;&#x7531;&#x4E8E;&#x540C;&#x4E00;&#x4E2A;&#x503C;&#x9700;&#x8981;&#x5B58;&#x50A8;&#x5728;&#x77E9;&#x9635;&#x7684;&#x4E0D;&#x540C;&#x4F4D;&#x7F6E;&#xFF0C;&#x4F1A;&#x6D88;&#x8017;&#x5927;&#x91CF;&#x7684;&#x5185;&#x5B58;&#x3002;&#x4F46;&#x53EF;&#x4EE5;&#x5229;&#x7528;&#x73B0;&#x6709;&#x7684;&#x77E9;&#x9635;&#x4E58;
+&#x6CD5;&#x5E93;&#xFF08;BLAS&#xFF09;&#x6765;&#x52A0;&#x901F;&#x8BA1;&#x7B97;&#x3002;
+</p>
+
+<p>
+Implementation as Matrix Multiplication. Note that the convolution operation essentially performs dot products between
+the filters and local regions of the input. A common implementation pattern of the CONV layer is to take advantage of
+this fact and formulate the forward pass of a convolutional layer as one big matrix multiply as follows:
+</p>
+
+<ol class="org-ol">
+<li>The local regions in the input image are stretched out into columns in an operation commonly called im2col. For
+example, if the input is [227x227x3] and it is to be convolved with 11x11x3 filters at stride 4, then we would take
+[11x11x3] blocks of pixels in the input and stretch each block into a column vector of size 11*11*3 = 363. Iterating
+this process in the input at stride of 4 gives (227-11)/4+1 = 55 locations along both width and height, leading to an
+output matrix X<sub>col</sub> of im2col of size [363 x 3025], where every column is a stretched out receptive field and there
+are 55*55 = 3025 of them in total. Note that since the receptive fields overlap, every number in the input volume may
+be duplicated in multiple distinct columns.</li>
+<li>The weights of the CONV layer are similarly stretched out into rows. For example, if there are 96 filters of size
+[11x11x3] this would give a matrix W<sub>row</sub> of size [96 x 363].</li>
+<li>The result of a convolution is now equivalent to performing one large matrix multiply np.dot(W<sub>row</sub>, X<sub>col</sub>), which
+evaluates the dot product between every filter and every receptive field location. In our example, the output of this
+operation would be [96 x 3025], giving the output of the dot product of each filter at each location.</li>
+<li>The result must finally be reshaped back to its proper output dimension [55x55x96].</li>
+</ol>
+
+<p>
+This approach has the downside that it can use a lot of memory, since some values in the input volume are replicated
+multiple times in X<sub>col</sub>. However, the benefit is that there are many very efficient implementations of Matrix
+Multiplication that we can take advantage of (for example, in the commonly used BLAS API). Moreover, the same im2col
+idea can be reused to perform the pooling operation, which we discuss next.
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org4afae76" class="outline-2">
+<h2 id="org4afae76"><span class="section-number-2">3</span> Pooling Layer</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Pooling &#x53EF;&#x4EE5;&#x5927;&#x5927;&#x8F83;&#x5C11;&#x53C2;&#x6570;&#x7684;&#x4E2A;&#x6570;&#xFF0C;&#x9632;&#x6B62;&#x8FC7;&#x62DF;&#x5408;&#x3002; It is common to periodically insert a Pooling layer in-between successive
+Conv layers in a ConvNet architecture. Its function is to progressively <b>reduce the spatial size of the representation
+to reduce the amount of parameters and computation in the network, and hence to also control overfitting.</b>
+</p>
+
+<p>
+The Pooling Layer operates independently on every depth slice of the input and resizes it spatially, using the MAX
+operation. 
+</p>
+
+<p>
+&#x7279;&#x6027;&#xFF1A;
+</p>
+
+<ol class="org-ol">
+<li>&#x4E24;&#x4E2A;&#x8D85;&#x53C2;&#xFF1A; spatial extent F, stride S</li>
+<li>zero padding</li>
+
+<li value="&#x53CD;&#x5411;&#x4F20;&#x64AD;">&#x524D;&#x5411;&#x4F20;&#x64AD;&#x7684;&#x65F6;&#x5019;&#x8BB0;&#x5F55; max value &#x7684;&#x7D22;&#x5F15;&#xFF0C;&#x65B9;&#x4FBF;&#x53CD;&#x5411;&#x4F20;&#x64AD;&#x8BA1;&#x7B97;&#x3002; max pooling &#x53CD;&#x5411;&#x4F20;&#x64AD;&#x65F6;&#xFF0C;&#x5148;&#x5C06; feature maps &#x4E0A;&#x91C7;&#x6837;&#xFF0C;
+&#x5C06;&#x68AF;&#x5EA6;&#x503C;&#x4F20;&#x5165; max value &#x7D22;&#x5F15;&#x7684;&#x5730;&#x65B9;&#xFF0C;&#x5176;&#x4ED6;&#x4F4D;&#x7F6E;&#x7684;&#x503C;&#x5747;&#x8D4B;&#x503C;&#x4E3A; 0 &#x3002;avera pooling &#x5219;&#x5C06;&#x68AF;&#x5EA6;&#x503C;&#x9664;&#x4EE5;&#x6269;&#x5927;&#x7684;&#x500D;&#x6570;&#xFF0C;&#x5E76;&#x5C06;&#x5E73;&#x5747;&#x503C;
+&#x5206;&#x522B;&#x586B;&#x5165;&#x6BCF;&#x4E00;&#x4E2A;&#x4F4D;&#x7F6E;&#x3002;&#x603B;&#x4E4B;&#x786E;&#x4FDD; loss &#x503C;&#x53CD;&#x5411;&#x4F20;&#x64AD;&#x4E2D;&#x5927;&#x5C0F;&#x548C;&#x4FDD;&#x6301;&#x4E0D;&#x53D8;&#x3002;</li>
+<li value="&#x6452;&#x5F03; pooling">&#x5728; variational autoencoders (VAEs) or generative adversarial networks (GANs) &#x4E2D;&#x4E0D;&#x4F7F;&#x7528; pooling &#x5BF9;&#x4E8E;&#x7F51;&#x7EDC;
+&#x7684;&#x8BAD;&#x7EC3;&#x5F88;&#x91CD;&#x8981;&#x3002;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; stride &#x8F83;&#x5927;&#x7684;&#x5377;&#x79EF;&#x66FF;&#x4EE3;&#x3002;</li>
+</ol>
+
+
+<p>
+Pooling sizes with larger receptive fields are too destructive.
+</p>
+
+<p>
+Pooling &#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x4EFB;&#x610F;&#x51FD;&#x6570;&#xFF0C;&#x53EA;&#x662F; max &#x4F7F;&#x7528;&#x6BD4;&#x8F83;&#x591A;&#x3002; In addition to max pooling, the pooling units can also perform other
+functions, such as average pooling or even L2-norm pooling.
+</p>
+
+<p>
+Average pooling &#x8868;&#x73B0;&#x4E0D;&#x5982; max pooling &#x800C;&#x9010;&#x6E10;&#x88AB;&#x629B;&#x5F03;&#x3002; Average pooling was often used historically but has recently fallen
+out of favor compared to the max pooling operation, which has been shown to work better in practice.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org8ab61ba" class="outline-2">
+<h2 id="org8ab61ba"><span class="section-number-2">4</span> Layer Patterns</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+INPUT -&gt; [[CONV -&gt; RELU]*N -&gt; POOL?]*M -&gt; [FC -&gt; RELU]*K -&gt; FC
+</p>
+
+<p>
+Here we see two CONV layers stacked before every POOL layer. This is generally a good idea for larger and deeper
+networks, because multiple stacked CONV layers can develop more complex features of the input volume before the
+destructive pooling operation.
+</p>
+
+<p>
+&#x5806;&#x53E0;&#x5C0F;&#x5C3A;&#x5BF8;&#x7684;&#x5377;&#x79EF;&#x6838;&#xFF0C;&#x76F8;&#x6BD4;&#x4E8E;&#x76F4;&#x63A5;&#x53EA;&#x7528;&#x4E00;&#x4E2A;&#x5927;&#x5C3A;&#x5BF8;&#x7684;&#x5377;&#x79EF;&#x6838;&#xFF0C;&#x53EF;&#x4EE5;&#x5F97;&#x5230;&#x66F4;&#x597D;&#x7684;&#x7279;&#x5F81;&#xFF0C;&#x4E14;&#x53EA;&#x9700;&#x8981;&#x66F4;&#x597D;&#x7684;&#x53C2;&#x6570;&#x3002;&#x4F46;&#x662F;&#x9700;&#x8981;&#x66F4;&#x591A;&#x7684;&#x5185;&#x5B58;&#x6765;&#x5B58;&#x50A8;&#x4E2D;
+&#x95F4;&#x7684;&#x5377;&#x79EF;&#x5C42;&#x3002; Intuitively, stacking CONV layers with tiny filters as opposed to having one CONV layer with big filters
+allows us to express more powerful features of the input, and with fewer parameters. As a practical disadvantage, we
+might need more memory to hold all the intermediate CONV layer results if we plan to do backpropagation.
+</p>
+
+<p>
+&#x4ECE;&#x8F93;&#x5165;&#x5230;&#x8F93;&#x51FA;&#x53EA;&#x6709;&#x4E00;&#x5355;&#x6761;&#x7EBF;&#x8DEF;&#x7684;&#x5377;&#x79EF;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#xFF0C;&#x6B63;&#x5728;&#x88AB;&#x66F4;&#x590D;&#x6742;&#x7684;&#x7F51;&#x7EDC;&#x7ED3;&#x6784;&#x6240;&#x66FF;&#x4EE3; GoogLeNet, ResNet, DenseNet &#x7B49;&#x3002;It should be
+noted that the conventional paradigm of a linear list of layers has recently been challenged, in Google&#x2019;s Inception
+architectures and also in current (state of the art) Residual Networks from Microsoft Research Asia. Both of these (see
+details below in case studies section) feature more intricate and different connectivity structures.
+</p>
+
+<p>
+&#x5C3D;&#x91CF;&#x4F7F;&#x7528;&#x5DF2;&#x6709;&#x7684;&#x7F51;&#x7EDC;&#x6A21;&#x578B;&#xFF0C;&#x5E76;&#x5728;&#x81EA;&#x5DF1;&#x7684;&#x6570;&#x636E;&#x96C6;&#x4E0A; finetune &#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x4ECE;&#x5934;&#x5F00;&#x59CB;&#x8BBE;&#x8BA1;&#x3002; In practice: use whatever works best on
+ImageNet. If you&#x2019;re feeling a bit of a fatigue in thinking about the architectural decisions, you&#x2019;ll be pleased to know
+that in 90% or more of applications you should not have to worry about these. I like to summarize this point as &#x201C;don&#x2019;t
+be a hero&#x201D;: Instead of rolling your own architecture for a problem, you should look at whatever architecture currently
+works best on ImageNet, download a pretrained model and finetune it on your data. You should rarely ever have to train a
+ConvNet from scratch or design one from scratch. I also made this point at the Deep Learning school.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org57d86b9" class="outline-2">
+<h2 id="org57d86b9"><span class="section-number-2">5</span> Layer Sizing Patterns</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+&#x8F93;&#x5165;&#x56FE;&#x50CF;&#x7684;&#x5927;&#x5C0F;&#x6700;&#x597D;&#x53EF;&#x4EE5;&#x591A;&#x6B21;&#x88AB; 2 &#x6574;&#x9664;&#x3002; The input layer (that contains the image) should be divisible by 2 many times.
+Common numbers include 32 (e.g. CIFAR-10), 64, 96 (e.g. STL-10), or 224 (e.g. common ImageNet ConvNets), 384, and 512.
+</p>
+
+
+<p>
+&#x4F7F;&#x7528; 3*3 &#x7684;&#x5377;&#x79EF;&#x53EF;&#x4EE5;&#x6709;&#x6548;&#x51CF;&#x5C0F;&#x53C2;&#x6570;&#x7684;&#x4E2A;&#x6570;&#xFF0C;&#x9700;&#x8981;&#x589E;&#x5927;&#x611F;&#x53D7;&#x91CE;&#x53EF;&#x4EE5;&#x5806;&#x53E0;&#x591A;&#x4E2A; 3*3 &#x5377;&#x79EF;&#x3002; The conv layers should be using small
+filters (e.g. 3x3 or at most 5x5), using a stride of S=1, and crucially, padding the input volume with zeros in such way
+that the conv layer does not alter the spatial dimensions of the input. That is, when F=3, then using P=1 will retain
+the original size of the input. When F=5, P=2. For a general F, it can be seen that P=(F&#x2212;1)/2 preserves the input size.
+If you must use bigger filter sizes (such as 7x7 or so), it is only common to see this on the very first conv layer that
+is looking at the input image.
+</p>
+
+
+<p>
+Pooling &#x5C42;&#x6709;&#x8F83;&#x5927;&#x7684;&#x7834;&#x574F;&#x6027;&#xFF0C;&#x4E00;&#x822C;&#x4E0D;&#x4F1A;&#x4F7F;&#x7528;&#x8F83;&#x5927;&#x7684;&#x5C3A;&#x5BF8;&#x3002;The pool layers are in charge of downsampling the spatial dimensions
+of the input. The most common setting is to use max-pooling with 2x2 receptive fields (i.e. F=2), and with a stride of 2
+(i.e. S=2). Note that this discards exactly 75% of the activations in an input volume (due to downsampling by 2 in both
+width and height). Another slightly less common setting is to use 3x3 receptive fields with a stride of 2, but this
+makes. It is very uncommon to see receptive field sizes for max pooling that are larger than 3 because the pooling is
+then too lossy and aggressive. This usually leads to worse performance.
+</p>
+
+
+<p>
+&#x5377;&#x79EF;&#x5C42;&#x53EA;&#x6539;&#x53D8;&#x901A;&#x9053;&#x6570;&#xFF0C;&#x4E0D;&#x4FEE;&#x6539;&#x56FE;&#x50CF;&#x7684;&#x5927;&#x5C0F;&#x3002;POOL &#x8D1F;&#x8D23;&#x51CF;&#x5C0F;&#x56FE;&#x50CF;&#x7684;&#x5927;&#x5C0F;&#x3002; Reducing sizing headaches. The scheme presented above is
+pleasing because all the CONV layers preserve the spatial size of their input, while the POOL layers alone are in charge
+of down-sampling the volumes spatially. In an alternative scheme where we use strides greater than 1 or don&#x2019;t zero-pad
+the input in CONV layers, we would have to very carefully keep track of the input volumes throughout the CNN
+architecture and make sure that all strides and filters &#x201C;work out&#x201D;, and that the ConvNet architecture is nicely and
+symmetrically wired.
+</p>
+
+
+<p>
+&#x5377;&#x79EF;&#x6B65;&#x957F;&#x9009;&#x62E9;&#x4E3A; 1 &#x6548;&#x679C;&#x8F83;&#x597D;&#x3002; Why use stride of 1 in CONV? Smaller strides work better in practice. Additionally, as
+already mentioned stride 1 allows us to leave all spatial down-sampling to the POOL layers, with the CONV layers only
+transforming the input volume depth-wise.
+</p>
+
+<p>
+&#x7531;&#x4E8E;&#x5185;&#x5B58;&#x7684;&#x9650;&#x5236;&#xFF0C;&#x4F1A;&#x9996;&#x5148;&#x5927;&#x5E45;&#x5EA6;&#x51CF;&#x5C0F;&#x56FE;&#x50CF;&#x7684;&#x5C3A;&#x5BF8;&#x3002;Compromising based on memory constraints. In some cases (especially early in
+the ConvNet architectures), the amount of memory can build up very quickly with the rules of thumb presented above. For
+example, filtering a 224x224x3 image with three 3x3 CONV layers with 64 filters each and padding 1 would create three
+activation volumes of size [224x224x64]. This amounts to a total of about 10 million activations, or 72MB of memory (per
+image, for both activations and gradients). Since GPUs are often bottlenecked by memory, it may be necessary to
+compromise. In practice, people prefer to make the compromise at only the first CONV layer of the network. For example,
+one compromise might be to use a first CONV layer with filter sizes of 7x7 and stride of 2 (as seen in a ZF net). As
+another example, an AlexNet uses filter sizes of 11x11 and stride of 4.
+</p>
+</div>
+</div>
+
+
+
+
+
+<div id="outline-container-orgf1b39ca" class="outline-2">
+<h2 id="orgf1b39ca"><span class="section-number-2">6</span> <a href="https://arxiv.org/abs/1603.07285" target="_blank" rel="noopener">&lt;A guide to convolution arithmetic for deep learning&gt;</a></h2>
+<div class="outline-text-2" id="text-6">
+<p>
+&#x8BBA;&#x6587;&#x7684;&#x90E8;&#x5206;&#x7FFB;&#x8BD1;&#xFF0C;<a href="https://github.com/vdumoulin/conv_arithmetic" target="_blank" rel="noopener">github &#x5730;&#x5740;</a> &#xFF0C;&#x7531;&#x4E8E;&#x4E0D;&#x662F;&#x5F88;&#x7406;&#x89E3;&#x8F6C;&#x7F6E;&#x5377;&#x79EF;&#x548C;&#x7A7A;&#x6D1E;&#x5377;&#x79EF;&#xFF0C;&#x6240;&#x4EE5;&#x770B;&#x4E86;&#x770B;&#x8FD9;&#x7BC7;&#x6587;&#x7AE0;&#xFF0C;&#x7FFB;&#x8BD1;&#x4E00;&#x4E0B;&#x4EE5;&#x5907;&#x5FD8;&#x3002;&#x76F8;&#x6BD4;&#x4E8E;&#x65AF;&#x5766;&#x798F;&#x5927;&#x5B66;&#x7684;&#x8BFE;
+&#x7A0B;&#xFF0C;&#x611F;&#x89C9;&#x8FD9;&#x7BC7;&#x8BBA;&#x6587;&#x6709;&#x70B9;&#x6545;&#x5F04;&#x7384;&#x865A;&#xFF0C;&#x4E0D;&#x7B26;&#x5408;&#x5927;&#x9053;&#x81F3;&#x7B80;&#x5440;&#x3010;&#x5FAE;&#x5410;&#x69FD;&#x3011;&#x3002;
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org59a6a2a" class="outline-2">
+<h2 id="org59a6a2a"><span class="section-number-2">7</span> Introduction</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+CNNs &#x5728;&#x6DF1;&#x5EA6;&#x5B66;&#x4E60;&#x4E2D;&#x5904;&#x4E8E;&#x6838;&#x5FC3;&#x89D2;&#x8272;&#xFF0C;&#x4F46;&#x901A;&#x5E38;&#x7B2C;&#x4E00;&#x6B21;&#x4F7F;&#x7528; CNNs &#x5374;&#x662F;&#x4E00;&#x573A;&#x5669;&#x68A6;&#x3002;&#x56E0;&#x4E3A;&#x4E00;&#x4E2A;&#x5377;&#x79EF;&#x5C42;&#x8F93;&#x51FA;&#x7684;&#x5927;&#x5C0F;&#x4F1A;&#x7531;&#x8F93;&#x5165;&#x7684;&#x5927;&#x5C0F;&#x3001;&#x5377;&#x79EF;&#x6838;&#x7684;&#x5C3A;&#x5BF8;&#x3001;
+padding &#x7684;&#x5927;&#x5C0F;&#x3001;stride &#x5171;&#x540C;&#x51B3;&#x5B9A;&#xFF0C;&#x800C;&#x4E14;&#x76F8;&#x4E92;&#x4E4B;&#x95F4;&#x7684;&#x5173;&#x5FC3;&#x6709;&#x70B9;&#x590D;&#x6742;&#x3002;&#x76F8;&#x5BF9;&#x800C;&#x8A00;&#xFF0C;&#x5168;&#x8FDE;&#x63A5;&#x5C42;&#x7684;&#x8F93;&#x51FA;&#x7684;&#x5927;&#x5C0F;&#x548C;&#x8F93;&#x5165;&#x7684;&#x5927;&#x5C0F;&#x5E76;&#x6CA1;&#x6709;&#x76F4;&#x63A5;&#x5173;&#x7CFB;&#x3002;
+&#x540C;&#x65F6; CNNs &#x7ECF;&#x5E38;&#x4F1A;&#x5F15;&#x5165; pooling&#x5C42;&#xFF0C;&#x8FDB;&#x4E00;&#x6B65;&#x589E;&#x52A0;&#x4E86;&#x590D;&#x6742;&#x6027;&#x3002;&#x53E6;&#x5916;&#x8F6C;&#x7F6E;&#x5377;&#x79EF;&#x4E5F;&#x5728;&#x88AB;&#x66F4;&#x9891;&#x7E41;&#x7684;&#x4F7F;&#x7528;&#x3002;
+</p>
+
+<p>
+&#x8FD9;&#x4E2A;&#x624B;&#x518C;&#x6709;&#x4E24;&#x4E2A;&#x76EE;&#x7684;&#xFF1A;
+</p>
+
+<ol class="org-ol">
+<li>&#x89E3;&#x91CA;&#x5377;&#x79EF;&#x548C;&#x8F6C;&#x7F6E;&#x5377;&#x79EF;&#x7684;&#x76F8;&#x4E92;&#x5173;&#x7CFB;</li>
+<li>&#x5BF9;&#x5377;&#x79EF;&#x5C42;&#x3001;pooling &#x5C42;&#x3001;&#x8F6C;&#x7F6E;&#x5377;&#x79EF;&#x5C42;&#x4E2D; input shape&#x3001;kernel shape&#x3001;zero padding&#x3001;strides&#x3001;output shape &#x7684;&#x76F8;&#x4E92;&#x5173;&#x7CFB;&#x6709;&#x4E00;&#x4E2A;&#x76F4;
+&#x89C2;&#x7684;&#x7406;&#x89E3;</li>
+</ol>
+</div>
+
+
+<div id="outline-container-org5a1f002" class="outline-3">
+<h3 id="org5a1f002"><span class="section-number-3">7.1</span> Discrete convolutions</h3>
+<div class="outline-text-3" id="text-7-1">
+<p>
+&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x7684;&#x5FC5;&#x5907;&#x5143;&#x7D20;&#x662F;&#x4EFF;&#x5C04;&#x53D8;&#x6362; &#xFF1A; &#x8F93;&#x5165;&#x662F;&#x4E00;&#x4E2A;&#x5411;&#x91CF;&#xFF0C;&#x4E58;&#x4EE5;&#x4E00;&#x4E2A;&#x77E9;&#x9635;&#xFF0C;&#x5728;&#x52A0;&#x4E0A;&#x4E00;&#x4E2A;&#x504F;&#x79FB;&#x5F97;&#x5230;&#x8F93;&#x51FA;&#x3002;&#x8FD9;&#x9002;&#x7528;&#x4E8E;&#x4EFB;&#x4F55;&#x5F62;&#x5F0F;&#x7684;&#x8F93;&#x5165;&#xFF08;&#x56FE;&#x7247;&#x3001;&#x97F3;&#x9891;
+&#x7247;&#x6BB5;&#x3001;&#x65E0;&#x5E8F;&#x7279;&#x5F81;&#xFF1B;&#x4E0D;&#x7BA1;&#x7EF4;&#x6570;&#x662F;&#x591A;&#x5C11;&#x90FD;&#x53EF;&#x4EE5;&#x5728;&#x8F6C;&#x6362;&#x524D;&#x53D8;&#x6210;&#x4E00;&#x4E2A;&#x5411;&#x91CF;&#xFF09;
+</p>
+
+<p>
+&#x56FE;&#x7247;&#x3001;&#x97F3;&#x9891;&#x7247;&#x6BB5;&#x7B49;&#x6570;&#x636E;&#x90FD;&#x6709;&#x5185;&#x5728;&#x7ED3;&#x6784;&#xFF0C;&#x4E00;&#x822C;&#x6765;&#x8BF4;&#xFF0C;&#x4ED6;&#x4EEC;&#x6709;&#x4EE5;&#x4E0B;&#x91CD;&#x8981;&#x7684;&#x5C5E;&#x6027;&#xFF1A;
+</p>
+
+<ol class="org-ol">
+<li>&#x4F7F;&#x7528;&#x591A;&#x7EF4;&#x6570;&#x7EC4;&#x5B58;&#x50A8;&#x3002; [They are stored as multi-dimensional arrays.]</li>
+<li>&#x7279;&#x5F81;&#x5728;&#x4E00;&#x4E2A;&#x7EF4;&#x5EA6;&#x6216;&#x8005;&#x591A;&#x4E2A;&#x7EF4;&#x5EA6;&#x7684;&#x5B58;&#x50A8;&#x987A;&#x5E8F;&#x6709;&#x5F71;&#x54CD;&#x3002; [They feature one or more axes for which ordering matters (e.g., width
+and height axes for an image, time axis for a sound clip).]</li>
+<li>channel &#x7EF4;&#x5EA6;&#x8868;&#x793A;&#x7684;&#x662F;&#x6570;&#x636E;&#x7684;&#x4E0D;&#x540C; view &#x3002;[One axis, called the channel axis, is used to access different views of the
+data (e.g., the red, green and blue channels of a color image, or the left and right channels of a stereo audio
+track).]</li>
+</ol>
+
+<p>
+&#x5F53;&#x4F7F;&#x7528;&#x4EFF;&#x5C04;&#x53D8;&#x6362;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x8FD9;&#x4E9B;&#x7ED3;&#x6784;&#x4FE1;&#x606F;&#x5C06;&#x65E0;&#x6CD5;&#x88AB;&#x6709;&#x6548;&#x5229;&#x7528;&#x3002;&#x56E0;&#x4E3A;&#x6240;&#x6709;&#x8F74;&#x4E0A;&#x7684;&#x6570;&#x636E;&#x90FD;&#x88AB;&#x7EDF;&#x4E00;&#x5BF9;&#x5F85;&#xFF0C;&#x6839;&#x672C;&#x6CA1;&#x6709;&#x8003;&#x8651;&#x6570;&#x636E;&#x7684;&#x62D3;&#x6251;&#x4FE1;&#x606F;&#xFF08;&#x76F4;&#x63A5;&#x5C06;&#x6570;
+&#x636E;&#x8F6C;&#x6362;&#x6210;&#x4E86;&#x4E00;&#x4E2A;&#x5411;&#x91CF;&#xFF09;&#x3002;&#x800C;&#x5728;&#x8BA1;&#x7B97;&#x673A;&#x89C6;&#x89C9;&#x548C;&#x8BED;&#x97F3;&#x8BC6;&#x522B;&#x4E2D;&#x6700;&#x597D;&#x4FDD;&#x7559;&#x8FD9;&#x4E9B;&#x6570;&#x636E;&#x7684;&#x7ED3;&#x6784;&#xFF0C;&#x56E0;&#x6B64;&#x6709;&#x4E86;&#x79BB;&#x6563;&#x5377;&#x79EF; (discrete convolution)&#x3002;
+</p>
+
+<p>
+&#x79BB;&#x6563;&#x5377;&#x79EF;&#x662F;&#x4E00;&#x4E2A;&#x7EBF;&#x6027;&#x53D8;&#x6362;&#xFF0C;&#x4FDD;&#x7559;&#x4E86;&#x6570;&#x636E;&#x7684;&#x987A;&#x5E8F;&#xFF0C;&#x91C7;&#x7528;&#x7A00;&#x758F;&#x8FDE;&#x63A5;&#x548C;&#x6743;&#x503C;&#x5171;&#x4EAB;&#x3002;
+</p>
+
+<p>
+&#x5377;&#x79EF;&#x6838;&#x626B;&#x63CF;&#x8F93;&#x5165;&#xFF0C;&#x5728;&#x6BCF;&#x4E00;&#x4E2A;&#x4F4D;&#x7F6E;&#x4E0A;&#xFF0C;&#x5377;&#x79EF;&#x6838;&#x548C;&#x5176;&#x8986;&#x76D6;&#x7684;&#x8F93;&#x5165;&#x533A;&#x57DF;&#x9010;&#x5143;&#x7D20;&#x76F8;&#x4E58;&#x5E76;&#x6C42;&#x548C;&#x5F97;&#x5230;&#x8BE5;&#x4F4D;&#x7F6E;&#x7684;&#x8F93;&#x51FA;&#x3002;&#x53EF;&#x4EE5;&#x91CD;&#x590D;&#x6267;&#x884C;&#x8FD9;&#x4E2A;&#x8FC7;&#x7A0B;&#x6765;&#x5F97;&#x5230;&#x591A;&#x4E2A;
+&#x8F93;&#x51FA;&#xFF0C;&#x8FD9;&#x4E9B;&#x751F;&#x6210;&#x7684;&#x8F93;&#x51FA;&#x79F0;&#x4E3A; feature maps &#x3002;&#x5982;&#x679C;&#x8F93;&#x5165;&#x662F;&#x591A;&#x4E2A; feature maps &#xFF0C;&#x5377;&#x79EF;&#x6838;&#x9700;&#x8981;&#x662F;&#x4E09;&#x7EF4;&#x7684;&#xFF0C;&#x5377;&#x79EF;&#x6838; channel &#x7684;&#x4E2A;&#x6570;&#x5E94;&#x8BE5;&#x7B49;&#x4E8E;
+&#x8F93;&#x5165; feature maps channel &#x7684;&#x4E2A;&#x6570;&#xFF0C;&#x8F93;&#x5165;&#x7684;&#x6BCF;&#x4E00;&#x4E2A; feature map &#x90FD;&#x9700;&#x8981;&#x4E00;&#x4E2A;&#x7279;&#x5B9A;&#x7684;&#x5377;&#x79EF;&#x6838;&#x6765;&#x626B;&#x63CF;&#xFF0C;&#x5F97;&#x5230;&#x7684;&#x591A;&#x4E2A;&#x7ED3;&#x679C;&#xFF08;&#x4E0D;&#x540C;&#x7684; channel
+&#xFF09;&#x9010;&#x5143;&#x7D20;&#x76F8;&#x52A0;&#x5F97;&#x5230;&#x8F93;&#x51FA;&#x7684;&#x4E00;&#x4E2A; feature map &#x3002;
+</p>
+
+<p>
+strides &#x8868;&#x793A;&#x7684;&#x662F; kernel &#x79FB;&#x52A8;&#x7684;&#x6B65;&#x957F;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x770B;&#x505A;&#x662F;&#x4FDD;&#x7559;&#x6B65;&#x957F;&#x4E3A; 1 &#x5377;&#x79EF;&#x8F93;&#x51FA;&#x7684;&#x67D0;&#x4E9B;&#x90E8;&#x5206;&#x3002;&#x6BD4;&#x5982;&#x6B65;&#x957F;&#x4E3A; 2 &#x7684;&#x5377;&#x79EF;&#x8F93;&#x51FA;&#x53EF;&#x4EE5;&#x770B;&#x505A;&#xFF0C;&#x6B65;&#x957F;&#x4E3A;
+1 &#x7684;&#x5377;&#x79EF;&#x5F97;&#x5230;&#x7684;&#x8F93;&#x51FA;&#x4E2D;&#x53EA;&#x4FDD;&#x7559;&#x5947;&#x6570;&#x4F4D;&#x5143;&#x7D20;&#xFF08;&#x4ECE; 1 &#x5F00;&#x59CB;&#x8BA1;&#x6570;&#xFF09;&#x5F97;&#x5230;&#x7684;&#x7ED3;&#x679C;&#x3002;
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org5b7074a" class="outline-3">
+<h3 id="org5b7074a"><span class="section-number-3">7.2</span> pooling</h3>
+<div class="outline-text-3" id="text-7-2">
+<p>
+pooling &#x662F; CNNs &#x7684;&#x53E6;&#x4E00;&#x4E2A;&#x5173;&#x952E;&#x90E8;&#x4EF6;&#x3002;&#x7528;&#x4E8E;&#x51CF;&#x5C0F; feature maps &#x7684;&#x5C3A;&#x5BF8;&#xFF0C;&#x901A;&#x5E38;&#x6709; average pooling &#x548C; max pooling &#x4E24;&#x79CD;&#x3002; Pooling &#x548C;
+&#x5377;&#x79EF;&#x5F88;&#x50CF;&#xFF08;&#x6211;&#x611F;&#x89C9;&#x5C31;&#x662F;&#x4E00;&#x79CD;&#x7279;&#x6B8A;&#x7684;&#x5377;&#x79EF;&#x5440;&#xFF01;&#xFF09;&#xFF0C;&#x540C;&#x6837;&#x4F1A;&#x626B;&#x63CF;&#x8F93;&#x5165;&#xFF0C;&#x4F46;&#x662F;&#x5C06; kernel &#x6362;&#x6210;&#x4E86; pooling function &#x3002;
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org626832b" class="outline-2">
+<h2 id="org626832b"><span class="section-number-2">8</span> Convolution arithmetic</h2>
+<div class="outline-text-2" id="text-8">
+<p>
+&#x4E0B;&#x9762;&#x7684;&#x5206;&#x6790;&#x4F9D;&#x8D56;&#x4E8E;&#x5377;&#x79EF;&#x4E0D;&#x4F1A;&#x8DE8;&#x8D8A;&#x4E0D;&#x540C;&#x8F74;&#x7684;&#x7279;&#x6027;&#xFF1B;[i.e., the choice of kernel size, stride and zero padding along axis j only
+affects the output size of axis j.]
+</p>
+</div>
+
+
+<div id="outline-container-org945d624" class="outline-3">
+<h3 id="org945d624"><span class="section-number-3">8.1</span> Half (same) padding</h3>
+<div class="outline-text-3" id="text-8-1">
+<p>
+&#x4FDD;&#x6301;&#x8F93;&#x51FA;&#x548C;&#x8F93;&#x5165;&#x7684;&#x5C3A;&#x5BF8;&#x4E0D;&#x53D8;&#x65F6;&#x4F7F;&#x7528;&#xFF0C;&#x9700;&#x8981;&#x586B;&#x5145;&#x7684;&#x4E2A;&#x6570; \( p = \lfloor k / 2 \rfloor \) &#x3002;
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org4cf1e81" class="outline-3">
+<h3 id="org4cf1e81"><span class="section-number-3">8.2</span> Full padding</h3>
+<div class="outline-text-3" id="text-8-2">
+<p>
+&#x5377;&#x79EF;&#x901A;&#x5E38;&#x4F1A;&#x8F83;&#x5C0F;&#x8F93;&#x51FA;&#x7684;&#x5C3A;&#x5BF8;&#xFF0C;&#x4F46;&#x6709;&#x65F6;&#x5019;&#x9700;&#x8981;&#x589E;&#x5927;&#x8F93;&#x51FA;&#x7684;&#x5C3A;&#x5BF8;&#xFF08;&#x8FD9;&#x4E2A;&#x4E0D;&#x662F;&#x8F6C;&#x7F6E;&#x5377;&#x79EF;&#x7684;&#x4EFB;&#x52A1;&#x5417;&#xFF09;&#xFF0C;&#x6B64;&#x65F6;&#x53EF;&#x4EE5;&#x7528; full padding &#x3002;&#x6B64;&#x65F6;&#x586B;&#x5145;&#x7684;&#x4E2A;
+&#x6570; \( p = k - 1 \) &#xFF0C;&#x8FD9;&#x91CC; full padding &#x7684;&#x610F;&#x601D;&#x662F;&#x8BA9;&#x8F93;&#x5165;&#x7684;&#x6BCF;&#x4E2A;&#x50CF;&#x7D20;&#x70B9;&#x5BF9; kernel &#x90FD;&#x6709;&#x76F8;&#x540C;&#x7684;&#x5730;&#x4F4D;&#x3002;
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org742f0c6" class="outline-3">
+<h3 id="org742f0c6"><span class="section-number-3">8.3</span> Zero padding, non-unit strides</h3>
+<div class="outline-text-3" id="text-8-3">
+<p>
+&#x5377;&#x79EF;&#x8F93;&#x51FA;&#x5927;&#x5C0F;&#x7684;&#x901A;&#x7528;&#x516C;&#x5F0F; \[ o = \lfloor \frac{i + 2p - k}{s} \rfloor + 1 \]
+</p>
+
+<p>
+&#x8FD9;&#x91CC;&#x5411;&#x4E0B;&#x53D6;&#x6574;&#xFF0C;&#x662F;&#x56E0;&#x4E3A;&#x5982;&#x679C;&#x5269;&#x4F59;&#x7684;&#x533A;&#x57DF;&#xFF08;&#x542B; padding &#xFF09;&#x4E0D;&#x8DB3;&#x4E00;&#x4E2A; kernel &#x7684;&#x957F;&#x5EA6;&#x65F6;&#xFF0C;&#x4E0D;&#x518D;&#x7EE7;&#x7EED;&#x6267;&#x884C;&#x5377;&#x79EF;&#x3002;
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgf0db6fc" class="outline-2">
+<h2 id="orgf0db6fc"><span class="section-number-2">9</span> Pooling arithmetic</h2>
+<div class="outline-text-2" id="text-9">
+<p>
+pooling &#x5C42;&#x4F7F;&#x5F97;&#x7F51;&#x7EDC;&#x5BF9;&#x8F93;&#x5165;&#x7684;&#x5FAE;&#x5C0F;&#x504F;&#x79FB;&#x4E0D;&#x654F;&#x611F;&#x3002;max pooling &#x4F7F;&#x7528;&#x8F83;&#x9891;&#x7E41;&#xFF1A; &#x5C06;&#x8F93;&#x5165;&#x5206;&#x5272;&#x6210; patches &#xFF08;&#x901A;&#x5E38;&#x4E0D;&#x4F1A;&#x91CD;&#x53E0;&#xFF09; &#xFF0C;&#x5E76;&#x8F93;&#x51FA;&#x6BCF;&#x4E2A;
+patch &#x5185;&#x7684;&#x6700;&#x5927;&#x503C;&#xFF1B;&#x53E6;&#x5916;&#x8FD8;&#x6709; average pooling &#xFF0C;&#x8F93;&#x51FA;&#x6BCF;&#x4E2A; patch &#x5185;&#x7684;&#x5E73;&#x5747;&#x503C;&#x3002;
+</p>
+
+<p>
+&#x8BA1;&#x7B97;&#x5377;&#x79EF;&#x8F93;&#x51FA;&#x5927;&#x5C0F;&#x7684;&#x516C;&#x5F0F;&#x540C;&#x6837;&#x9002;&#x7528;&#x4E8E; pooling &#xFF0C;&#x4F46;&#x662F; Pooling &#x5E76;&#x4E0D;&#x4F1A; padding &#xFF0C;&#x6240;&#x4EE5; Pooling &#x7684;&#x901A;&#x7528;&#x8F93;&#x51FA;&#x516C;&#x5F0F;&#x4E3A;
+</p>
+
+<p>
+\[ o = \lfloor \frac{i - k}{s} \rfloor + 1 \]
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org6b29ef8" class="outline-2">
+<h2 id="org6b29ef8"><span class="section-number-2">10</span> Transposed convolution arithmetic</h2>
+<div class="outline-text-2" id="text-10">
+<p>
+&#x8F6C;&#x7F6E;&#x5377;&#x79EF;&#x4E00;&#x822C;&#x7528;&#x4E8E;&#x5E38;&#x89C4;&#x5377;&#x79EF;&#x7684;&#x53CD;&#x65B9;&#x5411;&#x64CD;&#x4F5C;&#xFF0C;&#x5C06;&#x5E38;&#x89C4;&#x5377;&#x79EF;&#x7684;&#x8F93;&#x51FA;&#x8F6C;&#x6362;&#x5230;&#x8F93;&#x5165;&#xFF0C;&#x540C;&#x65F6;&#x4FDD;&#x6301;&#x548C;&#x5E38;&#x89C4;&#x5377;&#x79EF;&#x7684;&#x517C;&#x5BB9;&#x6027;&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x53EF;&#x4EE5;&#x7528;&#x4E8E; autoencoder
+&#x4E2D;&#x7684; decoding layer &#x6216;&#x8005;&#x5C06; feature map &#x53D8;&#x6362;&#x5230;&#x66F4;&#x9AD8;&#x7EF4;&#x7684;&#x7A7A;&#x95F4;&#x4E2D;&#x3002;&#x5168;&#x8FDE;&#x63A5;&#x5C42;&#x6BD4;&#x8F83;&#x7B80;&#x5355;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x5229;&#x7528;&#x6743;&#x91CD;&#x77E9;&#x9635;&#x7684;&#x8F6C;&#x7F6E;&#x5C31;&#x53EF;&#x4EE5;&#x5B9E;&#x73B0;&#x53CD;&#x5411;&#x64CD;
+&#x4F5C;&#x3002;&#x5377;&#x79EF;&#x5C42;&#x4F1A;&#x6BD4;&#x5168;&#x8FDE;&#x63A5;&#x5C42;&#x590D;&#x6742;&#x5F88;&#x591A;&#xFF0C;&#x4E0D;&#x8FC7;&#x53EF;&#x4EE5;&#x5C06;&#x5377;&#x79EF;&#x5C42;&#x5F52;&#x7ED3;&#x4E3A;&#x9AD8;&#x6548;&#x5B9E;&#x73B0;&#x7684;&#x77E9;&#x9635;&#x64CD;&#x4F5C;&#xFF0C;&#x6D1E;&#x6089;&#x5168;&#x8FDE;&#x63A5;&#x5C42;&#x5C06;&#x6709;&#x52A9;&#x4E8E;&#x89E3;&#x51B3;&#x5377;&#x79EF;&#x3002;&#x5982;&#x540C;&#x5377;&#x79EF;&#x64CD;&#x4F5C;&#x4E0D;&#x4F1A;
+&#x8DE8;&#x8D8A;&#x4E0D;&#x540C;&#x7684;&#x5750;&#x6807;&#x8F74;&#xFF08;&#x4E0D;&#x4F1A;&#x8DE8;&#x8D8A; channel&#xFF09;&#xFF0C;&#x8F6C;&#x7F6E;&#x5377;&#x79EF;&#x4E5F;&#x6709;&#x76F8;&#x540C;&#x7684;&#x5C5E;&#x6027;&#xFF0C;&#x8FD9;&#x5C06;&#x7B80;&#x5316;&#x8F6C;&#x7F6E;&#x5377;&#x79EF;&#x7B97;&#x6CD5;&#x3002;
+</p>
+
+<p>
+&#x4E0B;&#x6587;&#x91CD;&#x70B9;&#x5173;&#x6CE8;;
+</p>
+
+<ol class="org-ol">
+<li>2-D &#x8F6C;&#x7F6E;&#x5377;&#x79EF; (N=2)</li>
+<li>square inputs \((i_1 = i_2 = i)\)</li>
+<li>square kernel size \((k_1 = k_2 = k)\)</li>
+<li>&#x6240;&#x6709;&#x65B9;&#x5411;&#x4F7F;&#x7528;&#x76F8;&#x540C;&#x7684; strides \((s_1 = s_2 = s)\)</li>
+<li>&#x6240;&#x6709; axes &#x4F7F;&#x7528;&#x76F8;&#x540C;&#x5927;&#x5C0F;&#x7684; padding \((p_1 = p_2 = p)\)</li>
+</ol>
+
+<p>
+&#x8FD9;&#x4E9B;&#x7ED3;&#x679C;&#x90FD;&#x53EF;&#x4EE5;&#x63A8;&#x5E7F;&#x5230; N-D &#x548C; non-square &#x60C5;&#x5F62;
+</p>
+
+<p>
+&#x8F6C;&#x7F6E;&#x5377;&#x79EF;&#x7B49;&#x6548;&#x7684;&#x5377;&#x79EF;&#x8F93;&#x51FA;&#x5927;&#x5C0F;&#x540C;&#x6837;&#x53EF;&#x4EE5;&#x7528;&#x4E0A;&#x9762;&#x5377;&#x79EF;&#x4E2D;&#x7684;&#x901A;&#x7528;&#x516C;&#x5F0F;  \[ o = \lfloor \frac{i + 2p - k}{s} \rfloor + 1 \] &#x53EA;&#x662F;&#x8FD9;&#x91CC;&#x7684;
+&#x53C2;&#x6570;&#x9700;&#x8981;&#x6B63;&#x786E;&#x5BF9;&#x5E94;&#x3002;
+</p>
+</div>
+
+
+<div id="outline-container-org4eed6d7" class="outline-3">
+<h3 id="org4eed6d7"><span class="section-number-3">10.1</span> &#x5377;&#x79EF;&#x89C6;&#x4E3A;&#x77E9;&#x9635;&#x64CD;&#x4F5C;</h3>
+<div class="outline-text-3" id="text-10-1">
+<p>
+&#x5F53; \(i = 4, k = 3, s = 1, p = 0\) &#x65F6;&#xFF0C;&#x5982;&#x679C;&#x5C06; input &#x548C; output &#x4ECE;&#x5DE6;&#x5230;&#x53F3;&#xFF0C;&#x7531;&#x4E0A;&#x5230;&#x4E0B;&#x5C55;&#x5F00;&#x6210;&#x5411;&#x91CF;&#xFF0C;&#x5377;&#x79EF;&#x53EF;&#x4EE5;&#x8868;&#x793A;&#x6210;&#x4E00;&#x4E2A;&#x7A00;&#x758F;&#x7684;&#x77E9;&#x9635;
+C &#xFF0C;&#x5176;&#x4E2D;&#x975E; 0 &#x7684;&#x5143;&#x7D20;&#x662F; kernel &#x4E2D;&#x76F8;&#x5E94;&#x7684;&#x5143;&#x7D20;&#xFF0C;&#x5176;&#x4E2D; \(i\) &#x548C; \(j\) &#x5206;&#x522B;&#x8868;&#x793A; kernel &#x7684;&#x884C;&#x548C;&#x5217;
+</p>
+
+\begin{equation*}
+\left(
+\begin{array}{cccccccccccccccc}
+w_{0,0} &amp; w_{0,1} &amp; w_{0,2} &amp; 0 &amp; w_{1,0} &amp; w_{1,1} &amp; w_{1,2} &amp; 0 &amp; w_{2,0} &amp; w_{2,1} &amp; w_{2,2} &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; w_{0,0} &amp; w_{0,1} &amp; w_{0,2} &amp; 0 &amp; w_{1,0} &amp; w_{1,1} &amp; w_{1,2} &amp; 0 &amp; w_{2,0} &amp; w_{2,1} &amp; w_{2,2} &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; w_{0,0} &amp; w_{0,1} &amp; w_{0,2} &amp; 0 &amp; w_{1,0} &amp; w_{1,1} &amp; w_{1,2} &amp; 0 &amp; w_{2,0} &amp; w_{2,1} &amp; w_{2,2} &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; w_{0,0} &amp; w_{0,1} &amp; w_{0,2} &amp; 0 &amp; w_{1,0} &amp; w_{1,1} &amp; w_{1,2} &amp; 0 &amp; w_{2,0} &amp; w_{2,1} &amp; w_{2,2} 
+\end{array}
+\right)
+\end{equation*}
+
+<p>
+&#x8FD9;&#x79CD;&#x7EBF;&#x6027;&#x64CD;&#x4F5C;&#x5C06;&#x8F93;&#x5165;&#x77E9;&#x9635;&#x5C55;&#x5F00;&#x6210; 16 &#x7EF4;&#x7684;&#x5411;&#x91CF;&#xFF0C;&#x540C;&#x65F6;&#x751F;&#x6210;&#x4E00;&#x4E2A; 4 &#x7EF4;&#x7684;&#x5411;&#x91CF;&#xFF0C;&#x7136;&#x540E; reshape &#x6210; 2x2 &#x7684;&#x8F93;&#x51FA;&#x77E9;&#x9635;&#x3002;
+</p>
+
+<p>
+&#x4F7F;&#x7528;&#x8FD9;&#x79CD;&#x65B9;&#x6CD5;&#x8868;&#x793A;&#x65F6;&#xFF0C;&#x53CD;&#x5411;&#x4F20;&#x64AD;&#x53EF;&#x4EE5;&#x5F88;&#x5BB9;&#x6613;&#x901A;&#x8FC7;&#x77E9;&#x9635; C &#x7684;&#x8F6C;&#x7F6E;&#x77E9;&#x9635;&#x5B9E;&#x73B0;&#xFF0C;&#x5373; loss &#x4E58;&#x4EE5; \(C^T\) &#x6765;&#x53CD;&#x5411;&#x4F20;&#x64AD;&#x8BEF;&#x5DEE;&#x3002;&#x5C06;&#x4E00;&#x4E2A; 4 &#x7EF4;&#x7684;&#x5411;&#x91CF;
+&#x4F5C;&#x4E3A;&#x8F93;&#x5165;&#xFF0C;&#x5F97;&#x5230;&#x4E00;&#x4E2A; 16 &#x7EF4;&#x7684;&#x8F93;&#x51FA;&#xFF0C;&#x5E76;&#x4E14;&#x5176;&#x8FDE;&#x63A5;&#x6A21;&#x5F0F;&#xFF08;&#x611F;&#x89C9;&#x5E94;&#x8BE5;&#x662F;&#x8F93;&#x5165;&#x8F93;&#x51FA;&#x77E9;&#x9635;&#x5C55;&#x5F00;&#x6210;&#x5411;&#x91CF;&#x7684;&#x65B9;&#x5F0F;&#xFF09;&#x548C;&#x77E9;&#x9635; C &#x517C;&#x5BB9;&#x3002;
+</p>
+
+<p>
+&#x503C;&#x5F97;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C; kernel W &#x540C;&#x65F6;&#x5B9A;&#x4E49;&#x4E86;&#x7528;&#x4E8E;&#x524D;&#x5411;&#x4F20;&#x64AD;&#x77E9;&#x9635; C &#xFF0C;&#x4E5F;&#x5B9A;&#x4E49;&#x4E86;&#x53CD;&#x5411;&#x4F20;&#x64AD;&#x77E9;&#x9635; \(C^T\) &#x3002;
+</p>
+</div>
+</div>
+
+
+
+<div id="outline-container-org880f7a6" class="outline-3">
+<h3 id="org880f7a6"><span class="section-number-3">10.2</span> &#x8F6C;&#x7F6E;&#x5377;&#x79EF;</h3>
+<div class="outline-text-3" id="text-10-2">
+<p>
+&#x8F6C;&#x7F6E;&#x5377;&#x79EF; (transposed convolution) &#x4E5F;&#x53EB;&#x505A;&#x5C0F;&#x6570;&#x6B65;&#x957F;&#x5377;&#x79EF; (fractionally strided convolutions) &#x6216; deconvolutions [&#x5B66;&#x672F;&#x4E0A;&#x53EF;&#x80FD;&#x4F7F;
+&#x7528;&#x8FD9;&#x4E2A;&#x540D;&#x79F0;&#xFF0C;&#x4F46;&#x662F;&#x5728;&#x6570;&#x5B66;&#x4E0A; deconvolution &#x8868;&#x793A;&#x9006;&#x77E9;&#x9635;&#xFF0C;&#x548C;&#x77E9;&#x9635;&#x7684;&#x8F6C;&#x7F6E;&#x5E76;&#x4E0D;&#x4E00;&#x6837;] &#x3002;kernel &#x5B9A;&#x4E49;&#x4E86;&#x77E9;&#x9635; W &#xFF0C;&#x53EF;&#x4EE5;&#x8BA4;&#x4E3A;&#x662F;&#x5E38;&#x89C4;&#x5377;&#x79EF;&#xFF0C;&#x5728;
+&#x524D;&#x5411;&#x4F20;&#x64AD;&#x65F6;&#x4E58;&#x4EE5;&#x77E9;&#x9635; C &#xFF0C;&#x53CD;&#x5411;&#x4F20;&#x64AD;&#x65F6;&#x4E58;&#x4EE5;&#x77E9;&#x9635; \(C^T\) &#xFF1B;&#x4E5F;&#x53EF;&#x4EE5;&#x770B;&#x505A;&#x8F6C;&#x7F6E;&#x5377;&#x79EF;&#xFF0C;&#x5728;&#x524D;&#x5411;&#x4F20;&#x64AD;&#x65F6;&#x4E58;&#x4EE5;&#x77E9;&#x9635; \(C^T\) &#xFF0C;&#x53CD;&#x5411;&#x4F20;&#x64AD;&#x65F6;&#x4E58;&#x4EE5;
+\((C^T)^T = C\) &#xFF0C;&#x6240;&#x4EE5; <b>&#x4E00;&#x4E2A;&#x8F6C;&#x7F6E;&#x5377;&#x79EF;&#x603B;&#x662F;&#x53EF;&#x4EE5;&#x5BF9;&#x5E94;&#x5230;&#x4E00;&#x4E2A;&#x5E38;&#x89C4;&#x5377;&#x79EF;&#xFF0C;&#x4F46;&#x9700;&#x8981;&#x5BF9;&#x8F93;&#x5165;&#x589E;&#x52A0;&#x8BB8;&#x591A;&#x65E0;&#x6548;&#x7684; 0 &#x503C;&#xFF08;&#x989D;&#x5916;&#x7684;&#x503C;&#x5168;&#x4E3A; 0 &#x7684;&#x884C;&#x548C;
+&#x5217;&#xFF09;&#xFF0C;&#x5BFC;&#x81F4;&#x6548;&#x7387;&#x4F4E;&#x4E0B;</b> &#x3002;
+</p>
+
+<p>
+&#x5B9E;&#x9645;&#x4EE3;&#x7801;&#x5B9E;&#x73B0;&#x65F6;&#x5C06;&#x8F6C;&#x7F6E;&#x5377;&#x79EF;&#x770B;&#x505A;&#xFF0C;&#x5C06;&#x68AF;&#x5EA6;&#x4F5C;&#x4E3A;&#x8F93;&#x5165;&#x7684;&#x5E38;&#x89C4;&#x5377;&#x79EF;&#xFF1F;&#xFF1F;&#xFF1F; TODO [The transposed convolution operation can be thought of as
+the gradient of some convolution with respect to its input, which is usually how transposed convolutions are implemented
+in practice.]
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org4e0fc09" class="outline-3">
+<h3 id="org4e0fc09"><span class="section-number-3">10.3</span> No zero padding, unit strides, transposed</h3>
+<div class="outline-text-3" id="text-10-3">
+<p>
+&#x601D;&#x8003;&#x8F6C;&#x7F6E;&#x5377;&#x79EF;&#x6700;&#x7B80;&#x5355;&#x7684;&#x65B9;&#x6CD5;&#x662F;&#xFF0C;&#x5C06;&#x8F93;&#x5165;&#x770B;&#x505A;&#x5E38;&#x89C4;&#x5377;&#x79EF;&#x7684;&#x67D0;&#x4E00;&#x5C42;&#x8F93;&#x51FA;&#x7684; feature map &#xFF0C;&#x901A;&#x8FC7;&#x8F6C;&#x7F6E;&#x5377;&#x79EF;&#x6765;&#x6062;&#x590D;&#x8BE5;&#x5C42;&#x7684;&#x8F93;&#x5165;&#xFF08;&#x7531;&#x4E8E;&#x8F6C;&#x7F6E;&#x5377;&#x79EF;&#x5E76;
+&#x4E0D;&#x662F;&#x5377;&#x79EF;&#x7684;&#x9006;&#xFF0C;&#x65E0;&#x6CD5;&#x539F;&#x503C;&#x6062;&#x590D;&#x8F93;&#x5165;&#xFF0C;&#x4EC5;&#x4EC5;&#x53EF;&#x4EE5;&#x6062;&#x590D;&#x76F8;&#x540C;&#x5BBD;&#x548C;&#x9AD8;&#x7684;&#x8F93;&#x5165;&#xFF09;&#x3002;
+</p>
+
+<p>
+\(i=4, k=3, s=1, p=0\) &#x7684;&#x5E38;&#x89C4;&#x5377;&#x79EF;&#x5F97;&#x5230;&#x4E00;&#x4E2A; 2x2 &#x7684;&#x8F93;&#x51FA;&#xFF0C;&#x8F6C;&#x7F6E;&#x5377;&#x79EF;&#x5C06;&#x7528; 2x2 &#x7684;&#x8F93;&#x5165;&#x5F97;&#x5230; 4x4 &#x7684;&#x8F93;&#x51FA;&#x3002;
+</p>
+
+<p>
+&#x53E6;&#x4E00;&#x79CD;&#x5F97;&#x5230;&#x8F6C;&#x7F6E;&#x5377;&#x79EF;&#x8F93;&#x51FA;&#x7684;&#x65B9;&#x6CD5;&#xFF08;&#x7B2C;&#x4E00;&#x79CD;&#x65B9;&#x6CD5;&#x5728;&#x54EA;&#x91CC;&#xFF1F;&#xFF09;&#xFF1A;&#x5229;&#x7528;&#x5E38;&#x89C4;&#x5377;&#x79EF;&#x6765;&#x5B9E;&#x73B0;&#xFF1A; \(i&apos;=2, k&apos;=k, s&apos;=1, p&apos;=2\) &#x3002;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x5377;&#x79EF;&#x6838;&#x548C;&#x6B65;
+&#x957F;&#x4FDD;&#x6301;&#x4E0D;&#x53D8;&#xFF0C;&#x4F46;&#x662F;&#x589E;&#x52A0;&#x4E86; padding &#x3002;&#x8FD9;&#x662F;&#x4E00;&#x4E2A;&#x4F4E;&#x6548;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x8FD9;&#x91CC;&#x53EA;&#x662F;&#x4E3A;&#x4E86;&#x9610;&#x8FF0;&#x65B9;&#x4FBF;&#xFF0C;&#x5B9E;&#x9645;&#x5B9E;&#x73B0;&#x4E2D;&#x4E0D;&#x4F1A;&#x8BA1;&#x7B97;&#x90A3;&#x4E9B;&#x65E0;&#x6548;&#x7684; 0 &#x503C;&#x3002;
+</p>
+
+<p>
+&#x901A;&#x8FC7;&#x5377;&#x79EF;&#x7684;&#x8FDE;&#x63A5;&#x65B9;&#x5F0F;&#xFF08;connectivity pattern : &#x8F93;&#x5165;&#x3001;&#x8F93;&#x51FA;&#x7684;&#x5927;&#x5C0F;&#xFF09;&#xFF0C;&#x7406;&#x89E3;&#x8F6C;&#x7F6E;&#x5377;&#x79EF;&#x7684;&#x7B49;&#x6548;&#x5E38;&#x89C4;&#x5377;&#x79EF;&#x9700;&#x8981;&#x589E;&#x52A0; padding &#x7684;&#x80CC;&#x540E;&#x903B;&#x8F91;&#xFF0C;&#x5E76;
+&#x7528;&#x5176;&#x6765;&#x6307;&#x5BFC;&#x8BBE;&#x8BA1;&#x7B49;&#x6548;&#x7684;&#x5377;&#x79EF;&#x3002;&#x5982;&#xFF0C;&#x8F93;&#x5165;&#x5DE6;&#x4E0A;&#x89D2;&#x7684; pixel &#x53EA;&#x4F1A;&#x5F71;&#x54CD;&#x8F93;&#x51FA;&#x7684;&#x5DE6;&#x4E0A;&#x89D2;&#xFF0C;&#x8F93;&#x5165;&#x7684;&#x53F3;&#x4E0A;&#x89D2;&#x7684;&#x50CF;&#x7D20;&#x53EA;&#x4F1A;&#x4F5C;&#x7528;&#x4E8E;&#x8F93;&#x51FA;&#x7684;&#x53F3;&#x4E0A;&#x89D2;&#xFF0C;&#x5176;&#x4ED6;&#x7684;
+&#x4F4D;&#x7F6E;&#x7C7B;&#x4F3C;&#x3002;
+</p>
+
+<p>
+&#x4E3A;&#x4E86;&#x4FDD;&#x6301;&#x76F8;&#x540C;&#x7684;&#x8FDE;&#x63A5;&#x65B9;&#x5F0F;&#xFF0C;&#x9700;&#x8981; zero pad &#xFF0C;&#x4F7F;&#x5F97;&#x7B2C;&#x4E00;&#x4E2A;&#x5377;&#x79EF;&#xFF08;&#x6700;&#x5DE6;&#x4E0A;&#x89D2;&#x7684;&#x5377;&#x79EF;&#xFF09;&#x53EA;&#x4E0E;&#x8F93;&#x5165;&#x7684;&#x6700;&#x5DE6;&#x4E0A;&#x89D2;&#x7684;&#x50CF;&#x7D20;&#x76F8;&#x4E58;&#xFF08;kernel &#x5176;&#x4ED6;&#x4F4D;&#x7F6E;&#x4E0E;
+padding &#x7684; 0 &#x503C;&#x76F8;&#x4E58;&#xFF09;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8BA9; \(p = k -1 \) &#x3002;
+</p>
+
+<p>
+\(s=1, p=0, k\) &#x5377;&#x79EF;&#x7684;&#x8F6C;&#x7F6E;&#xFF0C;&#x7B49;&#x6548;&#x4E8E;&#x5377;&#x79EF; \(k&apos;=k, s&apos;=s, p&apos;=k-1\) &#xFF0C;&#x4E14;&#x5176;&#x8F93;&#x51FA;&#x4E3A; \[ o&apos; = i&apos; + (k - 1) \] 
+</p>
+
+<p>
+&#x6709;&#x8DA3;&#x7684;&#x662F;&#xFF0C;&#x8FD9;&#x91CC;&#x7B49;&#x6548;&#x7684;&#x5E38;&#x89C4;&#x5377;&#x79EF;&#x662F; full padding &#x3001;&#x5355;&#x4F4D;&#x6B65;&#x957F;&#x7684;&#x5377;&#x79EF;&#x3002;
+</p>
+
+<p>
+<a href="https://github.com/vdumoulin/conv_arithmetic/blob/master/gif/no_padding_no_strides_transposed.gif" target="_blank" rel="noopener">i&apos;=2, k&apos;=3, s&apos;=1, p&apos;=2 &#x52A8;&#x56FE;</a>
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org4fa6c2a" class="outline-3">
+<h3 id="org4fa6c2a"><span class="section-number-3">10.4</span> Zero padding, unit strides, transposed</h3>
+<div class="outline-text-3" id="text-10-4">
+<p>
+&#x65E2;&#x7136;&#x77E5;&#x9053;&#x65E0; padding &#x7684;&#x5377;&#x79EF;&#x7684;&#x8F6C;&#x7F6E;&#x7B49;&#x6548;&#x4E8E;&#x8BA9; input &#x589E;&#x52A0; padding &#x7684;&#x5E38;&#x89C4;&#x5377;&#x79EF;&#xFF0C;&#x5F53; input &#x6709; padding &#x7684;&#x65F6;&#x5019;&#xFF0C;&#x7B49;&#x6548;&#x7684;&#x8F6C;&#x7F6E;&#x5377;&#x79EF;&#x8F93;&#x5165;&#x4F1A;&#x6709;&#x8F83;
+&#x5C11;&#x4E2A;&#x6570;&#x7684; padding &#x3002;&#x56E0;&#x4E3A;&#x5E38;&#x89C4;&#x5377;&#x79EF;&#x8F93;&#x5165; padding &#x7684;&#x503C;&#x5E76;&#x975E;&#x771F;&#x6B63;&#x6709;&#x6548;&#x7684;&#x503C;&#xFF08;&#x4F46;&#x662F;&#x53C2;&#x4E0E;&#x4E86;&#x8FD0;&#x7B97;&#xFF09;&#xFF0C;&#x800C;&#x5F53;&#x524D;&#x9762;&#x7684;&#x8F93;&#x5165;&#x9700;&#x8981;&#x4F5C;&#x4E3A;&#x8F6C;&#x7F6E;&#x5377;&#x79EF;&#x7684;&#x8F93;&#x51FA;
+&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x8F93;&#x51FA;&#x7684;&#x5927;&#x5C0F;&#x7684;&#x7B49;&#x6548;&#x503C;&#x53D8;&#x5C0F;&#x4E86;&#xFF08;padding &#x5E76;&#x4E0D;&#x9700;&#x8981;&#x8F93;&#x51FA;&#xFF09;&#xFF0C;&#x4ECE;&#x800C;&#x8F6C;&#x7F6E;&#x5377;&#x79EF;&#x7684;&#x8F93;&#x5165;&#x4E5F;&#x5C31;&#x9700;&#x8981;&#x8F83;&#x5C0F;&#x7684; padding &#x3002;
+</p>
+
+<p>
+\(i=5, k=4, p=2\) &#x5377;&#x79EF;&#x7684;&#x8F6C;&#x7F6E;&#xFF0C;&#x7B49;&#x6548;&#x4E8E; \(k&apos;=k, s&apos;=s, p&apos;=k-p-1\) &#x7684;&#x5377;&#x79EF;&#xFF0C;&#x4E14;&#x8F93;&#x51FA;&#x5927;&#x5C0F;&#x4E3A; \[o&apos; = i&apos; + (k-1) -2p\] 
+</p>
+</div>
+
+
+<div id="outline-container-org87765f6" class="outline-4">
+<h4 id="org87765f6"><span class="section-number-4">10.4.1</span> Half(same) padding, transposed</h4>
+<div class="outline-text-4" id="text-10-4-1">
+<p>
+&#x7531;&#x4E8E; same padding &#x7684;&#x5E38;&#x89C4;&#x5377;&#x79EF;&#xFF0C;&#x8F93;&#x51FA;&#x7684;&#x5927;&#x5C0F;&#x7B49;&#x4E8E;&#x8F93;&#x5165;&#x7684;&#x5927;&#x5C0F;&#xFF1B;&#x56E0;&#x6B64; same padding &#x5E38;&#x89C4;&#x5377;&#x79EF;&#x7684;&#x8F6C;&#x7F6E;&#x7684;&#x7B49;&#x6548;&#x5E38;&#x89C4;&#x5377;&#x79EF;&#x662F;&#x5176;&#x672C;&#x8EAB;&#xFF0C;&#x4E5F;&#x662F;
+&#x4E00;&#x4E2A; same padding &#x7684;&#x5377;&#x79EF;&#x3002;&#x5373; \(k=2n+1, s=1, p= \lfloor k/2 \rfloor = n\) &#x5377;&#x79EF;&#x7684;&#x8F6C;&#x7F6E;&#x7B49;&#x6548;&#x4E8E; \(k&apos;=k, s&apos;=s, p&apos;=p\) &#xFF0C;&#x4E14;&#x5176;&#x8F93;
+&#x51FA;&#x5927;&#x5C0F;&#x4E3A;
+</p>
+
+\begin{align*}
+o&apos; &amp;= i&apos; + (k-1) -2p \\
+&amp;= i&apos; + 2n -2n \\
+&amp;= i&apos;
+\end{align*}
+
+<p>
+<a href="https://github.com/vdumoulin/conv_arithmetic/blob/master/gif/same_padding_no_strides_transposed.gif" target="_blank" rel="noopener">&#x52A8;&#x56FE;</a>
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org75d21a0" class="outline-4">
+<h4 id="org75d21a0"><span class="section-number-4">10.4.2</span> Full padding, transposed</h4>
+<div class="outline-text-4" id="text-10-4-2">
+<p>
+non-padded &#x5377;&#x79EF;&#x7684;&#x8F6C;&#x7F6E;&#x7B49;&#x6548;&#x4E8E;&#x4E00;&#x4E2A; full padding &#x7684;&#x5377;&#x79EF;&#xFF0C;&#x7406;&#x6240;&#x5F53;&#x7136;&#xFF0C;&#x4E00;&#x4E2A; full padding &#x5377;&#x79EF;&#x7684;&#x8F6C;&#x7F6E;&#x7B49;&#x6548;&#x4E8E;&#x4E00;&#x4E2A; non-padded &#x5377;&#x79EF;&#x3002;
+&#x4E24;&#x8005;&#x4E92;&#x4E3A;&#x8F93;&#x5165;&#x8F93;&#x51FA;&#x5173;&#x7CFB;&#x3002;
+</p>
+
+<p>
+\(s=1, k, p=k-1\) &#x5377;&#x79EF;&#x7684;&#x8F6C;&#x7F6E;&#x7B49;&#x6548;&#x4E8E; \(k&apos;=k, s&apos;=s, p&apos;=0\) &#x7684;&#x5377;&#x79EF;&#xFF0C;&#x4E14;&#x8F93;&#x51FA;&#x5927;&#x5C0F;&#x4E3A; 
+</p>
+
+\begin{align*}
+o&apos; &amp;= i&apos; + (k-1) -2p \\
+&amp;= i&apos; - (k-1)
+\end{align*}
+
+<p>
+<a href="https://github.com/vdumoulin/conv_arithmetic/blob/master/gif/full_padding_no_strides_transposed.gif" target="_blank" rel="noopener">&#x52A8;&#x56FE;</a>
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgef27035" class="outline-3">
+<h3 id="orgef27035"><span class="section-number-3">10.5</span> No zero padding, non-unit strides, transposed</h3>
+<div class="outline-text-3" id="text-10-5">
+<p>
+&#x6B65;&#x957F; \(s &gt; 1\) &#x5377;&#x79EF;&#x7684;&#x8F6C;&#x7F6E;&#xFF0C;&#x7B49;&#x6548;&#x7684;&#x5377;&#x79EF;&#x6B65;&#x957F; \(s &lt; 1\) &#xFF0C;&#x8FD9;&#x4E5F;&#x662F;&#x8F6C;&#x7F6E;&#x5377;&#x79EF;&#x88AB;&#x79F0;&#x4E3A;&#x5C0F;&#x6570;&#x6B65;&#x957F;&#x5377;&#x79EF; fractionally strided convolutions
+&#x7684;&#x539F;&#x56E0;&#x3002;&#x5F53;&#x5377;&#x79EF;&#x7684;&#x6B65;&#x957F; \(s&gt;1\) &#x65F6;&#xFF0C;&#x5176;&#x8F6C;&#x7F6E;&#x7B49;&#x6548;&#x7684;&#x5377;&#x79EF;&#x9700;&#x8981;&#x5728; input &#x7684;&#x6BCF;&#x4E24;&#x4E2A; pixel &#x4E4B;&#x95F4;&#x63D2;&#x5165; \(s-1\) &#x7684; 0 &#x503C;&#xFF0C;&#x4ECE;&#x800C;&#x4F7F;&#x5F97; kernel
+&#x7684;&#x79FB;&#x52A8;&#x6B65;&#x4F10;&#x6162;&#x4E8E; unit strides &#x7684;&#x5377;&#x79EF;&#x3002;&#x5F53;&#x7136;&#x8FD9;&#x91CC;&#x53EA;&#x662F;&#x4E3A;&#x4E86;&#x4FBF;&#x4E8E;&#x7406;&#x89E3;&#xFF0C;&#x5B9E;&#x9645;&#x4EE3;&#x7801;&#x5B9E;&#x73B0;&#x80AF;&#x5B9A;&#x4E0D;&#x4F1A;&#x53BB;&#x8BA9;&#x90A3;&#x4E9B;&#x65E0;&#x6548;&#x7684; 0 &#x503C;&#x53BB;&#x505A;&#x4E58;&#x6CD5;&#x3002;
+</p>
+
+<p>
+\(p=0, k, s\) &#x4E14; \(i-k\) &#x53EF;&#x4EE5;&#x6574;&#x9664; \(s\) &#x5377;&#x79EF;&#x7684;&#x8F6C;&#x7F6E;&#x7684;&#x7B49;&#x6548;&#x5377;&#x79EF;&#x4E3A; \(\tilde{i}&apos;, k&apos;=k, s&apos;=1, p&apos;=k-1\) &#xFF0C;&#x5176;&#x4E2D; \(\tilde{i}&apos;\)
+&#x8868;&#x793A;&#x5728; input &#x7684;&#x4E24;&#x4E2A; pixel &#x4E4B;&#x95F4;&#x63D2;&#x5165; \(s-1\) &#x4E2A; 0 &#x503C;&#xFF0C;&#x4E14;&#x5176;&#x8F93;&#x51FA;&#x4E3A; \[o&apos; = s(i&apos;-1) + k\]
+</p>
+
+<p>
+<a href="https://github.com/vdumoulin/conv_arithmetic/blob/master/gif/no_padding_strides_transposed.gif" target="_blank" rel="noopener">&#x52A8;&#x56FE;</a>
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orga5d337a" class="outline-3">
+<h3 id="orga5d337a"><span class="section-number-3">10.6</span> Zero padding, non-unit strides, transposed</h3>
+<div class="outline-text-3" id="text-10-6">
+<p>
+\(k, s, p\) &#x4E14; \(i+2p-k\) &#x53EF;&#x4EE5;&#x6574;&#x9664; \(s\) &#x5377;&#x79EF;&#x7684;&#x8F6C;&#x7F6E;&#xFF0C;&#x7B49;&#x6548;&#x7684;&#x5377;&#x79EF;&#x4E3A; \(\tilde{i}&apos;, k&apos;=k, s&apos;=1, p&apos;=k-p-1\) &#xFF0C;&#x5176;&#x4E2D;
+\(\tilde{i}&apos;\) &#x8868;&#x660E;&#x5728; input &#x7684;&#x6BCF;&#x4E24;&#x4E2A; pixel &#x4E4B;&#x95F4;&#x63D2;&#x5165; \(s-1\) &#x4E2A; 0 &#x503C;&#xFF0C;&#x4E14;&#x5176;&#x8F93;&#x51FA;&#x4E3A; \[o&apos;=s(i&apos;-1)+k-2p\]
+</p>
+
+<p>
+<a href="https://github.com/vdumoulin/conv_arithmetic/blob/master/gif/padding_strides_transposed.gif" target="_blank" rel="noopener">&#x52A8;&#x56FE;</a>
+</p>
+
+
+<p>
+\(k,s,p\) &#x5377;&#x79EF;&#x7684;&#x8F6C;&#x7F6E;&#xFF0C;&#x7B49;&#x6548;&#x7684;&#x5377;&#x79EF;&#x4E3A; \(a, \tilde{i}&apos;, k&apos;=k, s&apos;=1, p&apos;=k-p-1\) &#x5176;&#x4E2D; \(\tilde{i}&apos;\) &#x8868;&#x793A;&#x5728; input &#x7684;&#x6BCF;&#x4E24;&#x4E2A;
+pixel &#x4E4B;&#x95F4;&#x63D2;&#x5165; \(s-1\) &#x4E2A; 0 &#x503C;&#xFF0C;\(a=(i+2p-k) \  mod \ s \) &#x8868;&#x793A;&#x5728; input &#x7684;&#x5E95;&#x90E8;&#x548C;&#x53F3;&#x4FA7;&#x9700;&#x8981;&#x6DFB;&#x52A0;&#x7684; 0 &#x503C;&#x7684;&#x4E2A;&#x6570;&#xFF0C;&#x4E14;&#x5176;&#x8F93;&#x51FA;&#x4E3A;
+\[o&apos;=s(i&apos;-1)+a+k-2p\] 
+</p>
+
+<p>
+<a href="https://github.com/vdumoulin/conv_arithmetic/blob/master/gif/padding_strides_odd_transposed.gif" target="_blank" rel="noopener">&#x52A8;&#x56FE;</a>
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org93fbcb4" class="outline-3">
+<h3 id="org93fbcb4"><span class="section-number-3">10.7</span> &#x8F6C;&#x7F6E;&#x5377;&#x79EF;&#x7B49;&#x6548;&#x5377;&#x79EF;&#x53C2;&#x6570;&#x7684;&#x901A;&#x7528;&#x89C4;&#x5219;</h3>
+<div class="outline-text-3" id="text-10-7">
+\begin{align*}
+p&apos; &amp;= k -p -1 \\
+s&apos; &amp;= 1 \\
+k&apos; &amp;= k \\
+&amp; \text{adding s-1 zeros between each input unit}
+\end{align*}
+</div>
+</div>
+</div>
+
+
+
+<div id="outline-container-org8763fb8" class="outline-2">
+<h2 id="org8763fb8"><span class="section-number-2">11</span> Miscellaneous convolutions</h2>
+<div class="outline-text-2" id="text-11">
+</div>
+<div id="outline-container-org43204f6" class="outline-3">
+<h3 id="org43204f6"><span class="section-number-3">11.1</span> Dilated convolutions</h3>
+<div class="outline-text-3" id="text-11-1">
+<p>
+Dilated convolutions &#x901A;&#x8FC7;&#x5728; kernel &#x76F8;&#x90BB;&#x7684;&#x4E24;&#x4E2A;&#x5143;&#x7D20;&#x4E4B;&#x95F4;&#x63D2;&#x5165;&#x7A7A;&#x9699;&#x6765;&#x6269;&#x5145; kernel &#x3002;&#x6269;&#x5927;&#x6BD4;&#x4F8B;&#x7531;&#x8D85;&#x53C2; d &#x6765;&#x51B3;&#x5B9A;&#xFF0C;&#x5373;&#x5728; kernel &#x7684;&#x76F8;&#x90BB;
+&#x5143;&#x7D20;&#x4E4B;&#x95F4;&#x63D2;&#x5165; d-1 &#x4E2A; 0 &#x503C;&#x540E;&#xFF0C;&#x6267;&#x884C;&#x5E38;&#x89C4;&#x5377;&#x79EF;&#x64CD;&#x4F5C;&#x3002;
+</p>
+
+<p>
+Dilated convolutions &#x662F;&#x4E0D;&#x589E;&#x5927;&#x5377;&#x79EF;&#x6838;&#x7684;&#x5C3A;&#x5BF8;&#xFF0C;&#x540C;&#x65F6;&#x53EF;&#x4EE5;&#x6269;&#x5927;&#x611F;&#x53D7;&#x91CE;&#x7684;&#x6709;&#x6548;&#x65B9;&#x6CD5;&#xFF0C;&#x7279;&#x522B;&#x662F;&#x5806;&#x53E0;&#x4F7F;&#x7528;&#x591A;&#x5C42;&#x7684; dilated convolutions &#x7684;&#x65F6;
+&#x5019;&#x3002;
+</p>
+
+<p>
+&#x6269;&#x5145;&#x540E;&#x7684;&#x5377;&#x79EF;&#x6838;&#x7684;&#x5C3A;&#x5BF8;&#x4E3A; \[ \hat{k} = k + (k-1)(d-1) \]
+</p>
+
+<p>
+&#x53C2;&#x8003;&#x5E38;&#x89C4;&#x5377;&#x79EF;&#x8F93;&#x51FA;&#x7684;&#x901A;&#x7528;&#x516C;&#x5F0F;&#xFF0C;&#x5229;&#x7528;&#x6269;&#x5145;&#x540E;&#x5377;&#x79EF;&#x6838;&#x7684;&#x5927;&#x5C0F;&#xFF0C;&#x53EF;&#x4EE5;&#x5F97;&#x5230; Dilated convolutions &#x8F93;&#x51FA;&#x7684;&#x5927;&#x5C0F; 
+</p>
+
+<p>
+\[ o = \lfloor \frac{i + 2p - k - (k-1)(d-1) }{s} \rfloor + 1 \]
+</p>
+
+<p>
+&#x8FD9;&#x4E2A;&#x5C06;&#x5BFC;&#x81F4;&#x8F93;&#x51FA;&#x7684; size &#x51CF;&#x5C0F;
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgf49e96a" class="outline-2">
+<h2 id="orgf49e96a"><span class="section-number-2">12</span> &#x8BFB;&#x540E;&#x611F;</h2>
+<div class="outline-text-2" id="text-12">
+<ol class="org-ol">
+<li>&#x8BBA;&#x6587;&#x4E2D;&#x89E3;&#x91CA;&#x4E86;&#x4E00;&#x4E9B;&#x81EA;&#x5DF1;&#x539F;&#x6765;&#x4E0D;&#x6E05;&#x695A;&#x7684;&#x77E5;&#x8BC6;&#x70B9;&#xFF0C;&#x5982; full padding &#x7684;&#x542B;&#x4E49;&#x3001;</li>
+<li>&#x611F;&#x89C9;&#x8BBA;&#x6587;&#x6CA1;&#x6709;&#x5F88;&#x6E05;&#x695A;&#x7684;&#x89E3;&#x91CA;&#xFF0C;&#x53EA;&#x662F;&#x5355;&#x7EAF;&#x7684;&#x5217;&#x4E3E;&#x51FA;&#x4E86;&#x5404;&#x79CD;&#x60C5;&#x51B5;&#x4E0B;&#x5377;&#x79EF;&#x548C;&#x8F6C;&#x7F6E;&#x5377;&#x79EF;&#xFF0C;&#x4EE5;&#x53CA;&#x76F8;&#x4E92;&#x5BF9;&#x5E94;&#x5173;&#x7CFB;</li>
+<li>&#x6211;&#x8FD8;&#x662F;&#x4E0D;&#x6E05;&#x695A;&#x5B9E;&#x9645;&#x4E2D;&#x662F;&#x600E;&#x6837;&#x5B9E;&#x73B0;&#x8F6C;&#x7F6E;&#x5377;&#x79EF;&#x4EE5;&#x53CA;&#x7A7A;&#x6D1E;&#x5377;&#x79EF;&#x7684;&#xFF0C;&#x5F53;&#x65F6;&#x5C31;&#x662F;&#x770B; DarkNet &#x7684;&#x4EE3;&#x7801;&#x6CA1;&#x770B;&#x61C2;&#x624D;&#x6765;&#x9605;&#x8BFB;&#x7684;&#xFF01;&#xFF01;&#xFF01;&#x8F6C;&#x7F6E;&#x5377;&#x79EF;&#x662F;&#x901A;&#x8FC7;&#x5C06;&#x8F93;
+&#x5165;&#x8F93;&#x51FA;&#x5C55;&#x5F00;&#x6210;&#x77E9;&#x9635;&#xFF0C;&#x7136;&#x540E;&#x4F7F;&#x7528;&#x77E9;&#x9635;&#x4E58;&#x6CD5;&#x6765;&#x5B9E;&#x73B0;&#xFF1F;&#x8FD8;&#x662F;&#x8F6C;&#x6362;&#x6210;&#x7B49;&#x6548;&#x7684;&#x5377;&#x79EF;&#x5B9E;&#x73B0;&#xFF1F;</li>
+<li>&#x8BFB;&#x5B8C;&#x4E4B;&#x540E;&#x6CA1;&#x6709;&#x90A3;&#x79CD;&#x8C41;&#x7136;&#x5F00;&#x6717;&#x7684;&#x611F;&#x89C9;</li>
+</ol>
+</div>
+</div>
+</div>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/深度学习/" rel="tag"># 深度学习</a>
+          
+            <a href="/tags/卷积/" rel="tag"># 卷积</a>
+          
+        </div>
+      
+
+      
+      
+        <div class="post-widgets">
+        
+
+        
+
+        
+          
+          <div id="needsharebutton-postbottom">
+            <span class="btn">
+              <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </span>
+          </div>
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/14/machinelearning/gpu-mxnet-install/" rel="next" title="ubuntu18.04 install gpu mxnet">
+                <i class="fa fa-chevron-left"></i> ubuntu18.04 install gpu mxnet
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/23/emotion/joke/" rel="prev" title="笑话集锦">
+                笑话集锦 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzU0Ny8xNDA3OQ=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/polarbear.jpg" alt="Kyle Three Stone">
+            
+              <p class="site-author-name" itemprop="name">Kyle Three Stone</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">57</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-globe"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://github.com/kylestones" title="GitHub" target="_blank">GitHub</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="mailto:kyleemail@163.com" title="E-Mail" target="_blank">E-Mail</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org1b9c1d7"><span class="nav-text">1 cs231n</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf6296ec"><span class="nav-text">2 卷积</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orge6a247f"><span class="nav-text">2.1 卷积层特性：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org32ce2e7"><span class="nav-text">2.2 Converting FC layers to CONV layers</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#org1024063"><span class="nav-text">2.2.1 Padding</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org2b47dae"><span class="nav-text">2.3 使用矩阵乘法实现卷积</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4afae76"><span class="nav-text">3 Pooling Layer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8ab61ba"><span class="nav-text">4 Layer Patterns</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org57d86b9"><span class="nav-text">5 Layer Sizing Patterns</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf1b39ca"><span class="nav-text">6 &lt;A guide to convolution arithmetic for deep learning&gt;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org59a6a2a"><span class="nav-text">7 Introduction</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org5a1f002"><span class="nav-text">7.1 Discrete convolutions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org5b7074a"><span class="nav-text">7.2 pooling</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org626832b"><span class="nav-text">8 Convolution arithmetic</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org945d624"><span class="nav-text">8.1 Half (same) padding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org4cf1e81"><span class="nav-text">8.2 Full padding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org742f0c6"><span class="nav-text">8.3 Zero padding, non-unit strides</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf0db6fc"><span class="nav-text">9 Pooling arithmetic</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6b29ef8"><span class="nav-text">10 Transposed convolution arithmetic</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org4eed6d7"><span class="nav-text">10.1 卷积视为矩阵操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org880f7a6"><span class="nav-text">10.2 转置卷积</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org4e0fc09"><span class="nav-text">10.3 No zero padding, unit strides, transposed</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org4fa6c2a"><span class="nav-text">10.4 Zero padding, unit strides, transposed</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#org87765f6"><span class="nav-text">10.4.1 Half(same) padding, transposed</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#org75d21a0"><span class="nav-text">10.4.2 Full padding, transposed</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgef27035"><span class="nav-text">10.5 No zero padding, non-unit strides, transposed</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orga5d337a"><span class="nav-text">10.6 Zero padding, non-unit strides, transposed</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org93fbcb4"><span class="nav-text">10.7 转置卷积等效卷积参数的通用规则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8763fb8"><span class="nav-text">11 Miscellaneous convolutions</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org43204f6"><span class="nav-text">11.1 Dilated convolutions</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf49e96a"><span class="nav-text">12 读后感</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kyle Three Stone</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="Symbols count total">1.9m</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="Reading time total">28:45</span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="Total Visitors">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="Total Views">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+  
+  <script src="/lib/needsharebutton/needsharebutton.js"></script>
+
+  <script>
+    
+      pbOptions = {};
+      
+          pbOptions.iconStyle = "box";
+      
+          pbOptions.boxForm = "horizontal";
+      
+          pbOptions.position = "bottomCenter";
+      
+          pbOptions.networks = "Wechat,Weibo,Douban,QQZone,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-postbottom', pbOptions);
+    
+    
+  </script>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

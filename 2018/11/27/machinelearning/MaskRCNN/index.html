@@ -1,0 +1,1865 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/needsharebutton/needsharebutton.css">
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="1 &amp;#x8BAD;&amp;#x7EC3; train    1.1 &amp;#x8F93;&amp;#x5165;    1.1.1 mini-batch   &amp;#x8BBA;&amp;#x6587;&amp;#x6307;&amp;#x51FA;&amp;#x6BCF;&amp;#x4E2A; GPU &amp;#x4E0A;&amp;#x9762;&amp;#x8DD1; 2 &amp;#x5F20;&amp;#x56FE;&amp;#x7247;&amp;#xFF0C;&amp;#x5171; 8 &amp;">
+<meta name="keywords" content="深度学习,目标分割">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mask R-CNN">
+<meta property="og:url" content="https://kylestones.github.io/2018/11/27/machinelearning/MaskRCNN/index.html">
+<meta property="og:site_name" content="All in Org-mode">
+<meta property="og:description" content="1 &amp;#x8BAD;&amp;#x7EC3; train    1.1 &amp;#x8F93;&amp;#x5165;    1.1.1 mini-batch   &amp;#x8BBA;&amp;#x6587;&amp;#x6307;&amp;#x51FA;&amp;#x6BCF;&amp;#x4E2A; GPU &amp;#x4E0A;&amp;#x9762;&amp;#x8DD1; 2 &amp;#x5F20;&amp;#x56FE;&amp;#x7247;&amp;#xFF0C;&amp;#x5171; 8 &amp;">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-02-28T14:55:55.290Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mask R-CNN">
+<meta name="twitter:description" content="1 &amp;#x8BAD;&amp;#x7EC3; train    1.1 &amp;#x8F93;&amp;#x5165;    1.1.1 mini-batch   &amp;#x8BBA;&amp;#x6587;&amp;#x6307;&amp;#x51FA;&amp;#x6BCF;&amp;#x4E2A; GPU &amp;#x4E0A;&amp;#x9762;&amp;#x8DD1; 2 &amp;#x5F20;&amp;#x56FE;&amp;#x7247;&amp;#xFF0C;&amp;#x5171; 8 &amp;">
+
+
+
+
+
+
+  <link rel="canonical" href="https://kylestones.github.io/2018/11/27/machinelearning/MaskRCNN/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Mask R-CNN | All in Org-mode</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">All in Org-mode</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Keep it Simple, Stuped.</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://kylestones.github.io/2018/11/27/machinelearning/MaskRCNN/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Kyle Three Stone">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/polarbear.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="All in Org-mode">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Mask R-CNN
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-11-27 00:00:00" itemprop="dateCreated datePublished" datetime="2018-11-27T00:00:00+08:00">2018-11-27</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-02-28 22:55:55" itemprop="dateModified" datetime="2019-02-28T22:55:55+08:00">2019-02-28</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/深度学习/" itemprop="url" rel="index"><span itemprop="name">深度学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Symbols count in article: </span>
+                
+                <span title="Symbols count in article">17k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">15 mins.</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <div id="content">
+
+
+
+<div id="outline-container-org2c7fbed" class="outline-2">
+<h2 id="org2c7fbed"><span class="section-number-2">1</span> &#x8BAD;&#x7EC3; train</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-org66d408a" class="outline-3">
+<h3 id="org66d408a"><span class="section-number-3">1.1</span> &#x8F93;&#x5165;</h3>
+<div class="outline-text-3" id="text-1-1">
+</div>
+<div id="outline-container-org974e70c" class="outline-4">
+<h4 id="org974e70c"><span class="section-number-4">1.1.1</span> mini-batch</h4>
+<div class="outline-text-4" id="text-1-1-1">
+<p>
+&#x8BBA;&#x6587;&#x6307;&#x51FA;&#x6BCF;&#x4E2A; GPU &#x4E0A;&#x9762;&#x8DD1; 2 &#x5F20;&#x56FE;&#x7247;&#xFF0C;&#x5171; 8 &#x4E2A; GPU &#xFF0C;&#x6240;&#x4EE5; batch-size = 16 TODO &#xFF1B;&#x6BCF;&#x5F20;&#x56FE;&#x7247;&#x4E0A; sample 256 &#x4E2A; anchor &#x7528;&#x4E8E;&#x8BAD;&#x7EC3;&#x3002;
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org24393d9" class="outline-4">
+<h4 id="org24393d9"><span class="section-number-4">1.1.2</span> image spatial</h4>
+<div class="outline-text-4" id="text-1-1-2">
+<p>
+&#x56FE;&#x7247;&#x5927;&#x5C0F;
+</p>
+
+<p>
+&#x5230;&#x5E95;&#x662F;&#x7528;&#x591A;&#x5927;&#x5C3A;&#x5BF8;&#x7684;&#x56FE;&#x7247;&#x8BAD;&#x7EC3;&#x7F51;&#x7EDC;&#x7684;&#xFF1F; paper &#x4E2D;&#x5C06;&#x56FE;&#x50CF;&#x7684;&#x77ED;&#x8FB9; resize &#x4E3A; 800 &#xFF08;&#x6D4B;&#x8BD5;&#x7684;&#x65F6;&#x5019;&#x4E5F;&#x4F1A; resize &#x5417;&#xFF1F;&#xFF09;; 800*1024 ? 800*800 ? 1024*1024 ? &#x4EFB;&#x610F; size ? TODO
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org478fe04" class="outline-4">
+<h4 id="org478fe04"><span class="section-number-4">1.1.3</span> anchor</h4>
+<div class="outline-text-4" id="text-1-1-3">
+<p>
+anchor &#x7528;&#x4E8E;&#x751F;&#x4EA7;&#x76EE;&#x6807;&#x7684;&#x6700;&#x521D;&#x5019;&#x9009;&#x533A;&#x57DF;
+</p>
+
+<p>
+&#x751F;&#x6210; anchor &#x7684;&#x65B9;&#x6CD5;
+</p>
+<ol class="org-ol">
+<li>anchor scale [32, 64, 128, 256, 512]</li>
+<li>anchor ratio [0.5, 1, 2]</li>
+<li>&#x5728; RPN &#x7F51;&#x7EDC;&#x6700;&#x540E;&#x4E00;&#x5C42;&#x7684; feature map &#x4E0A;&#x6BCF;&#x4E2A;&#x70B9;&#x751F;&#x6210;&#x4E00;&#x7EC4; anchor &#xFF08;&#x6309;&#x7167;&#x6307;&#x5B9A;&#x7684; scale &#x548C; ratio&#xFF09;</li>
+</ol>
+
+
+<p>
+&#x5224;&#x65AD;&#x4E3A; positive anchor &#x7684;&#x6807;&#x51C6;&#xFF1A;
+</p>
+<ol class="org-ol">
+<li>anchor &#x548C; gtbb IoU &gt; 0.7 &#xFF1B;</li>
+<li>anchor &#x548C; gtbb &#x6709;&#x6700;&#x5927;&#x7684; IoU &#xFF1B;</li>
+</ol>
+
+<p>
+&#x5224;&#x65AD;&#x4E3A; negative anchor &#x7684;&#x6807;&#x51C6;&#xFF1A;
+</p>
+<ol class="org-ol">
+<li>anchor &#x548C;&#x4EFB;&#x610F; gtbb IoU &lt; 0.3</li>
+</ol>
+
+<p>
+Mask RCNN &#x9700;&#x8981; P N anchor &#x6765;&#x8BAD;&#x7EC3; RPN &#xFF0C;&#x6BCF;&#x5F20;&#x56FE;&#x7247;&#x4E0A;&#x91C7;&#x96C6; 256 &#x4E2A; anchor &#xFF0C;&#x6B63;&#x8D1F; anchor &#x7684;&#x6BD4;&#x4F8B;&#x4E3A; 1:1 &#x3002;
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col class="org-left">
+
+<col class="org-right">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">anchor num</td>
+<td class="org-right">256/per image</td>
+</tr>
+
+<tr>
+<td class="org-left">P N anchor ratio</td>
+<td class="org-right">1:1</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+&#x6CE8;&#x610F;&#xFF1A;
+</p>
+<ol class="org-ol">
+<li>&#x5224;&#x65AD; PA &#xFF0C;&#x4E00;&#x822C;&#x7B2C;&#x4E00;&#x79CD;&#x60C5;&#x51B5;&#x5373;&#x53EF;&#x6EE1;&#x8DB3;&#xFF0C;&#x5C11;&#x6570;&#x60C5;&#x51B5;&#x4E0B;&#x9700;&#x8981;&#x7528;&#x5230;&#x7B2C;&#x4E8C;&#x79CD;&#x5224;&#x522B;&#x65B9;&#x6CD5;</li>
+<li>&#x975E; P &#x975E; N anchor &#x4E0D;&#x53C2;&#x4E0E;&#x8BAD;&#x7EC3;</li>
+<li>positive anchor &#x4E0D;&#x8DB3;&#x65F6;&#xFF0C;&#x4F7F;&#x7528; negative anchor &#x8865;&#x8DB3;</li>
+<li>Faster R-CNN &#x4E2D;&#x8BAD;&#x7EC3;&#x65F6;&#x4F1A;&#x5FFD;&#x7565;&#x8DE8;&#x8D8A;&#x56FE;&#x50CF;&#x8FB9;&#x754C;&#x7684; anchor&#xFF0C;&#x5426;&#x5219;&#x8BAD;&#x7EC3;&#x4E0D;&#x6613;&#x6536;&#x655B;&#xFF1B;&#x4F46;&#x662F; FPN &#x4E2D;&#x8BAD;&#x7EC3;&#x65F6;&#x4FDD;&#x7559;&#x4E86;&#x4E0E;&#x56FE;&#x50CF;&#x8FB9;&#x754C;&#x76F8;&#x4EA4;&#x7684; anchor &#xFF1B;
+&#x6D4B;&#x8BD5;&#x65F6;&#x4FDD;&#x7559;&#xFF0C;&#x4EC5;&#x88C1;&#x526A;&#x5230;&#x56FE;&#x50CF;&#x7684;&#x8FB9;&#x754C;</li>
+</ol>
+
+<p>
+&#x5728; FPN &#x7F51;&#x7EDC;&#x4E2D;&#xFF0C;&#x5C06;&#x4E0D;&#x540C;&#x5927;&#x5C0F;&#x7684; anchor &#x5206;&#x914D;&#x5230;&#x4E86;&#x7F51;&#x7EDC;&#x7684;&#x4E0D;&#x540C; level &#x4E0A;&#xFF0C;&#x9760;&#x8FD1;&#x8F93;&#x5165;&#x7684;&#x7F51;&#x7EDC;&#x5C42;&#x5206;&#x914D;&#x5230;&#x8F83;&#x5C0F;&#x7684; anchor &#xFF0C;&#x9760;&#x8FD1;&#x8F93;&#x51FA;&#x7684;&#x7F51;&#x7EDC;&#x5C42;&#x5206;
+&#x914D;&#x5230;&#x8F83;&#x5927; anchor &#x3002;&#x5C06; [32<sup>2</sup>, 64<sup>2</sup>, 128<sup>2</sup>, 256<sup>2</sup>, 512<sup>2</sup>] &#x5206;&#x522B;&#x5206;&#x914D;&#x5230;&#x4E86; [P2, P3, P4, P5, P6] &#x3002;
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgd757e9a" class="outline-4">
+<h4 id="orgd757e9a"><span class="section-number-4">1.1.4</span> region proposal</h4>
+<div class="outline-text-4" id="text-1-1-4">
+<p>
+anchor &#x7ECF;&#x8FC7; RPN &#x7F51;&#x7EDC;&#x5F97;&#x5230; region proposal &#xFF0C;&#x4F1A;&#x6709;&#x8BE5; anchor &#x4E2D;&#x5305;&#x542B;&#x76EE;&#x6807;&#x7684;&#x6982;&#x7387; cls &#xFF0C;&#x4EE5;&#x53CA;&#x5BF9; anchor &#x5750;&#x6807;&#x7684;&#x4E00;&#x4E2A;&#x4FEE;&#x6B63;&#xFF0C;&#x4EE5;&#x66F4;&#x597D;&#x7684;&#x6846;
+&#x4F4F;&#x76EE;&#x6807;&#x3002;
+</p>
+
+<p>
+Faster RCNN
+</p>
+<ol class="org-ol">
+<li>&#x5728; 1000*600 &#x7684;&#x56FE;&#x7247;&#x4E0A;&#xFF0C;&#x53D8;&#x6362;&#x5230; 60*40 &#x7684; feature map &#xFF0C;&#x6BCF;&#x4E2A;&#x70B9; 9 &#x4E2A; anchor &#xFF0C;&#x5171;&#x6709;  60*40*9 &#x5927;&#x7EA6; 20000 &#x4E2A; anchor</li>
+<li>&#x53BB;&#x6389;&#x4E0E;&#x56FE;&#x7247;&#x8FB9;&#x754C;&#x76F8;&#x4EA4;&#x7684; anchor &#xFF0C;&#x5269;&#x4F59;&#x5927;&#x7EA6; 6000 &#x4E2A;</li>
+<li>&#x4F9D;&#x636E; RPN &#x7F51;&#x7EDC;&#x5F97;&#x5230; anchor &#x7684; cls &#xFF0C;&#x4F7F;&#x7528; NMS &#xFF0C;&#x9608;&#x503C;&#x91C7;&#x7528; 0.7 &#xFF0C;&#x6700;&#x7EC8;&#x5F97;&#x5230;&#x5927;&#x7EA6; 2000 &#x4E2A; region proposal</li>
+</ol>
+</div>
+</div>
+
+
+<div id="outline-container-org49cce83" class="outline-4">
+<h4 id="org49cce83"><span class="section-number-4">1.1.5</span> RoIs for detection and segment</h4>
+<div class="outline-text-4" id="text-1-1-5">
+<p>
+RPN &#x751F;&#x6210;&#x7684; region proposal &#x7528;&#x4E8E;&#x8BAD;&#x7EC3;&#x68C0;&#x6D4B;&#x548C;&#x5206;&#x5272;&#x7F51;&#x7EDC;
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col class="org-left">
+
+<col class="org-right">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">RoIs num</td>
+<td class="org-right">512/per image for FPN</td>
+</tr>
+
+<tr>
+<td class="org-left">P N RoIs ratio</td>
+<td class="org-right">1:3</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+&#x4ECE;&#x6BCF;&#x5F20;&#x56FE;&#x7247;&#x751F;&#x6210;&#x7684; region proposal &#x4E2D; sample N &#x4E2A;&#x4F5C;&#x4E3A; RoIs(region of interest)&#xFF0C;&#x7528;&#x4E8E;&#x8BAD;&#x7EC3;&#x68C0;&#x6D4B;&#x548C;&#x5206;&#x5272;&#x7F51;&#x7EDC;&#x3002;&#x5728; FPN &#x505A; backbone
+&#x7684;&#x7F51;&#x7EDC;&#x4E2D;&#xFF0C;&#x8BA9; N=512 &#x3002;&#x4E14; positive &#x548C; negative &#x7684;&#x6BD4;&#x4F8B;&#x4E3A; 1:3 &#x3002;&#x4E3A;&#x4EC0;&#x4E48;&#x91C7;&#x7528;&#x8FD9;&#x4E2A;&#x6BD4;&#x4F8B;&#x5462;&#xFF08;&#x8FD9;&#x4E2A;&#x662F; RCNN paper &#x4E2D;&#x63D0;&#x5230;&#x7684; 25%-75%
+TODO&#xFF09;&#xFF1F;&#x53EF;&#x80FD; positive RoI &#x6BD4;&#x8F83;&#x5C11;
+</p>
+
+<p>
+detection positive RoIs &#x6807;&#x51C6;&#xFF1A;
+</p>
+<ol class="org-ol">
+<li>RoI &#x4E0E; gtbb IoU &gt;= 0.5 &#x5373;&#x8BA4;&#x4E3A;&#x662F; positive anchor</li>
+<li>&#x5426;&#x5219;&#x5C31;&#x8BA4;&#x4E3A;&#x662F; negative anchor</li>
+<li>&#x4E0A;&#x9762;&#x662F; Mask RCNN paper &#x4E2D;&#x6307;&#x51FA;&#x7684;&#xFF0C;&#x4F46;&#x662F; RCNN &#x4E2D;&#x8FD8;&#x7279;&#x610F;&#x5199;&#x4E86; IoU &lt; 0.1 &#x7684;&#x60C5;&#x51B5; TODO</li>
+</ol>
+
+<p>
+&#x7136;&#x540E;&#x5C06;&#x91C7;&#x6837;&#x7684; RoIs &#x7ECF;&#x8FC7; RoI Align &#x540E;&#x7528;&#x4E8E;&#x68C0;&#x6D4B;&#x548C;&#x5206;&#x5272;&#x7684;&#x7F51;&#x7EDC;&#x3002;
+</p>
+
+
+<p>
+Mask R-CNN Implementation Details
+</p>
+
+<p>
+Training: 
+</p>
+
+<p>
+&#x91C7;&#x7528; image-centric &#x8BAD;&#x7EC3;&#x65B9;&#x6CD5;&#x3002;
+</p>
+
+<p>
+RPN &#x548C; Mask R-CNN &#x4F7F;&#x7528;&#x76F8;&#x540C;&#x7684; backbone &#xFF0C;&#x4E14;&#x5171;&#x4EAB;&#x53C2;&#x6570;&#x3002;
+</p>
+
+<p>
+mask branch &#x4E00;&#x4E2A; box &#x4F1A;&#x751F;&#x6210; k &#x4E2A; masks &#xFF0C;&#x4F46;&#x8BA1;&#x7B97;&#x8BEF;&#x5DEE;&#x65F6;&#xFF0C;&#x53EA;&#x4F7F;&#x7528; k-th mask &#xFF0C;&#x8FD9;&#x91CC;&#x7684; k &#x8868;&#x793A;&#x8FD9;&#x4E2A; box &#x9884;&#x6D4B;&#x7684;&#x7C7B;&#x522B;&#x3002;&#x4F7F;&#x7528;&#x6D6E;&#x70B9;&#x6570;&#x8868;
+&#x793A;&#x5927;&#x5C0F;&#x7684; m*m mask resize &#x4E3A; box &#x7684; size &#xFF0C;&#x4E14;&#x5C06;&#x5176;&#x4E2D;&#x7684;&#x503C;&#x4EE5; 0.5 &#x4E3A;&#x9608;&#x503C;&#x8FDB;&#x884C;&#x4E8C;&#x503C;&#x5316;&#x3002;mask loss &#x4E3A;&#x7C7B;&#x522B; k &#x7684;&#x7684; box mask &#x548C; gt
+mask &#x7684; IoU &#x3002;&#x8BA1;&#x7B97;&#x65F6;&#x53EF;&#x4EE5;&#x5C06;&#x4E24;&#x4E2A; mask &#x90FD; resize &#x5230;&#x6574;&#x5F20;&#x56FE;&#x7247;&#x7684;&#x5927;&#x5C0F;&#xFF0C;&#x7136;&#x540E;&#x8BA1;&#x7B97;&#x4E24;&#x4E2A; mask&#x7684;&#x5185;&#x79EF;&#x5C31;&#x662F; IoU &#x3002;
+</p>
+
+<p>
+&#x8BAD;&#x7EC3;&#x65F6;&#x662F;&#x5C06;&#x6240;&#x6709;&#x7528;&#x4E8E;&#x68C0;&#x6D4B;&#x7684; box &#x90FD;&#x7528;&#x4E8E;&#x8BAD;&#x7EC3; mask &#x4E86;&#x5417;&#xFF1F;
+</p>
+
+<p>
+Inference: 
+</p>
+
+<p>
+&#x6D4B;&#x8BD5;&#x65F6;&#xFF0C;FPN &#x7F51;&#x7EDC;&#x4F7F;&#x7528; region proposal &#x7684;&#x4E2A;&#x6570;&#x4E3A; 1000 &#xFF0C;&#x5728;&#x8FD9; 1000 &#x4E2A; RoIs &#x4E0A;&#x8FDB;&#x884C;&#x76EE;&#x6807;&#x68C0;&#x6D4B;&#xFF0C;&#x7136;&#x540E;&#x4F7F;&#x7528;&#x68C0;&#x6D4B;&#x5206;&#x6570;&#x6700;&#x9AD8;&#x7684; 100 &#x4E2A; box
+&#x8FDB;&#x884C; mask &#x5206;&#x5272;
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org055d28e" class="outline-4">
+<h4 id="org055d28e"><span class="section-number-4">1.1.6</span> annotation</h4>
+</div>
+</div>
+
+
+
+
+
+<div id="outline-container-orgfa66b11" class="outline-3">
+<h3 id="orgfa66b11"><span class="section-number-3">1.2</span> &#x8F93;&#x51FA;</h3>
+<div class="outline-text-3" id="text-1-2">
+</div>
+<div id="outline-container-org78bbc63" class="outline-4">
+<h4 id="org78bbc63"><span class="section-number-4">1.2.1</span> RPN</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<p>
+Region Proposal Networks &#x662F;&#x4E00;&#x4E2A;&#x5168;&#x5377;&#x79EF;&#x7F51;&#x7EDC; a fully convolutional network &#x3002;
+</p>
+
+<p>
+&#x5728; RPN &#x548C;&#x68C0;&#x6D4B;&#x5171;&#x4EAB;&#x7F51;&#x7EDC;&#x6700;&#x540E;&#x4E00;&#x5C42;&#x4E0A;&#x4F7F;&#x7528; 3*3 &#x7684;&#x6ED1;&#x52A8;&#x7A97;&#x53E3;&#x626B;&#x63CF; feature maps &#xFF0C;&#x4E3A;&#x6BCF;&#x4E2A;&#x4F4D;&#x7F6E;&#x751F;&#x6210;&#x4E00;&#x4E2A;&#x56FA;&#x5B9A;&#x957F;&#x5EA6;&#x7684;&#x7279;&#x5F81;&#xFF0C;&#x7136;&#x540E;&#x4F7F;&#x7528;&#x8BE5;&#x7279;&#x5F81;&#x5229;
+&#x7528;&#x5168;&#x8FDE;&#x63A5;&#x6765;&#x63D0;&#x53D6; anchor &#x7684;&#x5206;&#x7C7B;&#x548C;&#x56DE;&#x5F52;&#x53C2;&#x6570; a box-regression layer (reg) and a box-classification layer (cls)&#x3002;&#x5177;&#x4F53;&#x53EF;&#x5B9E;&#x73B0;&#x4E3A;&#x5148;
+&#x4F7F;&#x7528; 3*3*512 &#x5377;&#x79EF;&#x5F97;&#x5230; channel &#x4E3A; 512 &#x7684;&#x7279;&#x5F81;&#xFF0C;&#x7136;&#x540E;&#x4F7F;&#x7528; 1*1*2k &#x5377;&#x79EF;&#x5F97;&#x5230;&#x5206;&#x7C7B;&#x6982;&#x7387;&#xFF0C;&#x4F7F;&#x7528; 1*1*4k &#x5377;&#x79EF;&#x5F97;&#x5230; region proposal &#x7684;&#x56DE;
+&#x5F52;&#x53C2;&#x6570;&#x3002;&#x7531;&#x4E8E;&#x8FD9;&#x91CC;&#x662F;&#x7528;&#x4E0D;&#x540C;&#x7684; channel &#x6765;&#x8868;&#x793A;&#x4E0D;&#x540C;&#x7684; anchor &#xFF0C;&#x6240;&#x4EE5; k anchor &#x7684; cls &#x548C; reg &#x5E76;&#x4E0D;&#x5171;&#x4EAB;&#x53C2;&#x6570;&#x3002;
+</p>
+
+<ol class="org-ol">
+<li>&#x6BCF;&#x4E2A; feature map &#x4E0A;&#x7684;&#x4E00;&#x4E2A;&#x70B9;&#x5305;&#x542B; 2k &#x4E2A; softmax &#x7C7B;&#x522B;&#x6982;&#x7387; scores &#xFF0C;&#x5176;&#x4E2D; k &#x662F; anchor &#x7684;&#x4E2A;&#x6570;&#xFF0C;&#x4E14;&#x4F7F;&#x7528;&#x4E8C;&#x5206;&#x7C7B;&#x7684; softmax &#x6765;&#x8868;
+&#x793A;&#x662F;&#x5426;&#x5305;&#x542B;&#x76EE;&#x6807;</li>
+<li>&#x6BCF;&#x4E2A; RoIs &#x5305;&#x542B; 4k &#x4E2A;&#x76F8;&#x5BF9;&#x4E8E; anchor &#x7684;&#x5750;&#x6807;&#x56DE;&#x5F52;&#x53C2;&#x6570;</li>
+</ol>
+
+
+<p>
+&#x6839;&#x636E;&#x751F;&#x6210;&#x7684; region &#x7684;&#x533A;&#x57DF;&#x5927;&#x5C0F;&#xFF0C;&#x5206;&#x7ED9;&#x4E0D;&#x540C;&#x7684; FPN &#x7684;&#x4E0D;&#x540C; level \(P_k\) &#x3002;FPN &#x7F51;&#x7EDC;&#x7684;&#x4E0D;&#x540C; level &#x4F7F;&#x7528;&#x4E0D;&#x540C;&#x5927;&#x5C0F;&#x7684; anchor &#x751F;&#x6210;&#x4E86;&#x4E00;
+&#x7CFB;&#x5217;&#x7684; region proposal &#xFF0C;&#x8FD9;&#x4E9B; region proposal &#x4F1A;&#x5BF9;&#x539F;&#x59CB;&#x7684; anchor box &#x8FDB;&#x884C;&#x4FEE;&#x6B63;&#xFF0C;&#x4FEE;&#x6B63;&#x540E;&#x7684; region &#x4F1A;&#x548C;&#x539F;&#x59CB;&#x7684; anchor &#x5927;&#x5C0F;&#x4E0D;&#x4E00;
+&#x81F4;&#xFF0C;&#x6B64;&#x65F6;&#x9700;&#x8981;&#x6839;&#x636E;&#x4FEE;&#x6B63;&#x540E;&#x7684; region proposal &#x7684;&#x5927;&#x5C0F;&#xFF0C;&#x5C06;&#x5176;&#x91CD;&#x65B0;&#x5206;&#x914D;&#x7ED9; FPN &#x7684;&#x4E0D;&#x540C; level &#x3002;&#x516C;&#x5F0F;&#x5982;&#x4E0B;&#xFF1A;
+</p>
+
+\begin{equation}
+k = k_0 + \lfloor \log_2 (\sqrt{wh} / 224) \rfloor
+\end{equation}
+
+<p>
+&#x5176;&#x4E2D; 224 &#x662F; imageset &#x4E2D;&#x56FE;&#x50CF;&#x7684;&#x5C3A;&#x5BF8;&#xFF1B; \(k_0\) &#x8868;&#x793A; \(w*h=224^2\) &#x7684; RoI &#x5E94;&#x8BE5;&#x6620;&#x5C04;&#x7684; level &#xFF0C;&#x8BBA;&#x6587;&#x4E2D;&#x8BBE;&#x7F6E; \(k_0=4\) &#xFF1B;
+</p>
+
+<p>
+RoI &#x5C3A;&#x5BF8;&#x6BD4;&#x8F83;&#x5C0F;&#x7684;&#x4F1A;&#x88AB;&#x5206;&#x5230;&#x8F83;&#x5C0F;&#x7684; level &#x4E0A;&#xFF0C;&#x5426;&#x5219;&#x4F1A;&#x88AB;&#x5206;&#x914D;&#x5230;&#x8F83;&#x5927;&#x7684; level &#x4E0A;&#x3002;&#x5373;&#x5728;&#x9760;&#x8FD1;&#x8F93;&#x5165;&#x7684; feature map &#x4E0A;&#x68C0;&#x6D4B;&#x5C3A;&#x5BF8;&#x8F83;&#x5C0F;&#x7684;&#x76EE;&#x6807;&#xFF0C;
+&#x5728;&#x8FDC;&#x79BB;&#x8F93;&#x5165;&#x7684; feature map &#x4E0A;&#x68C0;&#x6D4B;&#x5C3A;&#x5BF8;&#x8F83;&#x5927;&#x76EE;&#x6807;&#x3002;
+</p>
+
+<p>
+&#x5F53;&#x7136;&#x4E0D;&#x7BA1;&#x5206;&#x914D;&#x5230;&#x54EA;&#x4E2A; level &#x4E0A;&#xFF0C;&#x540E;&#x7EED;&#x7684;&#x68C0;&#x6D4B;&#x5206;&#x5272; head &#x7684;&#x53C2;&#x6570;&#x90FD;&#x662F;&#x5171;&#x4EAB;&#x3002;
+</p>
+
+<p>
+&#x5C06;&#x91C7;&#x6837;&#x7684; RoIs &#x7ECF;&#x8FC7; RoI Align &#x540E;&#x7528;&#x4E8E;&#x68C0;&#x6D4B;&#x548C;&#x5206;&#x5272;&#x7684;&#x7F51;&#x7EDC;&#x3002;
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org6000a53" class="outline-4">
+<h4 id="org6000a53"><span class="section-number-4">1.2.2</span> object detection</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<ol class="org-ol">
+<li>C+1 softmax</li>
+<li>4C reg</li>
+</ol>
+
+<p>
+RoI Align -&gt; 1024fc -&gt; 1024fc -&gt; class / box
+</p>
+
+<p>
+Mask R-CNN TF &#x4E2D; fpn<sub>classifier</sub><sub>graph</sub>()
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org5534aef" class="outline-4">
+<h4 id="org5534aef"><span class="section-number-4">1.2.3</span> instance segmentation</h4>
+<div class="outline-text-4" id="text-1-2-3">
+<ol class="org-ol">
+<li>28*28*C mask</li>
+</ol>
+
+<p>
+RoI Align -&gt; 14*14*256 X4 -&gt; 14*14*256 -&gt; 28*28*256 -&gt; 28*28*80 
+</p>
+
+<p>
+&#x8FD9;&#x91CC;&#x524D;&#x56DB;&#x4E2A; 14*14*256 &#x7684;&#x5377;&#x79EF;&#x548C;&#x968F;&#x540E;&#x7684; 14*14*256 &#x7684;&#x5377;&#x79EF;&#x6709;&#x4EC0;&#x4E48;&#x533A;&#x522B;&#x5417;&#xFF1F; TODO
+</p>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<div id="outline-container-orgcb86ce3" class="outline-2">
+<h2 id="orgcb86ce3"><span class="section-number-2">2</span> &#x6D4B;&#x8BD5; inference</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org8628e94" class="outline-3">
+<h3 id="org8628e94"><span class="section-number-3">2.1</span> &#x8F93;&#x5165;</h3>
+<div class="outline-text-3" id="text-2-1">
+</div>
+<div id="outline-container-orgc06bbf5" class="outline-4">
+<h4 id="orgc06bbf5"><span class="section-number-4">2.1.1</span> region proposal</h4>
+<div class="outline-text-4" id="text-2-1-1">
+<ol class="org-ol">
+<li>&#x5728; 1000*600 &#x7684;&#x56FE;&#x7247;&#x4E0A;&#xFF0C;&#x53D8;&#x6362;&#x5230; 60*40 &#x7684; feature map &#xFF0C;&#x6BCF;&#x4E2A;&#x70B9; 9 &#x4E2A; anchor &#xFF0C;&#x5171;&#x6709;  60*40*9 &#x5927;&#x7EA6; 20000 &#x4E2A; anchor</li>
+<li>&#x5C06;&#x4E0E;&#x56FE;&#x7247;&#x8FB9;&#x754C;&#x76F8;&#x4EA4;&#x7684; anchor &#x88C1;&#x526A;&#x5230;&#x56FE;&#x50CF;&#x7684;&#x8FB9;&#x754C;</li>
+<li>&#x4F9D;&#x636E; RPN &#x7F51;&#x7EDC;&#x5F97;&#x5230; anchor &#x7684; cls &#xFF0C;&#x4F7F;&#x7528; NMS &#xFF0C;&#x9608;&#x503C;&#x91C7;&#x7528; 0.7</li>
+<li>&#x4F7F;&#x7528; Top N region &#x7528;&#x4E8E;&#x68C0;&#x6D4B;&#xFF1B;Mask RCNN Tensorflow &#x4EE3;&#x7801;&#x4E2D; N = 100</li>
+</ol>
+
+
+<p>
+Faster RCNN &#x6587;&#x4E2D;&#x9A8C;&#x8BC1;&#xFF0C;&#x53BB;&#x6389;&#x63D0;&#x53D6; region proposal &#x7684; RPN &#x7F51;&#x7EDC;&#xFF0C;&#x76F4;&#x63A5;&#x4F7F;&#x7528; anchor &#x6765;&#x68C0;&#x6D4B;&#xFF0C; mAP &#x4F1A;&#x4E0B;&#x964D;&#x3002;&#x51C6;&#x786E;&#x7684; region proposal
+&#x5BF9;&#x4E0E;&#x68C0;&#x6D4B;&#x7ED3;&#x679C;&#x5F88;&#x91CD;&#x8981;&#x3002;
+</p>
+
+<p>
+On the other hand, when the reg layer is removed at test-time (so the proposals become anchor boxes), the mAP drops to
+52.1%. This suggests that the high-quality proposals are mainly due to the regressed box bounds. The anchor boxes,
+though having multiple scales and aspect ratios, are not sufficient for accurate detection.
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org0f8a09e" class="outline-3">
+<h3 id="org0f8a09e"><span class="section-number-3">2.2</span> &#x8F93;&#x51FA;</h3>
+</div>
+</div>
+
+
+<div id="outline-container-orgbceaea5" class="outline-2">
+<h2 id="orgbceaea5"><span class="section-number-2">3</span> region proposal</h2>
+</div>
+
+
+<div id="outline-container-org8db3c29" class="outline-2">
+<h2 id="org8db3c29"><span class="section-number-2">4</span> RoI Pooling</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+\(x_i\) &#x662F; RoI Pooling &#x7684;&#x7B2C; i &#x4E2A;&#x8F93;&#x5165;&#xFF0C;\(y_{r_j}\) &#x662F;&#x7B2C; r &#x4E2A; RoI &#x7684;&#x7B2C; j &#x4E2A; sub-window &#x7684;&#x8F93;&#x51FA;&#x3002;
+</p>
+
+<p>
+A single \(x_i\) may be assigned to several different output \(y_{r_j}\) 
+</p>
+
+<p>
+TODO
+</p>
+
+\begin{equation}
+\frac{\partial L}{\partial x_i} = \sum_r \sum_j [i = i^*(r,j)] \frac{\partial L}{ \partial y_{r_j} }
+\end{equation}
+</div>
+</div>
+
+
+<div id="outline-container-org3749498" class="outline-2">
+<h2 id="org3749498"><span class="section-number-2">5</span> &#x8D77;&#x56E0;</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+&#x53BB;&#x5317;&#x4EAC;&#x5468;&#x540C;&#x79D1;&#x6280;&#x9762;&#x8BD5;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4E24;&#x8F6E;&#x6280;&#x672F;&#x9762;&#xFF0C;&#x9762;&#x8BD5;&#x5B98;&#x90FD;&#x8BA9;&#x6211;&#x8BB2;&#x89E3;&#x4E00;&#x4E2A;&#x7B97;&#x6CD5;&#xFF0C;&#x8981;&#x6C42;&#x662F;&#x8BB2;&#x6E05;&#x695A;&#x7B97;&#x6CD5;&#x7684;&#x8F93;&#x5165;&#x3001;&#x8F93;&#x51FA;&#x662F;&#x4EC0;&#x4E48;&#xFF1F;&#x7A81;&#x7136;&#x53D1;&#x73B0;&#x81EA;&#x5DF1;&#x5E76;&#x6CA1;&#x6709;&#x597D;
+&#x597D;&#x53BB;&#x5206;&#x6790;&#x67D0;&#x4E2A;&#x7B97;&#x6CD5;&#x7684;&#x5177;&#x4F53;&#x8F93;&#x5165;&#x8F93;&#x51FA;&#xFF0C;&#x800C;&#x4EC5;&#x4EC5;&#x770B;&#x4E86;&#x4E00;&#x4E0B;&#x7B97;&#x6CD5;&#x6539;&#x8FDB;&#x7684;&#x5173;&#x952E;&#x70B9;&#x3002;&#x5176;&#x5B9E;&#x662F;&#x5BF9;&#x7B97;&#x6CD5;&#x7684;&#x6574;&#x4F53;&#x6D41;&#x7A0B;&#x5E76;&#x4E0D;&#x6E05;&#x695A;&#xFF0C;&#x6545;&#x5728;&#x6B64;&#x5206;&#x6790;&#x603B;&#x7ED3;&#x3002;
+</p>
+
+<p>
+YOLO &#x6700;&#x7EC8;&#x8F93;&#x51FA;&#xFF1F; &#x662F;&#x600E;&#x6837;&#x548C;&#x8BAD;&#x7EC3;&#x6837;&#x672C;&#x7684;&#x6807;&#x6CE8;&#x6570;&#x636E;&#x6BD4;&#x8F83;&#x5F97;&#x5230;&#x8BEF;&#x5DEE;&#x7684;&#xFF1F;
+</p>
+
+<p>
+&#x53BB;&#x8FC8;&#x5916;&#x8FEA;&#x9762;&#x8BD5;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x9762;&#x8BD5;&#x5B98;&#x95EE;&#x6211;&#xFF0C; VGG&#x3001;GoogLeNet&#x3001;ResNet&#x3001;DenseNet &#x7684;&#x4F5C;&#x8005;&#x662F;&#x8C01;&#xFF0C;&#x6211;&#x9664;&#x4E86;&#x4F55;&#x51EF;&#x660E;&#x5927;&#x795E;&#xFF0C;&#x5176;&#x4ED6;&#x7684;&#x90FD;&#x4E0D;&#x77E5;&#x9053;&#x3002;&#x9762;&#x8BD5;&#x5B98;&#x8BF4;&#xFF0C;
+&#x5F53;&#x7136;&#x8FD9;&#x4E9B;&#x90FD;&#x4E0D;&#x91CD;&#x8981;&#xFF0C;&#x4F46;&#x662F;&#x53EF;&#x4EE5;&#x53CD;&#x5E94;&#x51FA;&#x4F60;&#x5BF9;&#x8FD9;&#x4E2A;&#x5708;&#x5B50;&#x662F;&#x5426;&#x719F;&#x6089;&#x3002;&#x672C;&#x6765;&#x4FE1;&#x5FC3;&#x5C31;&#x4E0D;&#x8DB3;&#xFF0C;&#x8FD8;&#x7B54;&#x9519;&#x4E86;&#x4E00;&#x4E2A;&#x975E;&#x5E38;&#x975E;&#x5E38;&#x4F4E;&#x7EA7;&#x7684;&#x9519;&#x8BEF;&#x5377;&#x79EF;&#x5C42;&#x53C2;&#x6570;&#x7684;&#x4E2A;&#x6570;
+</p>
+
+
+<p>
+&#x6240;&#x6709;&#x6807;&#x6709; TODO &#x7684;&#x4F4D;&#x7F6E;&#x90FD;&#x8868;&#x793A;&#x672A;&#x7406;&#x89E3;
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgd3823f1" class="outline-2">
+<h2 id="orgd3823f1"><span class="section-number-2">6</span> &#x5F85;&#x53C2;&#x8003;</h2>
+<div class="outline-text-2" id="text-6">
+<ol class="org-ol">
+<li><a href="https://blog.csdn.net/zziahgf/article/details/78730859" target="_blank" rel="noopener">https://blog.csdn.net/zziahgf/article/details/78730859</a></li>
+</ol>
+</div>
+</div>
+</div>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/深度学习/" rel="tag"># 深度学习</a>
+          
+            <a href="/tags/目标分割/" rel="tag"># 目标分割</a>
+          
+        </div>
+      
+
+      
+      
+        <div class="post-widgets">
+        
+
+        
+
+        
+          
+          <div id="needsharebutton-postbottom">
+            <span class="btn">
+              <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </span>
+          </div>
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/24/machinelearning/mAP/" rel="next" title="mAP">
+                <i class="fa fa-chevron-left"></i> mAP
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/02/book/literature/" rel="prev" title="文学待修养">
+                文学待修养 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzU0Ny8xNDA3OQ=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/polarbear.jpg" alt="Kyle Three Stone">
+            
+              <p class="site-author-name" itemprop="name">Kyle Three Stone</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">57</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-globe"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://github.com/kylestones" title="GitHub" target="_blank">GitHub</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="mailto:kyleemail@163.com" title="E-Mail" target="_blank">E-Mail</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org2c7fbed"><span class="nav-text">1 训练 train</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org66d408a"><span class="nav-text">1.1 输入</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#org974e70c"><span class="nav-text">1.1.1 mini-batch</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#org24393d9"><span class="nav-text">1.1.2 image spatial</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#org478fe04"><span class="nav-text">1.1.3 anchor</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#orgd757e9a"><span class="nav-text">1.1.4 region proposal</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#org49cce83"><span class="nav-text">1.1.5 RoIs for detection and segment</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#org055d28e"><span class="nav-text">1.1.6 annotation</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgfa66b11"><span class="nav-text">1.2 输出</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#org78bbc63"><span class="nav-text">1.2.1 RPN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#org6000a53"><span class="nav-text">1.2.2 object detection</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#org5534aef"><span class="nav-text">1.2.3 instance segmentation</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgcb86ce3"><span class="nav-text">2 测试 inference</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org8628e94"><span class="nav-text">2.1 输入</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#orgc06bbf5"><span class="nav-text">2.1.1 region proposal</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org0f8a09e"><span class="nav-text">2.2 输出</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgbceaea5"><span class="nav-text">3 region proposal</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8db3c29"><span class="nav-text">4 RoI Pooling</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3749498"><span class="nav-text">5 起因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd3823f1"><span class="nav-text">6 待参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kyle Three Stone</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="Symbols count total">1.9m</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="Reading time total">28:45</span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="Total Visitors">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="Total Views">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+  
+  <script src="/lib/needsharebutton/needsharebutton.js"></script>
+
+  <script>
+    
+      pbOptions = {};
+      
+          pbOptions.iconStyle = "box";
+      
+          pbOptions.boxForm = "horizontal";
+      
+          pbOptions.position = "bottomCenter";
+      
+          pbOptions.networks = "Wechat,Weibo,Douban,QQZone,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-postbottom', pbOptions);
+    
+    
+  </script>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1957 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/needsharebutton/needsharebutton.css">
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="1 &amp;#x5934;&amp;#x6587;&amp;#x4EF6;   123456789101112131415#include &amp;lt;cctype&amp;gt; // C++ &amp;#x5934;&amp;#x6587;&amp;#x4EF6;&amp;#xFF0C;&amp;#x5F00;&amp;#x5934;&amp;#x7684; C &amp;#x8868;&amp;#x660E;&amp;#x6765;&amp;#x81EA; C &amp;#x8BED;&amp;#x8A00;&amp;#xFF">
+<meta name="keywords" content="C++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++">
+<meta property="og:url" content="https://kylestones.github.io/2018/05/30/apue/cpp/index.html">
+<meta property="og:site_name" content="All in Org-mode">
+<meta property="og:description" content="1 &amp;#x5934;&amp;#x6587;&amp;#x4EF6;   123456789101112131415#include &amp;lt;cctype&amp;gt; // C++ &amp;#x5934;&amp;#x6587;&amp;#x4EF6;&amp;#xFF0C;&amp;#x5F00;&amp;#x5934;&amp;#x7684; C &amp;#x8868;&amp;#x660E;&amp;#x6765;&amp;#x81EA; C &amp;#x8BED;&amp;#x8A00;&amp;#xFF">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-11-18T10:55:03.124Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++">
+<meta name="twitter:description" content="1 &amp;#x5934;&amp;#x6587;&amp;#x4EF6;   123456789101112131415#include &amp;lt;cctype&amp;gt; // C++ &amp;#x5934;&amp;#x6587;&amp;#x4EF6;&amp;#xFF0C;&amp;#x5F00;&amp;#x5934;&amp;#x7684; C &amp;#x8868;&amp;#x660E;&amp;#x6765;&amp;#x81EA; C &amp;#x8BED;&amp;#x8A00;&amp;#xFF">
+
+
+
+
+
+
+  <link rel="canonical" href="https://kylestones.github.io/2018/05/30/apue/cpp/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>C++ | All in Org-mode</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">All in Org-mode</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Keep it Simple, Stuped.</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://kylestones.github.io/2018/05/30/apue/cpp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Kyle Three Stone">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/polarbear.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="All in Org-mode">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">C++
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-05-30 07:19:00" itemprop="dateCreated datePublished" datetime="2018-05-30T07:19:00+08:00">2018-05-30</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-11-18 18:55:03" itemprop="dateModified" datetime="2018-11-18T18:55:03+08:00">2018-11-18</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/language/" itemprop="url" rel="index"><span itemprop="name">language</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Symbols count in article: </span>
+                
+                <span title="Symbols count in article">28k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">25 mins.</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <div id="content">
+
+
+<div id="outline-container-org97d2d4d" class="outline-2">
+<h2 id="org97d2d4d"><span class="section-number-2">1</span> &#x5934;&#x6587;&#x4EF6;</h2>
+<div class="outline-text-2" id="text-1">
+<div class="org-src-container">
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;cctype&gt;</span> // C++ &#x5934;&#x6587;&#x4EF6;&#xFF0C;&#x5F00;&#x5934;&#x7684; C &#x8868;&#x660E;&#x6765;&#x81EA; C &#x8BED;&#x8A00;&#xFF0C;&#x4F46;&#x66F4;&#x7B26;&#x5408; C++ &#x89C4;&#x8303;</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;ctype.h&gt;</span> // C &#x8BED;&#x8A00;&#x5934;&#x6587;&#x4EF6;&#xFF1B;&#x4E0D;&#x5E94;&#x8BE5;&#x5728; C++ &#x4E2D;&#x4F7F;&#x7528;</span></span><br><span class="line"><span class="comment">// &#x4E3A;&#x5565; C++ &#x7684;&#x5934;&#x6587;&#x4EF6;&#x540D;&#x90FD;&#x6CA1;&#x6709; .h &#x540E;&#x7F00;&#x5440;&#xFF1F;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// IO &#x5E93;</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// &#x5BB9;&#x5668;</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;list&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;deque&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;bitset&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;stack&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;priority_queue&gt;</span></span></span><br></pre></td></tr></table></figure>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org2e4f524" class="outline-2">
+<h2 id="org2e4f524"><span class="section-number-2">2</span> &#x547D;&#x540D;&#x7A7A;&#x95F4;</h2>
+<div class="outline-text-2" id="text-2">
+<div class="org-src-container">
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> kyle {</span><br><span class="line">    <span class="comment">// &#x5D4C;&#x5957;&#x547D;&#x540D;&#x7A7A;&#x95F4;</span></span><br><span class="line">    <span class="keyword">namespace</span> sanshi {</span><br><span class="line">    ...</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="comment">// &#x547D;&#x540D;&#x7A7A;&#x95F4;&#x91CD;&#x547D;&#x540D;</span></span><br></pre></td></tr></table></figure>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org03b518a" class="outline-2">
+<h2 id="org03b518a"><span class="section-number-2">3</span> &#x4F5C;&#x7528;&#x57DF; scope</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li>&#x5168;&#x5C40;&#x4F5C;&#x7528;&#x57DF;&#xFF1A;&#x5B9A;&#x4E49;&#x5728;&#x6240;&#x6709;&#x51FD;&#x6570;&#x5916;&#x90E8;</li>
+<li>&#x5C40;&#x90E8;&#x4F5C;&#x7528;&#x57DF;&#xFF1A;&#x5B9A;&#x4E49;&#x5728;&#x51FD;&#x6570;&#x5185;&#x90E8;</li>
+<li>&#x8BED;&#x53E5;&#x4F5C;&#x7528;&#x57DF;&#xFF1A;for &#x5FAA;&#x73AF;&#x4E2D;&#xFF0C;C &#x8BED;&#x8A00;&#x4E2D;&#x4E0D;&#x53EF;&#x4EE5;&#x5728; for &#x5FAA;&#x73AF;&#x8BED;&#x53E5;&#x4E2D;&#x5B9A;&#x4E49;&#x53D8;&#x91CF;</li>
+</ul>
+
+<p>
+&#x5C40;&#x90E8;&#x53D8;&#x91CF; hide &#x5168;&#x5C40;&#x53D8;&#x91CF;&#x3002;
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org03d3c31" class="outline-2">
+<h2 id="org03d3c31"><span class="section-number-2">4</span> &#x53D8;&#x91CF;</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+&#x53D8;&#x91CF;&#x90FD;&#x6709;&#x7279;&#x5B9A;&#x7684;&#x7C7B;&#x578B;&#xFF0C;&#x5728; C++ &#x4E2D;&#x79F0;&#x53D8;&#x91CF;&#x4E3A;&#x5BF9;&#x8C61;&#x3002;
+</p>
+
+<p>
+&#x53D8;&#x91CF;&#x540D;&#x7684;&#x6807;&#x8BC6;&#x7B26;&#x533A;&#x5206;&#x5927;&#x5C0F;&#x5199;&#x3002;
+</p>
+
+<p>
+&#x6BCF;&#x4E2A;&#x7C7B;&#x5B9A;&#x4E49;&#x4E00;&#x79CD;&#x7C7B;&#x578B;&#xFF0C;&#x7C7B;&#x578B;&#x540D;&#x4E0E;&#x7C7B;&#x540D;&#x76F8;&#x540C;&#x3002;class &#x7684;&#x884C;&#x4E3A;&#x548C;&#x5185;&#x7F6E;&#x6570;&#x636E;&#x7C7B;&#x578B;&#x4E00;&#x6837;&#xFF0C;&#x53EF;&#x4EE5;&#x81EA;&#x7136;&#x4F7F;&#x7528;&#x3002;
+</p>
+
+<p>
+&#x628A;&#x53D8;&#x91CF;&#x5B9A;&#x4E49;&#x5230;&#x7B2C;&#x4E00;&#x6B21;&#x88AB;&#x4F7F;&#x7528;&#x7684;&#x5730;&#x65B9;&#xFF0C;&#x5C3D;&#x91CF;&#x5EF6;&#x8FDF;&#x53D8;&#x91CF;&#x7684;&#x5B9A;&#x4E49;&#xFF1B;&#x800C;&#x4E0D;&#x662F;&#x50CF; C &#x8BED;&#x8A00;&#x90A3;&#x6837;&#x5728;&#x51FD;&#x6570;&#x7684;&#x5F00;&#x5934;&#x5B9A;&#x4E49;&#x53D8;&#x91CF;&#x3002;
+</p>
+
+<p>
+&#x53D8;&#x91CF;&#x90FD;&#x5E94;&#x8BE5;&#x521D;&#x59CB;&#x5316;&#x3002;&#x521D;&#x59CB;&#x5316;&#x5E76;&#x4E0D;&#x662F;&#x8D4B;&#x503C;&#xFF0C;&#x800C;&#x662F;&#x521B;&#x5EFA;&#x53D8;&#x91CF;&#x7684;&#x540C;&#x65F6;&#x8D4B;&#x503C;&#xFF1B;
+</p>
+
+<p>
+&#x51FD;&#x6570;&#x4F53;&#x5916;&#x7684;&#x53D8;&#x91CF;&#x90FD;&#x521D;&#x59CB;&#x5316;&#x4E3A; 0&#xFF0C;&#x51FD;&#x6570;&#x4F53;&#x5916;&#x7684;&#x53D8;&#x91CF;&#x4E0D;&#x81EA;&#x52A8;&#x521D;&#x59CB;&#x5316;&#xFF1B;&#x7C7B;&#x901A;&#x8FC7;&#x9ED8;&#x8BA4;&#x6784;&#x9020;&#x51FD;&#x6570;&#x521D;&#x59CB;&#x5316;&#x3002;
+</p>
+
+<p>
+&#x5DE6;&#x503C; &#x2013; &#x53F3;&#x503C;
+</p>
+
+<p>
+C++ &#x662F;&#x4E00;&#x95E8;&#x9759;&#x6001;&#x7C7B;&#x578B;&#x8BED;&#x8A00;&#xFF0C;&#x7F16;&#x8BD1;&#x65F6;&#x4F1A;&#x505A;&#x7C7B;&#x578B;&#x68C0;&#x67E5;
+</p>
+
+<p>
+<b>volatile</b> &#xFF1A;&#x544A;&#x8BC9;&#x7F16;&#x8BD1;&#x5668;&#x4E0D;&#x8981;&#x4F18;&#x5316;&#xFF0C;&#x6BCF;&#x6B21;&#x4F7F;&#x7528;&#x65F6;&#x90FD;&#x4F1A;&#x91CD;&#x65B0;&#x8BFB;&#x53D6;&#x5176;&#x503C;
+</p>
+
+<p>
+&#x94FE;&#x63A5;&#x6307;&#x793A;&#x6765;&#x8C03;&#x7528;&#x975E; C++ &#x8BED;&#x8A00;&#xFF1A;
+</p>
+
+<div class="org-src-container">
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// &quot;Ada&quot; &quot;FORTARN&quot;</span></span><br><span class="line"><span class="keyword">extern</span> <span class="string">&quot;c&quot;</span> {</span><br><span class="line">...</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orga522354" class="outline-2">
+<h2 id="orga522354"><span class="section-number-2">5</span> new delete</h2>
+<div class="outline-text-2" id="text-5">
+<div class="org-src-container">
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *pi = <span class="keyword">new</span> <span class="keyword">int</span>;</span><br><span class="line"><span class="keyword">int</span> *pi = <span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">12</span>);</span><br><span class="line"><span class="keyword">delete</span> pi;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> *pi = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">delete</span> pi; <span class="comment">// &#x5408;&#x6CD5;&#xFF0C;&#x4F46;&#x6CA1;&#x6709;&#x610F;&#x4E49;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">i</span><span class="params">(<span class="number">21</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">s</span><span class="params">(<span class="number">10</span>, <span class="string">&apos;a&apos;</span>)</span></span>;</span><br></pre></td></tr></table></figure>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgf880fb9" class="outline-2">
+<h2 id="orgf880fb9"><span class="section-number-2">6</span> &#x667A;&#x80FD;&#x6307;&#x9488;</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+&#x57FA;&#x672C;&#x7C7B;&#x578B;&#x6307;&#x9488;&#x5C01;&#x88C5;&#x6210;&#x7C7B;&#x5BF9;&#x8C61;&#x6307;&#x9488;
+</p>
+
+<div class="org-src-container">
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// &#x4E0D;&#x80FD;&#x7528;&#x6808;&#x7684;&#x5185;&#x5B58;&#x6765;&#x521D;&#x59CB;&#x5316;&#xFF08;&#x5982;&#x53D8;&#x91CF;&#x7684;&#x5F15;&#x7528;&#xFF09;</span></span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt; ps(<span class="keyword">new</span> <span class="keyword">int</span>);</span><br><span class="line">*ps = <span class="number">3</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// shared_ptr &#x91C7;&#x7528;&#x5F15;&#x7528;&#x8BA1;&#x6570;&#xFF0C;&#x91CA;&#x653E;&#x7A7A;&#x95F4;&#x524D;&#x4F1A;&#x5148;&#x68C0;&#x67E5;</span></span><br><span class="line"><span class="comment">// unique_ptr </span></span><br><span class="line"><span class="comment">// weak_ptr </span></span><br></pre></td></tr></table></figure>
+</div>
+
+<p>
+RTII 
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org6057b5b" class="outline-2">
+<h2 id="org6057b5b"><span class="section-number-2">7</span> &#x5F15;&#x7528;</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+&#x5F15;&#x7528;&#x662F;&#x5BF9;&#x8C61;&#x7684;&#x522B;&#x540D;&#xFF0C;&#x4E00;&#x4F46;&#x521D;&#x59CB;&#x5316;&#x5C31;&#x4E0D;&#x53EF;&#x66F4;&#x6539;&#xFF1B;
+</p>
+
+<p>
+&#x4E3B;&#x8981;&#x7528;&#x4E8E;&#x5F62;&#x53C2;
+</p>
+
+<div class="org-src-container">
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span> &amp;rhs)</span> </span>{</span><br><span class="line">    ....</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+</div>
+
+<p>
+&#x975E;&#x5F15;&#x7528;&#x4F20;&#x53C2;&#x6216;&#x8005;&#x8FD4;&#x56DE;&#x503C;&#xFF0C;&#x4F1A;&#x590D;&#x5236;&#x5B9E;&#x53C2;&#x7684;&#x503C;&#x3002;
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgce73949" class="outline-2">
+<h2 id="orgce73949"><span class="section-number-2">8</span> const</h2>
+<div class="outline-text-2" id="text-8">
+<ul class="org-ul">
+<li>const &#x5728; * &#x7684; <b>&#x53F3;&#x4FA7;</b> &#xFF0C;&#x4FEE;&#x9970; <b>&#x6307;&#x9488;</b></li>
+<li>const &#x5728; * &#x7684; <b>&#x5DE6;&#x4FA7;</b> &#xFF0C;&#x4FEE;&#x9970;&#x6307;&#x5411;&#x7684; <b>&#x5185;&#x5BB9;</b></li>
+</ul>
+
+<div class="org-src-container">
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> *<span class="keyword">const</span> pConst;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span> * pContentConst;</span><br><span class="line"><span class="keyword">char</span> <span class="keyword">const</span> * pContentConst;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> *pci = <span class="keyword">new</span> <span class="function"><span class="keyword">const</span> <span class="title">int</span><span class="params">(<span class="number">1024</span>)</span></span>;</span><br></pre></td></tr></table></figure>
+</div>
+
+<p>
+&#x6210;&#x5458;&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x6210; const &#x8868;&#x660E;&#x4E0D;&#x6539;&#x53D8;&#x6210;&#x5458;&#x51FD;&#x6570;&#x7684;&#x503C;&#x3002;
+const &#x5F15;&#x7528;&#x6307;&#x5411; const &#x5BF9;&#x8C61;&#xFF1B;&#x975E; const &#x5BF9;&#x8C61;&#x6307;&#x5411;&#x975E; const &#x5BF9;&#x8C61;&#x3002;
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org2d2be9b" class="outline-2">
+<h2 id="org2d2be9b"><span class="section-number-2">9</span> &#x7C7B;&#x578B;&#x8F6C;&#x6362;</h2>
+<div class="outline-text-2" id="text-9">
+</div>
+<div id="outline-container-org34c18d5" class="outline-3">
+<h3 id="org34c18d5"><span class="section-number-3">9.1</span> &#x9690;&#x5F0F;&#x7C7B;&#x578B;&#x8F6C;&#x6362;</h3>
+</div>
+
+
+<div id="outline-container-orga42fa8f" class="outline-3">
+<h3 id="orga42fa8f"><span class="section-number-3">9.2</span> &#x5F3A;&#x5236;&#x7C7B;&#x578B;&#x8F6C;&#x6362;</h3>
+<div class="outline-text-3" id="text-9-2">
+<p>
+C &#x65E7;&#x5F0F;
+</p>
+
+<ul class="org-ul">
+<li>type(expr);</li>
+<li>(type)expr;</li>
+</ul>
+
+<p>
+C++ 
+</p>
+
+<ul class="org-ul">
+<li>static<sub>cast</sub></li>
+<li>const<sub>cast</sub> &#xFF1A; &#x53BB;&#x6389; const &#x5C5E;&#x6027;</li>
+<li>dynamic<sub>cast</sub></li>
+</ul>
+
+<div class="org-src-container">
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">char</span> *pc_str;</span><br><span class="line"><span class="keyword">char</span> *p_str = string_copy(<span class="keyword">const_cast</span>&lt;<span class="keyword">char</span> *&gt; (pc_str));</span><br></pre></td></tr></table></figure>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org8b0a8a1" class="outline-2">
+<h2 id="org8b0a8a1"><span class="section-number-2">10</span> &#x5F02;&#x5E38;</h2>
+<div class="outline-text-2" id="text-10">
+<div class="org-src-container">
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> {</span><br><span class="line">    ....</span><br><span class="line">} <span class="keyword">catch</span>( ) {</span><br><span class="line">    <span class="keyword">throw</span>();</span><br><span class="line">} <span class="keyword">catch</span>( ) {</span><br><span class="line">    ....</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgca117b0" class="outline-2">
+<h2 id="orgca117b0"><span class="section-number-2">11</span> &#x91CD;&#x8F7D;</h2>
+<div class="outline-text-2" id="text-11">
+<p>
+&#x91CD;&#x8F7D;&#x51FD;&#x6570;&#xFF1A;&#x51FD;&#x6570;&#x540D;&#x76F8;&#x540C;&#xFF0C;&#x4F46;&#x5F62;&#x53C2;&#x8868;&#x4E0D;&#x540C;&#xFF1B;&#x548C;&#x8FD4;&#x56DE;&#x503C;&#x6CA1;&#x6709;&#x5173;&#x7CFB;
+</p>
+
+<p>
+&#x51FD;&#x6570;&#x540D;&#x53EA;&#x662F;&#x4E3A;&#x4E86;&#x5E2E;&#x52A9;&#x7F16;&#x8BD1;&#x5668;&#x5224;&#x65AD;&#x8C03;&#x7528;&#x7684;&#x662F;&#x54EA;&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#x800C;&#x5DF2;
+</p>
+
+<p>
+&#x5F62;&#x53C2;&#x540D;&#x53EA;&#x662F;&#x5E2E;&#x52A9;&#x6587;&#x6863;&#xFF0C;&#x5E76;&#x4E0D;&#x5F71;&#x54CD;&#x5F62;&#x53C2;&#x8868;&#xFF1B;
+</p>
+
+<p>
+&#x9ED8;&#x8BA4;&#x5B9E;&#x53C2;&#x5E76;&#x4E0D;&#x4F1A;&#x6539;&#x53D8;&#x5F62;&#x53C2;&#x7684;&#x4E2A;&#x6570;&#xFF1B;
+</p>
+
+<p>
+&#x6839;&#x636E;&#x64CD;&#x4F5C;&#x6570;&#x7684;&#x7C7B;&#x578B;&#x6765;&#x533A;&#x5206;&#x4E0D;&#x540C;&#x7684;&#x64CD;&#x4F5C;&#xFF0C;&#x662F;&#x7F16;&#x8BD1;&#x5668;&#x7684;&#x8D23;&#x4EFB;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x7A0B;&#x5E8F;&#x5458;&#x7684;&#x8D23;&#x4EFB;&#xFF1B;
+</p>
+
+<p>
+&#x7F16;&#x8BD1;&#x5668;&#x6839;&#x636E;&#x4F20;&#x9012;&#x7684;&#x5B9E;&#x53C2;&#x7C7B;&#x578B;&#x6765;&#x5224;&#x5B9A;&#x8C03;&#x7528;&#x54EA;&#x4E2A;&#x51FD;&#x6570;&#xFF1B;
+</p>
+
+<p>
+&#x540D;&#x5B57;&#x67E5;&#x627E;&#x53D1;&#x751F;&#x5728;&#x7C7B;&#x578B;&#x68C0;&#x6D4B;&#x4E4B;&#x524D;&#xFF1B;
+</p>
+
+<p>
+&#x6267;&#x884C;&#x91CD;&#x8F7D;&#x51FD;&#x6570;&#x7684;&#x6307;&#x9488;&#x5FC5;&#x987B;&#x4E0E;&#x91CD;&#x8F7D;&#x51FD;&#x6570;&#x7684;&#x4E00;&#x4E2A;&#x7248;&#x672C;&#x7CBE;&#x786E;&#x5339;&#x914D;&#xFF1B;
+</p>
+
+<p>
+main &#x51FD;&#x6570;&#x4E0D;&#x80FD;&#x91CD;&#x8F7D;
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org6fb02d7" class="outline-2">
+<h2 id="org6fb02d7"><span class="section-number-2">12</span> &#x5BB9;&#x5668;</h2>
+<div class="outline-text-2" id="text-12">
+<p>
+C++ &#x6807;&#x51C6;&#x5316;&#x8D21;&#x732E;&#xFF1A;&#x521B;&#x5EFA;&#x548C;&#x6269;&#x5C55;&#x4E86;&#x6807;&#x51C6;&#x5E93;&#xFF0C;&#x5BB9;&#x5668;&#x548C;&#x7B97;&#x6CD5;&#x662F;&#x6807;&#x51C6;&#x5E93;&#x7684;&#x57FA;&#x7840;&#x3002;
+</p>
+
+<p>
+&#x5BB9;&#x5668;&#x4E2D;&#x6240;&#x6709;&#x5BF9;&#x8C61;&#x90FD;&#x662F;&#x540C;&#x4E00;&#x79CD;&#x7C7B;&#x578B;&#xFF1B;&#x6DFB;&#x52A0;&#x5230;&#x5BB9;&#x5668;&#x4E2D;&#x7684;&#x503C;&#x90FD;&#x662F;&#x526F;&#x672C;&#xFF0C;&#x539F;&#x503C;&#x4E0D;&#x4F1A;&#x53D7;&#x5F71;&#x54CD;&#x3002;
+</p>
+</div>
+
+<div id="outline-container-org765c20c" class="outline-3">
+<h3 id="org765c20c"><span class="section-number-3">12.1</span> &#x987A;&#x5E8F;&#x5BB9;&#x5668;</h3>
+<div class="outline-text-3" id="text-12-1">
+<ul class="org-ul">
+<li>vector &#x5FEB;&#x901F;&#x968F;&#x673A;&#x8BBF;&#x95EE;&#xFF1B;&#x8FDE;&#x7EED;&#x5185;&#x5B58;</li>
+<li>list &#x5FEB;&#x901F;&#x63D2;&#x5165;&#x3001;&#x5220;&#x9664;&#xFF1B;&#x94FE;&#x8868;</li>
+<li>deque &#x53CC;&#x7AEF;&#x961F;&#x5217;</li>
+</ul>
+
+<p>
+<b>&#x901A;&#x5E38; vector &#x662F;&#x6700;&#x4F18;&#x7684;&#x9009;&#x62E9;</b> &#xFF0C;&#x9664;&#x975E;&#x6709;&#x660E;&#x786E;&#x7684;&#x9700;&#x6C42;&#x3002;&#x56E0;&#x4E3A; vector &#x5206;&#x914D;&#x5185;&#x5B58;&#x7684;&#x65F6;&#x5019;&#x4F1A; double &#xFF0C;&#x6240;&#x4EE5;&#x4E00;&#x822C;&#x53EF;&#x4EE5;&#x4FDD;&#x8BC1;&#x6548;&#x7387;&#x3002;
+</p>
+
+
+<div class="org-src-container">
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;bitset&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="built_in">bitset</span>&lt;16&gt; bitvec(<span class="number">0xffff</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">strval</span><span class="params">(<span class="string">&quot;1100&quot;</span>)</span></span>;</span><br><span class="line"><span class="built_in">bitset</span>&lt;32&gt; bitvec2(strval); <span class="comment">// 0011 &#x4F4E;&#x4F4D;&#x5728;&#x524D;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">stringstream</span> ss;<span class="comment">//&#x7C7B;&#x578B;&#x8F6C;&#x6362;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// c &#x662F;&#x5BB9;&#x5668;</span></span><br><span class="line">c.begin()</span><br><span class="line">c.end()</span><br><span class="line">c.rbegin()</span><br><span class="line">c.rend()</span><br><span class="line">c.back()</span><br><span class="line">c.front()</span><br><span class="line">c.push_back()</span><br><span class="line">c.push_front()</span><br><span class="line">c.insert()</span><br><span class="line">c.erase()</span><br><span class="line">c.pop_back()</span><br><span class="line">c.pop_front()</span><br></pre></td></tr></table></figure>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org0d20839" class="outline-3">
+<h3 id="org0d20839"><span class="section-number-3">12.2</span> &#x5BB9;&#x5668;&#x9002;&#x914D;&#x5668;</h3>
+<div class="outline-text-3" id="text-12-2">
+<p>
+&#x4F7F;&#x4E00;&#x4E8B;&#x7269;&#x7684;&#x884C;&#x4E3A;&#x7C7B;&#x4F3C;&#x4E8E;&#x53E6;&#x4E00;&#x4E2A;&#x4E8B;&#x7269;&#x7684;&#x884C;&#x4E3A;&#x7684;&#x4E00;&#x79CD;&#x673A;&#x5236;&#xFF1B;&#x5BB9;&#x5668;&#x9002;&#x914D;&#x5668;&#x8BA9;&#x4E00;&#x79CD;&#x5DF2;&#x5B58;&#x5728;&#x7684;&#x5BB9;&#x5668;&#x7C7B;&#x578B;&#x91C7;&#x7528;&#x53E6;&#x4E00;&#x79CD;&#x4E0D;&#x540C;&#x7684;&#x62BD;&#x8C61;&#x7C7B;&#x578B;&#x7684;&#x5DE5;&#x4F5C;&#x65B9;&#x5F0F;&#x5B9E;&#x73B0;&#x3002;
+</p>
+
+<p>
+&#x672C;&#x8D28;&#x4E0A;&#x5C31;&#x662F;&#x4F7F;&#x7528;&#x4E0A;&#x9762;&#x7684;&#x987A;&#x5E8F;&#x5BB9;&#x5668;&#x5C01;&#x88C5;&#x6210;&#x4E86;&#x6808;&#x3001;&#x961F;&#x5217;&#x3001;&#x4F18;&#x5148;&#x7EA7;&#x961F;&#x5217;&#xFF1B;&#x5176;&#x5B9E;&#x6839;&#x672C;&#x4E0D;&#x9700;&#x8981;&#x5173;&#x5FC3;&#x6808;&#x548C;&#x961F;&#x5217;&#x662F;&#x600E;&#x6837;&#x5B9E;&#x73B0;&#x7684;&#xFF0C;&#x5C31;&#x50CF;&#x4E0D;&#x9700;&#x8981;&#x5173;&#x7CFB;&#x987A;&#x5E8F;&#x5BB9;&#x5668;
+&#x662F;&#x600E;&#x6837;&#x5B9E;&#x73B0;&#x7684;&#x4E00;&#x6837;&#xFF0C;&#x76F4;&#x63A5;&#x62FF;&#x6765;&#x4F7F;&#x7528;&#x5C31;&#x53EF;&#x4EE5;&#x3002;&#x540D;&#x5B57;&#x4E5F;&#x4E0D;&#x7528;&#x53EB;&#x5BB9;&#x5668;&#x9002;&#x914D;&#x5668;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x53EB;&#x505A;&#x6808;&#x5BB9;&#x5668;&#x3001;&#x961F;&#x5217;&#x5BB9;&#x5668;&#x3001;&#x4F18;&#x5148;&#x7EA7;&#x961F;&#x5217;&#x5BB9;&#x5668;&#x5373;&#x53EF;&#x3002;
+</p>
+
+<ul class="org-ul">
+<li>stack &#x6808;&#xFF0C;&#x9ED8;&#x8BA4;&#x57FA;&#x4E8E; deque &#x5B9E;&#x73B0;&#xFF1B;&#x53EF;&#x4EE5;&#x57FA;&#x4E8E; vector &#x3001;list &#x3001;deque &#x5B9E;&#x73B0;</li>
+<li>queue &#x961F;&#x5217;&#xFF0C;&#x9ED8;&#x8BA4;&#x57FA;&#x4E8E; deque &#x5B9E;&#x73B0;&#xFF1B;&#x53EF;&#x4EE5;&#x57FA;&#x4E8E; list &#x3001;deque &#x5B9E;&#x73B0;&#xFF0C;&#x4F46;&#x4E0D;&#x80FD;&#x57FA;&#x4E8E; vector &#x5B9E;&#x73B0;&#xFF0C;&#x56E0;&#x4E3A;&#x4E0D;&#x80FD;&#x5B9E;&#x73B0; push<sub>front</sub></li>
+<li>priority<sub>queue</sub> &#x4F18;&#x5148;&#x7EA7;&#x961F;&#x5217;&#xFF0C;&#x9ED8;&#x8BA4;&#x57FA;&#x4E8E; vector &#x5B9E;&#x73B0;&#xFF1B;&#x4E0D;&#x80FD;&#x57FA;&#x4E8E; list &#x5B9E;&#x73B0;&#xFF0C;&#x56E0;&#x4E3A;&#x4E0D;&#x80FD;&#x5B9E;&#x73B0;&#x968F;&#x673A;&#x8BBF;&#x95EE;</li>
+</ul>
+
+<div class="org-src-container">
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">stack</span>&lt;<span class="built_in">string</span>, <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&gt; str_stk; <span class="comment">// &#x4FEE;&#x6539;&#x6210;&#x57FA;&#x4E8E; vector &#x5B9E;&#x73B0;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// &#x6808;</span></span><br><span class="line">s.empty()</span><br><span class="line">s.size()</span><br><span class="line">s.pop()</span><br><span class="line">s.top()</span><br><span class="line">s.push()</span><br><span class="line"></span><br><span class="line"><span class="comment">// &#x961F;&#x5217;</span></span><br><span class="line">q.empty()</span><br><span class="line">q.size()</span><br><span class="line">q.pop()</span><br><span class="line">q.front()</span><br><span class="line">q.back()</span><br><span class="line">q.top()</span><br><span class="line">q.push()</span><br></pre></td></tr></table></figure>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgdac21fd" class="outline-3">
+<h3 id="orgdac21fd"><span class="section-number-3">12.3</span> &#x5173;&#x8054;&#x5BB9;&#x5668;</h3>
+<div class="outline-text-3" id="text-12-3">
+<ul class="org-ul">
+<li>map key-value &#xFF0C;&#x952E;&#x7C7B;&#x578B;&#x552F;&#x4E00;&#x7684;&#x7EA6;&#x675F;&#xFF1A;&#x652F;&#x6301; &lt; &#x64CD;&#x4F5C;&#x7B26;&#xFF1B;&#x4E0B;&#x6807;&#x8FD0;&#x7B97;&#x65F6;&#xFF0C;&#x82E5;&#x4E0D;&#x5B58;&#x5728;&#xFF0C;&#x4F1A;&#x63D2;&#x5165;&#x4E00;&#x4E2A;&#x5143;&#x7D20;</li>
+<li>set key &#xFF0C;</li>
+<li>multimap &#x91CD;&#x590D; key</li>
+<li>multiset &#x91CD;&#x590D; key</li>
+</ul>
+
+<div class="org-src-container">
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;map&gt;</span></span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;utility&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="built_in">map</span>&lt;<span class="built_in">string</span>, <span class="keyword">int</span>&gt; word_count;</span><br><span class="line">word_count[<span class="string">&quot;Anna&quot;</span>] = <span class="number">1</span>;</span><br><span class="line">word_count.insert(<span class="built_in">map</span>&lt;<span class="built_in">string</span>,<span class="keyword">int</span>&gt;::value_type(<span class="string">&quot;Boble&quot;</span>, <span class="number">2</span>));</span><br><span class="line">word_count.insert(make_pair(<span class="string">&quot;Cade&quot;</span>, <span class="number">3</span>));</span><br><span class="line"></span><br><span class="line">pair&lt;<span class="keyword">int</span>,<span class="built_in">string</span>&gt; p1;</span><br></pre></td></tr></table></figure>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgdced7f5" class="outline-3">
+<h3 id="orgdced7f5"><span class="section-number-3">12.4</span> &#x8FED;&#x4EE3;&#x5668;</h3>
+<div class="outline-text-3" id="text-12-4">
+<p>
+&#x6240;&#x6709;&#x6807;&#x51C6;&#x5E93;&#x90FD;&#x5B9A;&#x4E49;&#x4E86;&#x76F8;&#x5E94;&#x7684;&#x8FED;&#x4EE3;&#x5668;&#x7C7B;&#x578B;&#xFF0C;&#x53EA;&#x6709;&#x5C11;&#x6570;&#x5BB9;&#x5668;&#x652F;&#x6301;&#x4E0B;&#x6807;&#x64CD;&#x4F5C;&#x3002;
+</p>
+
+<div class="org-src-container">
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::iterator iter = ivec.begin(); iter != ivec.end(); ++iter)</span><br><span class="line">{</span><br><span class="line">    <span class="comment">// &#x4E0A;&#x9762;&#x5728; for &#x5FAA;&#x73AF;&#x4E2D;&#x4F7F;&#x7528; != &#x800C;&#x4E0D;&#x662F;&#x4F7F;&#x7528; ivec.size() &#x662F;&#x56E0;&#x4E3A;&#x5BB9;&#x5668;&#x7684;&#x957F;&#x5EA6;&#x53EF;&#x80FD;&#x6539;&#x53D8;</span></span><br><span class="line">    <span class="comment">// vector &#x957F;&#x5EA6;&#x6539;&#x53D8;&#x540E;&#x5DF2;&#x5B58;&#x5728;&#x7684;&#x8FED;&#x4EE3;&#x5668;&#x5931;&#x6548;</span></span><br><span class="line">    <span class="comment">// &#x611F;&#x89C9;&#x4E0A;&#x9762;&#x4E24;&#x53E5;&#x8BDD;&#x77DB;&#x76FE;&#x5440;&#xFF1F;</span></span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">const_iterator</span><br><span class="line"><span class="comment">// &#x53CD;&#x5411;&#x8FED;&#x4EE3;&#x5668;</span></span><br><span class="line">reverse_iterator</span><br><span class="line"><span class="comment">// &#x63D2;&#x5165;&#x8FED;&#x4EE3;&#x5668;</span></span><br><span class="line">back_insertor</span><br></pre></td></tr></table></figure>
+</div>
+</div>
+</div>
+
+
+
+<div id="outline-container-org65920c6" class="outline-3">
+<h3 id="org65920c6"><span class="section-number-3">12.5</span> &#x7B97;&#x6CD5;</h3>
+<div class="outline-text-3" id="text-12-5">
+<p>
+&#x5BB9;&#x5668;&#x53EA;&#x5B9A;&#x4E49;&#x4E86;&#x5C11;&#x91CF;&#x64CD;&#x4F5C;&#xFF0C;&#x5927;&#x591A;&#x6570;&#x989D;&#x5916;&#x7684;&#x64CD;&#x4F5C;&#x7531;&#x7B97;&#x6CD5;&#x5E93;&#x63D0;&#x4F9B;&#x3002;
+</p>
+
+<p>
+&#x6CDB;&#x578B;&#x7B97;&#x6CD5;&#xFF1A;&#x53EF;&#x7528;&#x4E8E;&#x4E0D;&#x540C;&#x7684;&#x5BB9;&#x5668;&#xFF1B;&#x5BB9;&#x5668;&#x53EF;&#x4EE5;&#x662F;&#x4E0D;&#x540C;&#x7684;&#x5143;&#x7D20;&#x3002;
+</p>
+
+<p>
+&#x7B97;&#x6CD5;&#x57FA;&#x4E8E;&#x8FED;&#x4EE3;&#x5668;&#x53CA;&#x5176;&#x64CD;&#x4F5C;&#x5B9E;&#x73B0;&#xFF0C;&#x5E76;&#x975E;&#x57FA;&#x4E8E;&#x5BB9;&#x5668;&#x5B9E;&#x73B0;&#x3002;
+</p>
+
+<p>
+&#x7B97;&#x6CD5;&#x53EF;&#x4EE5;&#x6539;&#x53D8;&#x5BB9;&#x5668;&#x4E2D;&#x5143;&#x7D20;&#x7684;&#x503C;&#x6216;&#x5143;&#x7D20;&#x7684;&#x987A;&#x5E8F;&#xFF1B;&#x4F46;&#x4E0D;&#x4F1A;&#x76F4;&#x63A5;&#x6DFB;&#x52A0;/&#x5220;&#x9664;&#x5143;&#x7D20;&#xFF08;&#x5373;&#x4E0D;&#x4FEE;&#x6539;&#x57FA;&#x7840;&#x5BB9;&#x5668;&#x7684;&#x5927;&#x5C0F;&#xFF09;&#xFF0C;&#x7B97;&#x6CD5;&#x6C38;&#x4E0D;&#x6267;&#x884C;&#x5BB9;&#x5668;&#x63D0;&#x4F9B;&#x7684;&#x64CD;&#x4F5C;&#xFF1B;
+&#x8FED;&#x4EE3;&#x5668;&#x5C06;&#x7B97;&#x6CD5;&#x548C;&#x5BB9;&#x5668;&#x7ED1;&#x5B9A;&#x8D77;&#x6765;&#x3002;
+</p>
+
+<div class="org-src-container">
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span></span></span><br><span class="line"></span><br><span class="line">accumulate(.,.,.)</span><br><span class="line">find_first_of(.,.,.,.)</span><br><span class="line">find(.,.,.)</span><br><span class="line"></span><br><span class="line">fill(rec.begin(), rec.end(), <span class="number">0</span>);</span><br><span class="line">fill_n(vec.begin(), <span class="number">10</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">copy()</span><br><span class="line">replace()</span><br><span class="line">replace_copy()</span><br><span class="line"></span><br><span class="line">sort()</span><br><span class="line">unique()</span><br><span class="line">stable_sort()</span><br><span class="line">count_if()</span><br></pre></td></tr></table></figure>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org65c684f" class="outline-2">
+<h2 id="org65c684f"><span class="section-number-2">13</span> &#x7C7B;</h2>
+<div class="outline-text-2" id="text-13">
+<p>
+&#x5141;&#x8BB8;&#x7A0B;&#x5E8F;&#x5458;&#x5B9A;&#x4E49;&#x81EA;&#x5DF1;&#x7684;&#x7C7B;&#x578B;&#xFF0C;&#x4ED6;&#x4EEC;&#x7528;&#x8D77;&#x6765;&#x548C;&#x5185;&#x7F6E;&#x7684;&#x7C7B;&#x578B;&#x4E00;&#x6837;&#x5BB9;&#x6613;&#x548C;&#x76F4;&#x89C2;&#x3002;&#x7C7B;&#x5B9A;&#x4E49;&#x4E86;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x7C7B;&#x578B;&#x548C;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x4F5C;&#x7528;&#x57DF;&#x3002;&#x6CE8;&#x610F;&#xFF1A;&#x7C7B;&#x5B9A;&#x4E49;&#x540E;&#x9762;&#x6709;
+&#x5206;&#x53F7; &quot;;&quot;
+</p>
+
+<p>
+class &#x548C; struct &#x552F;&#x4E00;&#x7684;&#x5DEE;&#x522B;&#xFF1A;class &#x9ED8;&#x8BA4;&#x4E3A; private &#x3001;struct &#x9ED8;&#x8BA4;&#x4E3A; public&#xFF1B;public&#x3001;protected&#x3001;private &#x53EF;&#x4EE5;&#x591A;&#x6B21;&#x51FA;&#x73B0;&#xFF1B;
+</p>
+
+<p>
+&#x53EA;&#x6709;&#x7C7B;&#x7684;&#x6210;&#x5458;&#x51FD;&#x6570;&#x53CA;&#x53CB;&#x5143;&#x53EF;&#x4EE5;&#x8BBF;&#x95EE;&#x7C7B;&#x7684; private &#x6210;&#x5458;&#xFF1B;&#x7C7B;&#x53CA;&#x5176;&#x5B50;&#x7C7B;&#x53EF;&#x4EE5;&#x8BBF;&#x95EE;&#x7C7B;&#x7684; protected &#x6210;&#x5458;&#xFF1B; public &#x6210;&#x5458;&#x65E0;&#x9650;&#x5236;&#x3002;
+</p>
+
+<p>
+&#x53CB;&#x5143;&#x4F7F;&#x7528; friend &#x58F0;&#x660E;&#xFF0C;&#x5141;&#x8BB8;&#x4E00;&#x4E2A;&#x7C7B;&#x5C06;&#x975E; public &#x6210;&#x5458;&#x6388;&#x4E88;&#x6307;&#x5B9A;&#x51FD;&#x6570;/&#x7C7B;&#xFF1B;&#x53CB;&#x5143;&#x5728;&#x7C7B;&#x4E2D;&#x5B9A;&#x4E49;&#xFF0C;&#x4F46;&#x4E0D;&#x5C5E;&#x4E8E;&#x8BE5;&#x7C7B;&#xFF0C;&#x4E0D;&#x80FD;&#x7EE7;&#x627F;&#x3002;
+</p>
+
+<p>
+&#x53C2;&#x6570;&#x521D;&#x59CB;&#x5316;&#x5217;&#x8868;&#xFF1A;&#x53EA;&#x6307;&#x5B9A;&#x6210;&#x5458;&#x53D8;&#x91CF;&#x521D;&#x59CB;&#x5316;&#x7684;&#x503C;&#xFF0C;&#x5E76;&#x4E0D;&#x6307;&#x5B9A;&#x987A;&#x5E8F;&#x3002;
+</p>
+
+<div class="org-src-container">
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//&#x521D;&#x59CB;&#x5316;&#x5217;&#x8868;</span></span><br><span class="line">Sales_item() : units_add(<span class="number">0</span>), revenue(<span class="number">0</span>,<span class="number">0</span>) {}</span><br></pre></td></tr></table></figure>
+</div>
+
+<p>
+<b>&#x6784;&#x9020;&#x51FD;&#x6570;</b> &#xFF1A;&#x4E0E;&#x7C7B;&#x540C;&#x540D;&#xFF0C;&#x4E14;&#x6CA1;&#x6709;&#x8FD4;&#x56DE;&#x503C;&#xFF0C;&#x53EF;&#x91CD;&#x8F7D;&#xFF1B;&#x7528;&#x4E8E;&#x521D;&#x59CB;&#x5316;&#x5176;&#x6570;&#x636E;&#x6210;&#x5458;&#xFF0C;&#x4FDD;&#x8BC1;&#x6BCF;&#x4E2A;&#x5BF9;&#x8C61;&#x7684;&#x6570;&#x636E;&#x6210;&#x5458;&#x5177;&#x6709;&#x5408;&#x9002;&#x7684;&#x521D;&#x59CB;&#x503C;&#xFF1B;&#x5FC5;&#x987B;&#x5728; public
+&#x4E2D;&#xFF0C;&#x5426;&#x5219;&#x65E0;&#x6CD5;&#x521B;&#x5EFA;&#x8BE5;&#x7C7B;&#x7684;&#x5BF9;&#x8C61;&#xFF0C;&#x4E5F;&#x4E0D;&#x660E;&#x58F0;&#x660E;&#x4E3A; const &#xFF1B;&#x9ED8;&#x8BA4;&#x6784;&#x9020;&#x51FD;&#x6570;&#x6CA1;&#x6709;&#x5F62;&#x53C2;&#xFF0C;&#x4E0D;&#x4F1A;&#x521D;&#x59CB;&#x5316;&#x5185;&#x7F6E;&#x6570;&#x636E;&#x6210;&#x5458;&#xFF1B;&#x53EA;&#x6709;&#x4E00;&#x4E2A;&#x7C7B;&#x6CA1;&#x6709;&#x5B9A;&#x4E49;&#x6784;&#x9020;&#x51FD;
+&#x6570;&#x65F6;&#xFF0C;&#x7F16;&#x8BD1;&#x5668;&#x624D;&#x4F1A;&#x81EA;&#x52A8;&#x751F;&#x6210;&#x4E00;&#x4E2A;&#x9ED8;&#x8BA4;&#x6784;&#x9020;&#x51FD;&#x6570;&#xFF1B;explicit &#x53EF;&#x4EE5;&#x6291;&#x5236;&#x6784;&#x9020;&#x51FD;&#x6570;&#x7684;&#x9690;&#x5F0F;&#x8F6C;&#x6362;&#xFF1B;
+</p>
+
+<p>
+<b>&#x590D;&#x5236;&#x6784;&#x9020;&#x51FD;&#x6570;</b> &#xFF1A;&#x7C7B;&#x5F15;&#x7528;&#x4F5C;&#x4E3A;&#x5F62;&#x53C2;&#x7684;&#x6784;&#x9020;&#x51FD;&#x6570;&#xFF1B;&#x53EF;&#x4EE5;&#x58F0;&#x660E;&#x4E3A; private &#x6765;&#x7981;&#x6B62;&#x590D;&#x5236;&#x3002;
+</p>
+
+<p>
+<b>&#x6790;&#x6784;&#x51FD;&#x6570;</b> &#xFF1A;~Sales<sub>item</sub>() {&#x2026;} <b>&#x6790;&#x6784;&#x51FD;&#x6570;&#x4E0D;&#x5E94;&#x8BE5;&#x8DD1;&#x51FA;&#x5F02;&#x5E38;</b>
+</p>
+
+<p>
+C++ &#x4E24;&#x79CD;&#x521D;&#x59CB;&#x5316;&#xFF1A;&#x76F4;&#x63A5;&#x521D;&#x59CB;&#x5316; () &#xFF1B;&#x590D;&#x5236;&#x521D;&#x59CB;&#x5316; = &#xFF1B;
+</p>
+
+<p>
+<b>&#x64CD;&#x4F5C;&#x7B26;&#x91CD;&#x8F7D;</b>
+</p>
+
+<div class="org-src-container">
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Sales_item <span class="keyword">operator</span>=(<span class="keyword">const</span> Sales_item &amp;, <span class="keyword">const</span> Sales_item &amp;) {}</span><br><span class="line">Sales_item <span class="keyword">operator</span>+(<span class="keyword">const</span> Sales_item &amp;) {}</span><br><span class="line"><span class="comment">// &#x524D;&#x7F6E;&#x8FD4;&#x56DE;&#x672C;&#x8EAB;&#xFF0C;&#x6240;&#x4EE5;&#x8FD4;&#x56DE;&#x5F15;&#x7528;</span></span><br><span class="line">Sales_item &amp; <span class="keyword">operator</span>++() {} </span><br><span class="line"><span class="comment">// &#x540E;&#x7F00;&#x5F0F;&#x64CD;&#x4F5C;&#x7B26;&#xFF0C;&#x5F62;&#x53C2;&#x6CA1;&#x6709;&#x610F;&#x4E49;&#xFF0C;&#x53EA;&#x662F;&#x4E3A;&#x4E86;&#x8BA9;&#x7F16;&#x8BD1;&#x5668;&#x8BC6;&#x522B;&#x4E3A;&#x540E;&#x7F00;&#x5F0F;&#xFF1B;&#x540E;&#x7F6E;&#x8FD4;&#x56DE;&#x526F;&#x672C;&#xFF0C;&#x6240;&#x4EE5;&#x4E0D;&#x7528;&#x8FD4;&#x56DE;&#x5F15;&#x7528;</span></span><br><span class="line">Sales_item <span class="keyword">operator</span>--(<span class="keyword">int</span>) {} </span><br></pre></td></tr></table></figure>
+</div>
+
+<p>
+&#x975E; static &#x6210;&#x5458;&#x51FD;&#x6570;&#x90FD;&#x6709;&#x4E00;&#x4E2A;&#x989D;&#x5916;&#x7684;&#xFF0C;&#x9690;&#x542B;&#x5F62;&#x53C2; <b>this</b> &#x6307;&#x9488;&#x3002;&#x5728;&#x8C03;&#x7528;&#x6210;&#x5458;&#x51FD;&#x6570;&#x65F6;&#xFF0C;&#x5F62;&#x53C2; this &#x521D;&#x59CB;&#x5316;&#x4E3A;&#x8C03;&#x7528;&#x51FD;&#x6570;&#x7684;&#x5BF9;&#x8C61;&#x7684;&#x5730;&#x5740;&#x3002;&#x5728;&#x5F62;&#x53C2;
+&#x4E2D;&#x663E;&#x793A;&#x6307;&#x5B9A; this &#x6307;&#x9488;&#x975E;&#x6CD5;&#xFF0C;&#x4F46;&#x51FD;&#x6570;&#x4F53;&#x5185;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#xFF0C;&#x901A;&#x5E38;&#x7528;&#x4E8E;&#x8FD4;&#x56DE;&#x8BE5;&#x5BF9;&#x8C61;&#x3002;
+</p>
+
+<p>
+&#x5728;&#x7C7B;&#x5185;&#x90E8;&#x5B9A;&#x4E49;&#x7684;&#x51FD;&#x6570;&#x9ED8;&#x8BA4;&#x4E3A; inline &#xFF1B;&#x5728;&#x7C7B;&#x5916;&#x5B9A;&#x4E49;&#x6210;&#x5458;&#x51FD;&#x6570;&#xFF0C;&#x9700;&#x6307;&#x5B9A;&#x7C7B;&#x4F5C;&#x7528;&#x57DF;
+</p>
+
+<div class="org-src-container">
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">double</span> Sales_item::avg_price() <span class="keyword">const</span> {</span><br><span class="line">    ....</span><br><span class="line">}</span><br><span class="line"><span class="comment">// &#x5F62;&#x53C2;&#x4E4B;&#x540E;&#x52A0; const &#xFF0C;&#x8868;&#x660E;&#x51FD;&#x6570;&#x4E0D;&#x80FD;&#x4FEE;&#x6539;&#x64CD;&#x4F5C;&#x5BF9;&#x8C61;&#x7684;&#x6570;&#x636E;&#x6210;&#x5458;&#xFF0C;const &#x5FC5;&#x987B;&#x540C;&#x65F6;&#x51FA;&#x73B0;&#x5728;&#x58F0;&#x660E;&#x548C;&#x5B9A;&#x4E49;&#x4E2D;</span></span><br><span class="line"><span class="comment">// mutable &#x53EF;&#x53D8;&#x6570;&#x636E;&#x6210;&#x5458;&#xFF0C;const &#x51FD;&#x6570;&#x53EF;&#x4FEE;&#x6539;&#x5176;&#x503C;</span></span><br></pre></td></tr></table></figure>
+</div>
+
+<p>
+&#x53EF;&#x4EE5;&#x5728;&#x7C7B;&#x7684;&#x5185;&#x90E8;&#x7528; typedef &#x5B9A;&#x4E49;&#x7C7B;&#x578B;&#x6765;&#x7B80;&#x5316;&#x7C7B;&#x7684;&#x4E66;&#x5199;&#xFF1B;
+</p>
+
+<p>
+<b>&#x5F53;&#x7C7B;&#x5B9A;&#x4E49;&#x4F53;&#x5B8C;&#x6210;&#x540E;&#x624D;&#x80FD;&#x5B9A;&#x4E49;&#x7C7B;&#xFF0C;&#x56E0;&#x6B64;&#x7C7B;&#x4E0D;&#x80FD;&#x5177;&#x6709;&#x81EA;&#x8EAB;&#x7C7B;&#x578B;&#x7684;&#x6570;&#x636E;&#x6210;&#x5458;&#xFF1B;&#x53EA;&#x8981;&#x7C7B;&#x540D;&#x4E00;&#x51FA;&#x73B0;&#x5C31;&#x53EF;&#x4EE5;&#x8BA4;&#x4E3A;&#x8BE5;&#x7C7B;&#x5DF2;&#x58F0;&#x660E;&#xFF0C;&#x56E0;&#x6B64;&#x7C7B;&#x7684;&#x6570;&#x636E;&#x6210;&#x5458;&#x53EF;&#x4EE5;
+&#x662F;&#x6267;&#x884C;&#x81EA;&#x8EAB;&#x7C7B;&#x578B;&#x7684;&#x6307;&#x9488;&#x6216;&#x5F15;&#x7528;&#x3002;&#xFF08;class Screen; &#x79F0;&#x4E3A;&#x524D;&#x5411;&#x58F0;&#x660E;&#xFF09;</b>
+</p>
+
+<div class="org-src-container">
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Sales_item item1;</span><br><span class="line"><span class="keyword">class</span> Sales_item item2;</span><br><span class="line"><span class="keyword">class</span> Sales_item { ... } accum, trans; <span class="comment">// &#x6240;&#x4EE5;&#x7C7B;&#x5B9A;&#x4E49;&#x540E;&#x9762;&#x5FC5;&#x987B;&#x6709;&#x5206;&#x53F7; &quot;;&quot; </span></span><br><span class="line"></span><br><span class="line"><span class="function">Sales_item <span class="title">myobj</span><span class="params">()</span></span>; <span class="comment">// &#x9519;&#x8BEF;&#xFF0C;&#x8FD9;&#x662F;&#x5728;&#x58F0;&#x660E;&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x5B9A;&#x4E49;&#x7C7B;&#x5BF9;&#x8C61;&#xFF0C;&#x4E0D;&#x9700;&#x8981;&#x540E;&#x9762;&#x7684;&#x62EC;&#x53F7;</span></span><br></pre></td></tr></table></figure>
+</div>
+
+<p>
+static &#x6210;&#x5458;&#x5C5E;&#x4E8E;&#x7C7B;&#xFF0C;&#x4E0D;&#x5C5E;&#x4E8E;&#x5BF9;&#x8C61;&#xFF1B;&#x6CA1;&#x6709; this &#x6307;&#x9488;&#x3002;
+</p>
+
+<p>
+<b>&#x5C01;&#x88C5;-&#x7EE7;&#x627F;-&#x591A;&#x6001;</b> &#xFF1A;
+</p>
+
+<p>
+&#x6210;&#x5458;&#x51FD;&#x6570;&#x9ED8;&#x8BA4;&#x4E3A;&#x975E;&#x865A;&#x51FD;&#x6570;&#xFF0C;&#x5BF9;&#x975E;&#x865A;&#x51FD;&#x6570;&#x7684;&#x8C03;&#x7528;&#x65F6;&#x5728;&#x7F16;&#x8BD1;&#x65F6;&#x786E;&#x5B9A;&#xFF1B;
+</p>
+
+<p>
+<b>&#x865A;&#x51FD;&#x6570;</b> &#xFF0C;virtual &#x51FD;&#x6570;&#xFF1A;&#x57FA;&#x7C7B;&#x671F;&#x5F85;&#x6D3E;&#x751F;&#x7C7B;&#x91CD;&#x65B0;&#x5B9A;&#x4E49;&#x7684;&#x51FD;&#x6570;&#xFF0C;&#x5982;&#x679C;&#x6D3E;&#x751F;&#x7C7B;&#x6CA1;&#x6709;&#x91CD;&#x5B9A;&#x4E49;&#x67D0;&#x4E2A;&#x865A;&#x51FD;&#x6570;&#xFF0C;&#x5219;&#x4F7F;&#x7528;&#x57FA;&#x7C7B;&#x5B9A;&#x4E49;&#xFF1B;&#x57FA;&#x7C7B;&#x5E0C;&#x671B;&#x6D3E;&#x751F;&#x7C7B;&#x7EE7;
+&#x627F;&#x7684;&#x51FD;&#x6570;&#x4E0D;&#x80FD;&#x5B9A;&#x4E49;&#x6210;&#x865A;&#x51FD;&#x6570;&#xFF1B;
+</p>
+
+<p>
+<b>&#x52A8;&#x6001;&#x7ED1;&#x5B9A;</b> &#xFF1A;dynamic binding &#x57FA;&#x7C7B;&#x7684;&#x6307;&#x9488;&#x8C03;&#x7528;&#x865A;&#x51FD;&#x6570;&#x65F6;&#xFF0C;&#x53D1;&#x751F;&#x52A8;&#x6001;&#x7ED1;&#x5B9A;&#x3002;
+</p>
+
+<p>
+<b>&#x7EAF;&#x865A;&#x51FD;&#x6570;</b> &#xFF1A;&#x5B9A;&#x4E49;&#x62BD;&#x8C61;&#x57FA;&#x7C7B;&#xFF0C;&#x4F9B;&#x5176;&#x4ED6;&#x7C7B;&#x6D3E;&#x751F;&#xFF0C;&#x4E0D;&#x80FD;&#x521B;&#x5EFA;&#x5BF9;&#x8C61;&#x3002;
+</p>
+
+<p>
+<i>&#x5F15;&#x7528;&#x548C;&#x6307;&#x9488;&#x7684;&#x9759;&#x6001;&#x7C7B;&#x578B;&#x548C;&#x52A8;&#x6001;&#x7C7B;&#x578B;&#x53EF;&#x4EE5;&#x4E0D;&#x540C;&#xFF0C;&#x8FD9;&#x662F; C++ &#x652F;&#x6301;&#x591A;&#x6001;&#x6027;&#x7684;&#x57FA;&#x77F3;&#x3002;</i>
+</p>
+
+<div class="org-src-container">
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Bulk_item : <span class="keyword">public</span> Item_base {</span><br><span class="line">    <span class="comment">// &#x6307;&#x5B9A;&#x865A;&#x51FD;&#x6570;&#x7248;&#x672C;&#xFF0C;&#x5982;&#x4E0B;&#x6307;&#x5B9A;&#x4F7F;&#x7528;&#x57FA;&#x7C7B;&#x7684;&#x865A;&#x51FD;&#x6570;</span></span><br><span class="line">    <span class="keyword">double</span> d = basp-&gt;Item_base::net_price(<span class="number">42</span>);</span><br></pre></td></tr></table></figure>
+</div>
+
+<p>
+&#x7EE7;&#x627F;&#xFF1A;Is A &#xFF1B;&#x7EC4;&#x5408;&#xFF1A;Has A
+</p>
+
+<p>
+<b>&#x591A;&#x91CD;&#x7EE7;&#x627F; &#x2013; &#x865A;&#x7EE7;&#x627F;</b>
+</p>
+
+<div class="org-src-container">
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Panda : <span class="keyword">public</span> Bear, <span class="keyword">public</span> Endangered { ... };</span><br><span class="line"><span class="comment">// &#x6D3E;&#x751F;&#x7C7B;&#x7684;&#x6784;&#x9020;&#x51FD;&#x6570;&#x521D;&#x59CB;&#x5316;&#x6240;&#x6709;&#x57FA;&#x7C7B;</span></span><br><span class="line"><span class="comment">// &#x6790;&#x6784;&#x987A;&#x5E8F;&#x4E0E;&#x6784;&#x9020;&#x987A;&#x5E8F;&#x76F8;&#x53CD;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// &#x865A;&#x7EE7;&#x627F;&#xFF1A;&#x53EA;&#x7EE7;&#x627F;&#x4E00;&#x4E2A;&#x5171;&#x4EAB;&#x57FA;&#x7C7B;&#x5BF9;&#x8C61;</span></span><br></pre></td></tr></table></figure>
+</div>
+
+<p>
+<b>&#x5D4C;&#x5957;&#x7C7B;</b> &#xFF1A;&#x5728;&#x4E00;&#x4E2A;&#x7C7B;&#x5185;&#x90E8;&#x5B9A;&#x4E49;&#x4E00;&#x4E2A;&#x7C7B;
+</p>
+
+<p>
+<b>&#x5C40;&#x90E8;&#x7C7B;</b> &#xFF1A;&#x5728;&#x51FD;&#x6570;&#x4F53;&#x5185;&#x5B9A;&#x4E49;&#x7C7B;
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org6b53ddd" class="outline-2">
+<h2 id="org6b53ddd"><span class="section-number-2">14</span> &#x6A21;&#x677F;</h2>
+<div class="outline-text-2" id="text-14">
+<p>
+<b>&#x6CDB;&#x578B;&#x7F16;&#x7A0B;</b> &#xFF1A;&#x72EC;&#x7ACB;&#x4E8E;&#x4EFB;&#x4F55;&#x7279;&#x5B9A;&#x7C7B;&#x578B;&#x7684;&#x65B9;&#x5F0F;&#x7F16;&#x5199;&#x4EE3;&#x7801;&#xFF1B;&#x4F9D;&#x8D56;&#x7F16;&#x8BD1;&#x65F6;&#x7684;&#x591A;&#x6001;&#x6027;&#xFF0C;&#x7F16;&#x8BD1;&#x5668;&#x627F;&#x62C5;&#x4E86;&#x4E3A;&#x6211;&#x4EEC;&#x4F7F;&#x7528;&#x6BCF;&#x79CD;&#x7C7B;&#x578B;&#x800C;&#x7F16;&#x5199;&#x51FD;&#x6570;&#x7684;&#x5355;&#x8C03;&#x5DE5;&#x4F5C;&#xFF1B;
+</p>
+
+<div class="org-src-container">
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// &#x6709;&#x7C7B;&#x6A21;&#x677F;&#x548C;&#x51FD;&#x6570;&#x6A21;&#x677F;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// &#x51FD;&#x6570;&#x6A21;&#x677F;</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="comment">// &#x6A21;&#x677F;&#x5F62;&#x53C2;&#x8868;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; typename &#x4E5F;&#x53EF;&#x4EE5;&#x7528; class </span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">compare</span><span class="params">(<span class="keyword">const</span> T &amp;v1, <span class="keyword">const</span> T &amp;v2)</span></span><br><span class="line"></span>{</span><br><span class="line">    <span class="keyword">if</span>(v1 &lt; v2) <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(v2 &lt; v1) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="comment">// &#x7C7B;&#x6A21;&#x677F;</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> Type&gt;</span><br><span class="line"><span class="keyword">class</span> Queue {</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Queue();</span><br><span class="line">    <span class="function">Type &amp;<span class="title">front</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">push</span><span class="params">(<span class="keyword">const</span> Type &amp;)</span></span>;</span><br><span class="line">...</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// &#x7279;&#x5316;&#xFF1A;&#x5982;&#x679C;&#x6709;&#x4E0E;&#x5B9E;&#x53C2;&#x66F4;&#x52A0;&#x5339;&#x914D;&#x7684;&#x7279;&#x4F8B;&#x5316;&#x7248;&#x672C;&#xFF0C;&#x7F16;&#x8BD1;&#x5668;&#x5C06;&#x4F1A;&#x9009;&#x62E9;&#x7279;&#x4F8B;&#x5316;&#x7248;&#x672C;</span></span><br><span class="line"><span class="comment">// &#x7279;&#x5316;&#x5206;&#x4E3A;&#x5168;&#x7279;&#x5316;&#x4E0E;&#x504F;&#x7279;&#x5316;</span></span><br><span class="line"><span class="comment">// &#x5168;&#x7279;&#x5316;&#xFF1A;&#x5168;&#x90E8;&#x5F62;&#x53C2;&#x6307;&#x5B9A;&#x7C7B;&#x578B;</span></span><br><span class="line"><span class="comment">// &#x504F;&#x7279;&#x5316;&#xFF1A;&#x90E8;&#x5206;&#x5F62;&#x53C2;&#x6307;&#x5B9A;&#x7C7B;&#x578B;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// &#x7C7B;&#x6A21;&#x677F;&#xFF1A;</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T1, <span class="keyword">typename</span> T2&gt;</span><br><span class="line"><span class="keyword">class</span> Test</span><br><span class="line">{</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	Test(T1 i,T2 j) {<span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;&#x6A21;&#x677F;&#x7C7B;&quot;</span> &lt;&lt; i &lt;&lt; j &lt;&lt; endl;}</span><br><span class="line">};</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;&gt;</span><br><span class="line"><span class="keyword">class</span> Test&lt;<span class="keyword">int</span> , <span class="keyword">char</span>&gt;</span><br><span class="line">{</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	Test(<span class="keyword">int</span> i, <span class="keyword">char</span> j) {<span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;&#x5168;&#x7279;&#x5316;&quot;</span> &lt;&lt; i &lt;&lt; j &lt;&lt; endl;}</span><br><span class="line">};</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T2&gt;</span><br><span class="line"><span class="keyword">class</span> Test&lt;<span class="keyword">char</span>, T2&gt;</span><br><span class="line">{</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	Test(<span class="keyword">char</span> i, T2 j) {<span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;&#x504F;&#x7279;&#x5316;&quot;</span> &lt;&lt; i &lt;&lt; j &lt;&lt; endl;}</span><br><span class="line">};</span><br><span class="line"></span><br><span class="line"><span class="comment">// &#x7C7B;&#x6A21;&#x677F;</span></span><br><span class="line">Test&lt;<span class="keyword">double</span> , <span class="keyword">double</span>&gt; t1(<span class="number">0.1</span>,<span class="number">0.2</span>);</span><br><span class="line"><span class="comment">// &#x5168;&#x7279;&#x5316;</span></span><br><span class="line">Test&lt;<span class="keyword">int</span> , <span class="keyword">char</span>&gt; t2(<span class="number">1</span>,<span class="string">&apos;A&apos;</span>);</span><br><span class="line"><span class="comment">// &#x504F;&#x7279;&#x5316;</span></span><br><span class="line">Test&lt;<span class="keyword">char</span>, <span class="keyword">bool</span>&gt; t3(<span class="string">&apos;A&apos;</span>,<span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// &#x51FD;&#x6570;&#x6A21;&#x677F;&#xFF0C;&#x53EA;&#x6709;&#x5168;&#x7279;&#x5316;&#xFF0C;&#x4E0D;&#x80FD;&#x504F;&#x7279;&#x5316;&#xFF1A;&#x504F;&#x7279;&#x5316;&#x7684;&#x529F;&#x80FD;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x51FD;&#x6570;&#x7684;&#x91CD;&#x8F7D;&#x5B8C;&#x6210;</span></span><br><span class="line"><span class="comment">// &#x6A21;&#x677F;&#x51FD;&#x6570;</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T1, <span class="keyword">typename</span> T2&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">fun</span><span class="params">(T1 a , T2 b)</span></span><br><span class="line"></span>{</span><br><span class="line">	<span class="built_in">cout</span>&lt;&lt;<span class="string">&quot;&#x6A21;&#x677F;&#x51FD;&#x6570;&quot;</span>&lt;&lt;endl;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="comment">//&#x5168;&#x7279;&#x5316;</span></span><br><span class="line"><span class="keyword">template</span>&lt;&gt;</span><br><span class="line"><span class="keyword">void</span> fun&lt;<span class="keyword">int</span> ,<span class="keyword">char</span> &gt;(<span class="keyword">int</span> a, <span class="keyword">char</span> b)</span><br><span class="line">{</span><br><span class="line">	<span class="built_in">cout</span>&lt;&lt;<span class="string">&quot;&#x5168;&#x7279;&#x5316;&quot;</span>&lt;&lt;endl;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="comment">//&#x51FD;&#x6570;&#x4E0D;&#x5B58;&#x5728;&#x504F;&#x7279;&#x5316;&#xFF1A;&#x4E0B;&#x9762;&#x7684;&#x4EE3;&#x7801;&#x662F;&#x9519;&#x8BEF;&#x7684;</span></span><br><span class="line"><span class="comment">/*</span><br><span class="line">template&lt;typename T2&gt;</span><br><span class="line">void fun&lt;char,T2&gt;(char a, T2 b)</span><br><span class="line">{</span><br><span class="line">	cout&lt;&lt;&quot;&#x504F;&#x7279;&#x5316;&quot;&lt;&lt;endl;</span><br><span class="line">}</span><br><span class="line">*/</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</div>
+</div>
+</div>
+</div>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C/" rel="tag"># C++</a>
+          
+        </div>
+      
+
+      
+      
+        <div class="post-widgets">
+        
+
+        
+
+        
+          
+          <div id="needsharebutton-postbottom">
+            <span class="btn">
+              <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </span>
+          </div>
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/29/apue/fun-of-c/" rel="next" title="Funny of C">
+                <i class="fa fa-chevron-left"></i> Funny of C
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/22/machinelearning/machine-learning/" rel="prev" title="Machine Learning">
+                Machine Learning <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzU0Ny8xNDA3OQ=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/polarbear.jpg" alt="Kyle Three Stone">
+            
+              <p class="site-author-name" itemprop="name">Kyle Three Stone</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">57</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-globe"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://github.com/kylestones" title="GitHub" target="_blank">GitHub</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="mailto:kyleemail@163.com" title="E-Mail" target="_blank">E-Mail</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org97d2d4d"><span class="nav-text">1 头文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2e4f524"><span class="nav-text">2 命名空间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org03b518a"><span class="nav-text">3 作用域 scope</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org03d3c31"><span class="nav-text">4 变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga522354"><span class="nav-text">5 new delete</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf880fb9"><span class="nav-text">6 智能指针</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6057b5b"><span class="nav-text">7 引用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgce73949"><span class="nav-text">8 const</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2d2be9b"><span class="nav-text">9 类型转换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org34c18d5"><span class="nav-text">9.1 隐式类型转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orga42fa8f"><span class="nav-text">9.2 强制类型转换</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8b0a8a1"><span class="nav-text">10 异常</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgca117b0"><span class="nav-text">11 重载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6fb02d7"><span class="nav-text">12 容器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org765c20c"><span class="nav-text">12.1 顺序容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org0d20839"><span class="nav-text">12.2 容器适配器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgdac21fd"><span class="nav-text">12.3 关联容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgdced7f5"><span class="nav-text">12.4 迭代器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org65920c6"><span class="nav-text">12.5 算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org65c684f"><span class="nav-text">13 类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6b53ddd"><span class="nav-text">14 模板</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kyle Three Stone</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="Symbols count total">1.9m</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="Reading time total">28:45</span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="Total Visitors">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="Total Views">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+  
+  <script src="/lib/needsharebutton/needsharebutton.js"></script>
+
+  <script>
+    
+      pbOptions = {};
+      
+          pbOptions.iconStyle = "box";
+      
+          pbOptions.boxForm = "horizontal";
+      
+          pbOptions.position = "bottomCenter";
+      
+          pbOptions.networks = "Wechat,Weibo,Douban,QQZone,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-postbottom', pbOptions);
+    
+    
+  </script>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

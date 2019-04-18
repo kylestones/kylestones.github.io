@@ -1,0 +1,1732 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/needsharebutton/needsharebutton.css">
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Table of Contents   1. &amp;#x542F;&amp;#x52A8; 2. &amp;#x5E2E;&amp;#x52A9; 3. &amp;#x67E5;&amp;#x770B;&amp;#x6E90;&amp;#x4EE3;&amp;#x7801; 4. &amp;#x7A0B;&amp;#x5E8F;&amp;#x8FD0;&amp;#x884C;&amp;#x4E0A;&amp;#x4E0B;&amp;#x6587; 5. &amp;#x65AD;&amp;#x70B9; 6. &amp;#x89C2;&amp;#x">
+<meta name="keywords" content="Linux,gdb">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GNU Project Debugger">
+<meta property="og:url" content="https://kylestones.github.io/2018/05/24/tools/gdb/index.html">
+<meta property="og:site_name" content="All in Org-mode">
+<meta property="og:description" content="Table of Contents   1. &amp;#x542F;&amp;#x52A8; 2. &amp;#x5E2E;&amp;#x52A9; 3. &amp;#x67E5;&amp;#x770B;&amp;#x6E90;&amp;#x4EE3;&amp;#x7801; 4. &amp;#x7A0B;&amp;#x5E8F;&amp;#x8FD0;&amp;#x884C;&amp;#x4E0A;&amp;#x4E0B;&amp;#x6587; 5. &amp;#x65AD;&amp;#x70B9; 6. &amp;#x89C2;&amp;#x">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-11-18T10:55:02.956Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="GNU Project Debugger">
+<meta name="twitter:description" content="Table of Contents   1. &amp;#x542F;&amp;#x52A8; 2. &amp;#x5E2E;&amp;#x52A9; 3. &amp;#x67E5;&amp;#x770B;&amp;#x6E90;&amp;#x4EE3;&amp;#x7801; 4. &amp;#x7A0B;&amp;#x5E8F;&amp;#x8FD0;&amp;#x884C;&amp;#x4E0A;&amp;#x4E0B;&amp;#x6587; 5. &amp;#x65AD;&amp;#x70B9; 6. &amp;#x89C2;&amp;#x">
+
+
+
+
+
+
+  <link rel="canonical" href="https://kylestones.github.io/2018/05/24/tools/gdb/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>GNU Project Debugger | All in Org-mode</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">All in Org-mode</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Keep it Simple, Stuped.</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://kylestones.github.io/2018/05/24/tools/gdb/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Kyle Three Stone">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/polarbear.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="All in Org-mode">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">GNU Project Debugger
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-05-24 00:00:00" itemprop="dateCreated datePublished" datetime="2018-05-24T00:00:00+08:00">2018-05-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-11-18 18:55:02" itemprop="dateModified" datetime="2018-11-18T18:55:02+08:00">2018-11-18</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Symbols count in article: </span>
+                
+                <span title="Symbols count in article">29k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">27 mins.</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <div id="content">
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org63943e1">1. &#x542F;&#x52A8;</a></li>
+<li><a href="#org3264b74">2. &#x5E2E;&#x52A9;</a></li>
+<li><a href="#org6d887ba">3. &#x67E5;&#x770B;&#x6E90;&#x4EE3;&#x7801;</a></li>
+<li><a href="#org7a4f76c">4. &#x7A0B;&#x5E8F;&#x8FD0;&#x884C;&#x4E0A;&#x4E0B;&#x6587;</a></li>
+<li><a href="#org52fb466">5. &#x65AD;&#x70B9;</a></li>
+<li><a href="#org28109d9">6. &#x89C2;&#x5BDF;&#x70B9;</a></li>
+<li><a href="#org3f57334">7. &#x8BBE;&#x7F6E;&#x6355;&#x6349;&#x70B9;&#xFF08;CatchPoint&#xFF09;</a></li>
+<li><a href="#orgf99753f">8. &#x505C;&#x6B62;&#x70B9;&#x8BBE;&#x7F6E;&#x8FD0;&#x884C;&#x547D;&#x4EE4;</a></li>
+<li><a href="#org7827b79">9. &#x8C03;&#x8BD5;&#x4EE3;&#x7801;</a></li>
+<li><a href="#org9c798a9">10. &#x67E5;&#x770B;&#x8FD0;&#x884C;&#x6570;&#x636E;</a></li>
+<li><a href="#org1af64f0">11. &#x67E5;&#x770B;&#x6808;&#x4FE1;&#x606F;</a></li>
+<li><a href="#org759ca64">12. &#x4FE1;&#x53F7;&#xFF08;Signals&#xFF09;</a></li>
+<li><a href="#orgfc50e78">13. &#x7EBF;&#x7A0B;</a></li>
+<li><a href="#orgbfd2de3">14. &#x5BC4;&#x5B58;&#x5668;</a></li>
+<li><a href="#org4e5853f">15. &#x6539;&#x53D8;&#x7A0B;&#x5E8F;&#x6267;&#x884C;</a></li>
+<li><a href="#org9665617">16. &#x7F16;&#x8BD1;</a></li>
+<li><a href="#orgacd9766">17. &#x52A0;&#x8F7D;&#x72EC;&#x7ACB;&#x7684;&#x8C03;&#x8BD5;&#x4FE1;&#x606F;</a></li>
+<li><a href="#orgf8386c1">18. &#x6267;&#x884C; GDB &#x811A;&#x672C;</a></li>
+<li><a href="#org2480532">19. &#x81EA;&#x5B9A;&#x4E49;&#x547D;&#x4EE4;</a></li>
+</ul>
+</div>
+</div>
+<p>
+GDB&#x662F;GNU&#x5F00;&#x6E90;&#x7EC4;&#x7EC7;&#x53D1;&#x5E03;&#x7684;&#x4E00;&#x4E2A;&#x5F3A;&#x5927;&#x7684;UNIX&#x4E0B;&#x7684;&#x7A0B;&#x5E8F;&#x8C03;&#x8BD5;&#x5DE5;&#x5177;&#x3002;
+</p>
+
+<p>
+GDB&#x4E3B;&#x8981;&#x5E2E;&#x5FD9;&#x4F60;&#x5B8C;&#x6210;&#x4E0B;&#x9762;&#x56DB;&#x4E2A;&#x65B9;&#x9762;&#x7684;&#x529F;&#x80FD;&#xFF1A;
+</p>
+
+<ol class="org-ol">
+<li>&#x542F;&#x52A8;&#x4F60;&#x7684;&#x7A0B;&#x5E8F;&#xFF0C;&#x53EF;&#x4EE5;&#x6309;&#x7167;&#x4F60;&#x7684;&#x81EA;&#x5B9A;&#x4E49;&#x7684;&#x8981;&#x6C42;&#x968F;&#x5FC3;&#x6240;&#x6B32;&#x7684;&#x8FD0;&#x884C;&#x7A0B;&#x5E8F;&#x3002;</li>
+<li>&#x53EF;&#x8BA9;&#x88AB;&#x8C03;&#x8BD5;&#x7684;&#x7A0B;&#x5E8F;&#x5728;&#x4F60;&#x6240;&#x6307;&#x5B9A;&#x7684;&#x8C03;&#x7F6E;&#x7684;&#x65AD;&#x70B9;&#x5904;&#x505C;&#x4F4F;&#x3002;</li>
+<li>&#x5F53;&#x7A0B;&#x5E8F;&#x88AB;&#x505C;&#x4F4F;&#x65F6;&#xFF0C;&#x53EF;&#x4EE5;&#x68C0;&#x67E5;&#x6B64;&#x65F6;&#x4F60;&#x7684;&#x7A0B;&#x5E8F;&#x4E2D;&#x6240;&#x53D1;&#x751F;&#x7684;&#x4E8B;&#x3002;</li>
+<li>&#x52A8;&#x6001;&#x7684;&#x6539;&#x53D8;&#x4F60;&#x7A0B;&#x5E8F;&#x7684;&#x6267;&#x884C;&#x73AF;&#x5883;&#x3002;</li>
+</ol>
+
+<p>
+&#x9884;&#x7F6E;&#x6761;&#x4EF6;&#xFF1A;&#x5728;&#x7F16;&#x8BD1;&#x8FDE;&#x63A5;&#x7684;&#x65F6;&#x5019;&#x8981;&#x6307;&#x5B9A; -g &#x9009;&#x9879;&#xFF0C;&#x628A;&#x8C03;&#x8BD5;&#x4FE1;&#x606F;&#x52A0;&#x5165;&#x5230;&#x53EF;&#x6267;&#x884C;&#x6587;&#x4EF6;&#x3002;
+</p>
+
+<div id="outline-container-org63943e1" class="outline-2">
+<h2 id="org63943e1"><span class="section-number-2">1</span> &#x542F;&#x52A8;</h2>
+<div class="outline-text-2" id="text-1">
+<div class="org-src-container">
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ gdb program</span><br><span class="line">$ gdb --args program arg1 arg2 ... <span class="comment"># &#x5E26;&#x7740;&#x6267;&#x884C;&#x53C2;&#x6570;&#x6302;&#x8F7D; gdb</span></span><br><span class="line">$ gdb <span class="comment"># &#x5148;&#x8FDB;&#x5165; gdb &#x754C;&#x9762;</span></span><br><span class="line">(gdb) file program</span><br><span class="line">$ gdb program core <span class="comment"># </span></span><br><span class="line">$ gdb program PID <span class="comment"># &#x7A0B;&#x5E8F;&#x8FD0;&#x884C;&#x4E4B;&#x540E;&#x518D;&#x6302;&#x8F7D;</span></span><br><span class="line">$ gdb attach PID <span class="comment"># attach</span></span><br></pre></td></tr></table></figure>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3264b74" class="outline-2">
+<h2 id="org3264b74"><span class="section-number-2">2</span> &#x5E2E;&#x52A9;</h2>
+<div class="outline-text-2" id="text-2">
+<div class="org-src-container">
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(gdb) <span class="built_in">help</span> <span class="comment"># &#x5217;&#x51FA;&#x547D;&#x4EE4;&#x7684;&#x6240;&#x6709;&#x79CD;&#x7C7B;</span></span><br><span class="line">(gdb) <span class="built_in">help</span> &lt;class&gt; <span class="comment"># &#x67E5;&#x770B;&#x8BE5;&#x7C7B;&#x7684;&#x6240;&#x6709;&#x547D;&#x4EE4;</span></span><br><span class="line">(gdb) helo &lt;<span class="built_in">command</span>&gt; <span class="comment"># &#x67E5;&#x770B;&#x8BE5;&#x547D;&#x4EE4;&#x7684;&#x5E2E;&#x52A9;&#x4FE1;&#x606F;</span></span><br></pre></td></tr></table></figure>
+</div>
+
+<p>
+&#x5728;&#x8F93;&#x5165;&#x547D;&#x4EE4;&#x540D;&#x79F0;&#x4E0D;&#x5B8C;&#x6574;&#x7684;&#x65F6;&#x5019;&#xFF0C;gdb &#x53EF;&#x4EE5;&#x81EA;&#x52A8;&#x914D;&#x7F6E;&#x547D;&#x4EE4;&#xFF0C;&#x7136;&#x540E;&#x6267;&#x884C;&#x5339;&#x914D;&#x5230;&#x6CA1;&#x6709;&#x6B67;&#x4E49;&#x7684;&#x547D;&#x4EE4;&#x3002;&#x82E5;&#x6709;&#x6B67;&#x4E49;&#x5219;&#x63D0;&#x793A;&#x7528;&#x6237;&#x8F93;
+&#x5165;&#x66F4;&#x591A;&#x4FE1;&#x606F;&#x6765;&#x6279;&#x5907;&#x547D;&#x4EE4;&#x3002;&#x76F4;&#x63A5;&#x56DE;&#x8F66;&#x5C06;&#x6267;&#x884C;&#x4E0A;&#x4E00;&#x6B21;&#x6267;&#x884C;&#x7684;&#x547D;&#x4EE4;&#x3002;
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6d887ba" class="outline-2">
+<h2 id="org6d887ba"><span class="section-number-2">3</span> &#x67E5;&#x770B;&#x6E90;&#x4EE3;&#x7801;</h2>
+<div class="outline-text-2" id="text-3">
+<div class="org-src-container">
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">(gdb) list <span class="comment"># &#x67E5;&#x770B;&#x7A0B;&#x5E8F;&#x4EE3;&#x7801;&#xFF0C;&#x7B80;&#x5199; l</span></span><br><span class="line">(gdb) l</span><br><span class="line">(gdb) list &lt;first&gt;, &lt;last&gt; <span class="comment"># &#x663E;&#x793A;&#x4ECE;first&#x884C;&#x5230;last&#x884C;&#x4E4B;&#x95F4;&#x7684;&#x6E90;&#x4EE3;&#x7801;</span></span><br><span class="line">(gdb) show listsize <span class="comment"># &#x67E5;&#x770B;</span></span><br><span class="line">(gdb) <span class="built_in">set</span> listsize <span class="number">20</span> <span class="comment"># &#x4FEE;&#x6539;</span></span><br><span class="line"></span><br><span class="line">(gdb) forward-search &lt;regexp&gt; <span class="comment"># &#x5411;&#x524D;&#x641C;&#x7D22;&#x6E90;&#x4EE3;&#x7801;&#xFF1B;regexp &#x662F;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;</span></span><br><span class="line">(gdb) search &lt;regexp&gt;</span><br><span class="line">(gdb) reverse-search &lt;regexp&gt; <span class="comment"># &#x5411;&#x540E;&#x641C;&#x7D22;&#x6E90;&#x4EE3;&#x7801;</span></span><br><span class="line"></span><br><span class="line">(gdb) info line <span class="comment"># &#x67E5;&#x770B;&#x6E90;&#x4EE3;&#x7801;&#x5728;&#x5185;&#x5B58;&#x4E2D;&#x7684;&#x5730;&#x5740;</span></span><br><span class="line">(gdb) disassemble func <span class="comment"># &#x67E5;&#x770B;&#x6E90;&#x7A0B;&#x5E8F;&#x7684;&#x5F53;&#x524D;&#x6267;&#x884C;&#x65F6;&#x7684;&#x673A;&#x5668;&#x7801;&#xFF0C;&#x8FD9;&#x4E2A;&#x547D;&#x4EE4;&#x4F1A;&#x628A;&#x76EE;&#x524D;&#x5185;&#x5B58;&#x4E2D;&#x7684;&#x6307;&#x4EE4; dump &#x51FA;&#x6765;</span></span><br></pre></td></tr></table></figure>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7a4f76c" class="outline-2">
+<h2 id="org7a4f76c"><span class="section-number-2">4</span> &#x7A0B;&#x5E8F;&#x8FD0;&#x884C;&#x4E0A;&#x4E0B;&#x6587;</h2>
+<div class="outline-text-2" id="text-4">
+<div class="org-src-container">
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">(gdb) <span class="built_in">set</span> args arg1 <span class="comment"># &#x8FD9;&#x91CC;&#x6307;&#x53EF;&#x4EE5;&#x8BBE;&#x7F6E;&#x8FD0;&#x884C;&#x53C2;&#x6570;&#xFF0C;&#x4E0D;&#x80FD;&#x52A0;&#x7A0B;&#x5E8F;&#x540D;</span></span><br><span class="line">(gdb) show args</span><br><span class="line">(gdb) path &lt;dir&gt; <span class="comment"># &#x8BBE;&#x5B9A;&#x7A0B;&#x5E8F;&#x8FD0;&#x884C;&#x8DEF;&#x5F84;</span></span><br><span class="line">(gdb) show path <span class="comment"># &#x67E5;&#x770B;&#x7A0B;&#x5E8F;&#x8FD0;&#x884C;&#x8DEF;&#x5F84;</span></span><br><span class="line">(gdb) <span class="built_in">cd</span> /root <span class="comment"># </span></span><br><span class="line">(gdb) <span class="built_in">pwd</span></span><br><span class="line">(gdb) <span class="built_in">set</span> environment USER=sanshi <span class="comment"># &#x8BBE;&#x7F6E;&#x73AF;&#x5883;&#x53D8;&#x91CF;</span></span><br><span class="line">(gdb) show environment</span><br><span class="line">(gdb) info terminal <span class="comment"># &#x663E;&#x793A;&#x7A0B;&#x5E8F;&#x7528;&#x5230;&#x7684;&#x7EC8;&#x7AEF;&#x6A21;&#x5F0F;</span></span><br><span class="line">(gdb) run &gt; outfile <span class="comment"># &#x91CD;&#x5B9A;&#x5411;&#x7A0B;&#x5E8F;&#x8F93;&#x51FA;</span></span><br><span class="line">(gdb) tty /dev/tty1 <span class="comment"># &#x8BBE;&#x7F6E;&#x8F93;&#x5165;&#x8F93;&#x51FA;&#x4F7F;&#x7528;&#x7684;&#x7EC8;&#x7AEF;&#x8BBE;&#x5907;</span></span><br><span class="line"></span><br><span class="line">(gdb) <span class="built_in">set</span> logging on <span class="comment"># &#x5C06;&#x547D;&#x4EE4;&#x7684;&#x8F93;&#x51FA;&#x4FDD;&#x5B58;&#x5230;&#x9ED8;&#x8BA4;&#x7684; gdb.txt &#x6587;&#x4EF6;&#x4E2D;</span></span><br><span class="line">(gdb) <span class="built_in">set</span> logging file my_log.txt <span class="comment"># &#x8BBE;&#x7F6E;&#x8F93;&#x51FA;&#x6587;&#x4EF6;&#x7684;&#x8DEF;&#x5F84;</span></span><br></pre></td></tr></table></figure>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org52fb466" class="outline-2">
+<h2 id="org52fb466"><span class="section-number-2">5</span> &#x65AD;&#x70B9;</h2>
+<div class="outline-text-2" id="text-5">
+<div class="org-src-container">
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">(gdb) <span class="built_in">break</span> <span class="number">1221</span> <span class="comment"># &#x8BBE;&#x7F6E;&#x884C;&#x53F7;&#x4E3A;&#x65AD;&#x70B9;</span></span><br><span class="line">(gdb) b main.c</span><br><span class="line">(gdb) b +<span class="number">3</span> <span class="comment"># &#x5728;&#x5F53;&#x524D;&#x884C;&#x524D;&#x9762; 3 &#x884C;&#x8BBE;&#x7F6E;&#x65AD;&#x70B9;</span></span><br><span class="line">(gdb) b -<span class="number">2</span></span><br><span class="line">(gdb) b *<span class="number">0</span>x7fffffffe600</span><br><span class="line">(gdb) b main.c:<span class="number">21</span></span><br><span class="line">(gdb) b namespace::class::<span class="keyword">function</span></span><br><span class="line">(gdb) b main.c:<span class="number">21</span> <span class="keyword">if</span> i == <span class="number">4</span></span><br><span class="line">(gdb) b add.c:<span class="number">1221</span> thread <span class="number">25780</span> <span class="keyword">if</span> num &gt; <span class="number">5</span> <span class="comment"># 25780 &#x662F;&#x7EBF;&#x7A0B;&#x53F7;&#xFF0C;&#x7531; GDB &#x5206;&#x914D;&#xFF0C;&#x4F7F;&#x7528; info thread &#x67E5;&#x770B;&#xFF1B;&#x5728;&#x6307;&#x5B9A;&#x7EBF;&#x7A0B;&#x4E0A;&#x8BBE;&#x7F6E;&#x65AD;&#x70B9;</span></span><br><span class="line">(gdb) b main.cpp:<span class="number">255</span> <span class="keyword">if</span> strcmp(strA.c_str(), strB.c_str()) == <span class="number">0</span> <span class="comment"># &#x6761;&#x4EF6;&#x65AD;&#x70B9;&#x91CC;&#x53EF;&#x4EE5;&#x8C03;&#x7528;&#x6807;&#x51C6;&#x5E93;&#x7684;&#x51FD;&#x6570;</span></span><br><span class="line">(gdb) b main.cpp:<span class="number">255</span> <span class="keyword">if</span> strA.compare(strB) != <span class="number">0</span> <span class="comment"># &#x76F4;&#x63A5;&#x7528; string &#x7C7B;&#x7684; compare &#x51FD;&#x6570;</span></span><br><span class="line">(gdb) info b</span><br><span class="line">(gdb) ignore <span class="number">2</span> <span class="number">1</span> <span class="comment"># ignore &#x65AD;&#x70B9;&#x53F7; count&#xFF1B;&#x5FFD;&#x7565; count &#x6B21;&#x65AD;&#x70B9;&#x53F7;</span></span><br><span class="line">(gdb) delete breakpoints <span class="number">2</span>-<span class="number">5</span> <span class="comment"># &#x82E5;&#x4E0D;&#x6307;&#x5B9A; 2-5 &#x7684; range &#x5219;&#x5220;&#x9664;&#x6240;&#x6709;&#x65AD;&#x70B9;</span></span><br><span class="line">(gdb) delete <span class="number">3</span> <span class="comment"># &#x5220;&#x9664;&#x6307;&#x5B9A;&#x65AD;&#x70B9;&#xFF0C;&#x53EF;&#x7B80;&#x5199;&#x6210; d</span></span><br><span class="line">(gdb) d <span class="number">4</span></span><br><span class="line">(gdb) <span class="built_in">disable</span> <span class="number">5</span> <span class="comment"># &#x7981;&#x6B62;&#x65AD;&#x70B9;&#xFF0C;&#x7B80;&#x5199;&#x6210; dis</span></span><br><span class="line">(gdb) dis <span class="number">5</span></span><br><span class="line">(gdb) <span class="built_in">enable</span> <span class="number">5</span></span><br><span class="line">(gdb) en <span class="number">5</span></span><br><span class="line">(gdb) en once <span class="number">4</span> <span class="comment"># &#x4F7F;&#x80FD;&#x65AD;&#x70B9; 4 &#x4E00;&#x6B21;&#xFF0C;&#x7136;&#x540E;&#x4FBF;&#x81EA;&#x52A8;&#x7981;&#x6B62;</span></span><br><span class="line">(gdb) en delete <span class="number">4</span> <span class="comment"># &#x4F7F;&#x80FD;&#x65AD;&#x70B9; 4 &#x4E00;&#x6B21;&#xFF0C;&#x7136;&#x540E;&#x4FBF;&#x81EA;&#x52A8;&#x5220;&#x9664;</span></span><br><span class="line">(gdb) condition &lt;bnum&gt; &lt;expression&gt; <span class="comment"># &#x65AD;&#x70B9;&#x505C;&#x6B62;&#x6761;&#x4EF6;&#x7EF4;&#x62A4;</span></span><br><span class="line">(gdb) condition &lt;bnum&gt; <span class="comment"># &#x6E05;&#x9664;&#x65AD;&#x70B9;&#x7684;&#x505C;&#x6B62;&#x6761;&#x4EF6;</span></span><br></pre></td></tr></table></figure>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org28109d9" class="outline-2">
+<h2 id="org28109d9"><span class="section-number-2">6</span> &#x89C2;&#x5BDF;&#x70B9;</h2>
+<div class="outline-text-2" id="text-6">
+<div class="org-src-container">
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(gdb) watch expr <span class="comment"># &#x5F53;&#x8868;&#x8FBE;&#x5F0F;/&#x53D8;&#x91CF;&#x7684;&#x503C;&#x53D8;&#x5316;&#x65F6;&#xFF0C;&#x7A0B;&#x5E8F;&#x6682;&#x505C;</span></span><br><span class="line">(gdb) rwatch len <span class="comment"># &#x8868;&#x8FBE;&#x5F0F;&#x88AB;&#x8BFB;&#x53D6;&#x65F6;&#xFF0C;&#x7A0B;&#x5E8F;&#x6682;&#x505C;</span></span><br><span class="line">(gdb) awatch num <span class="comment"># &#x8868;&#x8FBE;&#x5F0F;&#x7684;&#x503C;&#x88AB;&#x8BFB;/&#x5199;&#x65F6;&#xFF0C;&#x7A0B;&#x5E8F;&#x6682;&#x505C;</span></span><br><span class="line">(gdb) info watchpoints</span><br><span class="line"><span class="comment"># &#x4F7F;&#x80FD;&#x3001;&#x7981;&#x6B62;&#x3001;&#x5220;&#x9664;&#x7B49;&#x7EF4;&#x62A4;&#x547D;&#x4EE4;&#x540C;&#x65AD;&#x70B9;&#x4E00;&#x6837;</span></span><br></pre></td></tr></table></figure>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3f57334" class="outline-2">
+<h2 id="org3f57334"><span class="section-number-2">7</span> &#x8BBE;&#x7F6E;&#x6355;&#x6349;&#x70B9;&#xFF08;CatchPoint&#xFF09;</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+&#x8BBE;&#x7F6E;&#x6355;&#x6349;&#x70B9;&#x6765;&#x8865;&#x6349;&#x7A0B;&#x5E8F;&#x8FD0;&#x884C;&#x65F6;&#x7684;&#x4E00;&#x4E9B;&#x4E8B;&#x4EF6;&#x3002;&#x5982;&#xFF1A;&#x8F7D;&#x5165;&#x5171;&#x4EAB;&#x5E93;&#xFF08;&#x52A8;&#x6001;&#x94FE;&#x63A5;&#x5E93;&#xFF09;&#x6216;&#x662F; C++ &#x7684;&#x5F02;&#x5E38;&#x3002;&#x8BBE;&#x7F6E;&#x6355;&#x6349;&#x70B9;&#x7684;&#x683C;&#x5F0F;&#x4E3A;&#xFF1A;
+</p>
+<ul class="org-ul">
+<li>catch &lt;event&gt; # &#x5F53;event&#x53D1;&#x751F;&#x65F6;&#xFF0C;&#x505C;&#x4F4F;&#x7A0B;&#x5E8F;&#x3002;event&#x53EF;&#x4EE5;&#x662F;&#x4E0B;&#x9762;&#x7684;&#x5185;&#x5BB9;&#xFF1A;
+<ol class="org-ol">
+<li>throw &#x4E00;&#x4E2A;C++&#x629B;&#x51FA;&#x7684;&#x5F02;&#x5E38;&#x3002;&#xFF08;throw&#x4E3A;&#x5173;&#x952E;&#x5B57;&#xFF09;</li>
+<li>catch &#x4E00;&#x4E2A;C++&#x6355;&#x6349;&#x5230;&#x7684;&#x5F02;&#x5E38;&#x3002;&#xFF08;catch&#x4E3A;&#x5173;&#x952E;&#x5B57;&#xFF09;</li>
+<li>exec &#x8C03;&#x7528;&#x7CFB;&#x7EDF;&#x8C03;&#x7528;exec&#x65F6;&#x3002;&#xFF08;exec&#x4E3A;&#x5173;&#x952E;&#x5B57;&#xFF0C;&#x76EE;&#x524D;&#x6B64;&#x529F;&#x80FD;&#x53EA;&#x5728; HP-UX &#x4E0B;&#x6709;&#x7528;&#xFF09;</li>
+<li>fork &#x8C03;&#x7528;&#x7CFB;&#x7EDF;&#x8C03;&#x7528;fork&#x65F6;&#x3002;&#xFF08;fork&#x4E3A;&#x5173;&#x952E;&#x5B57;&#xFF0C;&#x76EE;&#x524D;&#x6B64;&#x529F;&#x80FD;&#x53EA;&#x5728; HP-UX &#x4E0B;&#x6709;&#x7528;&#xFF09;</li>
+<li>vfork &#x8C03;&#x7528;&#x7CFB;&#x7EDF;&#x8C03;&#x7528;vfork&#x65F6;&#x3002;&#xFF08;vfork&#x4E3A;&#x5173;&#x952E;&#x5B57;&#xFF0C;&#x76EE;&#x524D;&#x6B64;&#x529F;&#x80FD;&#x53EA;&#x5728; HP-UX &#x4E0B;&#x6709;&#x7528;&#xFF09;</li>
+<li>load &#x6216; load &lt;libname&gt; &#x8F7D;&#x5165;&#x5171;&#x4EAB;&#x5E93;&#xFF08;&#x52A8;&#x6001;&#x94FE;&#x63A5;&#x5E93;&#xFF09;&#x65F6;&#x3002;&#xFF08;load &#x4E3A;&#x5173;&#x952E;&#x5B57;&#xFF0C;&#x76EE;&#x524D;&#x6B64;&#x529F;&#x80FD;&#x53EA;&#x5728; HP-UX &#x4E0B;&#x6709;&#x7528;&#xFF09;</li>
+<li>unload &#x6216; unload &lt;libname&gt; &#x5378;&#x8F7D;&#x5171;&#x4EAB;&#x5E93;&#xFF08;&#x52A8;&#x6001;&#x94FE;&#x63A5;&#x5E93;&#xFF09;&#x65F6;&#x3002;&#xFF08;unload &#x4E3A;&#x5173;&#x952E;&#x5B57;&#xFF0C;&#x76EE;&#x524D;&#x6B64;&#x529F;&#x80FD;&#x53EA;&#x5728; HP-UX &#x4E0B;&#x6709;&#x7528;&#xFF09;</li>
+</ol></li>
+<li>tcatch &lt;event&gt; # &#x53EA;&#x8BBE;&#x7F6E;&#x4E00;&#x6B21;&#x6355;&#x6349;&#x70B9;&#xFF0C;&#x5F53;&#x7A0B;&#x5E8F;&#x505C;&#x4F4F;&#x4EE5;&#x540E;&#xFF0C;&#x5E94;&#x70B9;&#x88AB;&#x81EA;&#x52A8;&#x5220;&#x9664;&#x3002;</li>
+<li>throw &#x629B;&#x51FA;&#x4E00;&#x4E2A; C++ &#x5F02;&#x5E38;</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgf99753f" class="outline-2">
+<h2 id="orgf99753f"><span class="section-number-2">8</span> &#x505C;&#x6B62;&#x70B9;&#x8BBE;&#x7F6E;&#x8FD0;&#x884C;&#x547D;&#x4EE4;</h2>
+<div class="outline-text-2" id="text-8">
+<p>
+GDB &#x63D0;&#x4F9B;&#x7684; command &#x547D;&#x4EE4;&#x6765;&#x8BBE;&#x7F6E;&#x505C;&#x6B62;&#x70B9;&#x7684;&#x8FD0;&#x884C;&#x547D;&#x4EE4;&#x3002;&#x5F53;&#x8FD0;&#x884C;&#x7684;&#x7A0B;&#x5E8F;&#x5728;&#x88AB;&#x505C;&#x6B62;&#x4F4F;&#x65F6;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x8BA9;&#x5176;&#x81EA;&#x52A8;&#x8FD0;&#x884C;&#x4E00;&#x4E9B;&#x81EA;
+&#x5B9A;&#x4E49;&#x7684;&#x547D;&#x4EE4;&#xFF0C;&#x8FD9;&#x5F88;&#x6709;&#x5229;&#x884C;&#x81EA;&#x52A8;&#x5316;&#x8C03;&#x8BD5;&#x3002;
+</p>
+
+<div class="org-src-container">
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">(gdb) <span class="built_in">command</span> [breaknum]</span><br><span class="line">(gdb) ...</span><br><span class="line">(gdb) <span class="built_in">command</span>-list</span><br><span class="line">(gdb) ...</span><br><span class="line">(gdb) end</span><br><span class="line">(gdb) </span><br><span class="line">(gdb) <span class="built_in">command</span> [breaknum] <span class="comment"># &#x6E05;&#x9664; command &#x547D;&#x4EE4;</span></span><br><span class="line">(gdb) end</span><br></pre></td></tr></table></figure>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7827b79" class="outline-2">
+<h2 id="org7827b79"><span class="section-number-2">9</span> &#x8C03;&#x8BD5;&#x4EE3;&#x7801;</h2>
+<div class="outline-text-2" id="text-9">
+<div class="org-src-container">
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">(gdb) run <span class="comment"># &#x8FD0;&#x884C;&#x7A0B;&#x5E8F;&#xFF0C;&#x7B80;&#x5199; r</span></span><br><span class="line">(gdb) r </span><br><span class="line">(gdb) next [count] <span class="comment"># &#x5355;&#x6B65;&#x8DDF;&#x8E2A;&#xFF0C;&#x7B80;&#x5199; n</span></span><br><span class="line">(gdb) n</span><br><span class="line">(gdb) nexti <span class="comment"># &#x5355;&#x6B65;&#x6267;&#x884C;&#x673A;&#x5668;&#x6307;&#x4EE4;&#xFF0C;&#x7B80;&#x5199; ni</span></span><br><span class="line">(gdb) ni</span><br><span class="line">(gdb) step [count] <span class="comment"># &#x8FDB;&#x5165;&#x88AB;&#x8C03;&#x51FD;&#x6570;&#x4F53;&#xFF0C;&#x7B80;&#x5199; s</span></span><br><span class="line">(gdb) s</span><br><span class="line">(gdb) stepi <span class="comment"># &#x5355;&#x6B65;&#x8DDF;&#x8E2A;&#x673A;&#x5668;&#x6307;&#x4EE4;&#xFF0C;&#x7B80;&#x5199; si</span></span><br><span class="line">(gdb) <span class="built_in">set</span> step-mode on <span class="comment"># </span></span><br><span class="line">(gdb) <span class="built_in">set</span> step-mode off</span><br><span class="line">(gdb) finish <span class="comment"># &#x6267;&#x884C;&#x5230;&#x672C;&#x51FD;&#x6570;&#x7ED3;&#x675F;</span></span><br><span class="line">(gdb) until <span class="comment"># &#x8FD0;&#x884C;&#x7A0B;&#x5E8F;&#x76F4;&#x5230;&#x9000;&#x51FA;&#x5FAA;&#x73AF;&#x4F53;&#xFF0C;&#x7B80;&#x5199; u</span></span><br><span class="line">(gdb) <span class="built_in">continue</span> [ignore-count] <span class="comment"># &#x8BA9;&#x7A0B;&#x5E8F;&#x7EE7;&#x7EED;&#x8FD0;&#x884C;&#xFF0C;ignore-count &#x8868;&#x793A;&#x5FFD;&#x7565;&#x5176;&#x540E;&#x7684;&#x65AD;&#x70B9;&#x6B21;&#x6570;&#xFF0C;&#x7B80;&#x5199; c</span></span><br><span class="line">(gdb) c</span><br><span class="line">(gdb) info program <span class="comment"># &#x67E5;&#x770B;&#x7A0B;&#x5E8F;&#x8FD0;&#x884C;&#x72B6;&#x6001;</span></span><br><span class="line">(gdb) shell <span class="comment"># &#x8FDB;&#x5165; shell&#xFF0C;&#x4F7F;&#x7528; exit &#x9000;&#x51FA;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># &#x6709;&#x65F6;&#x5019;&#x9700;&#x8981; gdb &#x6267;&#x884C;&#x82E5;&#x5E72;&#x6761;&#x547D;&#x4EE4;&#x540E;&#x5C31;&#x7ACB;&#x5373;&#x9000;&#x51FA;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x8FDB;&#x5165;&#x4EA4;&#x4E92;&#x754C;&#x9762;&#xFF0C;&#x8FD9;&#x65F6;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; -batch &#x9009;&#x9879;</span></span><br><span class="line">gdb -ex <span class="string">&quot;set pagination 0&quot;</span> -ex <span class="string">&quot;thread apply all bt&quot;</span> -batch -p <span class="variable">$pid</span></span><br><span class="line"><span class="comment"># &#x6253;&#x5370; $pid &#x8FDB;&#x7A0B;&#x6240;&#x6709;&#x7EBF;&#x7A0B;&#x7684;&#x5806;&#x6808;&#x5E76;&#x9000;&#x51FA;</span></span><br></pre></td></tr></table></figure>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9c798a9" class="outline-2">
+<h2 id="org9c798a9"><span class="section-number-2">10</span> &#x67E5;&#x770B;&#x8FD0;&#x884C;&#x6570;&#x636E;</h2>
+<div class="outline-text-2" id="text-10">
+<div class="org-src-container">
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">(gdb) <span class="built_in">print</span> expr <span class="comment"># &#x67E5;&#x770B;&#x8868;&#x8FBE;&#x5F0F;/&#x53D8;&#x91CF;&#x7684;&#x503C;&#xFF0C;&#x4E0D;&#x80FD;&#x4F7F;&#x7528;&#x7A0B;&#x5E8F;&#x4E2D;&#x7684;&#x5B8F;&#xFF0C;&#x7B80;&#x5199; p</span></span><br><span class="line">(gdb) <span class="built_in">print</span> /FMT &lt;expr&gt; <span class="comment"># &#x6309;&#x6307;&#x5B9A;&#x683C;&#x5F0F;&#x6253;&#x5370;</span></span><br><span class="line">(gdb) p num <span class="comment"># gdb &#x8BB0;&#x5F55;&#x6BCF;&#x4E00;&#x4E2A; print &#x7684;&#x4FE1;&#x606F;</span></span><br><span class="line">(gdb) p *array@<span class="number">5</span> <span class="comment"># &#x67E5;&#x770B;&#x8FDE;&#x7EED;&#x5185;&#x5B58;&#xFF0C;&#x9996;&#x5730;&#x5740;@&#x957F;&#x5EA6;</span></span><br><span class="line">(gdb) <span class="built_in">set</span> <span class="built_in">print</span> address on <span class="comment"># GDB&#x4F1A;&#x663E;&#x51FA;&#x51FD;&#x6570;&#x7684;&#x53C2;&#x6570;&#x5730;&#x5740;&#xFF0C;&#x7CFB;&#x7EDF;&#x9ED8;&#x8BA4;&#x4E3A;&#x6253;&#x5F00;</span></span><br><span class="line">(gdb) <span class="built_in">set</span> <span class="built_in">print</span> address off</span><br><span class="line">(gdb) show <span class="built_in">print</span> address</span><br><span class="line">(gdb) <span class="built_in">set</span> <span class="built_in">print</span> array on <span class="comment"># &#x5F53;&#x6570;&#x7EC4;&#x663E;&#x793A;&#x65F6;&#xFF0C;&#x6BCF;&#x4E2A;&#x5143;&#x7D20;&#x5360;&#x4E00;&#x884C;</span></span><br><span class="line">(gdb) <span class="built_in">set</span> <span class="built_in">print</span> array off <span class="comment"># &#x6BCF;&#x4E2A;&#x5143;&#x7D20;&#x5219;&#x4EE5;&#x9017;&#x53F7;&#x5206;&#x9694;</span></span><br><span class="line">(gdb) show <span class="built_in">print</span> array</span><br><span class="line">(gdb) <span class="built_in">set</span> <span class="built_in">print</span> elements &lt;number-of-elements&gt; <span class="comment"># &#x6307;&#x5B9A;&#x6570;&#x7EC4;/&#x5B57;&#x7B26;&#x4E32;&#x663E;&#x793A;&#x7684;&#x6700;&#x5927;&#x957F;&#x5EA6;&#xFF0C;0 &#x8868;&#x793A;&#x4E0D;&#x9650;&#x5236;</span></span><br><span class="line">(gdb) show <span class="built_in">print</span> elements</span><br><span class="line">(gdb) <span class="built_in">set</span> <span class="built_in">print</span> null-stop on <span class="comment"># &#x663E;&#x793A;&#x5B57;&#x7B26;&#x4E32;&#x65F6;&#xFF0C;&#x9047;&#x5230;&#x7ED3;&#x675F;&#x7B26;&#x5219;&#x505C;&#x6B62;&#x663E;&#x793A;</span></span><br><span class="line">(gdb) <span class="built_in">set</span> <span class="built_in">print</span> null-stop off</span><br><span class="line">(gdb) <span class="built_in">set</span> <span class="built_in">print</span> pretty on <span class="comment"># GDB&#x663E;&#x793A;&#x7ED3;&#x6784;&#x4F53;&#x65F6;&#x4F1A;&#x6BD4;&#x8F83;&#x6F02;&#x4EAE;</span></span><br><span class="line">(gdb) <span class="built_in">set</span> <span class="built_in">print</span> pretty off</span><br><span class="line">(gdb) show <span class="built_in">print</span> pretty</span><br><span class="line">(gdb) <span class="built_in">set</span> <span class="built_in">print</span> sevenbit-strings on</span><br><span class="line">(gdb) <span class="built_in">set</span> <span class="built_in">print</span> sevenbit-strings off</span><br><span class="line">(gdb) show <span class="built_in">print</span> sevenbit-strings</span><br><span class="line">(gdb) <span class="built_in">set</span> <span class="built_in">print</span> union on <span class="comment"># &#x663E;&#x793A;&#x7ED3;&#x6784;&#x4F53;&#x65F6;&#xFF0C;&#x663E;&#x5F0F;&#x5176;&#x5185;&#x7684;&#x8054;&#x5408;&#x4F53;&#x6570;&#x636E;</span></span><br><span class="line">(gdb) <span class="built_in">set</span> <span class="built_in">print</span> union off <span class="comment"># &#x663E;&#x793A;&#x7ED3;&#x6784;&#x4F53;&#x65F6;&#xFF0C;&#x4E0D;&#x663E;&#x5F0F;&#x5176;&#x5185;&#x7684;&#x8054;&#x5408;&#x4F53;&#x6570;&#x636E;</span></span><br><span class="line">(gdb) show <span class="built_in">print</span> union</span><br><span class="line">(gdb) <span class="built_in">set</span> <span class="built_in">print</span> object &lt;on/off&gt; <span class="comment"># C++&#x4E2D;&#xFF0C;&#x5982;&#x679C;&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;&#x6307;&#x9488;&#x6307;&#x5411;&#x5176;&#x6D3E;&#x751F;&#x7C7B;&#xFF0C;&#x5982;&#x679C;&#x6253;&#x5F00;&#x8FD9;&#x4E2A;&#x9009;&#x9879;&#xFF0C;GDB &#x4F1A;&#x81EA;&#x52A8;&#x6309;&#x7167;&#x865A;&#x65B9;&#x6CD5;</span></span><br><span class="line"><span class="comment"># &#x8C03;&#x7528;&#x7684;&#x89C4;&#x5219;&#x663E;&#x793A;&#x8F93;&#x51FA;&#xFF0C;&#x5982;&#x679C;&#x5173;&#x95ED;&#x8FD9;&#x4E2A;&#x9009;&#x9879;&#x7684;&#x8BDD;&#xFF0C;GDB&#x5C31;&#x4E0D;&#x7BA1;&#x865A;&#x51FD;&#x6570;&#x8868;&#x4E86;&#x3002;&#x9879;&#x9ED8;&#x8BA4; off</span></span><br><span class="line">(gdb) <span class="built_in">set</span> <span class="built_in">print</span> static-members &lt;on/off&gt; <span class="comment"># &#x663E;&#x793A;&#x4E00;&#x4E2A; C++ &#x5BF9;&#x8C61;&#x4E2D;&#x7684;&#x5185;&#x5BB9;&#x662F;&#xFF0C;&#x662F;&#x5426;&#x663E;&#x793A;&#x5176;&#x4E2D;&#x7684;&#x9759;&#x6001;&#x6570;&#x636E;&#x6210;&#x5458;&#xFF1B;&#x9ED8;&#x8BA4; on</span></span><br><span class="line">(gdb) <span class="built_in">set</span> <span class="built_in">print</span> vtbl &lt;on/off&gt; <span class="comment"># GDB&#x5C06;&#x7528;&#x6BD4;&#x8F83;&#x89C4;&#x6574;&#x7684;&#x683C;&#x5F0F;&#x6765;&#x663E;&#x793A;&#x865A;&#x51FD;&#x6570;&#x8868;&#x65F6;&#xFF1B;&#x9ED8;&#x8BA4;&#x5173;&#x95ED;</span></span><br><span class="line"></span><br><span class="line">(gdb) show values <span class="comment"># &#x67E5;&#x770B; print &#x7684;&#x5386;&#x53F2;</span></span><br><span class="line">(gdb) x /count[oxdutfaics][bhwg] address <span class="comment"># &#x6309;&#x7167;&#x4E00;&#x5B9A;&#x7684;&#x683C;&#x5F0F;&#x6253;&#x5370;&#x5185;&#x5B58;&#x5730;&#x5740;&#x5904;&#x7684;&#x6570;&#x636E;</span></span><br><span class="line">(gdb) x /<span class="number">16</span>xb pCount</span><br><span class="line"></span><br><span class="line">(gdb) display /FMT expr <span class="comment"># &#x7A0B;&#x5E8F;&#x6682;&#x505C;&#x65F6;&#x81EA;&#x52A8;&#x6253;&#x5370;&#x8868;&#x8FBE;&#x5F0F;&#x7684;&#x503C;</span></span><br><span class="line">(gdb) info display</span><br><span class="line">(gdb) undisplay <span class="number">3</span></span><br><span class="line">(gdb) delete/<span class="built_in">enable</span>/<span class="built_in">disable</span> display dnums</span><br><span class="line"></span><br><span class="line">(gdb) whatis value <span class="comment"># &#x8BC6;&#x522B;&#x6570;&#x7EC4;&#x6216;&#x53D8;&#x91CF;&#x7684;&#x7C7B;&#x578B;</span></span><br><span class="line">(gdb) ptype value <span class="comment"># &#x6BD4;whatis&#x7684;&#x529F;&#x80FD;&#x66F4;&#x5F3A;&#xFF0C;&#x4ED6;&#x53EF;&#x4EE5;&#x63D0;&#x4F9B;&#x4E00;&#x4E2A;&#x7ED3;&#x6784;&#x7684;&#x5B9A;&#x4E49;</span></span><br><span class="line">(gdb) info args <span class="comment"># &#x6253;&#x5370;&#x5F53;&#x524D;&#x51FD;&#x6570;&#x7684;&#x53C2;&#x6570;&#x540D;&#x53CA;&#x5176;&#x503C;</span></span><br><span class="line">(gdb) info locals <span class="comment"># &#x6253;&#x5370;&#x51FA;&#x5F53;&#x524D;&#x51FD;&#x6570;&#x4E2D;&#x6240;&#x6709;&#x5C40;&#x90E8;&#x53D8;&#x91CF;&#x53CA;&#x5176;&#x503C;</span></span><br><span class="line">(gdb) info catch <span class="comment"># &#x6253;&#x5370;&#x51FA;&#x5F53;&#x524D;&#x7684;&#x51FD;&#x6570;&#x4E2D;&#x7684;&#x5F02;&#x5E38;&#x5904;&#x7406;&#x4FE1;&#x606F;</span></span><br><span class="line"></span><br><span class="line">(gdb) call expr <span class="comment"># &#x8868;&#x8FBE;&#x5F0F;&#x4E2D;&#x53EF;&#x4EE5;&#x4E00;&#x662F;&#x51FD;&#x6570;&#xFF0C;&#x4EE5;&#x6B64;&#x8FBE;&#x5230;&#x5F3A;&#x5236;&#x8C03;&#x7528;&#x51FD;&#x6570;&#x7684;&#x76EE;&#x7684;</span></span><br><span class="line">(gdb) <span class="built_in">print</span> expr <span class="comment"># print &#x540E;&#x9762;&#x53EF;&#x4EE5;&#x8DDF;&#x8868;&#x8FBE;&#x5F0F;&#xFF0C;&#x6240;&#x4EE5;&#x4E5F;&#x53EF;&#x4EE5;&#x7528;&#x4ED6;&#x6765;&#x8C03;&#x7528;&#x51FD;&#x6570;</span></span><br><span class="line">(gdb) <span class="built_in">print</span>   find_entry(<span class="number">1</span>,<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org1af64f0" class="outline-2">
+<h2 id="org1af64f0"><span class="section-number-2">11</span> &#x67E5;&#x770B;&#x6808;&#x4FE1;&#x606F;</h2>
+<div class="outline-text-2" id="text-11">
+<p>
+&#x5F53;&#x4F60;&#x7684;&#x7A0B;&#x5E8F;&#x8C03;&#x7528;&#x4E86;&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#xFF0C;&#x51FD;&#x6570;&#x7684;&#x5730;&#x5740;&#xFF0C;&#x51FD;&#x6570;&#x53C2;&#x6570;&#xFF0C;&#x51FD;&#x6570;&#x5185;&#x7684;&#x5C40;&#x90E8;&#x53D8;&#x91CF;&#x90FD;&#x4F1A;&#x88AB;&#x538B;&#x5165;&#x201C;&#x6808;&#x201D;&#xFF08;Stack&#xFF09;&#x4E2D;&#x3002;&#x4F60;&#x53EF;&#x4EE5;
+&#x7528;GDB&#x547D;&#x4EE4;&#x6765;&#x67E5;&#x770B;&#x5F53;&#x524D;&#x7684;&#x6808;&#x4E2D;&#x7684;&#x4FE1;&#x606F;&#x3002;
+</p>
+
+<div class="org-src-container">
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">(gdb) backtrace [n] <span class="comment"># &#x6253;&#x5370;&#x5F53;&#x524D;&#x7684;&#x51FD;&#x6570;&#x8C03;&#x7528;&#x6808;&#x7684;&#x6240;&#x6709;&#x4FE1;&#x606F;&#xFF1B;&#x52A0;&#x4E0A;&#x6570;&#x5B57;&#x8868;&#x793A;&#x53EA;&#x6253;&#x5370;&#x6808;&#x9876;&#x4E0A; n &#x5C42;</span></span><br><span class="line">(gdb) bt [-n] <span class="comment"># -n &#x8868;&#x793A;&#x53EA;&#x6253;&#x5370;&#x6808;&#x5E95;&#x4E0B; n &#x5C42;</span></span><br><span class="line">(gdb) frame &lt;n&gt; <span class="comment"># &#x5207;&#x6362;&#x5F53;&#x524D;&#x6808;&#xFF1B;n &#x662F;&#x4E00;&#x4E2A;&#x4ECE; 0 &#x5F00;&#x59CB;&#x7684;&#x6574;&#x6570;&#xFF0C;&#x662F;&#x6808;&#x4E2D;&#x7684;&#x5C42;&#x7F16;&#x53F7;</span></span><br><span class="line">(gdb) f &lt;n&gt;</span><br><span class="line">(gdb) up &lt;n&gt; <span class="comment"># &#x8868;&#x793A;&#x5411;&#x6808;&#x7684;&#x4E0A;&#x9762;&#x79FB;&#x52A8;n&#x5C42;</span></span><br><span class="line">(gdb) down &lt;n&gt; <span class="comment"># &#x8868;&#x793A;&#x5411;&#x6808;&#x7684;&#x4E0B;&#x9762;&#x79FB;&#x52A8;n&#x5C42;</span></span><br><span class="line">(gdb) frame <span class="comment"># &#x6253;&#x5370;&#x5F53;&#x524D;&#x6808;&#x7684;&#x5C42;&#x7F16;&#x53F7;&#xFF0C;&#x5F53;&#x524D;&#x7684;&#x51FD;&#x6570;&#x540D;&#xFF0C;&#x51FD;&#x6570;&#x53C2;&#x6570;&#x503C;&#xFF0C;&#x51FD;&#x6570;&#x6240;&#x5728;&#x6587;&#x4EF6;&#x53CA;&#x884C;&#x53F7;&#xFF0C;&#x51FD;&#x6570;&#x6267;&#x884C;&#x5230;&#x7684;&#x8BED;&#x53E5;</span></span><br><span class="line">(gdb) f</span><br><span class="line">(gdb) info frame <span class="comment"># &#x6253;&#x5370;&#x51FA;&#x66F4;&#x4E3A;&#x8BE6;&#x7EC6;&#x7684;&#x5F53;&#x524D;&#x6808;&#x5C42;&#x7684;&#x4FE1;&#x606F;</span></span><br><span class="line">(gdb) info f</span><br></pre></td></tr></table></figure>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org759ca64" class="outline-2">
+<h2 id="org759ca64"><span class="section-number-2">12</span> &#x4FE1;&#x53F7;&#xFF08;Signals&#xFF09;</h2>
+<div class="outline-text-2" id="text-12">
+<p>
+GDB&#x6709;&#x80FD;&#x529B;&#x5728;&#x4F60;&#x8C03;&#x8BD5;&#x7A0B;&#x5E8F;&#x7684;&#x65F6;&#x5019;&#x5904;&#x7406;&#x4EFB;&#x4F55;&#x4E00;&#x79CD;&#x4FE1;&#x53F7;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x544A;&#x8BC9; GDB &#x9700;&#x8981;&#x5904;&#x7406;&#x54EA;&#x4E00;&#x79CD;&#x4FE1;&#x53F7;&#xFF0C;&#x540C;&#x65F6;&#x6307;&#x5B9A;&#x7A0B;&#x5E8F;&#x662F;&#x5426;&#x505C;&#x6B62;&#x3002;
+</p>
+
+<div class="org-src-container">
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(gdb) handle &lt;signal&gt; &lt;keywords...&gt;</span><br><span class="line">(gdb) info signals</span><br><span class="line">(gdb) info handle</span><br></pre></td></tr></table></figure>
+</div>
+
+<p>
+&lt;keywords&gt;&#x53EF;&#x4EE5;&#x662F;&#x4EE5;&#x4E0B;&#x51E0;&#x79CD;&#x5173;&#x952E;&#x5B57;&#x7684;&#x4E00;&#x4E2A;&#x6216;&#x591A;&#x4E2A;&#x3002;
+</p>
+
+<ul class="org-ul">
+<li>nostop : &#x5F53;&#x88AB;&#x8C03;&#x8BD5;&#x7684;&#x7A0B;&#x5E8F;&#x6536;&#x5230;&#x4FE1;&#x53F7;&#x65F6;&#xFF0C;GDB &#x4E0D;&#x4F1A;&#x505C;&#x4F4F;&#x7A0B;&#x5E8F;&#x7684;&#x8FD0;&#x884C;&#xFF0C;&#x4F46;&#x4F1A;&#x6253;&#x51FA;&#x6D88;&#x606F;&#x544A;&#x8BC9;&#x4F60;&#x6536;&#x5230;&#x8FD9;&#x79CD;&#x4FE1;&#x53F7;&#x3002;</li>
+<li>stop : &#x5F53;&#x88AB;&#x8C03;&#x8BD5;&#x7684;&#x7A0B;&#x5E8F;&#x6536;&#x5230;&#x4FE1;&#x53F7;&#x65F6;&#xFF0C;GDB &#x4F1A;&#x505C;&#x4F4F;&#x4F60;&#x7684;&#x7A0B;&#x5E8F;&#x3002;</li>
+<li>print : &#x5F53;&#x88AB;&#x8C03;&#x8BD5;&#x7684;&#x7A0B;&#x5E8F;&#x6536;&#x5230;&#x4FE1;&#x53F7;&#x65F6;&#xFF0C;GDB &#x4F1A;&#x663E;&#x793A;&#x51FA;&#x4E00;&#x6761;&#x4FE1;&#x606F;&#x3002;</li>
+<li>noprint : &#x5F53;&#x88AB;&#x8C03;&#x8BD5;&#x7684;&#x7A0B;&#x5E8F;&#x6536;&#x5230;&#x4FE1;&#x53F7;&#x65F6;&#xFF0C;GDB &#x4E0D;&#x4F1A;&#x544A;&#x8BC9;&#x4F60;&#x6536;&#x5230;&#x4FE1;&#x53F7;&#x7684;&#x4FE1;&#x606F;&#x3002;</li>
+<li>pass / noignore : &#x5F53;&#x88AB;&#x8C03;&#x8BD5;&#x7684;&#x7A0B;&#x5E8F;&#x6536;&#x5230;&#x4FE1;&#x53F7;&#x65F6;&#xFF0C;GDB &#x4E0D;&#x5904;&#x7406;&#x4FE1;&#x53F7;&#x3002;&#x8FD9;&#x8868;&#x793A;&#xFF0C;GDB&#x4F1A;&#x628A;&#x8FD9;&#x4E2A;&#x4FE1;&#x53F7;&#x4EA4;&#x7ED9;&#x88AB;&#x8C03;&#x8BD5;&#x7A0B;&#x5E8F;&#x4F1A;&#x5904;&#x7406;&#x3002;</li>
+<li>nopass / ignore : &#x5F53;&#x88AB;&#x8C03;&#x8BD5;&#x7684;&#x7A0B;&#x5E8F;&#x6536;&#x5230;&#x4FE1;&#x53F7;&#x65F6;&#xFF0C;GDB &#x4E0D;&#x4F1A;&#x8BA9;&#x88AB;&#x8C03;&#x8BD5;&#x7A0B;&#x5E8F;&#x6765;&#x5904;&#x7406;&#x8FD9;&#x4E2A;&#x4FE1;&#x53F7;&#x3002;</li>
+</ul>
+
+<p>
+single &#x547D;&#x4EE4;&#x548C; shell &#x7684; kill &#x547D;&#x4EE4;&#x4E0D;&#x540C;&#xFF0C;&#x7CFB;&#x7EDF;&#x7684; kill &#x547D;&#x4EE4;&#x53D1;&#x4FE1;&#x53F7;&#x7ED9;&#x88AB;&#x8C03;&#x8BD5;&#x7A0B;&#x5E8F;&#x65F6;&#xFF0C;&#x662F;&#x7531; GDB &#x622A;&#x83B7;&#x7684;&#xFF0C;&#x800C; single &#x547D;&#x4EE4;&#x6240;&#x53D1;
+&#x51FA;&#x4E00;&#x4FE1;&#x53F7;&#x5219;&#x662F;&#x76F4;&#x63A5;&#x53D1;&#x7ED9;&#x88AB;&#x8C03;&#x8BD5;&#x7A0B;&#x5E8F;&#x7684;
+</p>
+
+<div class="org-src-container">
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(gdb)   handle   SIGPIPE   stop   <span class="built_in">print</span></span><br></pre></td></tr></table></figure>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfc50e78" class="outline-2">
+<h2 id="orgfc50e78"><span class="section-number-2">13</span> &#x7EBF;&#x7A0B;</h2>
+<div class="outline-text-2" id="text-13">
+<div class="org-src-container">
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(gdb) info threads: &#x67E5;&#x770B;&#x7EBF;&#x7A0B;&#x5217;&#x8868;</span><br><span class="line">(gdb) thread <span class="number">2</span>: &#x5207;&#x6362;&#x5230;<span class="number">2</span>&#x53F7;&#x7EBF;&#x7A0B;&#xFF0C;&#x7EBF;&#x7A0B;&#x7F16;&#x53F7;&#x53EF;&#x7531; info threads &#x5F97;&#x77E5;</span><br><span class="line">(gdb) thread apply all bt: &#x6253;&#x5370;&#x6240;&#x6709;&#x7EBF;&#x7A0B;&#x7684;&#x5806;&#x6808;</span><br><span class="line">(gdb) b add.c:<span class="number">1221</span> thread <span class="number">25</span> <span class="keyword">if</span> num &gt; <span class="number">5</span> <span class="comment"># 25 &#x662F;&#x7EBF;&#x7A0B;&#x53F7;&#xFF0C;&#x7531; GDB &#x5206;&#x914D;&#xFF0C;&#x4F7F;&#x7528; info thread &#x67E5;&#x770B;&#xFF1B;&#x5728;&#x6307;&#x5B9A;&#x7EBF;&#x7A0B;&#x4E0A;&#x8BBE;&#x7F6E;&#x65AD;&#x70B9;</span></span><br></pre></td></tr></table></figure>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgbfd2de3" class="outline-2">
+<h2 id="orgbfd2de3"><span class="section-number-2">14</span> &#x5BC4;&#x5B58;&#x5668;</h2>
+<div class="outline-text-2" id="text-14">
+<p>
+&#x6709;&#x4E00;&#x7EC4;&#x4E13;&#x7528;&#x7684;gdb&#x53D8;&#x91CF;&#x53EF;&#x4EE5;&#x7528;&#x6765;&#x68C0;&#x67E5;&#x548C;&#x4FEE;&#x6539;&#x8BA1;&#x7B97;&#x673A;&#x7684;&#x901A;&#x7528;&#x5BC4;&#x5B58;&#x5668;
+</p>
+
+<ol class="org-ol">
+<li>$pc&#xFF1A; &#x7A0B;&#x5E8F;&#x8BA1;&#x6570;&#x5668;</li>
+<li>$fp&#xFF1A; &#x5E27;&#x6307;&#x9488;&#xFF08;&#x5F53;&#x524D;&#x5806;&#x6808;&#x5E27;&#xFF09;</li>
+<li>$sp&#xFF1A; &#x6808;&#x6307;&#x9488;</li>
+<li>$ps&#xFF1A; &#x5904;&#x7406;&#x5668;&#x72B6;&#x6001;</li>
+</ol>
+
+<div class="org-src-container">
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(gdb) info registers <span class="comment"># &#x67E5;&#x770B;&#x5BC4;&#x5B58;&#x5668;&#x7684;&#x60C5;&#x51B5;&#xFF0C;&#x9664;&#x4E86;&#x6D6E;&#x70B9;&#x5BC4;&#x5B58;&#x5668;</span></span><br><span class="line">(gdb) info all-registers <span class="comment"># &#x67E5;&#x770B;&#x6240;&#x6709;&#x5BC4;&#x5B58;&#x5668;&#x7684;&#x60C5;&#x51B5;&#xFF0C;&#x5305;&#x62EC;&#x6D6E;&#x70B9;&#x5BC4;&#x5B58;&#x5668;</span></span><br><span class="line">(gdb) info registers &lt;regname ...&gt; <span class="comment"># &#x67E5;&#x770B;&#x6240;&#x6307;&#x5B9A;&#x7684;&#x5BC4;&#x5B58;&#x5668;&#x7684;&#x60C5;&#x51B5;</span></span><br><span class="line">(gdb) info registers pc</span><br><span class="line">(gdb) p <span class="variable">$pc</span></span><br><span class="line">(gdb) <span class="built_in">set</span> var <span class="variable">$pc</span>=<span class="number">0</span>x4005a1 <span class="comment"># &#x4FEE;&#x6539; pc &#x7684;&#x503C;&#x6765;&#x6539;&#x53D8;&#x7A0B;&#x5E8F;&#x6267;&#x884C;&#x4F4D;&#x7F6E;</span></span><br></pre></td></tr></table></figure>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4e5853f" class="outline-2">
+<h2 id="org4e5853f"><span class="section-number-2">15</span> &#x6539;&#x53D8;&#x7A0B;&#x5E8F;&#x6267;&#x884C;</h2>
+<div class="outline-text-2" id="text-15">
+<p>
+&#x5F53;&#x7A0B;&#x5E8F;&#x8FD0;&#x884C;&#x8D77;&#x6765;&#x540E;&#xFF0C;&#x53EF;&#x4EE5;&#x6839;&#x636E;&#x81EA;&#x5DF1;&#x7684;&#x8C03;&#x8BD5;&#x601D;&#x8DEF;&#x6765;&#x52A8;&#x6001;&#x5730;&#x5728; GDB &#x4E2D;&#x66F4;&#x6539;&#x5F53;&#x524D;&#x88AB;&#x8C03;&#x8BD5;&#x7A0B;&#x5E8F;&#x7684;&#x8FD0;&#x884C;&#x7EBF;&#x8DEF;&#x6216;&#x662F;&#x5176;&#x53D8;&#x91CF;&#x7684;&#x503C;;
+&#x6BD4;&#x5982;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x5728;&#x7A0B;&#x5E8F;&#x7684;&#x4E00;&#x6B21;&#x8FD0;&#x884C;&#x4E2D;&#x8D70;&#x904D;&#x7A0B;&#x5E8F;&#x7684;&#x6240;&#x6709;&#x5206;&#x652F;&#x3002;
+</p>
+
+<div class="org-src-container">
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">(gdb) <span class="built_in">set</span> width=<span class="number">47</span> <span class="comment"># &#x51FA;&#x73B0;&#x4E86;&#x201C;Invalid syntax in expression&#x201D;&#x7684;&#x8BBE;&#x7F6E;&#x9519;&#x8BEF;&#xFF0C;&#x6B64;&#x65F6;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; set var &#x547D;&#x4EE4;</span></span><br><span class="line"><span class="comment"># &#x6765;&#x544A;&#x8BC9; GDB&#xFF0C;width &#x4E0D;&#x662F;&#x4F60; GDB &#x7684;&#x53C2;&#x6570;&#xFF0C;&#x800C;&#x662F;&#x7A0B;&#x5E8F;&#x7684;&#x53D8;&#x91CF;&#x540D;</span></span><br><span class="line">(gdb) <span class="built_in">set</span> var width=<span class="number">47</span> <span class="comment"># &#x6539;&#x53D8;&#x7A0B;&#x5E8F;&#x53D8;&#x91CF;&#x53D6;&#x503C;&#x65F6;&#xFF0C;&#x6700;&#x597D;&#x90FD;&#x4F7F;&#x7528; set var &#x683C;&#x5F0F;</span></span><br><span class="line"></span><br><span class="line">(gdb) jump &lt;linespec&gt; <span class="comment"># GDB &#x63D0;&#x4F9B;&#x4E86;&#x4E71;&#x5E8F;&#x6267;&#x884C;&#x7684;&#x529F;&#x80FD;&#xFF1B;&#x6307;&#x5B9A;&#x4E0B;&#x4E00;&#x6761;&#x8FD0;&#x884C;&#x8BED;&#x53E5;&#x4ECE;&#x54EA;&#x91CC;&#x5F00;&#x59CB; &#xFF1B;file:line / +num / address </span></span><br><span class="line"><span class="comment"># jump&#x547D;&#x4EE4;&#x4E0D;&#x4F1A;&#x6539;&#x53D8;&#x5F53;&#x524D;&#x7684;&#x7A0B;&#x5E8F;&#x6808;&#x4E2D;&#x7684;&#x5185;&#x5BB9;&#xFF0C;&#x6240;&#x4EE5;&#xFF0C;&#x5F53;&#x4F60;&#x4ECE;&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#x8DF3;&#x5230;&#x53E6;&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#x65F6;&#xFF0C;&#x5F53;&#x51FD;&#x6570;&#x8FD0;&#x884C;&#x5B8C;&#x8FD4;&#x56DE;</span></span><br><span class="line"><span class="comment"># &#x65F6;&#x8FDB;&#x884C;&#x5F39;&#x6808;&#x64CD;&#x4F5C;&#x65F6;&#x5FC5;&#x7136;&#x4F1A;&#x53D1;&#x751F;&#x9519;&#x8BEF;&#xFF0C;&#x53EF;&#x80FD;&#x7ED3;&#x679C;&#x8FD8;&#x662F;&#x975E;&#x5E38;&#x5947;&#x602A;&#x7684;&#xFF0C;&#x751A;&#x81F3;&#x4E8E;&#x4EA7;&#x751F;&#x7A0B;&#x5E8F; Core Dump&#x3002;&#x6240;&#x4EE5;&#x6700;&#x597D;&#x662F;&#x540C;&#x4E00;&#x4E2A;&#x51FD;</span></span><br><span class="line"><span class="comment"># &#x6570;&#x4E2D;&#x8FDB;&#x884C;&#x8DF3;&#x8F6C;&#x3002;</span></span><br><span class="line"><span class="comment"># jump &#x547D;&#x4EE4;&#x5C31;&#x662F;&#x6539;&#x53D8;&#x4E86; pc &#x5BC4;&#x5B58;&#x5668;&#x4E2D;&#x7684;&#x503C;&#xFF1B;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; &#x201C;set $pc&#x201D; &#x6765;&#x66F4;&#x6539;&#x8DF3;&#x8F6C;&#x6267;&#x884C;&#x7684;&#x5730;&#x5740;</span></span><br><span class="line"></span><br><span class="line">(gdb) <span class="built_in">return</span> <span class="comment"># &#x5F3A;&#x5236;&#x51FD;&#x6570;&#x7ACB;&#x5373;&#x9000;&#x51FA;</span></span><br><span class="line">(gdb) <span class="built_in">return</span> expression <span class="comment"># &#x5E26;&#x8FD4;&#x56DE;&#x503C;&#x5F3A;&#x5236;&#x7ACB;&#x5373;&#x9000;&#x51FA;</span></span><br></pre></td></tr></table></figure>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9665617" class="outline-2">
+<h2 id="org9665617"><span class="section-number-2">16</span> &#x7F16;&#x8BD1;</h2>
+<div class="outline-text-2" id="text-16">
+<div class="org-src-container">
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(gdb) make <span class="comment"># &#x91CD;&#x65B0;&#x7F16;&#x8BD1;&#xFF1B;&#x7B49;&#x4EF7;&#x4E8E; shell make</span></span><br></pre></td></tr></table></figure>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgacd9766" class="outline-2">
+<h2 id="orgacd9766"><span class="section-number-2">17</span> &#x52A0;&#x8F7D;&#x72EC;&#x7ACB;&#x7684;&#x8C03;&#x8BD5;&#x4FE1;&#x606F;</h2>
+<div class="outline-text-2" id="text-17">
+<div class="org-src-container">
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># &#x7F16;&#x8BD1;&#x7A0B;&#x5E8F;&#xFF0C;&#x5E26;&#x8C03;&#x8BD5;&#x4FE1;&#x606F;(-g)</span></span><br><span class="line">$ gcc -g -o <span class="built_in">test</span> main.c</span><br><span class="line"><span class="comment"># &#x62F7;&#x8D1D;&#x8C03;&#x8BD5;&#x4FE1;&#x606F;&#x5230;test.debug</span></span><br><span class="line">$ objcopy --only-keep-debug <span class="built_in">test</span> test.debug</span><br><span class="line"><span class="comment"># &#x79FB;&#x9664;test&#x4E2D;&#x7684;&#x8C03;&#x8BD5;&#x4FE1;&#x606F;</span></span><br><span class="line">$ strip --strip-debug --strip-unneeded <span class="built_in">test</span></span><br><span class="line"><span class="comment"># &#x7136;&#x540E;&#x542F;&#x52A8;gdb</span></span><br><span class="line">$ gdb <span class="operator">-s</span> test.debug <span class="operator">-e</span> <span class="built_in">test</span></span><br><span class="line"><span class="comment"># &#x6216;&#x8FD9;&#x6837;&#x542F;&#x52A8;gdb</span></span><br><span class="line">$ gdb</span><br><span class="line">(gdb) <span class="built_in">exec</span>-file <span class="built_in">test</span></span><br><span class="line">(gdb) symbol-file test.debug</span><br><span class="line"></span><br><span class="line"><span class="comment"># &#x5206;&#x79BB;&#x51FA;&#x7684;&#x8C03;&#x8BD5;&#x4FE1;&#x606F;test.debug&#x8FD8;&#x53EF;&#x4EE5;&#x94FE;&#x63A5;&#x56DE;&#x53EF;&#x6267;&#x884C;&#x6587;&#x4EF6; test &#x4E2D;</span></span><br><span class="line">$ objcopy --add-gnu-debuglink test.debug <span class="built_in">test</span></span><br><span class="line"><span class="comment"># &#x7136;&#x540E;&#x5C31;&#x53EF;&#x4EE5;&#x6B63;&#x5E38;&#x7528; addr2line &#x7B49;&#x9700;&#x8981;&#x8BFB;&#x53D6;&#x8C03;&#x8BD5;&#x4FE1;&#x606F;&#x7684;&#x7A0B;&#x5E8F;&#x4E86;</span></span><br><span class="line">$ addr2line <span class="operator">-e</span> <span class="built_in">test</span> <span class="number">0</span>x401c23</span><br></pre></td></tr></table></figure>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf8386c1" class="outline-2">
+<h2 id="orgf8386c1"><span class="section-number-2">18</span> &#x6267;&#x884C; GDB &#x811A;&#x672C;</h2>
+<div class="outline-text-2" id="text-18">
+<div class="org-src-container">
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ cat &gt; gdbbp.txt <span class="comment"># &#x5C06;&#x9700;&#x8981;&#x8BBE;&#x5907;&#x7684;&#x65AD;&#x70B9;&#x7B49;&#x8C03;&#x8BD5;&#x4FE1;&#x606F;&#x5B58;&#x50A8;&#x5230;&#x4E00;&#x4E2A;&#x6587;&#x4EF6;</span></span><br><span class="line">b main.cpp:<span class="number">15</span></span><br><span class="line">b test.cpp:<span class="number">18</span></span><br><span class="line">Ctrl-D</span><br><span class="line"></span><br><span class="line">$ gdb -x /path/to/gdbbp.txt a.out <span class="comment"># &#x542F;&#x52A8; GDB &#x65F6;&#x5012;&#x5165;</span></span><br><span class="line">(gdb) <span class="built_in">source</span> /path/to/gdbbp.txt <span class="comment"># GDB &#x8FD0;&#x884C;&#x7684;&#x65F6;&#x5019;&#x5BFC;&#x5165;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># &#x6BCF;&#x6B21;gdb&#x8FD0;&#x884C;&#x90FD;&#x8981;&#x8C03;&#x7528;&#x7684;&#x811A;&#x672C;&#xFF0C;&#x6BD4;&#x5982;&#x8BBE;&#x7F6E;&#x5B57;&#x7B26;&#x96C6;&#x7B49;&#xFF0C;&#x653E;&#x5728; ~/.gdbinit &#x521D;&#x59CB;&#x6587;&#x4EF6;&#x91CC;&#xFF0C;&#x6BCF;&#x6B21; gdb &#x542F;&#x52A8;&#x65F6;&#x90FD;&#x4F1A;&#x81EA;&#x52A8;&#x8C03;&#x7528;</span></span><br></pre></td></tr></table></figure>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2480532" class="outline-2">
+<h2 id="org2480532"><span class="section-number-2">19</span> &#x81EA;&#x5B9A;&#x4E49;&#x547D;&#x4EE4;</h2>
+<div class="outline-text-2" id="text-19">
+<div class="org-src-container">
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">(gdb) define hello</span><br><span class="line">(gdb) <span class="built_in">print</span> <span class="string">&quot;welcome&quot;</span></span><br><span class="line">(gdb) <span class="built_in">print</span> <span class="string">&quot;hello <span class="variable">$arg0</span>&quot;</span></span><br><span class="line">(gdb) end</span><br><span class="line"><span class="comment"># &#x7136;&#x540E;&#x5982;&#x6B64;&#x8C03;&#x7528;</span></span><br><span class="line">(gdb) hello world</span><br><span class="line"><span class="comment"># &#x5373;&#x53EF;&#x8F93;&#x51FA;</span></span><br><span class="line">(gdb) <span class="variable">$1</span> = <span class="string">&quot;welcome&quot;</span></span><br><span class="line">(gdb) <span class="variable">$2</span> = <span class="string">&quot;hello world&quot;</span></span><br></pre></td></tr></table></figure>
+</div>
+</div>
+</div>
+</div>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+            <a href="/tags/gdb/" rel="tag"># gdb</a>
+          
+        </div>
+      
+
+      
+      
+        <div class="post-widgets">
+        
+
+        
+
+        
+          
+          <div id="needsharebutton-postbottom">
+            <span class="btn">
+              <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </span>
+          </div>
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/24/tools/gcc/" rel="next" title="GNU Compiler Collection">
+                <i class="fa fa-chevron-left"></i> GNU Compiler Collection
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/24/tools/git/" rel="prev" title="Git">
+                Git <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzU0Ny8xNDA3OQ=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/polarbear.jpg" alt="Kyle Three Stone">
+            
+              <p class="site-author-name" itemprop="name">Kyle Three Stone</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">57</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-globe"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://github.com/kylestones" title="GitHub" target="_blank">GitHub</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="mailto:kyleemail@163.com" title="E-Mail" target="_blank">E-Mail</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-text">Table of Contents</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org63943e1"><span class="nav-text">1 启动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3264b74"><span class="nav-text">2 帮助</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6d887ba"><span class="nav-text">3 查看源代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7a4f76c"><span class="nav-text">4 程序运行上下文</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org52fb466"><span class="nav-text">5 断点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org28109d9"><span class="nav-text">6 观察点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3f57334"><span class="nav-text">7 设置捕捉点（CatchPoint）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf99753f"><span class="nav-text">8 停止点设置运行命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7827b79"><span class="nav-text">9 调试代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9c798a9"><span class="nav-text">10 查看运行数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1af64f0"><span class="nav-text">11 查看栈信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org759ca64"><span class="nav-text">12 信号（Signals）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgfc50e78"><span class="nav-text">13 线程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgbfd2de3"><span class="nav-text">14 寄存器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4e5853f"><span class="nav-text">15 改变程序执行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9665617"><span class="nav-text">16 编译</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgacd9766"><span class="nav-text">17 加载独立的调试信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf8386c1"><span class="nav-text">18 执行 GDB 脚本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2480532"><span class="nav-text">19 自定义命令</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kyle Three Stone</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="Symbols count total">1.9m</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="Reading time total">28:45</span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="Total Visitors">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="Total Views">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+  
+  <script src="/lib/needsharebutton/needsharebutton.js"></script>
+
+  <script>
+    
+      pbOptions = {};
+      
+          pbOptions.iconStyle = "box";
+      
+          pbOptions.boxForm = "horizontal";
+      
+          pbOptions.position = "bottomCenter";
+      
+          pbOptions.networks = "Wechat,Weibo,Douban,QQZone,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-postbottom', pbOptions);
+    
+    
+  </script>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

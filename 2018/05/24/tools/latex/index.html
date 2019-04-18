@@ -1,0 +1,2070 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/needsharebutton/needsharebutton.css">
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Table of Contents   1. LaTeX &amp;#x6E90;&amp;#x4EE3;&amp;#x7801;&amp;#x7ED3;&amp;#x6784;  1.1. &amp;#x6587;&amp;#x6863;&amp;#x7C7B; 1.2. &amp;#x5B8F;&amp;#x5305;   2. &amp;#x6587;&amp;#x4EF6;&amp;#x7684;&amp;#x7EC4;&amp;#x7EC7;&amp;#x65B9;&amp;#x5F0F; 3. LaTeX &amp;#x5">
+<meta name="keywords" content="LaTex">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LaTex">
+<meta property="og:url" content="https://kylestones.github.io/2018/05/24/tools/latex/index.html">
+<meta property="og:site_name" content="All in Org-mode">
+<meta property="og:description" content="Table of Contents   1. LaTeX &amp;#x6E90;&amp;#x4EE3;&amp;#x7801;&amp;#x7ED3;&amp;#x6784;  1.1. &amp;#x6587;&amp;#x6863;&amp;#x7C7B; 1.2. &amp;#x5B8F;&amp;#x5305;   2. &amp;#x6587;&amp;#x4EF6;&amp;#x7684;&amp;#x7EC4;&amp;#x7EC7;&amp;#x65B9;&amp;#x5F0F; 3. LaTeX &amp;#x5">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-11-18T10:55:02.976Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="LaTex">
+<meta name="twitter:description" content="Table of Contents   1. LaTeX &amp;#x6E90;&amp;#x4EE3;&amp;#x7801;&amp;#x7ED3;&amp;#x6784;  1.1. &amp;#x6587;&amp;#x6863;&amp;#x7C7B; 1.2. &amp;#x5B8F;&amp;#x5305;   2. &amp;#x6587;&amp;#x4EF6;&amp;#x7684;&amp;#x7EC4;&amp;#x7EC7;&amp;#x65B9;&amp;#x5F0F; 3. LaTeX &amp;#x5">
+
+
+
+
+
+
+  <link rel="canonical" href="https://kylestones.github.io/2018/05/24/tools/latex/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>LaTex | All in Org-mode</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">All in Org-mode</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Keep it Simple, Stuped.</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://kylestones.github.io/2018/05/24/tools/latex/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Kyle Three Stone">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/polarbear.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="All in Org-mode">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">LaTex
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-05-24 00:00:00" itemprop="dateCreated datePublished" datetime="2018-05-24T00:00:00+08:00">2018-05-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-11-18 18:55:02" itemprop="dateModified" datetime="2018-11-18T18:55:02+08:00">2018-11-18</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/LaTex/" itemprop="url" rel="index"><span itemprop="name">LaTex</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Symbols count in article: </span>
+                
+                <span title="Symbols count in article">45k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">40 mins.</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <div id="content">
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org66b359d">1. LaTeX &#x6E90;&#x4EE3;&#x7801;&#x7ED3;&#x6784;</a>
+<ul>
+<li><a href="#org36600ea">1.1. &#x6587;&#x6863;&#x7C7B;</a></li>
+<li><a href="#org677a29e">1.2. &#x5B8F;&#x5305;</a></li>
+</ul>
+</li>
+<li><a href="#org25a06e7">2. &#x6587;&#x4EF6;&#x7684;&#x7EC4;&#x7EC7;&#x65B9;&#x5F0F;</a></li>
+<li><a href="#org17a3633">3. LaTeX &#x547D;&#x4EE4;</a></li>
+<li><a href="#org72a0382">4. LaTeX &#x73AF;&#x5883;</a>
+<ul>
+<li><a href="#org721edc2">4.1. &#x5206;&#x7EC4;</a></li>
+</ul>
+</li>
+<li><a href="#org9f2942c">5. LaTeX &#x7F16;&#x8BD1;</a>
+<ul>
+<li><a href="#org0501f62">5.1. &#x5EFA;&#x8BAE;</a></li>
+</ul>
+</li>
+<li><a href="#orgaa2e1c1">6. &#x6392;&#x7248;&#x4E2D;&#x6587;</a>
+<ul>
+<li><a href="#org4ab01f2">6.1. xeCJK &#x5B8F;&#x5305;</a></li>
+<li><a href="#org9707975">6.2. ctex &#x5B8F;&#x5305;&#x548C;&#x6587;&#x6863;&#x7C7B;</a></li>
+</ul>
+</li>
+<li><a href="#org54e6ff3">7. LATEX &#x4E2D;&#x7684;&#x5B57;&#x7B26;</a></li>
+<li><a href="#org8aad752">8. &#x65AD;&#x884C;&#x548C;&#x65AD;&#x9875;</a></li>
+</ul>
+</div>
+</div>
+<p>
+\(\LaTeX\) &#x662F;&#x4E00;&#x4E2A;&#x6587;&#x6863;&#x51C6;&#x5907;&#x7CFB;&#x7EDF; (Document Preparing System)&#xFF0C;&#x5B83;&#x975E;&#x5E38;&#x9002;&#x7528;&#x4E8E;&#x751F;&#x6210;&#x9AD8;&#x5370;&#x5237;&#x8D28;&#x91CF;&#x7684;&#x79D1;&#x6280;&#x7C7B;&#x548C;&#x6570;&#x5B66;
+&#x7C7B;&#x6587;&#x6863;&#x3002;&#x5B83;&#x4E5F;&#x80FD;&#x591F;&#x751F;&#x6210;&#x6240;&#x6709;&#x5176;&#x4ED6;&#x79CD;&#x7C7B;&#x7684;&#x6587;&#x6863;&#xFF0C;&#x5C0F;&#x5230;&#x7B80;&#x5355;&#x7684;&#x4FE1;&#x4EF6;&#xFF0C;&#x5927;&#x5230;&#x5B8C;&#x6574;&#x7684;&#x4E66;&#x7C4D;&#x3002; \(\LaTeX\) &#x4F7F;&#x7528; \(\TeX\) &#x4F5C;
+&#x4E3A;&#x5B83;&#x7684;&#x6392;&#x7248;&#x5F15;&#x64CE;&#x3002;
+</p>
+
+<p>
+\(\TeX\) &#x662F;&#x9AD8;&#x5FB7;&#x7EB3; (Donald E.Knuth)&#x5F00;&#x53D1;&#x7684;&#x3001;&#x4EE5;&#x6392;&#x7248;&#x6587;&#x5B57;&#x548C;&#x6570;&#x5B66;&#x516C;&#x5F0F;&#x4E3A;&#x76EE;&#x7684;&#x7684;&#x4E00;&#x4E2A;&#x8BA1;&#x7B97;&#x673A;&#x8F6F;&#x4EF6;&#x3002;&#x9AD8;&#x5FB7;&#x7EB3;&#x4ECE; 1977
+&#x5E74;&#x5F00;&#x59CB;&#x5F00;&#x53D1; \(\TeX\) &#xFF0C;&#x4EE5;&#x53D1;&#x6398;&#x5F53;&#x65F6;&#x5F00;&#x59CB;&#x7528;&#x4E8E;&#x51FA;&#x7248;&#x5DE5;&#x4E1A;&#x7684;&#x6570;&#x5B57;&#x5370;&#x5237;&#x8BBE;&#x5907;&#x7684;&#x6F5C;&#x529B;&#x3002;&#x6B63;&#x5728;&#x7F16;&#x5199;&#x8457;&#x4F5C;&#x300A;&#x8BA1;&#x7B97;&#x673A;&#x7A0B;&#x5E8F;&#x8BBE;&#x8BA1;&#x827A;
+&#x672F;&#x300B;&#x7684;&#x9AD8;&#x5FB7;&#x7EB3;&#xFF0C;&#x610F;&#x56FE;&#x626D;&#x8F6C;&#x6392;&#x7248;&#x8D28;&#x91CF;&#x6BCF;&#x51B5;&#x6108;&#x4E0B;&#x7684;&#x72B6;&#x51B5;&#xFF0C;&#x4EE5;&#x514D;&#x5F71;&#x54CD;&#x4ED6;&#x7684;&#x51FA;&#x4E66;&#x3002;&#x6211;&#x4EEC;&#x73B0;&#x5728;&#x4F7F;&#x7528;&#x7684; \(\TeX\) &#x6392;&#x7248;&#x5F15;&#x64CE;&#x53D1;&#x5E03;
+&#x4E8E; 1982 &#x5E74;&#xFF0C;&#x5728; 1989 &#x5E74;&#x53C8;&#x7A0D;&#x52A0;&#x6539;&#x8FDB;&#x4EE5;&#x66F4;&#x597D;&#x5730;&#x652F;&#x6301; 8-bit &#x5B57;&#x7B26;&#x548C;&#x591A;&#x8BED;&#x8A00;&#x6392;&#x7248;&#x3002;\(\TeX\) &#x4EE5;&#x5176;&#x5353;&#x8D8A;&#x7684;&#x7A33;&#x5B9A;&#x6027;&#x3001;&#x8DE8;&#x5E73;
+&#x53F0;&#x3001;&#x51E0;&#x4E4E;&#x6CA1;&#x6709; Bug &#x800C;&#x8457;&#x79F0;&#x3002;1990 &#x5E74;&#x63A8;&#x51FA; 3.1 &#x7248;, &#x5E76;&#x5BA3;&#x5E03;&#x4E0D;&#x518D;&#x66F4;&#x65B0; (&#x53EA;&#x4FEE;&#x6B63; bug)&#x3002;\(\TeX\) &#x7684;&#x7248;&#x672C;&#x53F7;&#x4E0D;&#x65AD;&#x8D8B;&#x8FD1;
+&#x4E8E; \(\pi\)&#xFF0C;&#x5F53;&#x524D;&#x4E3A; 3.141592653&#x3002;
+</p>
+
+<p>
+\(\TeX\) &#x8BFB;&#x4F5C; &quot;Tech&quot; &#xFF0C;&#x5176;&#x4E2D; &quot;ch&quot; &#x7684;&#x53D1;&#x97F3;&#x7C7B;&#x4F3C;&#x4E8E; &quot;h&quot; &#xFF0C;&#x4E0E;&#x6C49;&#x5B57;&#x201C;&#x6CF0;&#x8D6B;&#x201D;&#x7684;&#x53D1;&#x97F3;&#x7C7B;&#x4F3C;&#x3002;\(\TeX\) &#x7684;&#x62FC;&#x5199;&#x6765;&#x81EA;&#x5E0C;
+&#x814A;&#x8BCD;&#x8BED; technique &#xFF08;&#x6280;&#x672F;&#xFF09; &#x7684;&#x5F00;&#x5934;&#x51E0;&#x4E2A;&#x5B57;&#x6BCD;&#x3002;&#x5728; ASCII &#x5B57;&#x7B26;&#x73AF;&#x5883;&#xFF0C;\(\TeX\) &#x5199;&#x4F5C; TeX&#x3002;\(\TeX\) &#x7CFB;&#x7EDF;&#x63D0;&#x4F9B;&#x4E86;
+300 + 600 &#x591A;&#x6761;&#x57FA;&#x672C;&#x7684;&#x6392;&#x7248;&#x547D;&#x4EE4;&#x3002;
+</p>
+
+<p>
+\(\TeX\) &#x63D0;&#x4F9B;&#x7684;&#x547D;&#x4EE4;&#x90FD;&#x662F;&#x4E00;&#x4E9B;&#x5F88;&#x5E95;&#x5C42;&#x7684;&#x547D;&#x4EE4;, &#x666E;&#x901A;&#x7528;&#x6237;&#x4F7F;&#x7528;&#x8D77;&#x6765;&#x4E0D;&#x592A;&#x65B9;&#x4FBF;&#xFF1B;&#x5927;&#x725B;&#x4EEC;&#x5728; \(\TeX\) &#x57FA;&#x7840;&#x4E0A;, &#x5B9A;&#x4E49;&#x65B0;&#x7684;&#x547D;&#x4EE4;, &#x4E3A;&#x666E;&#x901A;&#x7528;&#x6237;&#x6392;&#x7248;&#x63D0;&#x4F9B;&#x65B9;&#x4FBF;
+</p>
+<ul class="org-ul">
+<li>Plain TEX : &#x7531; Knuth &#x5F00;&#x53D1;, &#x65B0;&#x5B9A;&#x4E49; 600 &#x591A;&#x6761;&#x547D;&#x4EE4;, &#x662F;&#x901A;&#x5E38;&#x6240;&#x8BF4;&#x7684; TEX</li>
+<li>AMS-TEX : &#x7531;&#x7F8E;&#x56FD;&#x6570;&#x5B66;&#x4F1A;&#x5F00;&#x53D1;, &#x9002;&#x5408;&#x6392;&#x7248;&#x5404;&#x79CD;&#x590D;&#x6742;&#x7684;&#x6570;&#x5B66;&#x516C;&#x5F0F;</li>
+<li>LATEX (1984) : &#x7531; Lamport &#x5F00;&#x53D1;, &#x9002;&#x5408;&#x8BBA;&#x6587;&#x4E66;&#x7C4D;, &#x5BF9; TeX &#x63A8;&#x5E7F;&#x8D21;&#x732E;&#x5DE8;&#x5927;</li>
+<li>pdfTEX (1997): &#x7531; H.T. Thanh &#x5F00;&#x53D1;, &#x76F4;&#x63A5;&#x8F93;&#x51FA; PDF, &#x652F;&#x6301;&#x591A;&#x79CD;&#x56FE;&#x7247;&#x683C;&#x5F0F;</li>
+<li>xeTEX (2005): &#x7531; J. Kew &#x5F00;&#x53D1;, &#x652F;&#x6301; Unicode, &#x53EF;&#x76F4;&#x63A5;&#x8BBF;&#x95EE;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x5B57;&#x4F53;</li>
+<li>LuaTEX (2007): &#x7531; T. Hoekwater &#x5F00;&#x53D1;, &#x662F; Lua &#x811A;&#x672C;&#x8BED;&#x8A00;&#x548C; TeX &#x7684;&#x7ED3;&#x5408;</li>
+</ul>
+
+<p>
+\(\LaTeX\) &#x4E3A; \(\TeX\) &#x57FA;&#x7840;&#x4E0A;&#x7684;&#x4E00;&#x5957;&#x683C;&#x5F0F;&#xFF0C;&#x4EE4;&#x4F5C;&#x8005;&#x80FD;&#x591F;&#x4F7F;&#x7528;&#x9884;&#x5B9A;&#x4E49;&#x7684;&#x4E13;&#x4E1A;&#x683C;&#x5F0F;&#x4EE5;&#x8F83;&#x9AD8;&#x8D28;&#x91CF;&#x6392;&#x7248;&#x548C;&#x5370;&#x5237;&#x4ED6;&#x4EEC;&#x7684;&#x4F5C;
+&#x54C1;&#x3002; \(\LaTeX\) &#x7684;&#x6700;&#x521D;&#x5F00;&#x53D1;&#x8005;&#x4E3A; Leslie Lamport &#x535A;&#x58EB;&#x3002; \(\LaTeX\) &#x4F7F;&#x7528; \(\TeX\) &#x7A0B;&#x5E8F;&#x4F5C;&#x4E3A;&#x81EA;&#x5DF1;&#x7684;&#x6392;&#x7248;&#x5F15;&#x64CE;&#x3002;
+&#x5F53;&#x4E0B; \(\LaTeX\) &#x4E3B;&#x8981;&#x7684;&#x7EF4;&#x62A4;&#x8005;&#x4E3A; Frank Mittelbach&#x3002;\(\LaTeX\) &#x4F9D;&#x8D56;&#x7684; \(\TeX\) &#x6392;&#x7248;&#x5F15;&#x64CE;&#x548C;&#x5176;&#x5B83;&#x8F6F;&#x4EF6;&#x662F;&#x8DE8;&#x5E73;
+&#x53F0;&#x3001;&#x514D;&#x8D39;&#x3001;&#x5F00;&#x6E90;&#x7684;&#x3002;&#x4F46;&#x76F8;&#x6BD4;&#x4E8E;&#x5176;&#x4ED6;&#x7A0B;&#x5E8F;&#x8BBE;&#x8BA1;&#x8BED;&#x8A00;&#x6392;&#x67E5;&#x9519;&#x8BEF;&#x56F0;&#x96BE;&#xFF0C;&#x867D;&#x7136;&#x80FD;&#x591F;&#x63D0;&#x793A;&#x9519;&#x8BEF;&#xFF0C;&#x4F46;&#x4E0D;&#x63D0;&#x4F9B;&#x8C03;&#x8BD5;&#x7684;&#x673A;&#x5236;&#xFF0C;&#x6709;&#x65F6;&#x9519;
+&#x8BEF;&#x63D0;&#x793A;&#x8FD8;&#x5F88;&#x96BE;&#x7406;&#x89E3;&#x3002;
+</p>
+
+<p>
+\(\LaTeX\) &#x8BFB;&#x4F5C; &#x201C;Lah-tech&#x201D; &#x6216;&#x8005; &#x201C;Lay-tech&#x201D; &#xFF0C;&#x8FD1;&#x4F3C;&#x4E8E;&#x6C49;&#x5B57;&#x201C;&#x62C9;&#x6CF0;&#x8D6B;&#x201D;&#x6216;&#x201C;&#x96F7;&#x6CF0;&#x8D6B;&#x201D;&#x3002; \(\LaTeX\) &#x5728;
+ASCII &#x5B57;&#x7B26;&#x73AF;&#x5883;&#x5199;&#x4F5C; LaTeX&#x3002;&#x5F53;&#x524D;&#x7684; \(\LaTeX\) &#x7248;&#x672C;&#x4E3A; \(\LaTeX2_\varepsilon\)&#xFF0C;&#x610F;&#x601D;&#x662F;&#x8D85;&#x51FA;&#x4E86;&#x7B2C;&#x4E8C;&#x7248;&#xFF0C;&#x63A5;&#x8FD1;
+&#x4F46;&#x6CA1;&#x8FBE;&#x5230;&#x7B2C;&#x4E09;&#x7248;&#xFF0C;&#x5728; ASCII &#x5B57;&#x7B26;&#x73AF;&#x5883;&#x5199;&#x4F5C; LaTeX2e&#x3002;
+</p>
+
+
+<div id="outline-container-org66b359d" class="outline-2">
+<h2 id="org66b359d"><span class="section-number-2">1</span> LaTeX &#x6E90;&#x4EE3;&#x7801;&#x7ED3;&#x6784;</h2>
+<div class="outline-text-2" id="text-1">
+<div class="org-src-container">
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">% LATEX &#x6E90;&#x4EE3;&#x7801;&#x4EE5;&#x4E00;&#x4E2A; \documentclass &#x547D;&#x4EE4;&#x4F5C;&#x4E3A;&#x5F00;&#x5934;&#xFF0C;
+% &#x5B83;&#x89C4;&#x5B9A;&#x4E86;&#x6587;&#x6863;&#x4F7F;&#x7528;&#x7684;&#x6587;&#x6863;&#x7C7B; (&#x8BBA;&#x6587;, &#x4E66;&#x7C4D;, &#x5E7B;&#x706F;&#x7247;, &#x6D77;&#x62A5;) &#xFF0C;&#x5FC5;&#x987B;&#x4E14;&#x53EA;&#x80FD;&#x9009;&#x62E9;&#x4E00;&#x79CD;
+\documentclass[options]{class-name}
+
+% &#x5BFC;&#x8A00;&#x533A;&#xFF0C;&#x5728; \documentclass &#x548C; \begin{document} &#x4E4B;&#x95F4;&#x7684;&#x4F4D;&#x7F6E;&#x79F0;&#x4E3A;&#x5BFC;&#x8A00;&#x533A;&#xFF0C;
+% &#x4F7F;&#x7528; \usepackage&#x8C03;&#x7528;&#x5B8F;&#x5305;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x547D;&#x4EE4;&#x5BF9;&#x6587;&#x6863;&#x8FDB;&#x884C;&#x5168;&#x5C40;&#x8BBE;&#x7F6E;&#x3002;
+% &#x653E;&#x5728;&#x5BFC;&#x8A00;&#x533A;&#x7684;&#x547D;&#x4EE4;&#x5BF9;&#x6574;&#x4E2A;&#x6587;&#x6863;&#x90FD;&#x751F;&#x6548;&#x3002;
+% &#x5F53;&#x7136;&#x4E5F;&#x53EF;&#x4EE5;&#x4EC0;&#x4E48;&#x90FD;&#x4E0D;&#x5199;&#xFF0C;&#x4E00;&#x4E2A;&#x5B8F;&#x5305;&#x90FD;&#x4E0D;&#x8C03;&#x7528;&#x3002;&#x4E00;&#x5207;&#x89C6;&#x81EA;&#x5DF1;&#x9700;&#x6C42;&#x3002;
+\usepackage{...}
+
+% &#x518D;&#x63A5;&#x7740;&#xFF0C;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x7528;&#x4EE5;&#x4E0B;&#x4E00;&#x5BF9;&#x547D;&#x4EE4;&#x6765;&#x6807;&#x8BB0;&#x6B63;&#x6587;&#x5185;&#x5BB9;&#x7684;&#x5F00;&#x59CB;&#x4F4D;&#x7F6E;&#x548C;&#x7ED3;&#x675F;&#x4F4D;&#x7F6E;&#xFF0C;&#x800C;&#x5C06;&#x6B63;&#x6587;&#x5185;&#x5BB9;&#x5199;&#x5165;&#x5176;&#x4E2D;&#xFF1A;
+\begin{document}
+% &#x6B63;&#x6587;&#x90E8;&#x5206;
+...
+\end{document} % &#x7ED3;&#x675F;</span><br></pre></td></tr></table></figure>
+</div>
+
+<p>
+<b>&#x6BCF;&#x4E2A;&#x5B8F;&#x5305;&#x548C;&#x6587;&#x6863;&#x7C7B;&#x90FD;&#x662F;&#x5E26;&#x7279;&#x5B9A;&#x6269;&#x5C55;&#x540D;&#x7684;&#x6587;&#x4EF6;&#x3002;</b> XXX.sty &#x5B8F;&#x5305;&#x6587;&#x4EF6;&#x3002;&#x5B8F;&#x5305;&#x7684;&#x540D;&#x79F0;&#x5C31;&#x662F;&#x53BB;&#x6389;&#x6269;&#x5C55;&#x540D;&#x7684;&#x6587;&#x4EF6;&#x540D;&#xFF1B;
+XXX.cls &#x6587;&#x6863;&#x7C7B;&#x6587;&#x4EF6;&#xFF0C;&#x540C;&#x6837;&#xFF0C;&#x6587;&#x6863;&#x7C7B;&#x540D;&#x79F0;&#x5C31;&#x662F;&#x6587;&#x4EF6;&#x540D;&#xFF1B;XXX.bib BIBTEX &#x53C2;&#x8003;&#x6587;&#x732E;&#x6570;&#x636E;&#x5E93;&#x6587;&#x4EF6;&#xFF1B;XXX.bst BIBTEX &#x7528;
+&#x5230;&#x7684;&#x53C2;&#x8003;&#x6587;&#x732E;&#x683C;&#x5F0F;&#x6A21;&#x677F;&#x3002;
+</p>
+</div>
+
+<div id="outline-container-org36600ea" class="outline-3">
+<h3 id="org36600ea"><span class="section-number-3">1.1</span> &#x6587;&#x6863;&#x7C7B;</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+<b>LATEX &#x6E90;&#x4EE3;&#x7801;&#x7684;&#x5F00;&#x5934;&#x987B;&#x7528; \documentclass &#x6307;&#x5B9A;&#x6587;&#x6863;&#x7C7B;&#x3002;</b> &#x6587;&#x6863;&#x7C7B;&#x89C4;&#x5B9A;&#x4E86; LATEX &#x6E90;&#x4EE3;&#x7801;&#x6240;&#x8981;&#x751F;&#x6210;&#x7684;&#x6587;&#x6863;&#x7684;&#x6027;&#x8D28;&#xFF1A;
+&#x666E;&#x901A;&#x6587;&#x7AE0;&#x3001;&#x4E66;&#x7C4D;&#x3001;&#x6F14;&#x793A;&#x6587;&#x7A3F;&#x3001;&#x4E2A;&#x4EBA;&#x7B80;&#x5386;&#x7B49;&#x7B49;&#x3002;
+</p>
+
+<div class="org-src-container">
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\documentclass[options]{class-name}</span><br></pre></td></tr></table></figure>
+</div>
+
+<p>
+&#x5176;&#x4E2D; class-name &#x4E3A;&#x6587;&#x6863;&#x7C7B;&#x7684;&#x540D;&#x79F0;&#xFF0C;&#x5982; LATEX &#x63D0;&#x4F9B;&#x7684; article&#xFF08;&#x6587;&#x7AE0;&#x683C;&#x5F0F;&#x7684;&#x6587;&#x6863;&#x7C7B;&#xFF0C;&#x5E7F;&#x6CDB;&#x7528;&#x4E8E;&#x79D1;&#x6280;&#x8BBA;&#x6587;&#x3001;&#x62A5;&#x544A;&#x3001;
+&#x8BF4;&#x660E;&#x6587;&#x6863;&#x7B49;&#xFF09;, book&#xFF08;&#x4E66;&#x7C4D;&#x6587;&#x6863;&#x7C7B;&#xFF0C;&#x5305;&#x542B;&#x7AE0;&#x8282;&#x7ED3;&#x6784;&#x548C;&#x524D;&#x8A00;&#x3001;&#x6B63;&#x6587;&#x3001;&#x540E;&#x8BB0;&#x7B49;&#x7ED3;&#x6784;&#xFF09;, report&#xFF08;&#x957F;&#x7BC7;&#x62A5;&#x544A;&#x683C;&#x5F0F;&#x7684;&#x6587;&#x6863;&#x7C7B;&#xFF0C;
+&#x5177;&#x6709;&#x7AE0;&#x8282;&#x7ED3;&#x6784;&#xFF0C;&#x7528;&#x4E8E;&#x7EFC;&#x8FF0;&#x3001;&#x957F;&#x7BC7;&#x8BBA;&#x6587;&#x3001;&#x7B80;&#x5355;&#x7684;&#x4E66;&#x7C4D;&#x7B49;&#xFF09;[&#x8FD9;&#x4E09;&#x4E2A;&#x4E60;&#x60EF;&#x4E0A;&#x79F0;&#x4E3A;&#x201C;&#x6807;&#x51C6;&#x6587;&#x6863;&#x7C7B;&#x201D;]&#xFF0C;&#x5728;&#x5176;&#x57FA;&#x7840;&#x4E0A;&#x6D3E;&#x751F;&#x7684;&#x4E00;
+&#x4E9B;&#x6587;&#x6863;&#x7C7B;&#x5982;&#x652F;&#x6301;&#x4E2D;&#x6587;&#x6392;&#x7248;&#x7684; ctexart&#xFF0C;ctexbook&#xFF0C; ctexrep&#xFF0C;&#x6216;&#x8005;&#x6709;&#x5176;&#x5B83;&#x529F;&#x80FD;&#x7684;&#x4E00;&#x4E9B;&#x6587;&#x6863;&#x7C7B;&#xFF0C;&#x5982; moderncv &#xFF0C;
+beamer &#x7B49;&#x3002;
+</p>
+
+<p>
+&#x53EF;&#x9009;&#x53C2;&#x6570; options &#x4E3A;&#x6587;&#x6863;&#x7C7B;&#x6307;&#x5B9A;&#x9009;&#x9879;&#xFF0C;&#x4EE5;&#x5168;&#x5C40;&#x5730;&#x5F71;&#x54CD;&#x6587;&#x6863;&#x5E03;&#x5C40;&#x7684;&#x53C2;&#x6570;&#xFF0C;&#x5982;&#x5B57;&#x53F7;&#x3001;&#x7EB8;&#x5F20;&#x5927;&#x5C0F;&#x3001;&#x5355;&#x53CC;&#x9762;&#x7B49;&#x7B49;&#x3002;LATEX
+&#x7684;&#x4E09;&#x4E2A;&#x6807;&#x51C6;&#x6587;&#x6863;&#x7C7B;&#x53EF;&#x6307;&#x5B9A;&#x7684;&#x9009;&#x9879;
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col class="org-left">
+
+<col class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">option</th>
+<th scope="col" class="org-left">&#x542B;&#x4E49;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">10pt, 11pt, 12pt</td>
+<td class="org-left">&#x6307;&#x5B9A;&#x6587;&#x6863;&#x7684;&#x57FA;&#x672C;&#x5B57;&#x53F7;&#xFF1B;&#x7F3A;&#x7701;&#x4E3A; 10pt</td>
+</tr>
+
+<tr>
+<td class="org-left">a4paper, letterpaper, a5paper, b5paper, execuivepaper, legalpaper</td>
+<td class="org-left">&#x6307;&#x5B9A;&#x7EB8;&#x5F20;&#x5927;&#x5C0F;&#xFF1B;&#x9ED8;&#x8BA4;&#x4E3A;&#x7F8E;&#x5F0F;&#x7EB8;&#x5F20; letterpaper</td>
+</tr>
+
+<tr>
+<td class="org-left">fleqn</td>
+<td class="org-left">&#x884C;&#x95F4;&#x516C;&#x5F0F;&#x5DE6;&#x5BF9;&#x9F50;&#xFF1B;&#x7F3A;&#x7701;&#x5C45;&#x4E2D;</td>
+</tr>
+
+<tr>
+<td class="org-left">leqno</td>
+<td class="org-left">&#x5C06;&#x516C;&#x5F0F;&#x7F16;&#x53F7;&#x65B9;&#x5728;&#x5DE6;&#x4FA7;&#xFF1B;&#x7F3A;&#x7701;&#x4E3A;&#x53F3;&#x4FA7;</td>
+</tr>
+
+<tr>
+<td class="org-left">titlepage, notitlepage</td>
+<td class="org-left">&#x6307;&#x5B9A;&#x6807;&#x9898;&#x547D;&#x4EE4; \maketitle &#x662F;&#x5426;&#x751F;&#x6210;&#x5355;&#x72EC;&#x6807;&#x9898;&#x9875;&#xFF1B;&#x7F3A;&#x7701;&#xFF1A;article:notitlepage; report,book:titilepage</td>
+</tr>
+
+<tr>
+<td class="org-left">onecolumn, twocolumn</td>
+<td class="org-left">&#x6307;&#x5B9A;&#x5355;&#x680F;/&#x53CC;&#x680F;&#x6392;&#x7248;</td>
+</tr>
+
+<tr>
+<td class="org-left">twoside, oneside</td>
+<td class="org-left">&#x6307;&#x5B9A;&#x5355;&#x9762;/&#x53CC;&#x9762;&#x6392;&#x7248;&#xFF0C;&#x53CC;&#x9762;&#x6392;&#x7248;&#x65F6;&#xFF0C;&#x5947;&#x5076;&#x9875;&#x7684;&#x9875;&#x7709;&#x3001;&#x9875;&#x811A;&#x3001;&#x9875;&#x8FB9;&#x8DDD;&#x4E0D;&#x540C;&#xFF1B;&#x7F3A;&#x7701;&#xFF1A;article,report:&#x5355;&#x9762;; book:&#x53CC;&#x9762;</td>
+</tr>
+
+<tr>
+<td class="org-left">landscape</td>
+<td class="org-left">&#x6307;&#x5B9A;&#x6A2A;&#x5411;&#x6392;&#x7248;&#xFF1B;&#x7F3A;&#x7701;&#x4E3A;&#x7EB5;&#x5411;</td>
+</tr>
+
+<tr>
+<td class="org-left">openright, openany</td>
+<td class="org-left">&#x6307;&#x5B9A;&#x65B0;&#x7684;&#x4E00;&#x7AE0; \chapter &#x662F;&#x5728;&#x5947;&#x6570;&#x9875;&#x5F00;&#x59CB;&#xFF0C;&#x8FD8;&#x662F;&#x76F4;&#x63A5;&#x7D27;&#x8DDF;&#x4E0A;&#x4E00;&#x9875;&#x5F00;&#x5934;&#xFF1B;&#x7F3A;&#x7701;&#xFF1A;report:openany; book:openright</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org677a29e" class="outline-3">
+<h3 id="org677a29e"><span class="section-number-3">1.2</span> &#x5B8F;&#x5305;</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+&#x5728;&#x7F16;&#x5199; LATEX &#x6E90;&#x4EE3;&#x7801;&#x65F6;&#xFF0C;&#x4F60;&#x65F6;&#x5E38;&#x4F1A;&#x53D1;&#x73B0; LATEX &#x7684;&#x57FA;&#x7840;&#x529F;&#x80FD;&#x4E0D;&#x80FD;&#x6EE1;&#x8DB3;&#x4F60;&#x7684;&#x9700;&#x6C42;&#xFF0C;&#x6BD4;&#x5982;&#x6392;&#x7248;&#x590D;&#x6742;&#x7684;&#x8868;&#x683C;&#x3001;&#x63D2;&#x5165;&#x56FE;&#x7247;&#x3001;
+&#x589E;&#x52A0;&#x989C;&#x8272;&#x751A;&#x81F3;&#x8D85;&#x94FE;&#x63A5;&#x7B49;&#x7B49;&#x3002;&#x8FD9;&#x65F6;&#x4F60;&#x9700;&#x8981;&#x4F9D;&#x8D56;&#x4E00;&#x4E9B;&#x6269;&#x5C55;&#x6765;&#x589E;&#x5F3A;&#x6216;&#x8865;&#x5145; LATEX&#x7684;&#x529F;&#x80FD;&#x3002;&#x8FD9;&#x4E9B;&#x6269;&#x5C55;&#x79F0;&#x4E3A;&#x5B8F;&#x5305;&#x3002;&#x8C03;&#x7528;&#x5B8F;&#x5305;&#x7684;
+&#x65B9;&#x6CD5;&#x975E;&#x5E38;&#x7C7B;&#x4F3C;&#x8C03;&#x7528;&#x6587;&#x6863;&#x7C7B;&#x7684;&#x65B9;&#x6CD5;&#xFF1A;
+</p>
+
+<div class="org-src-container">
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\usepackage[options]{package-name}</span><br></pre></td></tr></table></figure>
+</div>
+
+<p>
+&#x5728;&#x4F7F;&#x7528;&#x5B8F;&#x5305;&#x548C;&#x6587;&#x6863;&#x7C7B;&#x4E4B;&#x524D;&#xFF0C;&#x4E00;&#x5B9A;&#x8981;&#x9996;&#x5148;&#x786E;&#x8BA4;&#x5B83;&#x4EEC;&#x662F;&#x5426;&#x5B89;&#x88C5;&#x5728;&#x4F60;&#x7684;&#x8BA1;&#x7B97;&#x673A;&#x4E2D;&#xFF0C;&#x5426;&#x5219; \usepackage &#x7B49;&#x547D;&#x4EE4;&#x4F1A;&#x62A5;&#x9519;&#x8BEF;&#x3002;
+&#x6BCF;&#x4E2A;&#x5B8F;&#x5305;&#xFF08;&#x5305;&#x62EC;&#x524D;&#x9762;&#x6240;&#x8BF4;&#x7684;&#x6587;&#x6863;&#x7C7B;&#xFF09;&#x90FD;&#x5B9A;&#x4E49;&#x4E86;&#x8BB8;&#x591A;&#x547D;&#x4EE4;&#x548C;&#x73AF;&#x5883;&#xFF0C;&#x6216;&#x8005;&#x4FEE;&#x6539;&#x4E86; LATEX &#x5DF2;&#x6709;&#x7684;&#x547D;&#x4EE4;&#x548C;&#x73AF;&#x5883;&#x3002;&#x67E5;&#x770B;&#x5E2E;&#x52A9;
+&#x5728;&#x4F7F;&#x7528;&#x547D;&#x4EE4;&#xFF1A;
+</p>
+
+<div class="org-src-container">
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">texdoc pkg-name</span><br></pre></td></tr></table></figure>
+</div>
+
+<p>
+&#x5176;&#x4E2D; pkg-name &#x662F;&#x5B8F;&#x5305;&#x6216;&#x8005;&#x6587;&#x6863;&#x7C7B;&#x7684;&#x540D;&#x79F0;&#xFF0C;&#x6B64;&#x65F6;&#x4F1A;&#x76F4;&#x63A5;&#x6253;&#x5F00;&#x4E00;&#x4E2A;&#x76F8;&#x5E94;&#x7684; PDF &#x6587;&#x6863;&#x4F9B;&#x67E5;&#x9605;&#x3002;
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org25a06e7" class="outline-2">
+<h2 id="org25a06e7"><span class="section-number-2">2</span> &#x6587;&#x4EF6;&#x7684;&#x7EC4;&#x7EC7;&#x65B9;&#x5F0F;</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+&#x5F53;&#x7F16;&#x5199;&#x8F83;&#x5927;&#x89C4;&#x6A21;&#x7684; LATEX &#x6E90;&#x4EE3;&#x7801;&#xFF0C;&#x5982;&#x4E66;&#x7C4D;&#x3001;&#x6BD5;&#x4E1A;&#x8BBA;&#x6587;&#x7B49;&#xFF0C;&#x5C06;&#x6E90;&#x4EE3;&#x7801;&#x5206;&#x6210;&#x82E5;&#x5E72;&#x4E2A;&#x6587;&#x4EF6;&#x800C;&#x4E0D;&#x662F;&#x5199;&#x5230;&#x4E00;&#x5806;&#xFF0C;&#x6BD4;&#x5982;&#x5F88;&#x81EA;&#x7136;
+&#x5730;&#x6BCF;&#x7AE0;&#x5199;&#x4E00;&#x4E2A;&#x6587;&#x4EF6;&#x3002;LATEX &#x63D0;&#x4F9B;&#x4E86;&#x547D;&#x4EE4; \include &#x7528;&#x6765;&#x5728;&#x6E90;&#x4EE3;&#x7801;&#x91CC;&#x63D2;&#x5165;&#x6587;&#x4EF6;&#xFF1A;
+</p>
+
+<div class="org-src-container">
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\include{filename}
+\include{chapters/a.tex} % &#x76F8;&#x5BF9;&#x8DEF;&#x5F84;
+\include{/home/Bob/file.tex} % Linux &#x7EDD;&#x5BF9;&#x8DEF;&#x5F84;
+\include{D:/file.tex} % Windows &#x7EDD;&#x5BF9;&#x8DEF;&#x5F84;</span><br></pre></td></tr></table></figure>
+</div>
+
+<p>
+filename &#x4E3A;&#x6587;&#x4EF6;&#x540D;&#xFF0C;&#x5982;&#x679C;&#x548C;&#x8981;&#x7F16;&#x8BD1;&#x7684;&#x4E3B;&#x6587;&#x4EF6;&#x4E0D;&#x5728;&#x4E00;&#x4E2A;&#x76EE;&#x5F55;&#x4E2D;&#xFF0C;&#x5219;&#x8981;&#x52A0;&#x4E0A;&#x76F8;&#x5BF9;&#x6216;&#x7EDD;&#x5BF9;&#x8DEF;&#x5F84;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;filename &#x53EF;&#x4EE5;&#x4E0D;
+&#x5E26;&#x6269;&#x5C55;&#x540D;&#xFF0C;&#x6B64;&#x65F6;&#x9ED8;&#x8BA4;&#x4E3A; .tex&#xFF1B;&#x5176;&#x5B83;&#x6587;&#x4EF6;&#x5FC5;&#x987B;&#x5E26;&#x6269;&#x5C55;&#x540D;&#x3002;&#x503C;&#x5F97;&#x6CE8;&#x610F;&#x7684;&#x662F; \include &#x5728;&#x8BFB;&#x5165; filename &#x4E4B;&#x524D;&#x4F1A;&#x53E6;&#x8D77;&#x4E00;
+&#x9875;&#x3002;&#x6709;&#x7684;&#x65F6;&#x5019;&#x6211;&#x4EEC;&#x5E76;&#x4E0D;&#x9700;&#x8981;&#x8FD9;&#x6837;&#xFF0C;&#x800C;&#x662F;&#x7528; \input &#x547D;&#x4EE4;&#xFF0C;&#x5B83;&#x7EAF;&#x7CB9;&#x662F;&#x628A;&#x6587;&#x4EF6;&#x91CC;&#x7684;&#x5185;&#x5BB9;&#x63D2;&#x5165;&#xFF1A;
+</p>
+
+<div class="org-src-container">
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\input{filename}</span><br></pre></td></tr></table></figure>
+</div>
+
+<p>
+&#x53E6;&#x5916; LATEX &#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x4E2A; \includeonly &#x547D;&#x4EE4;&#x6765;&#x7EC4;&#x7EC7;&#x6587;&#x4EF6;&#xFF0C;&#x7528;&#x4E8E;&#x5BFC;&#x8A00;&#x533A;&#xFF0C;&#x6307;&#x5B9A;&#x53EA;&#x8F7D;&#x5165;&#x67D0;&#x4E9B;&#x6587;&#x4EF6;&#xFF1A;
+</p>
+
+<div class="org-src-container">
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\includeonly{filename1,filename2,...}</span><br></pre></td></tr></table></figure>
+</div>
+</div>
+</div>
+
+
+
+<div id="outline-container-org17a3633" class="outline-2">
+<h2 id="org17a3633"><span class="section-number-2">3</span> LaTeX &#x547D;&#x4EE4;</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+<b>LATEX &#x7684;&#x6E90;&#x4EE3;&#x7801;&#x672C;&#x8D28;&#x4E0A;&#x662F;&#x6587;&#x672C;&#x6587;&#x4EF6;&#x3002;</b> &#x9664;&#x4E86;&#x6587;&#x5B57;&#x672C;&#x8EAB;&#xFF0C; LATEX &#x6E90;&#x4EE3;&#x7801;&#x4E4B;&#x4E2D;&#x8FD8;&#x5305;&#x62EC;&#x5927;&#x91CF;&#x7684;&#x547D;&#x4EE4;&#xFF0C;&#x7528;&#x5728;&#x6392;&#x7248;&#x516C;&#x5F0F;&#x3001;&#x5212;
+&#x5206;&#x6587;&#x6863;&#x7ED3;&#x6784;&#x3001;&#x63A7;&#x5236;&#x6837;&#x5F0F;&#x7B49;&#x7B49;&#x4E0D;&#x540C;&#x7684;&#x5730;&#x65B9;&#x3002;LATEX &#x547D;&#x4EE4;&#x4EE5;&#x53CD;&#x659C;&#x7EBF; \ &#x5F00;&#x5934;&#xFF0C;&#x5BF9;&#x5927;&#x5C0F;&#x5199;&#x654F;&#x611F;&#x3002;&#x547D;&#x4EE4;&#x6709;&#x4E24;&#x79CD;&#x5F62;&#x5F0F;
+</p>
+
+<ul class="org-ul">
+<li>&#x53CD;&#x659C;&#x7EBF;&#x548C;&#x540E;&#x9762;&#x7684;&#x4E00;&#x4E32;&#x5B57;&#x6BCD;&#xFF0C;&#x5982; \LaTeX &#x3002;&#x5B83;&#x4EEC;&#x4EE5;&#x4EFB;&#x610F;&#x975E;&#x5B57;&#x6BCD;&#x7B26;&#x53F7;&#xFF08;&#x7A7A;&#x683C;&#x3001;&#x6570;&#x5B57;&#x3001;&#x6807;&#x70B9;&#x7B49;&#xFF09;&#x4F5C;&#x4E3A;&#x5206;&#x9694;&#x7B26;</li>
+<li>&#x53CD;&#x659C;&#x7EBF;&#x548C;&#x540E;&#x9762;&#x7684;&#x4E00;&#x4E2A;&#x975E;&#x5B57;&#x6BCD;&#x7B26;&#x53F7;&#xFF0C;&#x5982; \$ &#x3002;&#x5B83;&#x4EEC;&#x65E0;&#x9700;&#x5206;&#x9694;&#x7B26;</li>
+</ul>
+
+<p>
+&#x5927;&#x591A;&#x6570;&#x7684; LATEX &#x547D;&#x4EE4;&#x5E26;&#x4E00;&#x4E2A;&#x6216;&#x591A;&#x4E2A;&#x53C2;&#x6570;&#xFF0C;&#x6BCF;&#x4E2A;&#x53C2;&#x6570;&#x7528;&#x82B1;&#x62EC;&#x53F7; { } &#x5305;&#x88F9;&#x3002;&#x6709;&#x4E9B;&#x547D;&#x4EE4;&#x5E26;&#x4E00;&#x4E2A;&#x6216;&#x591A;&#x4E2A;&#x53EF;&#x9009;&#x53C2;&#x6570;&#xFF0C;&#x4EE5;&#x65B9;&#x62EC;
+&#x53F7; [ ] &#x5305;&#x88F9;&#x3002;&#x8FD8;&#x6709;&#x4E9B;&#x547D;&#x4EE4;&#x5728;&#x547D;&#x4EE4;&#x540D;&#x79F0;&#x540E;&#x53EF;&#x4EE5;&#x5E26;&#x4E00;&#x4E2A;&#x661F;&#x53F7; *&#xFF0C;&#x5E26;&#x661F;&#x53F7;&#x548C;&#x4E0D;&#x5E26;&#x661F;&#x53F7;&#x7684;&#x547D;&#x4EE4;&#x6548;&#x679C;&#x6709;&#x4E00;&#x5B9A;&#x5DEE;&#x5F02;&#x3002;
+</p>
+
+<div class="org-src-container">
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">% &#x5B9A;&#x4E49;&#x65B0;&#x547D;&#x4EE4;
+\newcommand{&#x65B0;&#x547D;&#x4EE4;}{&#x547D;&#x4EE4;&#x5185;&#x5BB9;}
+% &#x91CD;&#x65B0;&#x5B9A;&#x4E49;&#x5DF2;&#x6709;&#x547D;&#x4EE4;
+\renewcommand{&#x5DF2;&#x6709;&#x547D;&#x4EE4;}{&#x547D;&#x4EE4;&#x5185;&#x5BB9;}
+
+\newcommand{\eps}{\varepsilon} % \(\eps\) &#x5C31;&#x53EF;&#x751F;&#x6210;&#x8BE5;&#x7B26;&#x53F7;</span><br></pre></td></tr></table></figure>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org72a0382" class="outline-2">
+<h2 id="org72a0382"><span class="section-number-2">4</span> LaTeX &#x73AF;&#x5883;</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+LATEX &#x8FD8;&#x5F15;&#x5165;&#x4E86;&#x73AF;&#x5883;&#x7684;&#x7528;&#x6CD5;&#xFF0C;&#x7528;&#x4EE5;&#x4EE4;&#x4E00;&#x4E9B;&#x6548;&#x679C;&#x5728;&#x5C40;&#x90E8;&#x751F;&#x6548;&#xFF0C;&#x6216;&#x662F;&#x751F;&#x6210;&#x7279;&#x5B9A;&#x7684;&#x6587;&#x6863;&#x5143;&#x7D20;&#x3002;&#x73AF;&#x5883;&#x5141;&#x8BB8;&#x5D4C;&#x5957;&#x4F7F;&#x7528;&#x3002;LATEX
+&#x73AF;&#x5883;&#x7684;&#x7528;&#x6CD5;&#x4E3A;&#x4E00;&#x5BF9;&#x547D;&#x4EE4; 
+</p>
+
+<div class="org-src-container">
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\begin{environment name}[options]{arguments}
+. . .
+\end{environment name}</span><br></pre></td></tr></table></figure>
+</div>
+
+<p>
+&#x5176;&#x4E2D; environment name &#x4E3A;&#x73AF;&#x5883;&#x540D;&#xFF0C; \begin &#x548C; \end &#x4E2D;&#x586B;&#x5199;&#x7684;&#x73AF;&#x5883;&#x540D;&#x5E94;&#x5F53;&#x4E00;&#x81F4;&#x3002; \begin &#x5728; environment name
+&#x540E;&#x53EF;&#x4EE5;&#x5E26;&#x4E00;&#x4E2A;&#x6216;&#x591A;&#x4E2A;&#x53C2;&#x6570;&#xFF0C;&#x751A;&#x81F3;&#x53EF;&#x9009;&#x53C2;&#x6570;&#x3002;&#x5177;&#x6709;&#x7279;&#x5B9A;&#x683C;&#x5F0F;&#x7684;&#x5185;&#x5BB9;&#x9700;&#x8981;&#x653E;&#x5728;&#x76F8;&#x5E94;&#x7684;&#x73AF;&#x5883;&#x4E2D;, &#x5982;&#x8868;&#x683C;, &#x6570;&#x5B66;&#x516C;&#x5F0F;&#x7B49;&#x3002;
+</p>
+
+<p>
+document &#x662F; LATEX &#x7684;&#x4E00;&#x4E2A;&#x6700;&#x57FA;&#x672C;&#x7684;&#x73AF;&#x5883;&#xFF0C;&#x4E00;&#x7BC7;&#x6587;&#x6863;&#x6709;&#x4E14;&#x53EA;&#x80FD;&#x6709;&#x4E00;&#x4E2A; document &#x73AF;&#x5883;&#xFF0C;&#x6B63;&#x6587;&#x7684;&#x6240;&#x6709;&#x5185;&#x5BB9;&#x90FD;&#x5FC5;&#x987B;&#x653E;&#x5728;
+document &#x73AF;&#x5883;&#x4E2D;&#x3002;
+</p>
+</div>
+
+
+<div id="outline-container-org721edc2" class="outline-3">
+<h3 id="org721edc2"><span class="section-number-3">4.1</span> &#x5206;&#x7EC4;</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+&#x9664;&#x4E86; LATEX &#x73AF;&#x5883;&#x4E4B;&#x5916;&#xFF0C;&#x82B1;&#x62EC;&#x53F7;&#x672C;&#x8EAB;&#x4E5F;&#x8D77;&#x5230;&#x5206;&#x7EC4;&#x7684;&#x4F5C;&#x7528;&#xFF0C;&#x8D77;&#x5230;&#x7C7B;&#x4F3C;&#x73AF;&#x5883;&#x7684;&#x4EE4;&#x6548;&#x679C;&#x5728;&#x5C40;&#x90E8;&#x751F;&#x6548;&#x7684;&#x4F5C;&#x7528;&#x3002;{ } &#x79F0;&#x4E3A;&#x4E00;&#x4E2A;
+&#x5206;&#x7EC4;&#x3002;
+</p>
+
+<p>
+&#x6709;&#x4E9B;&#x547D;&#x4EE4;&#x53EA;&#x5BF9;&#x5176;&#x53C2;&#x6570;&#x8D77;&#x4F5C;&#x7528;, &#x5982; \textbf{abc} &#xFF1B;&#x6709;&#x4E9B;&#x547D;&#x4EE4;&#x5BF9;&#x540E;&#x9762;&#x6240;&#x6709;&#x7684;&#x5185;&#x5BB9;&#x90FD;&#x8D77;&#x4F5C;&#x7528;, &#x8FD9;&#x4E9B;&#x547D;&#x4EE4;&#x901A;&#x5E38;&#x4E5F;&#x79F0;&#x4E3A;&#x58F0;&#x660E;,
+&#x5982; \bfseries &#xFF0C;&#x53EF;&#x4EE5;&#x5229;&#x7528;&#x5206;&#x7EC4;&#x6765;&#x9650;&#x5236;&#x58F0;&#x660E;&#x7684;&#x4F5C;&#x7528;&#x8303;&#x56F4;
+</p>
+
+<div class="org-src-container">
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">This is \textbf{bold face} style.\\
+This is \bfseries bold face style.\\
+This is {\bfseries bold face} style.</span><br></pre></td></tr></table></figure>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9f2942c" class="outline-2">
+<h2 id="org9f2942c"><span class="section-number-2">5</span> LaTeX &#x7F16;&#x8BD1;</h2>
+<div class="outline-text-2" id="text-5">
+<ul class="org-ul">
+<li>&#x5F15;&#x64CE;&#xFF1A;&#x5168;&#x79F0;&#x4E3A;&#x6392;&#x7248;&#x5F15;&#x64CE;&#xFF0C;&#x662F;&#x8BFB;&#x5165;&#x6E90;&#x4EE3;&#x7801;&#x5E76;&#x7F16;&#x8BD1;&#x751F;&#x6210;&#x6587;&#x6863;&#x7684;&#x7A0B;&#x5E8F;&#xFF0C;&#x5982; pdfTeX&#x3001;XeLaTeX &#x7B49;&#xFF0C;&#x6709;&#x65F6;&#x4E5F;&#x76F4;&#x63A5;&#x79F0;&#x4E3A;&#x7F16;&#x8BD1;&#x5668;</li>
+<li>&#x683C;&#x5F0F;&#xFF1A;&#x5B9A;&#x4E49;&#x4E86;&#x4E00;&#x7EC4;&#x547D;&#x4EE4;&#x7684;&#x4EE3;&#x7801;&#x96C6;&#x3002; LATEX &#x5C31;&#x662F;&#x6700;&#x5E7F;&#x6CDB;&#x5E94;&#x7528;&#x7684;&#x4E00;&#x4E2A;&#x683C;&#x5F0F;&#xFF0C;&#x9AD8;&#x5FB7;&#x7EB3;&#x672C;&#x4EBA;&#x7F16;&#x5199;&#x7684; plain TEX &#x683C;&#x5F0F;</li>
+<li>&#x547D;&#x4EE4;&#xFF1A;&#x662F;&#x5F15;&#x64CE;&#x548C;&#x683C;&#x5F0F;&#x4E8C;&#x8005;&#x7684;&#x7ED3;&#x5408;&#x4F53;&#x3002;&#x5982; pdflatex &#x547D;&#x4EE4;&#x662F;&#x7ED3;&#x5408; pdfTEX &#x5F15;&#x64CE;&#x548C; LATEX &#x683C;&#x5F0F;&#x7684;&#x4E00;&#x4E2A;&#x547D;&#x4EE4;</li>
+</ul>
+<p>
+latex &#x547D;&#x4EE4;&#x548C; LATEX &#x683C;&#x5F0F;&#x5F80;&#x5F80;&#x5BB9;&#x6613;&#x6DF7;&#x6DC6;&#x3002;xelatex &#x547D;&#x4EE4;&#x6709;&#x7740;&#x5404;&#x79CD;&#x65B0;&#x7684;&#x7279;&#x6027;&#xFF0C;&#x5982;&#x80FD;&#x591F;&#x76F4;&#x63A5;&#x652F;&#x6301;&#x4F7F;&#x7528;&#x7CFB;&#x7EDF;&#x9884;&#x88C5;&#x7684;&#x5B57;&#x4F53;&#x3001;
+&#x539F;&#x751F;&#x652F;&#x6301; UTF-8 &#x7F16;&#x7801;&#x7B49;&#x3002;&#x5C24;&#x5176;&#x662F;&#x6392;&#x7248;&#x4E2D;&#x6587;&#xFF0C; xelatex &#x547D;&#x4EE4;&#x914D;&#x5408;&#x9002;&#x5F53;&#x7684;&#x5B8F;&#x5305;&#x662F;&#x73B0;&#x5728;&#x6700;&#x65B0;&#x3001;&#x6700;&#x65B9;&#x4FBF;&#x7684;&#x65B9;&#x5F0F;&#x3002;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;
+&#x751F;&#x6210; PDF &#x6587;&#x6863;&#x3002;
+</p>
+
+<p>
+<b>&#x590D;&#x6742;&#x7684; LATEX &#x6E90;&#x4EE3;&#x7801;&#x53EF;&#x80FD;&#x8981;&#x7F16;&#x8BD1;&#x591A;&#x6B21;</b> &#xFF1A;&#x5148;&#x7F16;&#x8BD1;&#x751F;&#x6210;&#x8F85;&#x52A9;&#x6587;&#x4EF6;&#xFF0C;&#x7136;&#x540E;&#x518D;&#x6B21;&#x7F16;&#x8BD1;&#x65F6;&#x8BFB;&#x5165;&#x8F85;&#x52A9;&#x6587;&#x4EF6;&#x5F97;&#x5230;&#x6B63;&#x786E;&#x7684;&#x7ED3;&#x679C;&#x3002;
+LATEX &#x5728;&#x7F16;&#x8BD1;&#x8FC7;&#x7A0B;&#x4E2D;&#x751F;&#x6210;&#x76F8;&#x5F53;&#x591A;&#x7684;&#x8F85;&#x52A9;&#x6587;&#x4EF6;&#x548C;&#x65E5;&#x5FD7;&#x3002;&#x4E00;&#x4E9B;&#x529F;&#x80FD;&#x5982;&#x4EA4;&#x53C9;&#x5F15;&#x7528;&#x3001;&#x53C2;&#x8003;&#x6587;&#x732E;&#x3001;&#x76EE;&#x5F55;&#x3001;&#x7D22;&#x5F15;&#x7B49;&#x9700;&#x8981;&#x591A;&#x6B21;&#x7F16;&#x8BD1;&#x3002;
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col class="org-left">
+
+<col class="org-left">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">.log</td>
+<td class="org-left">&#x6392;&#x7248;&#x5F15;&#x64CE;&#x751F;&#x6210;&#x7684;&#x65E5;&#x5FD7;&#x6587;&#x4EF6;&#xFF0C;&#x4F9B;&#x6392;&#x67E5;&#x9519;&#x8BEF;&#x4F7F;&#x7528;</td>
+</tr>
+
+<tr>
+<td class="org-left">.aux</td>
+<td class="org-left">LATEX &#x751F;&#x6210;&#x7684;&#x4E3B;&#x8F85;&#x52A9;&#x6587;&#x4EF6;&#xFF0C;&#x8BB0;&#x5F55;&#x4EA4;&#x53C9;&#x5F15;&#x7528;&#x3001;&#x76EE;&#x5F55;&#x3001;&#x53C2;&#x8003;&#x6587;&#x732E;&#x7684;&#x5F15;&#x7528;&#x7B49;</td>
+</tr>
+
+<tr>
+<td class="org-left">.toc</td>
+<td class="org-left">LATEX &#x751F;&#x6210;&#x7684;&#x76EE;&#x5F55;&#x8BB0;&#x5F55;&#x6587;&#x4EF6;</td>
+</tr>
+
+<tr>
+<td class="org-left">.lof</td>
+<td class="org-left">LATEX &#x751F;&#x6210;&#x7684;&#x56FE;&#x7247;&#x76EE;&#x5F55;&#x8BB0;&#x5F55;&#x6587;&#x4EF6;</td>
+</tr>
+
+<tr>
+<td class="org-left">.lot</td>
+<td class="org-left">LATEX &#x751F;&#x6210;&#x7684;&#x8868;&#x683C;&#x76EE;&#x5F55;&#x8BB0;&#x5F55;&#x6587;&#x4EF6;</td>
+</tr>
+
+<tr>
+<td class="org-left">.bbl</td>
+<td class="org-left">BIBTEX &#x751F;&#x6210;&#x7684;&#x53C2;&#x8003;&#x6587;&#x732E;&#x8BB0;&#x5F55;&#x6587;&#x4EF6;</td>
+</tr>
+
+<tr>
+<td class="org-left">.blg</td>
+<td class="org-left">BIBTEX &#x751F;&#x6210;&#x7684;&#x65E5;&#x5FD7;&#x6587;&#x4EF6;</td>
+</tr>
+
+<tr>
+<td class="org-left">.idx</td>
+<td class="org-left">LATEX &#x751F;&#x6210;&#x7684;&#x4F9B; makeindex &#x5904;&#x7406;&#x7684;&#x7D22;&#x5F15;&#x8BB0;&#x5F55;&#x6587;&#x4EF6;</td>
+</tr>
+
+<tr>
+<td class="org-left">.ind</td>
+<td class="org-left">makeindex &#x5904;&#x7406; .idx &#x751F;&#x6210;&#x7684;&#x683C;&#x5F0F;&#x5316;&#x7D22;&#x5F15;&#x8BB0;&#x5F55;&#x6587;&#x4EF6;</td>
+</tr>
+
+<tr>
+<td class="org-left">.ilg</td>
+<td class="org-left">makeindex &#x751F;&#x6210;&#x7684;&#x65E5;&#x5FD7;&#x6587;&#x4EF6;</td>
+</tr>
+
+<tr>
+<td class="org-left">.out</td>
+<td class="org-left">hyperref &#x5B8F;&#x5305;&#x751F;&#x6210;&#x7684; PDF &#x4E66;&#x7B7E;&#x8BB0;&#x5F55;&#x6587;&#x4EF6;</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>
+&#x5DE5;&#x5177;&#x5B8F;&#x5305; syntonly &#x7528;&#x4E8E;&#x8C03;&#x8BD5;&#x3002;&#x52A0;&#x8F7D;&#x8FD9;&#x4E2A;&#x5B8F;&#x5305;&#x540E;&#xFF0C;&#x5728;&#x5BFC;&#x8A00;&#x533A;&#x4F7F;&#x7528; \syntaxonly &#x547D;&#x4EE4;&#xFF0C;&#x53EF;&#x4EE4; LATEX &#x7F16;&#x8BD1;&#x540E;&#x4E0D;&#x751F;&#x6210;
+DVI &#x6216;&#x8005; PDF &#x6587;&#x6863;&#xFF0C;&#x53EA;&#x6392;&#x67E5;&#x9519;&#x8BEF;&#xFF0C;&#x7F16;&#x8BD1;&#x901F;&#x5EA6;&#x4F1A;&#x5FEB;&#x4E0D;&#x5C11;&#xFF1A;
+</p>
+
+<div class="org-src-container">
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\usepackage{syntonly}
+\syntaxonly</span><br></pre></td></tr></table></figure>
+</div>
+
+<p>
+&#x5982;&#x679C;&#x60F3;&#x751F;&#x6210;&#x6587;&#x6863;&#xFF0C;&#x5219;&#x5C06; \syntaxonly &#x547D;&#x4EE4;&#x90A3;&#x4E00;&#x884C;&#x7528; % &#x6CE8;&#x91CA;&#x6389;&#x5373;&#x53EF;&#x3002;
+</p>
+</div>
+
+<div id="outline-container-org0501f62" class="outline-3">
+<h3 id="org0501f62"><span class="section-number-3">5.1</span> &#x5EFA;&#x8BAE;</h3>
+<div class="outline-text-3" id="text-5-1">
+<ul class="org-ul">
+<li>&#x4E2D;&#x6587;&#x548C;&#x82F1;&#x6587;&#x4E4B;&#x95F4;, &#x4E2D;&#x6587;&#x4E0E;&#x6570;&#x5B66;&#x516C;&#x5F0F;&#x4E4B;&#x95F4; &#x2013; &#x7528;&#x7A7A;&#x683C;&#x9694;&#x5F00;</li>
+<li>&#x5404;&#x79CD;&#x73AF;&#x5883;&#x7684;&#x5F00;&#x59CB;&#x548C;&#x7ED3;&#x675F; &#x2013; &#x72EC;&#x5360;&#x4E00;&#x884C;</li>
+<li>&#x81EA;&#x7136;&#x5206;&#x6BB5; &#x2013; &#x5EFA;&#x8BAE;&#x4F7F;&#x7528;&#x4E00;&#x4E2A;&#x7A7A;&#x884C;</li>
+<li>&#x81EA;&#x7136;&#x6362;&#x884C; &#x2013; &#x614E;&#x7528;&#x5F3A;&#x5236;&#x6362;&#x884C; &#x201C;\\&#x201D;</li>
+<li>&#x6807;&#x70B9;&#x7B26;&#x53F7;&#x4E00;&#x81F4; &#x2013; &#x5168;&#x90E8;&#x91C7;&#x7528;&#x4E2D;&#x6587;&#x6807;&#x70B9;, &#x6216;&#x8005;&#x5168;&#x90E8;&#x91C7;&#x7528;&#x82F1;&#x6587;&#x6807;&#x70B9;</li>
+<li>&#x6570;&#x5B66;&#x516C;&#x5F0F;&#x4E2D;&#x7684;&#x6807;&#x70B9; &#x2013; &#x5FC5;&#x987B;&#x7528;&#x82F1;&#x6587;&#x6807;&#x70B9;</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgaa2e1c1" class="outline-2">
+<h2 id="orgaa2e1c1"><span class="section-number-2">6</span> &#x6392;&#x7248;&#x4E2D;&#x6587;</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+latex &#x547D;&#x4EE4;&#x53CA; pdflatex &#x547D;&#x4EE4;&#x4E0B;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; inputenc &#x5B8F;&#x5305;&#x652F;&#x6301; UTF-8&#xFF1A;
+</p>
+
+<div class="org-src-container">
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\usepackage[utf8]{inputenc}
+\usepackage[latin1]{inputenc} % &#x897F;&#x6B27;&#x8BED;&#x8A00;&#x7684; Latin-1
+% &#x8FD9;&#x4E9B;&#x7F16;&#x7801;&#x7684;&#x5904;&#x7406;&#x7531; inputenc &#x5B8F;&#x5305;&#x652F;&#x6301;</span><br></pre></td></tr></table></figure>
+</div>
+
+<p>
+xelatex &#x547D;&#x4EE4;&#x539F;&#x751F;&#x652F;&#x6301; UTF-8 &#x7F16;&#x7801;&#xFF0C;&#x800C;&#x4E14;&#x4E5F;&#x4E0D;&#x9002;&#x7528; inputenc &#x5B8F;&#x5305;&#x3002;&#x5C06; .tex &#x6E90;&#x4EE3;&#x7801;&#x4FDD;&#x5B58;&#x4E3A;UTF-8 &#x7F16;&#x7801;&#xFF0C;&#x5E76;&#x501F;&#x52A9;
+fontspec &#x5B8F;&#x5305;&#x8C03;&#x7528;&#x9002;&#x5F53;&#x7684;&#x5B57;&#x4F53;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x5728;&#x6E90;&#x4EE3;&#x7801;&#x4E2D;&#x8F93;&#x5165;&#x4EFB;&#x610F;&#x8BED;&#x8A00;&#x7684;&#x6587;&#x5B57;&#x3002;&#x4F46;&#x5404;&#x4E2A;&#x8BED;&#x8A00;&#xFF08;&#x5370;&#x5730;&#x8BED;&#x3001;&#x963F;&#x62C9;&#x4F2F;&#x8BED;&#x7B49;&#xFF09;&#x7684;
+&#x7279;&#x6B8A;&#x6392;&#x7248;&#x8981;&#x6C42;&#x9700;&#x8981;&#x66F4;&#x591A;&#x7684;&#x5B8F;&#x5305;&#x652F;&#x6301;&#xFF0C;&#x5982;babel&#x3001; polyglossia &#x7B49;&#x3002;
+</p>
+</div>
+
+<div id="outline-container-org4ab01f2" class="outline-3">
+<h3 id="org4ab01f2"><span class="section-number-3">6.1</span> xeCJK &#x5B8F;&#x5305;</h3>
+<div class="outline-text-3" id="text-6-1">
+<p>
+&#x7528; LATEX &#x6392;&#x7248;&#x4E2D;&#x6587;&#x7684;&#x4E00;&#x5927;&#x96BE;&#x9898;&#x662F;&#x4E2D;&#x6587;&#x5B57;&#x4F53;&#x7684;&#x5904;&#x7406;&#x3002; TEX &#x4F7F;&#x7528;&#x7684;&#x5B57;&#x4F53;&#x683C;&#x5F0F;&#x4EC5;&#x652F;&#x6301;&#x4E0D;&#x8D85;&#x8FC7; 256&#x4E2A;&#x5B57;&#x7B26;&#xFF0C;&#x65E7;&#x5F0F;&#x7684;&#x4E2D;&#x6587;&#x6392;
+&#x7248;&#x65B9;&#x6848;&#x5982; CJK &#x5B8F;&#x5305;&#x5F80;&#x5F80;&#x9700;&#x8981;&#x590D;&#x6742;&#x7684;&#x9884;&#x5904;&#x7406;&#xFF0C;&#x5C06;&#x4E2D;&#x6587;&#x5B57;&#x4F53;&#x62C6;&#x5206;&#x6210;&#x6570;&#x767E;&#x4E2A;&#x5C0F;&#x5B57;&#x4F53;&#xFF0C;&#x975E;&#x5E38;&#x9EBB;&#x70E6;&#x3002;
+</p>
+
+<p>
+xelatex &#x547D;&#x4EE4;&#x652F;&#x6301;&#x76F4;&#x63A5;&#x4F7F;&#x7528;&#x7CFB;&#x7EDF;&#x5B89;&#x88C5;&#x7684; TrueType (.ttf) / OpenType (.otf) &#x7B49;&#x683C;&#x5F0F;&#x7684;&#x5B57;&#x4F53;&#xFF0C;&#x52A0;&#x4E0A;&#x5BF9; UTF-8 &#x7F16;&#x7801;
+&#x7684;&#x539F;&#x751F;&#x652F;&#x6301;&#xFF0C;&#x514D;&#x53BB;&#x4E86;&#x9884;&#x5904;&#x7406;&#x5B57;&#x4F53;&#x7684;&#x9EBB;&#x70E6;&#x3002;&#x5728;&#x6B64;&#x57FA;&#x7840;&#x4E0A;&#x7684; xeCJK &#x5B8F;&#x5305;&#x66F4;&#x8FDB;&#x4E00;&#x6B65;&#x5B8C;&#x5584;&#x4E86;&#x6392;&#x7248;&#x4E2D;&#x6587;&#x7684;&#x4E00;&#x4E9B;&#x7EC6;&#x8282;&#xFF0C;&#x6BD4;&#x5982;&#x4E2D;
+&#x82F1;&#x6587;&#x4E4B;&#x95F4;&#x63D2;&#x5165;&#x7A7A;&#x9699;&#x3001;&#x4E2D;&#x6587;&#x884C;&#x5C3E;&#x7684;&#x56DE;&#x8F66;&#x4E0D;&#x5F15;&#x5165;&#x7A7A;&#x683C;&#x3001;&#x6807;&#x70B9;&#x7B26;&#x53F7;&#x4E0D;&#x51FA;&#x73B0;&#x5728;&#x884C;&#x9996;&#xFF0C;&#x7B49;&#x7B49;&#x3002;
+</p>
+
+<p>
+xeCJK &#x5B8F;&#x5305;&#x652F;&#x6301;&#x7528;&#x7B80;&#x5355;&#x7684;&#x547D;&#x4EE4;&#x914D;&#x7F6E;&#x4E2D;&#x6587;&#x5B57;&#x4F53;&#x3002;&#x4E3E;&#x4E00;&#x4E2A;&#x5728; Windows &#x4E0B;&#x4F7F;&#x7528; xeCJK &#x7684;&#x4F8B;&#x5B50;&#xFF0C;&#x6E90;&#x4EE3;&#x7801;&#x987B;&#x4FDD;&#x5B58;&#x4E3A; UTF-8
+&#x7F16;&#x7801;&#xFF0C;&#x5E76;&#x4F7F;&#x7528; xelatex &#x547D;&#x4EE4;&#x7F16;&#x8BD1;&#xFF1A;
+</p>
+
+<div class="org-src-container">
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\documentclass{article}
+\usepackage{xeCJK}
+\setCJKmainfont{SimSun}
+\begin{document}
+&#x4E2D;&#x6587;LaTeX&#x6392;&#x7248;&#x3002;
+\end{document}</span><br></pre></td></tr></table></figure>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9707975" class="outline-3">
+<h3 id="org9707975"><span class="section-number-3">6.2</span> ctex &#x5B8F;&#x5305;&#x548C;&#x6587;&#x6863;&#x7C7B;</h3>
+<div class="outline-text-3" id="text-6-2">
+<p>
+ctex &#x5B8F;&#x5305;&#x548C;&#x6587;&#x6863;&#x7C7B;&#x662F;&#x5BF9; CJK &#x548C; xeCJK &#x7B49;&#x5B8F;&#x5305;&#x7684;&#x8FDB;&#x4E00;&#x6B65;&#x5C01;&#x88C5;&#x3002; ctex &#x6587;&#x6863;&#x7C7B;&#x5305;&#x62EC; ctexart / ctexrep / ctexbook&#xFF0C;
+&#x662F;&#x5BF9; LATEX &#x7684;&#x4E09;&#x4E2A;&#x6807;&#x51C6;&#x6587;&#x6863;&#x7C7B;&#x7684;&#x5C01;&#x88C5;&#xFF0C;&#x5BF9; LATEX &#x7684;&#x6392;&#x7248;&#x6837;&#x5F0F;&#x505A;&#x4E86;&#x8BB8;&#x591A;&#x8C03;&#x6574;&#xFF0C;&#x4EE5;&#x5207;&#x5408;&#x4E2D;&#x6587;&#x6392;&#x7248;&#x98CE;&#x683C;&#x3002;&#x6700;&#x65B0;&#x7248;&#x672C;&#x7684;
+ctex &#x5B8F;&#x5305;/&#x6587;&#x6863;&#x7C7B;&#x751A;&#x81F3;&#x652F;&#x6301;&#x81EA;&#x52A8;&#x914D;&#x7F6E;&#x5B57;&#x4F53;&#x3002;&#x6BD4;&#x5982;&#x4E0A;&#x8FF0;&#x4F8B;&#x5B50;&#x53EF;&#x8FDB;&#x4E00;&#x6B65;&#x7B80;&#x5316;&#x4E3A;&#xFF1A;
+</p>
+
+<div class="org-src-container">
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\documentclass{ctexart}
+\begin{document}
+&#x4E2D;&#x6587;LaTeX&#x6392;&#x7248;&#x3002;
+\end{document}</span><br></pre></td></tr></table></figure>
+</div>
+
+<p>
+ctex &#x5B8F;&#x5305;/&#x6587;&#x6863;&#x7C7B;&#x652F;&#x6301;&#x6E90;&#x4EE3;&#x7801;&#x4FDD;&#x5B58;&#x4E3A; UTF-8 &#x548C; GBK &#x7F16;&#x7801;&#xFF0C;&#x7528; latex + dvipdfmx &#x547D;&#x4EE4;&#x3001;pdflatex &#x6216; xelatex &#x547D;
+&#x4EE4;&#xFF08;&#x53EA;&#x652F;&#x6301; UTF-8 &#x7F16;&#x7801;&#xFF09;&#x90FD;&#x80FD;&#x591F;&#x7F16;&#x8BD1;&#x3002;&#x7B14;&#x8005;&#x5EFA;&#x8BAE;&#x5728;&#x4F7F;&#x7528; ctex &#x5B8F;&#x5305;&#x548C;&#x6587;&#x6863;&#x7C7B;&#x65F6;&#x603B;&#x662F;&#x5C06;&#x6E90;&#x4EE3;&#x7801;&#x4FDD;&#x5B58;&#x4E3A; UTF-8 &#x7F16;&#x7801;&#xFF0C;
+&#x7528; xelatex &#x547D;&#x4EE4;&#x7F16;&#x8BD1;&#x3002;
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org54e6ff3" class="outline-2">
+<h2 id="org54e6ff3"><span class="section-number-2">7</span> LATEX &#x4E2D;&#x7684;&#x5B57;&#x7B26;</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+LATEX &#x6E90;&#x4EE3;&#x7801;&#x4E2D;&#xFF0C;&#x7A7A;&#x683C;&#x952E;&#x548C; Tab &#x952E;&#x8F93;&#x5165;&#x7684;&#x7A7A;&#x767D;&#x5B57;&#x7B26;&#x89C6;&#x4E3A;&#x201C;&#x7A7A;&#x683C;&#x201D;&#x3002;&#x8FDE;&#x7EED;&#x7684;&#x82E5;&#x5E72;&#x4E2A;&#x7A7A;&#x767D;&#x5B57;&#x7B26;&#x89C6;&#x4E3A;&#x4E00;&#x4E2A;&#x7A7A;&#x683C;&#x3002;&#x4E00;&#x884C;&#x5F00;
+&#x5934;&#x7684;&#x7A7A;&#x683C;&#x5FFD;&#x7565;&#x4E0D;&#x8BA1;&#x3002;&#x884C;&#x672B;&#x7684;&#x56DE;&#x8F66;&#x89C6;&#x4E3A;&#x4E00;&#x4E2A;&#x7A7A;&#x683C;&#xFF1B;&#x4F46;&#x8FDE;&#x7EED;&#x4E24;&#x4E2A;&#x56DE;&#x8F66;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x7A7A;&#x884C;&#xFF0C;&#x4F1A;&#x5C06;&#x6587;&#x5B57;&#x5206;&#x6BB5;&#x3002;&#x591A;&#x4E2A;&#x7A7A;&#x884C;&#x88AB;&#x89C6;&#x4E3A;&#x4E00;
+&#x4E2A;&#x7A7A;&#x884C;&#x3002;&#x4E5F;&#x53EF;&#x4EE5;&#x5728;&#x884C;&#x672B;&#x4F7F;&#x7528; \par &#x547D;&#x4EE4;&#x5206;&#x6BB5;&#x3002;
+</p>
+
+<p>
+LATEX &#x7528; % &#x5B57;&#x7B26;&#x4F5C;&#x4E3A;&#x6CE8;&#x91CA;&#x3002;&#x5728;&#x8FD9;&#x4E2A;&#x5B57;&#x7B26;&#x4E4B;&#x540E;&#x76F4;&#x5230;&#x884C;&#x672B;&#xFF0C;&#x6240;&#x6709;&#x7684;&#x5B57;&#x7B26;&#x90FD;&#x88AB;&#x5FFD;&#x7565;&#xFF0C;&#x884C;&#x672B;&#x7684;&#x56DE;&#x8F66;&#x4E5F;&#x4E0D;&#x5F15;&#x5165;&#x7A7A;&#x683C;&#x3002;
+</p>
+
+<p>
+LATEX &#x4E2D;&#x6709;&#x4E00;&#x4E9B;&#x7279;&#x6B8A;&#x5B57;&#x7B26; # $ % &amp; { } _ ^ ~ \ &#xFF0C;&#x8FD9;&#x4E9B;&#x5B57;&#x7B26;&#x5728; LATEX &#x91CC;&#x6709;&#x7279;&#x6B8A;&#x7528;&#x9014;&#xFF0C;&#x5982; % &#x8868;&#x793A;&#x6CE8;&#x91CA;&#xFF0C; $&#x3001; ^&#x3001;
+_ &#x7B49;&#x7528;&#x4E8E;&#x6392;&#x7248;&#x6570;&#x5B66;&#x516C;&#x5F0F;&#xFF0C; &amp; &#x7528;&#x4E8E;&#x6392;&#x7248;&#x8868;&#x683C;&#x3002;&#x76F4;&#x63A5;&#x8F93;&#x5165;&#x8FD9;&#x4E9B;&#x5B57;&#x7B26;&#x5F97;&#x4E0D;&#x5230;&#x5BF9;&#x5E94;&#x7684;&#x7B26;&#x53F7;&#xFF0C;&#x8FD8;&#x5F80;&#x5F80;&#x4F1A;&#x51FA;&#x9519;&#x3002;&#x5982;&#x679C;&#x60F3;&#x8981;&#x8F93;&#x5165;
+&#x4EE5;&#x4E0A;&#x7B26;&#x53F7;&#xFF0C;&#x9700;&#x8981;&#x5728;&#x524D;&#x9762;&#x52A0;&#x4E0A;&#x5E26;&#x53CD;&#x659C;&#x7EBF;&#x3002;\^ &#x548C; \~ &#x4E24;&#x4E2A;&#x547D;&#x4EE4;&#x662F;&#x9700;&#x8981;&#x5E26;&#x53C2;&#x6570;&#x7684;&#xFF0C;&#x5982;&#x679C;&#x4E0D;&#x52A0;&#x4E00;&#x5BF9;&#x82B1;&#x62EC;&#x53F7;&#xFF08;&#x7A7A;&#x53C2;&#x6570;&#xFF09;&#xFF0C;&#x5C31;
+&#x5C06;&#x540E;&#x9762;&#x7684;&#x5B57;&#x7B26;&#x4F5C;&#x4E3A;&#x53C2;&#x6570;&#xFF0C;&#x5F62;&#x6210;&#x91CD;&#x97F3;&#x6548;&#x679C;&#x3002;
+</p>
+
+<p>
+&#x7B26;&#x53F7; &lt; &gt; | &#x88AB;&#x5B9A;&#x4E49;&#x6210;&#x6570;&#x5B66;&#x7B26;&#x53F7;&#xFF0C;&#x53EA;&#x80FD;&#x5728;&#x6570;&#x5B66;&#x6A21;&#x5F0F;&#x4E2D;&#x4F7F;&#x7528;&#xFF0C;&#x60F3;&#x8981;&#x5728;&#x666E;&#x901A;&#x6587;&#x672C;&#x4E2D;&#x8F93;&#x51FA;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x547D;&#x4EE4; \textless
+\textgreater \textbar
+</p>
+
+<p>
+&#x897F;&#x6587;&#x6392;&#x7248;&#x4E2D;&#x7ECF;&#x5E38;&#x4F1A;&#x51FA;&#x73B0;&#x8FDE;&#x5B57;&#xFF08;Ligatures&#xFF09;&#xFF0C;&#x5E38;&#x89C1;&#x7684;&#x6709; ff / fi / fl / ffi / ffl&#x3002;
+</p>
+
+<p>
+&#x4E2D;&#x6587;&#x7684;&#x6807;&#x70B9;&#x7B26;&#x53F7;&#xFF08;&#x90FD;&#x662F;&#x5168;&#x89D2;&#x7684;&#x975E; ASCII &#x5B57;&#x7B26;&#xFF09;&#x4E00;&#x822C;&#x6765;&#x8BB2;&#x4E0D;&#x7528;&#x7279;&#x522B;&#x64CD;&#x5FC3;&#xFF0C;&#x53EA;&#x8981;&#x4F7F;&#x7528;&#x4E2D;&#x6587;&#x8F93;&#x5165;&#x6CD5;&#x8F93;&#x5165;&#x5373;&#x53EF;&#x3002;&#x800C;&#x5728;&#x82F1;&#x6587;
+&#x6807;&#x70B9;&#x7684;&#x8F93;&#x5165;&#x4E0A;&#xFF0C;&#x6709;&#x8BB8;&#x591A;&#x9700;&#x8981;&#x7559;&#x610F;&#x7684;&#x5730;&#x65B9;&#x3002;LATEX &#x7684;&#x5355;&#x5F15;&#x53F7; &#x2018; &#x2019; &#x7528; &#x2018; &#x548C; &#x2019; &#x8F93;&#x5165;&#xFF1B;&#x53CC;&#x5F15;&#x53F7; &#x201C; &#x201D; &#x7528; &#x2018;&#x2018; &#x548C;
+&#x2019;&#x2019; &#x8F93;&#x5165;&#xFF08;&#x867D;&#x7136; &quot; &#x4E5F;&#x80FD;&#x8868;&#x793A;&#x53CC;&#x5F15;&#x53F7;&#xFF0C;&#x4F46;&#x6CA1;&#x6709;&#x5408;&#x9002;&#x7684;&#x5355;&#x4E2A;&#x7B26;&#x53F7;&#x7528;&#x6765;&#x8868;&#x793A;&#x524D;&#x53CC;&#x5F15;&#x53F7;&#xFF0C;&#x6240;&#x4EE5;&#x4E0D;&#x5E38;&#x7528;&#x5728;&#x6B63;&#x6587;&#xFF09;&#xFF1B;LATEX &#x4E2D;
+&#x6709;&#x4E09;&#x79CD;&#x957F;&#x5EA6;&#x7684;&#x201C;&#x6A2A;&#x7EBF;&#x201D;&#x53EF;&#x7528;&#xFF1A;&#x8FDE;&#x5B57;&#x53F7;&#x3001;&#x77ED;&#x7834;&#x6298;&#x53F7;&#xFF08;en-dash&#xFF09;&#x548C;&#x957F;&#x7834;&#x6298;&#x53F7;&#xFF08;em-dash&#xFF09;&#x3002;&#x5B83;&#x4EEC;&#x5206;&#x522B;&#x6709;&#x4E0D;&#x540C;&#x7684;&#x7528;&#x9014;&#xFF1A;&#x8FDE;
+&#x5B57;&#x53F7; - &#x7528;&#x6765;&#x7EC4;&#x6210;&#x590D;&#x5408;&#x8BCD;&#xFF1B;&#x77ED;&#x7834;&#x6298;&#x53F7; &#x2013; &#x5C06;&#x6570;&#x5B57;&#x8FDE;&#x63A5;&#x8868;&#x793A;&#x8303;&#x56F4;&#xFF1B;&#x957F;&#x7834;&#x6298;&#x53F7; &#x2014; &#x4F5C;&#x4E3A;&#x7834;&#x6298;&#x53F7;&#x4F7F;&#x7528;&#xFF1B;LATEX &#x63D0;&#x4F9B;&#x4E86;&#x547D;&#x4EE4;
+\ldots &#x6765;&#x751F;&#x6210;&#x7701;&#x7565;&#x53F7;&#xFF0C;&#x76F8;&#x5BF9;&#x4E8E;&#x76F4;&#x63A5;&#x8F93;&#x5165;&#x4E09;&#x4E2A;&#x70B9;&#x7684;&#x65B9;&#x5F0F;&#x66F4;&#x4E3A;&#x5408;&#x7406;&#x3002; \ldots&#x548C; &#x2026; &#x662F;&#x4E24;&#x4E2A;&#x7B49;&#x6548;&#x7684;&#x547D;&#x4EE4;&#xFF1B; &#x547D;&#x4EE4; \~
+&#x53EF;&#x4EE5;&#x7528;&#x6765;&#x8F93;&#x5165;&#x6CE2;&#x6D6A;&#x53F7;&#xFF0C;&#x4F46;&#x4F4D;&#x7F6E;&#x9760;&#x9876;&#x7AEF;&#xFF0C;&#x53EF;&#x80FD;&#x4E0D;&#x751A;&#x7406;&#x60F3;&#x3002;&#x6709;&#x7684;&#x4EBA;&#x53EF;&#x80FD;&#x559C;&#x6B22;&#x7528;&#x6570;&#x5B66;&#x516C;&#x5F0F;&#x91CC;&#x7684; &#x223C; &#x7B26;&#x53F7;&#x6765;&#x4EE3;&#x66FF;&#x3002;
+</p>
+
+<p>
+LATEX &#x652F;&#x6301;&#x7528;&#x547D;&#x4EE4;&#x8F93;&#x5165;&#x5404;&#x79CD;&#x897F;&#x6B27;&#x8BED;&#x8A00;&#x7684;&#x7279;&#x6B8A;&#x7B26;&#x53F7;&#x548C;&#x91CD;&#x97F3;&#x3002;
+</p>
+
+<p>
+&#x5F3A;&#x8C03;&#x6587;&#x5B57;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x8981;&#x4E48;&#x662F;&#x6DFB;&#x52A0;&#x4E00;&#x4E9B;&#x4E0B;&#x5212;&#x7EBF;&#x6216;&#x8005;&#x88C5;&#x9970;&#x7269;&#xFF0C;&#x8981;&#x4E48;&#x662F;&#x6539;&#x53D8;&#x6587;&#x5B57;&#x7684;&#x5B57;&#x4F53;&#x3002;LATEX &#x5B9A;&#x4E49;&#x4E86; \underline &#x547D;&#x4EE4;&#x7528;
+&#x6765;&#x4E3A;&#x6587;&#x5B57;&#x6DFB;&#x52A0;&#x4E0B;&#x5212;&#x7EBF;&#xFF0C;\underline &#x547D;&#x4EE4;&#x751F;&#x6210;&#x4E0B;&#x5212;&#x7EBF;&#x7684;&#x6837;&#x5F0F;&#x6BD4;&#x8F83;&#x673A;&#x68B0;&#xFF0C;&#x4E0D;&#x540C;&#x7684;&#x5355;&#x8BCD;&#x53EF;&#x80FD;&#x751F;&#x6210;&#x9AD8;&#x4F4E;&#x5404;&#x5F02;&#x7684;&#x4E0B;&#x5212;&#x7EBF;&#xFF0C;&#x5E76;
+&#x4E14;&#x65E0;&#x6CD5;&#x6362;&#x884C;&#x3002; ulem &#x5B8F;&#x5305;&#x89E3;&#x51B3;&#x4E86;&#x8FD9;&#x4E00;&#x95EE;&#x9898;&#xFF0C;&#x5B83;&#x63D0;&#x4F9B;&#x7684; \uline &#x547D;&#x4EE4;&#x80FD;&#x591F;&#x8F7B;&#x677E;&#x751F;&#x6210;&#x81EA;&#x52A8;&#x6362;&#x884C;&#x7684;&#x4E0B;&#x5212;&#x7EBF;&#xFF1B;\emph &#x547D;&#x4EE4;&#x7528;
+&#x6765;&#x5C06;&#x6587;&#x5B57;&#x53D8;&#x4E3A;&#x659C;&#x4F53;&#x4EE5;&#x793A;&#x5F3A;&#x8C03;&#x3002;&#x5982;&#x679C;&#x5728;&#x672C;&#x8EAB;&#x5DF2;&#x7ECF;&#x7528; \emph &#x547D;&#x4EE4;&#x5F3A;&#x8C03;&#x7684;&#x6587;&#x5B57;&#x5185;&#x90E8;&#x5D4C;&#x5957;&#x4F7F;&#x7528; \emph&#xFF0C;&#x5185;&#x90E8;&#x5219;&#x4F7F;&#x7528;&#x6B63;&#x5E38;&#x5B57;
+&#x4F53;&#x7684;&#x6587;&#x5B57;&#x3002;
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8aad752" class="outline-2">
+<h2 id="org8aad752"><span class="section-number-2">8</span> &#x65AD;&#x884C;&#x548C;&#x65AD;&#x9875;</h2>
+<div class="outline-text-2" id="text-8">
+<p>
+LATEX &#x5C06;&#x6587;&#x5B57;&#x6BB5;&#x843D;&#x5728;&#x5408;&#x9002;&#x7684;&#x4F4D;&#x7F6E;&#x8FDB;&#x884C;&#x65AD;&#x884C;&#xFF0C;&#x5C3D;&#x53EF;&#x80FD;&#x505A;&#x5230;&#x6BCF;&#x884C;&#x7684;&#x5BBD;&#x5EA6;&#x4E00;&#x81F4;&#xFF0C;&#x5E76;&#x4E14;&#x5355;&#x8BCD;&#x95F4;&#x8DDD;&#x5300;&#x79F0;&#x3002;&#x6587;&#x5B57;&#x6BB5;&#x843D;&#x548C;&#x516C;&#x5F0F;&#x3001;&#x56FE;
+&#x8868;&#x7B49;&#x5185;&#x5BB9;&#x4ECE;&#x4E0A;&#x5230;&#x4E0B;&#x987A;&#x5E8F;&#x6392;&#x5E03;&#xFF0C;&#x5E76;&#x5728;&#x5408;&#x9002;&#x7684;&#x4F4D;&#x7F6E;&#x65AD;&#x9875;&#xFF0C;&#x5206;&#x5272;&#x6210;&#x5300;&#x79F0;&#x7684;&#x9875;&#x9762;&#x3002;&#x5728;&#x7EDD;&#x5927;&#x591A;&#x6570;&#x65F6;&#x5019;&#xFF0C;&#x6211;&#x4EEC;&#x65E0;&#x9700;&#x81EA;&#x5DF1;&#x64CD;&#x5FC3;&#x65AD;&#x884C;
+&#x548C;&#x65AD;&#x9875;&#x3002;&#x4F46;&#x5076;&#x5C14;&#x4F1A;&#x9047;&#x5230;&#x9700;&#x8981;&#x624B;&#x5DE5;&#x8C03;&#x6574;&#x7684;&#x5730;&#x65B9;&#x3002;
+</p>
+
+<p>
+&#x5982;&#x679C;&#x6211;&#x4EEC;&#x786E;&#x5B9E;&#x9700;&#x8981;&#x624B;&#x52A8;&#x65AD;&#x884C;&#xFF0C;&#x53EF;&#x4F7F;&#x7528;&#x5982;&#x4E0B;&#x547D;&#x4EE4;&#xFF1A;
+</p>
+
+<div class="org-src-container">
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\newline % &#x6362;&#x884C;&#xFF1B;&#x53EA;&#x7528;&#x4E8E;&#x6587;&#x672C;&#x6BB5;&#x843D;&#x4E2D;
+\\ % &#x5728;&#x8868;&#x683C;&#x3001;&#x516C;&#x5F0F;&#x7B49;&#x5730;&#x65B9;&#x4E5F;&#x7528;&#x4E8E;&#x5206;&#x884C;
+
+% &#x65AD;&#x9875;&#x7684;&#x547D;&#x4EE4;&#x6709;&#x4E24;&#x4E2A;&#xFF1A;
+\newpage % &#x65AD;&#x9875;
+\clearpage % &#x65AD;&#x9875;
+% &#x901A;&#x5E38;&#x60C5;&#x51B5;&#x4E0B;&#x4E24;&#x4E2A;&#x547D;&#x4EE4;&#x90FD;&#x80FD;&#x8D77;&#x5230;&#x53E6;&#x8D77;&#x4E00;&#x9875;&#x7684;&#x4F5C;&#x7528;&#xFF0C;&#x4F46;&#x6709;&#x4E00;&#x4E9B;&#x533A;&#x522B;&#xFF1A;&#x4E00;&#x662F;&#x5728;&#x53CC;&#x680F;&#x6392;&#x7248;&#x4E2D; \newpage
+% &#x53EA;&#x8D77;&#x5230;&#x53E6;&#x8D77;&#x4E00;&#x680F;&#x7684;&#x4F5C;&#x7528;&#xFF1B;&#x4E8C;&#x662F;&#x6D89;&#x53CA;&#x5230;&#x6D6E;&#x52A8;&#x4F53;&#x7684;&#x6392;&#x7248;&#x4E0A;&#x884C;&#x4E3A;&#x4E0D;&#x540C;&#x3002;
+
+% &#x6709;&#x65F6;&#x5019;&#x6211;&#x4EEC;&#x4E0D;&#x6EE1;&#x8DB3;&#x4E8E; LATEX &#x9ED8;&#x8BA4;&#x7684;&#x65AD;&#x884C;&#x548C;&#x65AD;&#x9875;&#x4F4D;&#x7F6E;&#xFF0C;&#x9700;&#x8981;&#x8FDB;&#x884C;&#x5FAE;&#x8C03;
+\linebreak[n] 
+\nolinebreak[n]
+\pagebreak[n] 
+\nopagebreak[n] 
+% LATEX &#x54EA;&#x4E9B;&#x5730;&#x65B9;&#x9002;&#x5408;&#x65AD;&#x9875;&#xFF0C;&#x54EA;&#x4E9B;&#x5730;&#x65B9;&#x4E0D;&#x9002;&#x5408;&#xFF1A;
+% &#x4EE5;&#x4E0A;&#x547D;&#x4EE4;&#x90FD;&#x5E26;&#x4E00;&#x4E2A;&#x53EF;&#x9009;&#x53C2;&#x6570;&#xFF0C;&#x7528;&#x6570;&#x5B57; n &#x4EE3;&#x8868;&#x9002;&#x5408;/&#x4E0D;&#x9002;&#x5408;&#x7684;&#x7A0B;&#x5EA6;&#xFF0C;&#x53D6;&#x503C;&#x8303;&#x56F4;&#x4E3A; 0-4&#xFF0C;&#x4E0D;&#x5E26;
+% &#x53EF;&#x9009;&#x53C2;&#x6570;&#x65F6;&#xFF0C;&#x7F3A;&#x7701;&#x4E3A; 4&#x3002;
+% &#x4EE5;&#x4E0A;&#x547D;&#x4EE4;&#x9002;&#x5408;&#x7ED9;&#x51FA;&#x4F18;&#x5148;&#x8003;&#x8651;&#x65AD;&#x884C;&#x65AD;&#x9875;/&#x7981;&#x6B62;&#x65AD;&#x884C;&#x65AD;&#x9875;&#x7684;&#x4F4D;&#x7F6E;&#xFF0C;&#x4F46;&#x4E0D;&#x9002;&#x5408;&#x76F4;&#x63A5;&#x62FF;&#x6765;&#x65AD;&#x884C;&#x6216;&#x65AD;&#x9875;&#xFF0C;
+% &#x4F7F;&#x7528; \newline &#x6216; \newpage &#x7B49;&#x662F;&#x66F4;&#x597D;&#x7684;&#x9009;&#x62E9;&#x3002;</span><br></pre></td></tr></table></figure>
+</div>
+
+<p>
+&#x5982;&#x679C; LATEX &#x9047;&#x5230;&#x4E86;&#x5F88;&#x957F;&#x7684;&#x82F1;&#x6587;&#x5355;&#x8BCD;&#xFF0C;&#x4EC5;&#x5728;&#x5355;&#x8BCD;&#x4E4B;&#x95F4;&#x7684;&#x4F4D;&#x7F6E;&#x65AD;&#x884C;&#x65E0;&#x6CD5;&#x751F;&#x6210;&#x5BBD;&#x5EA6;&#x5300;&#x79F0;&#x7684;&#x884C;&#x65F6;&#xFF0C;&#x5C31;&#x8981;&#x8003;&#x8651;&#x4ECE;&#x5355;&#x8BCD;&#x4E2D;&#x95F4;&#x65AD;
+&#x5F00;&#x3002;&#x5BF9;&#x4E8E;&#x7EDD;&#x5927;&#x90E8;&#x5206;&#x5355;&#x8BCD;&#xFF0C; LATEX &#x80FD;&#x591F;&#x627E;&#x5230;&#x5408;&#x9002;&#x7684;&#x65AD;&#x8BCD;&#x4F4D;&#x7F6E;&#xFF0C;&#x5728;&#x65AD;&#x5F00;&#x7684;&#x884C;&#x5C3E;&#x52A0;&#x4E0A;&#x8FDE;&#x5B57;&#x7B26; -&#x3002;&#x5982;&#x679C;&#x4E00;&#x4E9B;&#x5355;&#x8BCD;&#x6CA1;&#x80FD;&#x81EA;&#x52A8;
+&#x65AD;&#x8BCD;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x5728;&#x5355;&#x8BCD;&#x5185;&#x624B;&#x52A8;&#x4F7F;&#x7528; &#xAD; &#x547D;&#x4EE4;&#x6307;&#x5B9A;&#x65AD;&#x8BCD;&#x7684;&#x4F4D;&#x7F6E;
+</p>
+</div>
+</div>
+</div>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/LaTex/" rel="tag"># LaTex</a>
+          
+        </div>
+      
+
+      
+      
+        <div class="post-widgets">
+        
+
+        
+
+        
+          
+          <div id="needsharebutton-postbottom">
+            <span class="btn">
+              <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </span>
+          </div>
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/24/book/gtd/" rel="next" title="Get Things Done">
+                <i class="fa fa-chevron-left"></i> Get Things Done
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/24/apue/csapp/" rel="prev" title="Computer Systems - A Programmer's Perspective">
+                Computer Systems - A Programmer's Perspective <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzU0Ny8xNDA3OQ=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/polarbear.jpg" alt="Kyle Three Stone">
+            
+              <p class="site-author-name" itemprop="name">Kyle Three Stone</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">57</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-globe"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://github.com/kylestones" title="GitHub" target="_blank">GitHub</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="mailto:kyleemail@163.com" title="E-Mail" target="_blank">E-Mail</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-text">Table of Contents</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org66b359d"><span class="nav-text">1 LaTeX 源代码结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org36600ea"><span class="nav-text">1.1 文档类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org677a29e"><span class="nav-text">1.2 宏包</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org25a06e7"><span class="nav-text">2 文件的组织方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org17a3633"><span class="nav-text">3 LaTeX 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org72a0382"><span class="nav-text">4 LaTeX 环境</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org721edc2"><span class="nav-text">4.1 分组</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9f2942c"><span class="nav-text">5 LaTeX 编译</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org0501f62"><span class="nav-text">5.1 建议</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgaa2e1c1"><span class="nav-text">6 排版中文</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org4ab01f2"><span class="nav-text">6.1 xeCJK 宏包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org9707975"><span class="nav-text">6.2 ctex 宏包和文档类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org54e6ff3"><span class="nav-text">7 LATEX 中的字符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8aad752"><span class="nav-text">8 断行和断页</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kyle Three Stone</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="Symbols count total">1.9m</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="Reading time total">28:45</span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="Total Visitors">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="Total Views">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+  
+  <script src="/lib/needsharebutton/needsharebutton.js"></script>
+
+  <script>
+    
+      pbOptions = {};
+      
+          pbOptions.iconStyle = "box";
+      
+          pbOptions.boxForm = "horizontal";
+      
+          pbOptions.position = "bottomCenter";
+      
+          pbOptions.networks = "Wechat,Weibo,Douban,QQZone,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-postbottom', pbOptions);
+    
+    
+  </script>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

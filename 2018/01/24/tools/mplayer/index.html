@@ -1,0 +1,5516 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/needsharebutton/needsharebutton.css">
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.3.0',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="&amp;#x62F7;&amp;#x8D1D;&amp;#x8DEF;&amp;#x5F84; mplayer &amp;#x53C2;&amp;#x6570;&amp;#x8BF4;&amp;#x660E;    &amp;#x683C;&amp;#x5F0F;&amp;#x6709;&amp;#x70B9;&amp;#x51CC;&amp;#x4E71;&amp;#xFF0C;&amp;#x5F85;&amp;#x6574;&amp;#x7406;&amp;#x3002; TODO    MPlayer  &amp;#x540D;&amp;#x79F0">
+<meta name="keywords" content="Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mpayer">
+<meta property="og:url" content="https://kylestones.github.io/2018/01/24/tools/mplayer/index.html">
+<meta property="og:site_name" content="All in Org-mode">
+<meta property="og:description" content="&amp;#x62F7;&amp;#x8D1D;&amp;#x8DEF;&amp;#x5F84; mplayer &amp;#x53C2;&amp;#x6570;&amp;#x8BF4;&amp;#x660E;    &amp;#x683C;&amp;#x5F0F;&amp;#x6709;&amp;#x70B9;&amp;#x51CC;&amp;#x4E71;&amp;#xFF0C;&amp;#x5F85;&amp;#x6574;&amp;#x7406;&amp;#x3002; TODO    MPlayer  &amp;#x540D;&amp;#x79F0">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-02-27T12:04:37.481Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mpayer">
+<meta name="twitter:description" content="&amp;#x62F7;&amp;#x8D1D;&amp;#x8DEF;&amp;#x5F84; mplayer &amp;#x53C2;&amp;#x6570;&amp;#x8BF4;&amp;#x660E;    &amp;#x683C;&amp;#x5F0F;&amp;#x6709;&amp;#x70B9;&amp;#x51CC;&amp;#x4E71;&amp;#xFF0C;&amp;#x5F85;&amp;#x6574;&amp;#x7406;&amp;#x3002; TODO    MPlayer  &amp;#x540D;&amp;#x79F0">
+
+
+
+
+
+
+  <link rel="canonical" href="https://kylestones.github.io/2018/01/24/tools/mplayer/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>mpayer | All in Org-mode</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">All in Org-mode</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Keep it Simple, Stuped.</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://kylestones.github.io/2018/01/24/tools/mplayer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Kyle Three Stone">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/polarbear.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="All in Org-mode">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">mpayer
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-01-24 00:00:00" itemprop="dateCreated datePublished" datetime="2018-01-24T00:00:00+08:00">2018-01-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-02-27 20:04:37" itemprop="dateModified" datetime="2019-02-27T20:04:37+08:00">2019-02-27</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Symbols count in article: </span>
+                
+                <span title="Symbols count in article">136k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">2:04</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <div id="content">
+<p>
+&#x62F7;&#x8D1D;&#x8DEF;&#x5F84; <a href="https://blog.csdn.net/futurepeter/article/details/5316014" target="_blank" rel="noopener">mplayer &#x53C2;&#x6570;&#x8BF4;&#x660E;</a>
+</p>
+
+<p>
+&#x683C;&#x5F0F;&#x6709;&#x70B9;&#x51CC;&#x4E71;&#xFF0C;&#x5F85;&#x6574;&#x7406;&#x3002; TODO
+</p>
+
+<p>
+MPlayer 
+&#x540D;&#x79F0; 
+&#x6982;&#x8981; 
+&#x8BF4;&#x660E; 
+&#x4E00;&#x822C;&#x6CE8;&#x8BB0; 
+&#x64AD;&#x653E;&#x9009;&#x9879; ( &#x4EC5;&#x7528;&#x4E8E; MPLAYER) 
+&#x5206;&#x8DEF;&#x5668; / &#x5A92;&#x4F53;&#x6D41;&#x9009;&#x9879; 
+OSD/ &#x5B57;&#x5E55;&#x9009;&#x9879; 
+&#x97F3;&#x9891;&#x8F93;&#x51FA;&#x9009;&#x9879; ( &#x4EC5;&#x7528;&#x4E8E; MPLAYER) 
+&#x89C6;&#x9891;&#x8F93;&#x51FA;&#x9009;&#x9879; ( &#x4EC5;&#x7528;&#x4E8E; MPLAYER) 
+&#x89E3;&#x7801; / &#x6EE4;&#x955C;&#x9009;&#x9879; 
+&#x7F16;&#x7801;&#x9009;&#x9879; ( &#x4EC5;&#x7528;&#x4E8E; MENCODER) 
+&#x952E;&#x76D8;&#x63A7;&#x5236; 
+SLAVE &#x6A21;&#x5F0F;&#x534F;&#x8BAE; 
+&#x6587;&#x4EF6; 
+&#x793A;&#x4F8B; 
+BUGS 
+&#x4F5C;&#x8005; 
+&#x6807;&#x51C6;&#x58F0;&#x660E; 
+&#x540D;&#x79F0; 
+mplayer &#x2212; Linux&#x4E0B;&#x7684;&#x7535;&#x5F71;&#x64AD;&#x653E;&#x5668; 
+mencoder &#x2212; Linux&#x4E0B;&#x7684;&#x7535;&#x5F71;&#x7F16;&#x7801;&#x5668; 
+</p>
+
+<p>
+&#x6982;&#x8981; 
+mplayer [&#x9009;&#x9879;] [ &#x6587;&#x4EF6; | URL | &#x64AD;&#x653E;&#x5217;&#x8868; | - ] 
+mplayer [&#x5168;&#x5C40;&#x9009;&#x9879;] &#x6587;&#x4EF6;1 [&#x7279;&#x5B9A;&#x9009;&#x9879;] [&#x6587;&#x4EF6;2] [&#x7279;&#x5B9A;&#x9009;&#x9879;] 
+mplayer [&#x5168;&#x5C40;&#x9009;&#x9879;] {&#x4E00;&#x7EC4;&#x6587;&#x4EF6;&#x548C;&#x9009;&#x9879;} [&#x9488;&#x5BF9;&#x8BE5;&#x7EC4;&#x7684;&#x7279;&#x5B9A;&#x9009;&#x9879;] 
+mplayer [dvd|vcd|cdda|cddb|tv]://title [&#x9009;&#x9879;] 
+mplayer [mms[t]|http|http<sub>proxy</sub>|rt[s]p]:// [&#x7528;&#x6237;&#x540D;:&#x5BC6;&#x7801;@]URL[:&#x7AEF;&#x53E3;] [&#x9009; &#x9879;] 
+mencoder [&#x9009;&#x9879;] [ &#x6587;&#x4EF6; | URL | - ] [&#x2212;o &#x8F93;&#x51FA;&#x6587;&#x4EF6;] 
+gmplayer [&#x9009;&#x9879;] [&#x2212;skin skin] 
+</p>
+
+<p>
+&#x8BF4;&#x660E; 
+mplayer &#x662F;&#x4E00;&#x4E2A;LINUX&#x4E0B;&#x7684;&#x7535;&#x5F71;&#x64AD;&#x653E;&#x5668;, (&#x4E5F;&#x80FD;&#x8FD0;&#x884C;&#x5728;&#x8BB8;&#x591A;&#x5176;&#x5B83;&#x7684;Unices &#x548C; &#x975E;x86 &#x7684;CPU &#x4E0A;, &#x53C2;&#x770B;&#x6587;&#x6863;). &#x5B83;&#x80FD;&#x4F7F;&#x7528;&#x672C;&#x5730;&#x7684;, XAnim, Win32 DLL&#x7684;&#x7F16;&#x89E3;&#x7801;&#x5668;&#x64AD;&#x653E;&#x7EDD;&#x5927; &#x90E8;&#x5206;&#x7684;MPEG/VOB, AVI, ASF/WMA/WMV, RM, QT/MOV/MP4, OGG/OGM, VIVO, FLI, NuppelVideo, yuv4mpeg, FILM &#x548C;RoQ &#x6587; &#x4EF6;. &#x4F60;&#x8FD8;&#x80FD;&#x89C2;&#x770B;VideoCD,SVCD, DVD, 3ivx, DivX 3/4/5&#x751A;&#x81F3;WMV&#x7535;&#x5F71;(&#x4E0D;&#x9700;&#x8981;&#x4F7F;&#x7528;avifile&#x5E93;). 
+</p>
+
+<p>
+MPlayer&#x7684;&#x53E6;&#x4E00;&#x4E2A;&#x4F18;&#x8D8A;&#x7684;&#x7279;&#x6027;&#x662F;&#x5BF9;&#x8F93;&#x51FA;&#x8BBE;&#x5907;&#x7684;&#x5E7F;&#x6CDB;&#x7684;&#x652F;&#x6301;. &#x5B83;&#x53EF;&#x4EE5;&#x4F7F; &#x7528;X11, XV, DGA, OpenGL, SVGAlib, fbdev, AAlib, DirectFB, &#x4F46;&#x4F60;&#x4E5F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;GGI, SDL(&#x7531; &#x6B64;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x4ED6;&#x4EEC;&#x7684;&#x6240;&#x6709;&#x9A71;&#x52A8;), VESA(&#x6240;&#x6709;VESA&#x517C;&#x5BB9;&#x7684;&#x663E;&#x5361;&#xFF0C;&#x751A;&#x81F3;&#x53EF;&#x4EE5; &#x6CA1; &#x6709;X11), &#x67D0; &#x4E9B; &#x4F4E;&#x7EA7;&#x7684;&#x663E;&#x5361;&#x76F8;&#x5173;&#x7684;&#x9A71;&#x52A8;(Matrox, 3Dfx&#x548C;ATI)&#x548C;&#x4E00;&#x4E9B;&#x786C;&#x4EF6;MPEG&#x89E3;&#x7801;&#x5668;&#x5361;, &#x6BD4; &#x5982;Siemens DVB, DXR2&#x548C;DXR3/Hollywood+. &#x5B83;&#x4EEC;&#x4E2D;&#x7EDD;&#x5927;&#x591A;&#x6570;&#x652F;&#x6301;&#x8F6F;&#x4EF6;&#x6216;&#x786C;&#x4EF6;&#x7F29;&#x653E;, &#x6240;&#x4EE5;&#x4F60;&#x53EF;&#x4EE5; &#x4EAB; &#x53D7;&#x5168;&#x5C4F;&#x7535;&#x5F71;. 
+</p>
+
+<p>
+MPlayer &#x5177;&#x6709;onscreen display(OSD)&#x529F;&#x80FD;, &#x7528;&#x6765;&#x663E;&#x793A;&#x72B6;&#x6001;&#x4FE1;&#x606F;, &#x6E05;&#x6670;&#x653E;&#x5927;&#x53CD;&#x952F;&#x9F7F; &#x5E26;&#x9634;&#x5F71;&#x7684;&#x5B57;&#x5E55;&#x548C;&#x952E;&#x76D8;&#x63A7;&#x5236;&#x7684;&#x89C6;&#x89C9;&#x53CD;&#x9988;. &#x652F;&#x6301;&#x7684;&#x5B57;&#x4F53;&#x5305;&#x62EC;&#x6B27;&#x6D32;&#x8BED;&#x79CD;/ISO 8859-1,2 ( &#x5308; &#x7259; &#x5229;&#x8BED;, &#x82F1;&#x8BED;, &#x6377;&#x514B;&#x8BED;&#x7B49;&#x7B49;), &#x897F;&#x91CC;&#x5C14;&#x8BED;&#x548C;&#x97E9;&#x8BED;, &#x53EF;&#x4EE5;&#x64AD;&#x653E;10&#x79CD;&#x683C;&#x5F0F;&#x7684;&#x5B57;&#x5E55;&#x6587; &#x4EF6;(MicroDVD, SubRip, SubViewer, Sami, VPlayer, RT, SSA, AQTitle, JACOsub &#x548C; &#x6211; &#x4EEC; &#x81EA; &#x5DF1; &#x7684;: MPsub)&#x548C;DVD&#x5B57;&#x5E55;(SPU&#x6D41;, VobSub&#x548C;&#x9690;&#x85CF;&#x5B57;&#x5E55;&#x6570;&#x636E; &#x8868;(Closed Captions)). 
+</p>
+
+<p>
+mencoder (MPlayer&#x7684;&#x7535;&#x5F71;&#x7F16;&#x7801;&#x5668;)&#x662F;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x7535;&#x5F71;&#x7F16;&#x7801;&#x5668;, &#x8BBE;&#x8BA1;&#x7528;&#x6765;&#x628A;MPlayer &#x53EF; &#x4EE5;&#x64AD;&#x653E;&#x7684;&#x7535;&#x5F71;(&#x89C1;&#x4E0A;&#x9762;)&#x7F16;&#x7801;&#x6210;&#x53E6;&#x4E00;&#x4E9B;MPlayer&#x53EF;&#x4EE5;&#x64AD;&#x653E;&#x7684;&#x683C;&#x5F0F;(&#x89C1;&#x4E0B;&#x9762;). &#x5B83;&#x53EF; &#x4EE5;&#x901A;&#x8FC7;1, 2&#x6216;&#x8005;3 pass&#x7684;&#x65B9;&#x5F0F;&#x7F16;&#x7801;DivX4, XviD, libavcodec&#x7684;&#x7F16;&#x89E3;&#x7801;&#x5668;&#x652F;&#x6301;&#x7684;&#x89C6; &#x9891;&#x683C;&#x5F0F;&#x548C;PCM/MP3/VBRMP3&#x7684;&#x97F3;&#x9891;. &#x8FDB;&#x4E00;&#x6B65;&#x7684;&#x5B83;&#x8FD8;&#x62E5;&#x6709;&#x6D41;&#x590D;&#x5236;&#x7684;&#x80FD;&#x529B;, &#x4E00;&#x4E2A;&#x5F3A;&#x5927;&#x7684; &#x63D2;&#x4EF6;&#x7CFB;&#x7EDF;(crop, expand, flip, postprocess, rotate, scale, noise, rgb/yuv &#x8F6C;&#x6362;)&#x548C;&#x66F4;&#x591A;. 
+</p>
+
+<p>
+gmplayer &#x662F;&#x4F7F;&#x7528;&#x56FE;&#x5F62;&#x7528;&#x6237;&#x754C;&#x9762;&#x7684;MPlayer. &#x5B83;&#x4F7F;&#x7528;&#x8DDF;MPlayer&#x76F8;&#x540C;&#x7684;&#x53C2;&#x6570;. 
+</p>
+
+<p>
+&#x4E00;&#x822C;&#x6CE8;&#x8BB0; 
+&#x53C2;&#x89C1;HTML&#x6587;&#x6863;! 
+</p>
+
+<p>
+&#x6BCF;&#x4E2A;&#x2019;flag&#x2019;&#x9009;&#x9879;&#x90FD;&#x6709;&#x4E00;&#x4E2A;&#x5BF9;&#x5E94;&#x7684;&#x2019;noflag&#x2019;&#x9009;&#x9879;, &#x6BD4;&#x5982;&#x2212;fs&#x9009;&#x9879;&#x7684;&#x5BF9;&#x5E94;&#x9009;&#x9879;&#x662F;&#x2212;nofs. 
+</p>
+
+<p>
+&#x4F60;&#x53EF;&#x4EE5;&#x628A;&#x6240;&#x6709;&#x9009;&#x9879;&#x653E;&#x5728;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x4E2D;, mplayer&#x6BCF;&#x6B21;&#x8FD0;&#x884C;&#x65F6;&#x90FD;&#x4F1A;&#x8BFB;&#x53D6;&#x5B83;&#x4EEC;. &#x7CFB;&#x7EDF; &#x8303; &#x56F4; &#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x2019;mplayer.conf&#x2019;&#x5728;&#x4F60;&#x7684;&#x914D;&#x7F6E;&#x76EE;&#x5F55;&#x4E2D;, (&#x6BD4;&#x5982;/etc/mplayer&#x6216;&#x8005;/usr/ local/etc/mplayer), &#x7528;&#x6237;&#x7279;&#x5B9A;&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x662F;&#x2019;~/.mplayer/config&#x2019;. &#x7528;&#x6237;&#x7279; &#x5B9A; &#x7684; &#x9009; &#x9879;&#x4F18;&#x5148;&#x4E8E;&#x7CFB;&#x7EDF;&#x8303;&#x56F4;&#x7684;&#x9009;&#x9879;, &#x800C;&#x547D;&#x4EE4;&#x884C;&#x9009;&#x9879;&#x4F18;&#x5148;&#x4E8E;&#x8FD9;&#x4E24;&#x8005;. &#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x7684;&#x8BED;&#x6CD5; &#x662F;&#x2019;&#x9009;&#x9879;=&lt;&#x53C2;&#x6570;&gt;&#x2019;, &#x2019;#&#x2019;&#x540E;&#x9762;&#x7684;&#x90FD;&#x8BA4;&#x4E3A;&#x662F;&#x6CE8;&#x91CA;. &#x542F;&#x7528;&#x6CA1;&#x6709;&#x53C2;&#x6570;&#x7684;&#x9009;&#x9879;&#x53EF;&#x4EE5;&#x628A;&#x53C2;&#x6570;&#x8BBE; &#x4E3A;&#x2019;yes&#x2019; &#x6216;&#x8005;&#x2019;1&#x2019;, &#x800C;&#x5982;&#x679C;&#x8981;&#x7981;&#x7528;&#x5C31;&#x628A;&#x5B83;&#x4EEC;&#x8BBE;&#x7F6E;&#x4E3A;&#x2019;no&#x2019;&#x6216;&#x8005;&#x2019;0&#x2019;. &#x751A;&#x81F3;&#x5B50;&#x9009;&#x9879;&#x4E5F;&#x53EF; &#x4EE5;&#x901A;&#x8FC7;&#x8FD9;&#x79CD;&#x65B9;&#x5F0F;&#x8BBE;&#x5B9A;. 
+</p>
+
+<p>
+&#x793A;&#x4F8B;: 
+</p>
+
+<p>
+vo=xmga 
+</p>
+
+<p>
+flip=yes 
+</p>
+
+<p>
+mf= type=png:fps=25 
+</p>
+
+<p>
+&#x4F60;&#x4E5F;&#x53EF;&#x4EE5;&#x5236;&#x4F5C;&#x9488;&#x5BF9;&#x7279;&#x5B9A;&#x6587;&#x4EF6;&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;. &#x5982;&#x679C;&#x4F60;&#x5E0C;&#x671B;&#x2019;movie.avi&#x2019;&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#x6709;&#x81EA;&#x5DF1; &#x7684; &#x914D;&#x7F6E;&#x6587;&#x4EF6;, &#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x53EB;&#x2019;movie.avi.conf&#x2019;&#x7684;&#x6587;&#x4EF6;, &#x5199;&#x4E0A;&#x9488;&#x5BF9;&#x8BE5;&#x6587;&#x4EF6;&#x7684;&#x9009;&#x9879;, &#x628A; &#x5B83;&#x653E;&#x5728;~/.mplayer&#x4E2D;&#x6216;&#x8005;&#x8BE5;&#x6587;&#x4EF6;&#x540C;&#x4E00;&#x76EE;&#x5F55;&#x4E0B;. 
+</p>
+
+<p>
+&#x64AD;&#x653E;&#x9009;&#x9879; ( &#x4EC5;&#x7528;&#x4E8E; MPLAYER) 
+&#x2212;, &#x2212;use-stdin 
+</p>
+
+<p>
+&#x4ECE;&#x6807;&#x51C6;&#x8F93;&#x5165;&#x8BFB;&#x53D6;&#x6570;&#x636E;. &#x2212;idx&#x9009;&#x9879;&#x65E0;&#x6CD5;&#x4E0E;&#x8FD9;&#x4E2A;&#x9009;&#x9879;&#x540C;&#x65F6;&#x5DE5;&#x4F5C;. 
+</p>
+
+<p>
+&#x2212;autoq &lt;&#x8D28;&#x91CF;&gt; (&#x4E0E;&#x2212;vf pp&#x4E00;&#x8D77;&#x4F7F;&#x7528;) 
+</p>
+
+<p>
+&#x6839;&#x636E;&#x53EF;&#x7528;&#x7684;CPU&#x7A7A;&#x95F2;&#x65F6;&#x95F4;&#x52A8;&#x6001;&#x8C03;&#x6574;&#x540E;&#x671F;&#x5904;&#x7406;&#x7684;&#x7EA7;&#x522B;. &#x4F60;&#x8BBE;&#x5B9A;&#x7684;&#x6570;&#x5B57;&#x662F;&#x5141;&#x8BB8; &#x4F7F;&#x7528;&#x7684;&#x6700;&#x9AD8;&#x7EA7;&#x522B;. &#x4E00;&#x822C;&#x6765;&#x8BF4;&#x4F60;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x4E00;&#x4E9B;&#x6BD4;&#x8F83;&#x5927;&#x7684;&#x6570;&#x5B57;. &#x4F60;&#x5FC5;&#x987B;&#x4F7F;&#x7528; &#x4E0D;&#x5E26;&#x53C2;&#x6570;&#x7684;&#x2212;vf pp&#x624D;&#x80FD;&#x4F7F;&#x7528;&#x5B83;. 
+</p>
+
+<p>
+&#x2212;autosync &lt;&#x56E0;&#x5B50;&gt; 
+</p>
+
+<p>
+&#x57FA;&#x4E8E;&#x97F3;&#x9891;&#x5EF6;&#x8FDF;&#x7684;&#x68C0;&#x6D4B;&#x9010;&#x6B65;&#x8C03;&#x6574;A/V&#x540C;&#x6B65;. &#x8BBE;&#x5B9A;&#x2212;autosync 0, &#x4E5F;&#x5C31;&#x662F;&#x9ED8; &#x8BA4; &#x503C;, &#x5C06;&#x5BFC;&#x81F4;&#x5E27;&#x8BB0;&#x65F6;&#x5B8C;&#x5168;&#x57FA;&#x4E8E;&#x97F3;&#x9891;&#x5EF6;&#x8FDF;&#x7684;&#x68C0;&#x6D4B;. &#x8BBE;&#x5B9A;&#x2212;autosync 1&#x4E5F;&#x662F;&#x4E00; &#x6837;, &#x4F46;&#x5C06;&#x4F1A;&#x5FAE;&#x5999;&#x7684;&#x6539;&#x53D8;&#x6240;&#x4F7F;&#x7528;&#x7684;A/V&#x4FEE;&#x6B63;&#x7B97;&#x6CD5;. &#x8BBE;&#x7F6E;&#x5927;&#x4E8E;1&#x7684;&#x503C;&#x5BF9;&#x90A3;&#x4E9B; &#x89C6; &#x9891; &#x5E27;&#x901F;&#x7387;&#x4E0D;&#x5747;&#x5300;, &#x4F46;&#x7528;&#x2212;nosound&#x53EF;&#x4EE5;&#x6B63;&#x5E38;&#x64AD;&#x653E;&#x7684;&#x7535;&#x5F71;&#x4E00;&#x822C;&#x4F1A;&#x6709;&#x5E2E;&#x52A9;. &#x8FD9; &#x4E2A;&#x503C;&#x8D8A;&#x5927;, &#x8BB0;&#x65F6;&#x65B9;&#x6CD5;&#x8D8A;&#x63A5;&#x8FD1;&#x4E8E;&#x2212;nosound. &#x5BF9;&#x4E8E;&#x6CA1;&#x6709;&#x597D;&#x7684;&#x97F3;&#x9891;&#x5EF6;&#x8FDF;&#x68C0;&#x6D4B;&#x529F; &#x80FD;&#x7684;&#x58F0;&#x5361;&#x9A71;&#x52A8;&#x8BD5;&#x8BD5;&#x7528;&#x2212;autosync 30&#x6765;&#x5E73;&#x6ED1;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;. &#x4F7F;&#x7528;&#x8FD9;&#x4E2A;&#x503C;&#x65F6;, &#x5982; &#x679C;&#x51FA;&#x73B0;&#x5927;&#x7684;A/V&#x540C;&#x6B65;&#x504F;&#x79FB;, &#x53EA;&#x9700;&#x8981;1&#x6216;2&#x79D2;&#x5C31;&#x53EF;&#x4EE5;&#x6446;&#x5E73;. &#x5BF9;&#x4E8E;&#x4EFB;&#x4F55;&#x58F0;&#x5361; &#x9A71; &#x52A8;, &#x6253;&#x5F00;&#x8FD9;&#x4E2A;&#x9009;&#x9879;&#x7684;&#x552F;&#x4E00;&#x7F3A;&#x70B9;&#x5C31;&#x662F;&#x5BF9;&#x4E8E;&#x7A81;&#x7136;&#x7684;A/V&#x504F;&#x79FB;&#x7684;&#x53CD;&#x5E94;&#x5EF6;&#x8FDF;&#x65F6;&#x95F4;. 
+</p>
+
+<p>
+&#x2212;benchmark 
+</p>
+
+<p>
+&#x5728;&#x7EC8;&#x7AEF;&#x663E;&#x793A;&#x4E00;&#x4E9B;CPU&#x4F7F;&#x7528;&#x7387;&#x548C;&#x4E22;&#x5E27;&#x6570;&#x7684;&#x7EDF;&#x8BA1;&#x4FE1; &#x606F;. &#x4E0E;&#x2212;nosound &#x548C;&#x2212;vo null&#x8054;&#x5408;&#x4F7F;&#x7528;&#x53EF;&#x4EE5;&#x7528;&#x6765;&#x8BC4;&#x6D4B;&#x89C6;&#x9891;&#x89E3;&#x7801;&#x5668;. 
+</p>
+
+<p>
+&#x2212;edl &lt;&#x6587;&#x4EF6;&#x540D;&gt; 
+</p>
+
+<p>
+&#x5728;&#x64AD;&#x653E;&#x65F6;&#x542F;&#x7528;&#x7F16;&#x8F91;&#x51B3;&#x5B9A;&#x5217;&#x8868;(EDL)&#x7684;&#x52A8;&#x4F5C;. &#x6839;&#x636E;&#x6240;&#x7ED9;&#x6587;&#x4EF6;&#x7684;&#x5185;&#x5BB9;, &#x53EF;&#x4EE5;&#x8DF3; &#x8FC7;&#x89C6;&#x9891;, &#x9759; &#x97F3; &#x548C; &#x53D6; &#x6D88; &#x9759; &#x97F3;. &#x5177; &#x4F53; &#x5185; &#x5BB9; &#x548C; &#x4F7F; &#x7528; &#x65B9; &#x6CD5; &#x53C2; &#x89C1;DOCS/documentation.html#edl. 
+</p>
+
+<p>
+&#x2212;edlout &lt;&#x6587;&#x4EF6;&#x540D;&gt; 
+</p>
+
+<p>
+&#x5EFA;&#x7ACB;&#x4E00;&#x4E2A;&#x65B0;&#x6587;&#x4EF6;&#x5E76;&#x5199;&#x5165;&#x7F16;&#x8F91;&#x51B3;&#x5B9A;&#x5217;&#x8868;(EDL)&#x7684;&#x8BB0;&#x5F55;. &#x5728;&#x64AD;&#x653E;&#x65F6;, &#x5F53;&#x7528;&#x6237;&#x6309; &#x4E0B;&#x2019;i&#x2019;, &#x4E00;&#x4E2A;&#x8DF3;&#x8FC7;&#x4E0B;&#x9762;&#x4E24;&#x79D2;&#x7684;&#x8BB0;&#x5F55;&#x5C06;&#x5199;&#x5165;&#x6587;&#x4EF6;. &#x7528;&#x6237;&#x4EE5;&#x540E;&#x53EF;&#x4EE5;&#x4EE5;&#x6B64;&#x4F5C;&#x4E3A;&#x8C03; &#x6574;EDL&#x8BB0;&#x5F55;&#x7684;&#x51FA;&#x53D1;&#x70B9;. &#x5177;&#x4F53;&#x5185;&#x5BB9;&#x53C2;&#x89C1;DOCS/documentation.html#edl. 
+</p>
+
+<p>
+&#x2212;enqueue (&#x4EC5;&#x7528;&#x4E8E;GUI) 
+</p>
+
+<p>
+&#x5C06;&#x547D;&#x4EE4;&#x884C;&#x4E2D;&#x7684;&#x6587;&#x4EF6;&#x52A0;&#x5165;&#x64AD;&#x653E;&#x5E8F;&#x5217;&#x800C;&#x4E0D;&#x662F;&#x7ACB;&#x523B;&#x64AD;&#x653E;&#x5B83;&#x4EEC;. 
+</p>
+
+<p>
+&#x2212;fixed-vo (BETA&#x4EE3;&#x7801;!) 
+</p>
+
+<p>
+&#x5BF9; &#x591A; &#x4E2A; &#x6587;&#x4EF6;&#x4F7F;&#x7528;&#x4E00;&#x4E2A;&#x56FA;&#x5B9A;&#x7684;&#x89C6;&#x9891;&#x7CFB;&#x7EDF;(&#x5BF9;&#x6240;&#x6709;&#x6587;&#x4EF6;&#x521D;&#x59CB;&#x5316;/&#x91CA;&#x653E;&#x4E00;&#x6B21;). &#x6240;&#x4EE5;&#x5BF9;&#x6240;&#x6709;&#x6587;&#x4EF6;&#x53EA;&#x4F7F;&#x7528;&#x4E00;&#x4E2A;&#x7A97;&#x53E3;, &#x76EE;&#x524D;fixed-vo&#x517C;&#x5BB9;&#x7684;&#x9A71; &#x52A8; &#x6709;: x11, xv, xvidix, xmga, gl2, and svga. 
+</p>
+
+<p>
+&#x2212;framedrop (&#x53C2;&#x89C1;&#x2212;hardframedrop) 
+</p>
+
+<p>
+&#x8DF3; &#x8FC7;&#x4E00;&#x4E9B;&#x5E27;&#x4ECE;&#x800C;&#x5728;&#x6162;&#x7684;&#x673A;&#x5668;&#x4E0A;&#x5B9E;&#x73B0;A/V&#x540C;&#x6B65;.&#x89C6;&#x9891;&#x6EE4;&#x955C;&#x4E0D;&#x4F1A;&#x5E94;&#x7528;&#x5230;&#x8FD9;&#x4E9B;&#x5E27; &#x4E0A;. &#x5BF9;&#x4E8E;B&#x5E27;&#x89E3;&#x7801;&#x4E5F;&#x4F1A;&#x5B8C;&#x5168;&#x8DF3;&#x8FC7;. 
+</p>
+
+<p>
+&#x2212;h, &#x2212;help, &#x2212;&#x2212;help 
+</p>
+
+<p>
+&#x663E;&#x793A;&#x7B80;&#x77ED;&#x7684;&#x9009;&#x9879;&#x6458;&#x8981;. 
+</p>
+
+<p>
+&#x2212;hardframedrop 
+</p>
+
+<p>
+&#x4E22;&#x6389;&#x66F4;&#x591A;&#x7684;&#x5E27;(&#x7834;&#x574F;&#x89E3;&#x7801;). &#x5BFC;&#x81F4;&#x56FE;&#x50CF;&#x7834;&#x635F;! 
+</p>
+
+<p>
+&#x2212;identify 
+</p>
+
+<p>
+&#x7528;&#x5BB9;&#x6613;&#x5206;&#x6790;&#x7684;&#x683C;&#x5F0F;&#x663E;&#x793A;&#x6587;&#x4EF6;&#x53C2;&#x6570;. &#x8C03;&#x7528;&#x7684;TOOLS/midentify&#x811A; &#x672C; &#x5C06; &#x6EE4; &#x9664;mplayer&#x7684;&#x5176;&#x5B83;&#x8F93;&#x51FA;&#x800C;(&#x4F46;&#x613F;&#x80FD;)&#x7559;&#x4E0B;&#x6587;&#x4EF6;&#x540D;. 
+</p>
+
+<p>
+&#x2212;input &lt;&#x547D;&#x4EE4;&gt; 
+</p>
+
+<p>
+&#x8FD9; &#x4E2A;&#x9009;&#x9879;&#x53EF;&#x4EE5;&#x7528;&#x6765;&#x914D;&#x7F6E;&#x8F93;&#x5165;&#x7CFB;&#x7EDF;&#x7684;&#x7279;&#x5B9A;&#x90E8;&#x5206;. &#x8DEF;&#x5F84;&#x76F8;&#x5BF9;&#x4E8E;~/.mplayer/. 
+</p>
+
+<p>
+&#x6CE8;&#x610F;: 
+&#x81EA;&#x52A8;&#x91CD;&#x590D;&#x529F;&#x80FD;&#x76EE;&#x524D;&#x53EA;&#x6709;&#x6E38;&#x620F;&#x64CD;&#x7EB5;&#x6746;&#x652F;&#x6301;. 
+&#x53EF;&#x7528;&#x7684;&#x547D;&#x4EE4;&#x6709;: 
+</p>
+
+<p>
+conf=&lt;&#x6587;&#x4EF6;&gt; 
+</p>
+
+<p>
+&#x8BFB;&#x53D6;&#x53E6;&#x5916;&#x7684;input.conf. &#x5982;&#x679C;&#x6CA1;&#x6709;&#x7ED9;&#x51FA;&#x8DEF;&#x5F84;&#x540D;, &#x5C06; &#x5047; &#x8BBE; &#x662F;~/ .mplayer. 
+</p>
+
+<p>
+ar&#x2212;delay 
+</p>
+
+<p>
+&#x5728;&#x5F00;&#x59CB;&#x81EA;&#x52A8;&#x91CD;&#x590D;&#x4E00;&#x4E2A;&#x952E;&#x4E4B;&#x524D;&#x7B49;&#x5F85;&#x591A;&#x5C11;&#x6BEB;&#x79D2;(0&#x4EE3;&#x8868;&#x7981;&#x7528;). 
+</p>
+
+<p>
+ar&#x2212;rate 
+</p>
+
+<p>
+&#x5F53;&#x81EA;&#x52A8;&#x91CD;&#x590D;&#x662F;&#x6BCF;&#x79D2;&#x91CD;&#x590D;&#x591A;&#x5C11;&#x6B21;. 
+</p>
+
+<p>
+keylist 
+</p>
+
+<p>
+&#x5217;&#x51FA;&#x6240;&#x6709;&#x53EF;&#x4EE5;&#x88AB;&#x7ED1;&#x5B9A;&#x7684;&#x952E;. 
+</p>
+
+<p>
+cmdlist 
+</p>
+
+<p>
+&#x5217;&#x51FA;&#x6240;&#x6709;&#x53EF;&#x4EE5;&#x88AB;&#x7ED1;&#x5B9A;&#x7684;&#x547D;&#x4EE4;. 
+</p>
+
+<p>
+js&#x2212;dev 
+</p>
+
+<p>
+&#x6307;&#x5B9A;&#x53EF;&#x7528;&#x7684;&#x6E38;&#x620F;&#x64CD;&#x7EB5;&#x6746;&#x8BBE;&#x5907;(&#x9ED8;&#x8BA4;&#x4E3A;/dev/input/js0). 
+</p>
+
+<p>
+file 
+</p>
+
+<p>
+&#x4ECE;&#x6307;&#x5B9A;&#x6587;&#x4EF6;&#x8BFB;&#x53D6;&#x547D;&#x4EE4;, &#x7528;&#x4E8E;&#x547D;&#x540D;&#x7BA1;&#x9053;&#x5F88;&#x6709;&#x6548;. 
+</p>
+
+<p>
+&#x2212;lircconf &lt;&#x6587;&#x4EF6;&gt; 
+</p>
+
+<p>
+&#x6307; &#x5B9A;LIRC(Linux Infrared Remote Control, &#x53C2; &#x89C1;<a href="http://www.lirc.org" target="_blank" rel="noopener">http://www.lirc.org</a>)&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;, &#x5982;&#x679C;&#x4F60;&#x4E0D;&#x559C;&#x6B22;&#x9ED8;&#x8BA4;&#x7684;~/.lircrc&#x7684; &#x8BDD;. 
+</p>
+
+<p>
+&#x2212;loop &lt;&#x6570;&#x5B57;&gt; 
+</p>
+
+<p>
+&#x91CD;&#x590D;&#x64AD;&#x653E;&#x7535;&#x5F71;&lt;&#x6570;&#x5B57;&gt;&#x904D;. 0&#x8868;&#x793A;&#x4E0D;&#x65AD;&#x91CD;&#x590D;. 
+</p>
+
+<p>
+&#x2212;menu (BETA&#x4EE3;&#x7801;) 
+</p>
+
+<p>
+&#x6253;&#x5F00;OSD&#x83DC;&#x5355;&#x652F;&#x6301;. 
+</p>
+
+<p>
+&#x2212;menu-root &lt;&#x53C2;&#x6570;&gt; (BETA&#x4EE3;&#x7801;) 
+</p>
+
+<p>
+&#x6307;&#x5B9A;&#x4E3B;&#x83DC;&#x5355;. 
+</p>
+
+<p>
+&#x2212;menu-cfg &lt;&#x6587;&#x4EF6;&gt; (BETA&#x4EE3;&#x7801;) 
+</p>
+
+<p>
+&#x4F7F;&#x7528;&#x53E6;&#x5916;&#x7684;menu.conf. 
+</p>
+
+<p>
+&#x2212;nojoystick 
+</p>
+
+<p>
+&#x5173;&#x95ED;&#x6E38;&#x620F;&#x64CD;&#x7EB5;&#x6746;&#x7684;&#x652F;&#x6301;. &#x9ED8;&#x8BA4;&#x662F;&#x53EA;&#x8981;&#x7F16;&#x8BD1;&#x4E86;&#x5C31;&#x4F1A;&#x6253;&#x5F00;. 
+</p>
+
+<p>
+&#x2212;nolirc 
+</p>
+
+<p>
+&#x5173;&#x95ED;LIRC&#x652F;&#x6301;. 
+</p>
+
+<p>
+&#x2212;nortc 
+&#x5173;&#x95ED;&#x4F7F;&#x7528;Linux&#x7684;RTC(real-time clock &#x2212; /dev/rtc)&#x4F5C;&#x4E3A;&#x8BA1;&#x65F6; &#x5668;&#x7684;&#x529F;&#x80FD;. 
+</p>
+
+<p>
+&#x2212;playlist &lt;&#x6587;&#x4EF6;&gt; 
+</p>
+
+<p>
+&#x6839;&#x636E;&#x64AD;&#x653E;&#x5217;&#x8868;&#x64AD;&#x653E;&#x6587;&#x4EF6;(&#x6BCF;&#x884C;&#x4E00;&#x4E2A;&#x6587;&#x4EF6;&#x6216;&#x8005;Winamp&#x6216;ASX&#x683C;&#x5F0F;). 
+</p>
+
+<p>
+&#x2212;quiet 
+&#x663E;&#x793A;&#x8F83;&#x5C11;&#x7684;&#x8F93;&#x51FA;&#x548C;&#x72B6;&#x6001;&#x4FE1;&#x606F;. 
+</p>
+
+<p>
+&#x2212;really&#x2212;quiet 
+</p>
+
+<p>
+&#x663E;&#x793A;&#x66F4;&#x5C11;&#x7684;&#x8F93;&#x51FA;&#x548C;&#x72B6;&#x6001;&#x4FE1;&#x606F;. 
+</p>
+
+<p>
+&#x2212;sdp 
+&#x6307;&#x5B9A;&#x8F93;&#x5165;&#x6587;&#x4EF6;&#x4E3A;&#x63CF;&#x8FF0;&#x4E00;&#x4E2A;RTP&#x4F1A;&#x8BDD; &#x7684;SDP(&#x2019;Session Description Protocol&#x2019;)&#x6587;&#x4EF6;, (&#x53C2;&#x89C1;<a href="http://www.live.com/mplayer/" target="_blank" rel="noopener">http://www.live.com/mplayer/</a>). 
+</p>
+
+<p>
+&#x2212;shuffle 
+</p>
+
+<p>
+&#x4EE5;&#x968F;&#x673A;&#x987A;&#x5E8F;&#x64AD;&#x653E;&#x6587;&#x4EF6;. 
+</p>
+
+<p>
+&#x2212;skin &lt;skin&#x76EE;&#x5F55;&gt; (BETA&#x4EE3;&#x7801;) 
+</p>
+
+<p>
+&#x4ECE;&#x6307;&#x5B9A;&#x76EE;&#x5F55;&#x4E2D;&#x88C5;&#x8F7D;skin(&#x6CA1;&#x6709;&#x8DEF;&#x5F84;&#x540D;). 
+</p>
+
+<p>
+&#x793A;&#x4F8B;: 
+</p>
+
+<p>
+&#x2212;skin fittyfene 
+</p>
+
+<p>
+&#x5C1D; &#x8BD5;Skin/fittyfene. &#x5C06; &#x4F1A; &#x9996; &#x5148; &#x5BDF; &#x770B;/usr/local/share/mplayer/, &#x7136;&#x540E;&#x662F;~/.mplayer/. 
+</p>
+
+<p>
+&#x2212;slave 
+&#x8FD9;&#x4E2A;&#x9009;&#x9879;&#x6253;&#x5F00;slave&#x6A21;&#x5F0F;. &#x8FD9;&#x7528;&#x6765;&#x5C06;MPlayer&#x4F5C;&#x4E3A;&#x5176;&#x5B83;&#x7A0B;&#x5E8F;&#x7684;&#x540E; &#x7AEF;. MPlayer&#x5C06;&#x4ECE;&#x4ED6;&#x7684;&#x6807;&#x51C6;&#x8F93;&#x5165;&#x8BFB;&#x53D6;&#x7B80;&#x5355;&#x547D;&#x4EE4;&#x884C;, &#x800C;&#x4E0D;&#x518D;&#x622A;&#x83B7;&#x952E;&#x76D8;&#x4E8B;&#x4EF6;. SLAVE&#x6A21;&#x5F0F;&#x534F;&#x8BAE;&#x90E8;&#x5206;&#x5C06;&#x89E3;&#x91CA;&#x5176;&#x8BED;&#x6CD5;. 
+</p>
+
+<p>
+&#x2212;softsleep 
+</p>
+
+<p>
+&#x4F7F;&#x7528;&#x9AD8;&#x8D28;&#x91CF;&#x7684;&#x8F6F;&#x4EF6;&#x8BA1;&#x65F6;&#x5668;. &#x8DDF;RTC&#x540C;&#x6837;&#x7CBE;&#x786E;&#x4E14;&#x4E0D;&#x9700;&#x8981;&#x7279;&#x522B;&#x6743;&#x9650;. &#x4EE3;&#x4EF7;&#x662F;&#x66F4; &#x9AD8;&#x7684;CPU&#x6D88;&#x8017;. 
+</p>
+
+<p>
+&#x2212;speed &lt;0.01&#x2212;100&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;&#x64AD;&#x653E;&#x901F;&#x7387;. 
+</p>
+
+<p>
+&#x2212;sstep &lt;&#x79D2;&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x5B9A;&#x5404;&#x5E27;&#x663E;&#x793A;&#x4E4B;&#x95F4;&#x7684;&#x65F6;&#x95F4;&#x95F4;&#x9694;. &#x7528;&#x4E8E;&#x5E7B;&#x706F;&#x7247;&#x64AD;&#x653E;. 
+</p>
+
+<p>
+&#x5206;&#x8DEF;&#x5668; / &#x5A92;&#x4F53;&#x6D41;&#x9009;&#x9879; 
+&#x2212;aid &lt;&#x6807;&#x8BC6;&gt; (&#x53C2;&#x89C1; &#x2212;alang&#x9009;&#x9879;) 
+</p>
+
+<p>
+&#x9009; &#x62E9;&#x97F3;&#x9891;&#x9891;&#x9053; [MPEG: 0&#x2212;31 AVI/OGM: 1&#x2212;99 ASF/RM: 0&#x2212;127 VOB(AC3): 128&#x2212;159 VOB(LPCM): 160&#x2212;191] MPlayer&#x5728;&#x5197;&#x957F;(-v)&#x6A21;&#x5F0F;&#x4E0B;&#x4F1A;&#x663E;&#x793A;&#x53EF;&#x7528;&#x7684; &#x6807;&#x8BC6;. 
+</p>
+
+<p>
+&#x2212;alang &lt;&#x4E24;&#x4E2A;&#x5B57;&#x6BCD;&#x7684;&#x56FD;&#x5BB6;&#x4EE3;&#x7801;&gt; (&#x53C2;&#x89C1;&#x2212;aid&#x9009;&#x9879;) 
+</p>
+
+<p>
+&#x4EC5; &#x7528;&#x4E8E;DVD&#x64AD;&#x653E;. &#x5B83;&#x9009;&#x62E9;DVD&#x7684;&#x97F3;&#x9891;&#x8BED;&#x8A00;&#x5E76;&#x603B;&#x662F;&#x5C1D;&#x8BD5;&#x64AD;&#x653E;&#x4E0E;&#x6240;&#x7ED9;&#x4EE3;&#x7801;&#x7B26;&#x5408; &#x7684;&#x8BED;&#x8A00;. &#x52A0;&#x4E0A;&#x2212;v&#x53C2;&#x6570;&#x89C2;&#x5BDF;&#x8F93;&#x51FA;&#x53EF;&#x4EE5;&#x83B7;&#x5F97;&#x53EF;&#x7528;&#x8BED;&#x8A00;&#x7684;&#x5217;&#x8868;. 
+</p>
+
+<p>
+&#x793A;&#x4F8B;: 
+</p>
+
+<p>
+&#x2212;alang hu,en 
+</p>
+
+<p>
+&#x64AD;&#x653E;&#x5308;&#x7259;&#x5229;&#x8BED;, &#x82F1;&#x8BED;&#x5728;&#x6CA1;&#x6709;&#x5308;&#x7259;&#x5229;&#x8BED;&#x65F6;&#x5907;&#x7528;. 
+</p>
+
+<p>
+&#x2212;audio&#x2212;demuxer &lt;&#x6570;&#x5B57;&gt; (&#x4EC5;&#x7528;&#x4E8E;&#x2212;audiofile) 
+</p>
+
+<p>
+&#x6307;&#x5B9A;&#x7528;&#x4E8E;&#x2212;audiofile&#x7684;&#x5206;&#x8DEF;&#x5668;. &#x5206;&#x8DEF;&#x5668;&#x7684;&#x6807;&#x8BC6; &#x5728;demuxers.h &#x4E2D;. &#x4F7F; &#x7528;&#x2212;audio&#x2212;demuxer 17&#x5C06;&#x6307;&#x5B9A;.mp3&#x68C0;&#x6D4B;. 
+</p>
+
+<p>
+&#x2212;audiofile &lt;&#x6587;&#x4EF6;&#x540D;&gt; 
+</p>
+
+<p>
+&#x5728;&#x770B;&#x7535;&#x5F71;&#x65F6;&#x64AD;&#x653E;&#x5916;&#x90E8;&#x6587;&#x4EF6;(WAV, MP3&#x6216;Ogg Vorbis)&#x7684;&#x97F3;&#x9891;. 
+</p>
+
+<p>
+-audiofile-cache &lt;kBytes&gt; 
+</p>
+
+<p>
+&#x5BF9;-audiofile&#x7684;&#x6587;&#x4EF6;&#x6D41;&#x542F;&#x7528;&#x7F13;&#x5B58;, &#x4F7F;&#x7528;&#x6307;&#x5B9A;&#x5927;&#x5C0F;&#x7684;&#x5185;&#x5B58;. 
+</p>
+
+<p>
+&#x2212;bandwidth &lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x8BBE; &#x5B9A; &#x7F51;&#x7EDC;&#x6D41;&#x7684;&#x6700;&#x5927;&#x5E26;&#x5BBD;(&#x7528;&#x4E8E;&#x670D;&#x52A1;&#x5668;&#x53EF;&#x4EE5;&#x4EE5;&#x4E0D;&#x540C;&#x5E26;&#x5BBD;&#x4F20;&#x9001;&#x5185;&#x5BB9;&#x7684;&#x60C5;&#x51B5;). &#x5F53;&#x4F60;&#x4EE5;&#x6162;&#x901F;&#x8FDE;&#x63A5;&#x89C2;&#x770B;&#x6D41;&#x5A92;&#x4F53;&#x5B9E;&#x51B5;&#x65F6;&#x6709;&#x7528;. 
+</p>
+
+<p>
+&#x2212;cdrom&#x2212;device &lt;&#x8BBE;&#x5907;&#x8DEF;&#x5F84;&gt; 
+</p>
+
+<p>
+&#x66FF;&#x4EE3;&#x9ED8;&#x8BA4;&#x7684;CDROM&#x8BBE;&#x5907;&#x540D;/dev/cdrom. 
+</p>
+
+<p>
+&#x2212;cache &lt;kBytes&gt; 
+</p>
+
+<p>
+&#x8FD9;&#x4E2A;&#x9009;&#x9879;&#x8BBE;&#x5B9A;&#x7528;&#x591A;&#x5C11;&#x5185;&#x5B58;(&#x4EE5;kBytes&#x4E3A;&#x5355;&#x4F4D;)&#x4F5C;&#x4E3A;&#x64AD;&#x653E;&#x6587;&#x4EF6;/URL&#x7684;&#x9884;&#x7F13;&#x51B2;. &#x5BF9;&#x901F;&#x5EA6;&#x6162;&#x7684;&#x5A92;&#x4F53;&#x7279;&#x522B;&#x6709;&#x7528;(&#x9ED8;&#x8BA4;&#x4E3A;&#x2212;nocache). 
+</p>
+
+<p>
+&#x2212;cdda &lt;&#x9009;&#x9879;1:&#x9009;&#x9879;2&gt; 
+</p>
+
+<p>
+&#x8FD9;&#x4E2A;&#x9009;&#x9879;&#x7528;&#x6765;&#x8C03;&#x6574;MPlayer&#x7684;CD&#x97F3;&#x9891;&#x8BFB;&#x53D6;&#x7279;&#x6027;. 
+&#x53EF;&#x7528;&#x9009;&#x9879;&#x6709;: 
+</p>
+
+<p>
+speed=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x5B9A;CD&#x8F6C;&#x901F; 
+</p>
+
+<p>
+paranoia=&lt;0&#x2212;2&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x5B9A;&#x8C28;&#x614E;&#x7EA7;&#x522B; 
+</p>
+
+<p>
+0: &#x5173;&#x95ED;&#x68C0;&#x6D4B; 
+1: &#x53EA;&#x8FDB;&#x884C;&#x91CD;&#x53E0;&#x68C0;&#x6D4B;(&#x9ED8;&#x8BA4;) 
+2: &#x5B8C;&#x5168;&#x6570;&#x636E;&#x4FEE;&#x6B63;&#x548C;&#x6821;&#x68C0; 
+</p>
+
+<p>
+generic-dev=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x4F7F;&#x7528;&#x6307;&#x5B9A;&#x7684;&#x901A;&#x7528;SCSI&#x8BBE;&#x5907; 
+</p>
+
+<p>
+sector-size=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x5355;&#x4F4D;&#x8BFB;&#x53D6;&#x91CF; 
+</p>
+
+<p>
+overlap=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x5C06;&#x6821;&#x68C0;&#x65F6;&#x7684;&#x6700;&#x5C0F;&#x91CD;&#x53E0;&#x641C;&#x7D22;&#x8BBE;&#x7F6E;&#x4E3A;&lt;&#x53C2;&#x6570;&gt;&#x4E2A;&#x6247;&#x533A;. 
+</p>
+
+<p>
+toc-bias 
+</p>
+
+<p>
+&#x5047;&#x5B9A;TOC&#x4E2D;&#x62A5;&#x544A;&#x7684;&#x7B2C;1&#x97F3;&#x8F68;&#x7684;&#x8D77;&#x59CB;&#x504F;&#x79FB;&#x91CF;&#x5C06;&#x6309;&#x7167;LBA 0&#x5B9A;&#x4F4D;. &#x6709;&#x4E9B; &#x4E1C;&#x829D;&#x5149;&#x9A71;&#x9700;&#x8981;&#x8FD9;&#x4E2A;&#x6765;&#x83B7;&#x5F97;&#x6B63;&#x786E;&#x7684;&#x97F3;&#x8F68;&#x8FB9;&#x754C;. 
+</p>
+
+<p>
+toc-offset=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x7ED9;&#x5B9A;&#x4F4D;&#x97F3;&#x8F68;&#x65F6;&#x5728;&#x62A5;&#x544A;&#x7684;&#x6247;&#x533A;&#x6570;&#x4E0A;&#x518D;&#x52A0;&#x4E0A;&lt;&#x53C2;&#x6570;&gt;&#x4E2A;&#x6247;&#x533A;. &#x53EF;&#x4EE5;&#x662F;&#x8D1F; &#x6570;. 
+</p>
+
+<p>
+(no)skip 
+</p>
+
+<p>
+(&#x4E0D;)&#x63A5;&#x53D7;&#x4E0D;&#x5B8C;&#x6574;&#x7684;&#x6570;&#x636E;&#x91CD;&#x5EFA;. 
+</p>
+
+<p>
+&#x2212;channels &lt;&#x6570;&#x5B57;&gt; 
+</p>
+
+<p>
+&#x6539;&#x53D8;&#x64AD;&#x653E;&#x7684;&#x58F0;&#x9053;&#x6570;, &#x5982;&#x679C;&#x6CA1;&#x6709;&#x8BBE;&#x5B9A;&#x9ED8;&#x8BA4;&#x503C;&#x4E3A;&#x2019;2&#x2019;. &#x5982;&#x679C;&#x8F93;&#x51FA;&#x58F0;&#x9053;&#x6570;&#x6BD4;&#x8F93;&#x5165; &#x58F0;&#x9053;&#x6570;&#x591A;&#x65F6;, &#x5C06;&#x63D2;&#x5165;&#x7A7A;&#x58F0;&#x9053;(&#x4F46;&#x5728;&#x5C06;&#x5355;&#x58F0;&#x9053;&#x6DF7;&#x5408;&#x4E3A;&#x7ACB;&#x4F53;&#x58F0;&#x65F6;, &#x4F1A;&#x628A;&#x5355;&#x58F0;&#x9053; &#x590D; &#x5236;&#x5230;&#x4E24;&#x4E2A;&#x8F93;&#x51FA;&#x58F0;&#x9053;). &#x5982;&#x679C;&#x8F93;&#x51FA;&#x58F0;&#x9053;&#x6BD4;&#x8F93;&#x5165;&#x58F0;&#x9053;&#x5C11;, &#x7ED3;&#x679C;&#x53D6;&#x51B3;&#x4E0E;&#x6240;&#x7528; &#x7684;&#x97F3;&#x9891;&#x89E3;&#x7801;&#x5668;(&#x2212;afm). MPlayer&#x4F1A;&#x8981;&#x6C42;&#x89E3;&#x7801;&#x5668;&#x628A;&#x97F3;&#x9891;&#x89E3;&#x7801;&#x5230;&#x8DDF;&#x6307;&#x5B9A;&#x6570; &#x91CF; &#x7684;&#x58F0;&#x9053;. &#x7531;&#x89E3;&#x7801;&#x5668;&#x6765;&#x5B9E;&#x73B0;&#x8FD9;&#x4E2A;&#x8981;&#x6C42;. &#x5982;&#x679C;&#x89E3;&#x7801;&#x5668;&#x7684;&#x8F93;&#x51FA;&#x6BD4;&#x8981;&#x6C42;&#x7684;&#x591A;, &#x591A; &#x4F59;&#x7684;&#x58F0;&#x9053;&#x4F1A;&#x88AB;&#x53BB;&#x6389;. &#x8FD9;&#x4E2A;&#x9009;&#x9879;&#x901A;&#x5E38;&#x53EA;&#x6709;&#x5728;&#x64AD;&#x653E;AC3&#x97F3;&#x9891;(&#x6BD4;&#x5982;DVD)&#x7684;&#x89C6;&#x9891; &#x65F6;&#x624D;&#x663E;&#x5F97;&#x91CD;&#x8981;. &#x5728;&#x90A3;&#x65F6;&#x9ED8;&#x8BA4;&#x4F7F;&#x7528;liba52&#x89E3;&#x7801;&#x5E76;&#x628A;&#x97F3;&#x9891;&#x9002;&#x5F53;&#x7684;&#x6DF7;&#x5408;&#x5230;&#x9700;&#x8981; &#x7684;&#x8F93;&#x51FA;&#x58F0;&#x9053;. 
+</p>
+
+<p>
+&#x6CE8;&#x610F;: 
+&#x8FD9;&#x4E2A;&#x9009;&#x9879;&#x53EF;&#x4EE5;&#x88AB;&#x89E3;&#x7801;&#x5668;(&#x4EC5;&#x7528;&#x4E8E;AC3)&#x6EE4;&#x955C;(surround)&#x548C;&#x97F3;&#x9891;&#x8F93;&#x51FA;&#x9A71;&#x52A8;( &#x81F3; &#x5C11;OSS&#x53EF;&#x4EE5;)&#x63A5;&#x53D7;. 
+&#x53EF;&#x7528;&#x9009;&#x9879;&#x6709;: 
+</p>
+
+<p>
+2 
+Stereo 
+</p>
+
+<p>
+4 
+Surround 
+</p>
+
+<p>
+6 
+Full 5.1 
+</p>
+
+<p>
+&#x2212;chapter &lt;&#x573A;&#x666F;&#x6807;&#x8BC6;&gt;[-&lt;&#x7ED3;&#x675F;&#x7684;&#x573A;&#x666F;&#x6807;&#x8BC6;&gt;] 
+</p>
+
+<p>
+&#x8BBE; &#x5B9A; &#x4ECE; &#x54EA;&#x4E2A;&#x573A;&#x666F;&#x5F00;&#x59CB;&#x64AD;&#x653E;. &#x4E5F;&#x53EF;&#x4EE5;&#x8BBE;&#x5B9A;&#x5728;&#x54EA;&#x4E2A;&#x573A;&#x666F;&#x7ED3;&#x675F;&#x64AD;&#x653E;(&#x9ED8;&#x8BA4;&#x503C;: 1). &#x793A;&#x4F8B;&#x53EF;&#x4EE5;&#x5728;&#x4E0B;&#x9762;&#x627E;&#x5230;. 
+</p>
+
+<p>
+&#x2212;csslib &lt;&#x6587;&#x4EF6;&#x540D;&gt; 
+</p>
+
+<p>
+(&#x8001;&#x5F0F;DVD&#x9009;&#x9879;)&#x8FD9;&#x4E2A;&#x9009;&#x9879;&#x7528;&#x6765;&#x66FF;&#x4EE3;libcss.so&#x7684;&#x9ED8;&#x8BA4;&#x4F4D;&#x7F6E;. 
+</p>
+
+<p>
+&#x2212;cuefile &lt;&#x6587;&#x4EF6;&#x540D;&gt; (&#x53C2;&#x89C1;&#x2212;vcd) 
+</p>
+
+<p>
+&#x4ECE;&#x6307;&#x5B9A;&#x7684;&#x6587;&#x4EF6;&#x4E2D;&#x63CF;&#x8FF0;&#x7684;, CDRwin&#x7684;(bin/cue&#x6587;&#x4EF6;&#x683C;&#x5F0F;)&#x5149;&#x76D8; &#x955C; &#x50CF; &#x4E2D; &#x64AD; &#x653E;(S)VCD. 
+</p>
+
+<p>
+&#x2212;demuxer &lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x6307; &#x5B9A; &#x5206;&#x8DEF;&#x5668;&#x7C7B;&#x578B;. &#x5206;&#x8DEF;&#x5668;&#x7684;&#x6807;&#x8BC6;&#x5B9A;&#x4E49;&#x5728;demuxers.h&#x4E2D;. &#x4F7F;&#x7528;&#x2212;demuxer 17&#x5C06;&#x6307;&#x5B9A;.mp3&#x68C0;&#x6D4B;. 
+</p>
+
+<p>
+&#x2212;dumpaudio (&#x4EC5;&#x7528;&#x4E8E;MPLAYER) 
+</p>
+
+<p>
+&#x5C06;&#x539F;&#x59CB;&#x7684;&#x97F3;&#x9891;&#x538B;&#x7F29;&#x6D41;&#x590D;&#x5236;&#x5230;./stream.dump(&#x7528;&#x4E8E;mpeg/ac3). 
+</p>
+
+<p>
+&#x2212;dumpfile &lt;&#x6587;&#x4EF6;&#x540D;&gt; (&#x4EC5;&#x7528;&#x4E8E;MPLAYER) 
+</p>
+
+<p>
+&#x6307;&#x5B9A;MPlayer&#x590D;&#x5236;&#x7684;&#x8F93;&#x51FA;&#x6587;&#x4EF6;. &#x5E94;&#x8BE5; &#x4E0E;&#x2212;dumpaudio / &#x2212;dumpvideo / &#x2212;dumpstream&#x4E00;&#x8D77;&#x4F7F;&#x7528;. 
+</p>
+
+<p>
+&#x2212;dumpstream (&#x4EC5;&#x7528;&#x4E8E;MPLAYER) 
+</p>
+
+<p>
+&#x5C06;&#x539F;&#x59CB;&#x6D41;&#x590D;&#x5236;&#x5230;./stream.dump. &#x5F53;&#x4ECE;DVD&#x6216;&#x7F51;&#x7EDC;&#x4E0A;rip&#x65F6;&#x5019;&#x6709;&#x7528;. 
+</p>
+
+<p>
+&#x2212;dumpvideo (&#x4EC5;&#x7528;&#x4E8E;MPLAYER) 
+</p>
+
+<p>
+&#x5C06;&#x539F;&#x59CB;&#x7684;&#x89C6;&#x9891;&#x538B;&#x7F29;&#x6D41;&#x590D;&#x5236;&#x5230;./stream.dump(&#x4E0D;&#x662F;&#x5341;&#x5206;&#x597D;&#x7528;). 
+</p>
+
+<p>
+vd://
+</p>
+
+<p>
+&lt;&#x8282;&#x76EE;&#x6807;&#x8BC6;&gt; 
+</p>
+
+<p>
+&#x544A; &#x8BC9;MPlayer&#x64AD;&#x653E;&#x54EA;&#x4E2A;&#x7535;&#x5F71;(&#x901A;&#x8FC7;&#x8282;&#x76EE;&#x6807;&#x8BC6;&#x6307;&#x5B9A;). &#x6BD4;&#x5982;&#x6709;&#x65F6;&#x2019;1&#x2019;&#x662F;&#x4E00;&#x90E8;&#x9884; &#x544A;&#x7247;, &#x800C;&#x2019;2&#x2019;&#x624D;&#x662F;&#x771F;&#x6B63;&#x7684;&#x7535;&#x5F71;. 
+</p>
+
+<p>
+&#x6CE8;&#x610F;: 
+&#x6709;&#x65F6;DVD&#x64AD;&#x653E;&#x65F6;&#x9700;&#x8981;&#x8FDB;&#x884C;&#x4EA4;&#x9519;/&#x9010;&#x884C;&#x626B;&#x63CF;&#x8F6C;&#x6362;, &#x53C2;&#x89C1;&#x2212;vf pp=0x20000&#x9009;&#x9879;. 
+</p>
+
+<p>
+&#x2212;dvd&#x2212;device &lt;&#x8BBE;&#x5907;&#x8DEF;&#x5F84;&gt; 
+</p>
+
+<p>
+&#x66FF;&#x4EE3;&#x9ED8;&#x8BA4;&#x7684;DVD&#x8BBE;&#x5907;&#x540D;/dev/dvd. 
+</p>
+
+<p>
+&#x2212;dvdangle &lt;&#x89C6;&#x89D2;&#x6807;&#x8BC6;&gt; 
+</p>
+
+<p>
+&#x6709; &#x4E9B;DVD &#x789F; &#x7247;&#x4E2D;&#x7684;&#x573A;&#x666F;&#x53EF;&#x4EE5;&#x4ECE;&#x591A;&#x4E2A;&#x89C6;&#x89D2;&#x89C2;&#x770B;. &#x901A;&#x8FC7;&#x8FD9;&#x4E2A;&#x9009;&#x9879;&#x4F60;&#x53EF;&#x4EE5;&#x544A; &#x8BC9;MPlayer&#x4F7F;&#x7528;&#x90A3;&#x4E2A;&#x89C6;&#x89D2;(&#x9ED8;&#x8BA4;&#x503C;: 1). &#x793A;&#x4F8B;&#x53EF;&#x4EE5;&#x5728;&#x4E0B;&#x9762;&#x627E;&#x5230;. 
+</p>
+
+<p>
+&#x2212;dvdauth &lt;DVD&#x8BBE;&#x5907;&gt; 
+</p>
+
+<p>
+(&#x8001;&#x5F0F;DVD&#x9009;&#x9879;)&#x6253;&#x5F00;&#x6307;&#x5B9A;&#x8BBE;&#x5907;&#x7684;DVD&#x8BA4;&#x8BC1;. 
+</p>
+
+<p>
+&#x2212;dvdkey &lt;CSS&#x5BC6;&#x94A5;&gt; 
+</p>
+
+<p>
+(&#x8001;&#x5F0F;DVD&#x9009;&#x9879;)&#x5F53;&#x89E3;&#x7801;&#x4E00;&#x4E2A;&#x7531;DVD&#x4E0A;&#x590D;&#x5236;&#x7684;&#x672A;&#x89E3;&#x5BC6;&#x7684;VOB&#x6587;&#x4EF6;&#x65F6;, &#x7528;&#x8FD9;&#x4E2A;&#x9009; &#x9879; &#x63D0;&#x4F9B;&#x89E3;&#x7801;VOB&#x9700;&#x8981;&#x7684;CSS&#x5BC6;&#x94A5;(&#x5BC6;&#x94A5;&#x5728;&#x2212;dvdauth&#x901A;&#x8FC7;DVD&#x8BBE;&#x5907;&#x8BA4;&#x8BC1;&#x65F6;&#x4F1A;&#x663E; &#x793A;&#x51FA;&#x6765;). 
+</p>
+
+<p>
+&#x2212;dvdnav (BETA&#x4EE3;&#x7801;!) 
+</p>
+
+<p>
+&#x5F3A;&#x884C;&#x4F7F;&#x7528;libdvdnav. 
+</p>
+
+<p>
+&#x2212;forceidx 
+</p>
+
+<p>
+&#x6307;&#x5B9A;&#x91CD;&#x65B0;&#x751F;&#x6210;&#x7D22;&#x5F15;. &#x5BF9;&#x7D22;&#x5F15;&#x635F;&#x574F;&#x7684;&#x6587;&#x4EF6;(&#x4E0D;&#x540C;&#x6B65;&#x7B49;&#x7B49;)&#x6709;&#x7528;. &#x53EF;&#x4EE5;&#x8FDB;&#x884C; &#x6536; &#x7F29;. &#x4F60;&#x80FD;&#x4F7F;&#x7528;MEncoder&#x6C38;&#x4E45;&#x6027;&#x7684;&#x4FEE;&#x590D;&#x7D22;&#x5F15;(&#x53C2;&#x89C1;&#x6587;&#x6863;). 
+</p>
+
+<p>
+&#x2212;fps &lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x66FF;&#x4EE3;&#x5E27;&#x901F;&#x7387;(&#x5982;&#x679C;&#x6587;&#x4EF6;&#x5934;&#x4E2D;&#x6CA1;&#x6709;&#x8BE5;&#x53C2;&#x6570;/&#x53C2;&#x6570;&#x662F;&#x9519;&#x8BEF;&#x7684;)(&#x6D6E;&#x70B9;&#x6570;). 
+</p>
+
+<p>
+&#x2212;frames &lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x53EA;&#x64AD;&#x653E;/&#x8F6C;&#x6362;&#x524D;&lt;&#x53C2;&#x6570;&gt;&#x5E27;, &#x7136;&#x540E;&#x9000;&#x51FA;. 
+</p>
+
+<p>
+&#x2212;hr&#x2212;mp3&#x2212;seek (&#x4EC5;&#x7528;&#x4E8E;MP3) 
+</p>
+
+<p>
+&#x9AD8; &#x7CBE;&#x5EA6;mp3&#x641C;&#x7D22;. &#x9ED8;&#x8BA4;&#x4E3A;: &#x5728;&#x64AD;&#x653E;&#x5916;&#x90E8;MP3&#x6587;&#x4EF6;&#x65F6;&#x542F;&#x7528;, &#x56E0;&#x4E3A;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x641C; &#x7D22;&#x5230;&#x975E;&#x5E38;&#x7CBE;&#x786E;&#x7684;&#x4F4D;&#x7F6E;&#x6765;&#x4FDD;&#x6301;A/V&#x540C;&#x6B65;. &#x8FD9;&#x79CD;&#x65B9;&#x6CD5;&#x5728;&#x540E;&#x9000;&#x641C;&#x7D22;&#x65F6;&#x7279;&#x522B; &#x6162; &#x2212; &#x5B83;&#x9700;&#x8981;&#x7ED5;&#x56DE;&#x5F00;&#x5934;&#x6765;&#x627E;&#x5230;&#x51C6;&#x786E;&#x7684;&#x5E27;. 
+</p>
+
+<p>
+&#x2212;idx (&#x53C2;&#x89C1;&#x2212;forceidx) 
+</p>
+
+<p>
+&#x5728; &#x6CA1;&#x6709;&#x627E;&#x5230;&#x7D22;&#x5F15;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x91CD;&#x5EFA;AVI&#x6587;&#x4EF6;&#x7684;&#x7D22;&#x5F15;, &#x4ECE;&#x800C;&#x5141;&#x8BB8;&#x641C;&#x7D22;. &#x5BF9;&#x4E8E;&#x635F; &#x574F;&#x7684;/&#x4E0D;&#x5B8C;&#x6574;&#x7684;&#x4E0B;&#x8F7D;, &#x6216;&#x5236;&#x4F5C;&#x4F4E;&#x52A3;&#x7684;AVI. 
+</p>
+
+<p>
+&#x2212;mc &lt;&#x6BCF;&#x5E27;&#x79D2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x6BCF;&#x5E27;&#x7684;&#x6700;&#x5927;A-V&#x540C;&#x6B65;&#x4FEE;&#x6B63;(&#x4EE5;&#x79D2;&#x4E3A;&#x5355;&#x4F4D;). 
+</p>
+
+<p>
+&#x2212;mf &lt;&#x9009;&#x9879;1:&#x9009;&#x9879;2:&#x2026;&gt; 
+</p>
+
+<p>
+&#x7528;&#x6765;&#x4ECE;&#x591A;&#x4E2A;PNG&#x6216;JPEG&#x6587;&#x4EF6;&#x89E3;&#x7801;. 
+&#x53EF;&#x7528;&#x9009;&#x9879;&#x6709;: 
+</p>
+
+<p>
+on 
+&#x6253;&#x5F00;&#x591A;&#x6587;&#x4EF6;&#x652F;&#x6301; 
+</p>
+
+<p>
+w=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x8F93;&#x51FA;&#x7684;&#x5BBD;&#x5EA6;(&#x81EA;&#x52A8;&#x68C0;&#x6D4B;) 
+</p>
+
+<p>
+h=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x8F93;&#x51FA;&#x7684;&#x9AD8;&#x5EA6;(&#x81EA;&#x52A8;&#x68C0;&#x6D4B;) 
+</p>
+
+<p>
+fps=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x8F93;&#x51FA;&#x7684;&#x5E27;&#x901F;&#x7387;(&#x9ED8;&#x8BA4;&#x503C;: 25) 
+</p>
+
+<p>
+type=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x8F93;&#x5165;&#x6587;&#x4EF6;&#x7684;&#x7C7B;&#x578B;(&#x53EF;&#x7528;&#x7C7B;&#x578B;: jpeg, png, tga, sgi) 
+</p>
+
+<p>
+&#x2212;ni (&#x4EC5;&#x7528;&#x4E8E;AVI) 
+</p>
+
+<p>
+&#x6307;&#x5B9A;&#x4F7F;&#x7528;&#x975E;&#x4EA4;&#x9519;&#x7684;AVI&#x5206;&#x6790;&#x5668;(&#x7528;&#x6765;&#x5904;&#x7406;&#x67D0;&#x4E9B;&#x8D28;&#x91CF;&#x5DEE;&#x7684;AVI&#x6587;&#x4EF6;&#x7684;&#x64AD;&#x653E;). 
+</p>
+
+<p>
+&#x2212;nobps (&#x4EC5;&#x7528;&#x4E8E;AVI) 
+</p>
+
+<p>
+&#x4E0D;&#x4F7F;&#x7528;&#x5E73;&#x5747;&#x6BD4;&#x7279;&#x7387;&#x503C;&#x6765;&#x7EF4;&#x6301;A&#x2212;V&#x540C;&#x6B65;(AVI). &#x5BF9;&#x67D0;&#x4E9B;&#x6587;&#x4EF6;&#x5934;&#x635F;&#x574F;&#x7684;AVI&#x6587;&#x4EF6; &#x6709;&#x5E2E;&#x52A9;. 
+</p>
+
+<p>
+&#x2212;noextbased 
+</p>
+
+<p>
+&#x7981; &#x7528;&#x57FA;&#x4E8E;&#x540E;&#x7F00;&#x540D;&#x7684;&#x5206;&#x8DEF;&#x5668;&#x9009;&#x62E9;&#x673A;&#x5236;. &#x9ED8;&#x8BA4;&#x60C5;&#x51B5;&#x4E0B;, &#x5F53;&#x6587;&#x4EF6;&#x7C7B;&#x578B;(&#x5206;&#x8DEF;&#x5668;) &#x65E0;&#x6CD5;&#x53EF;&#x9760;&#x68C0;&#x6D4B;&#x65F6;, (&#x6587;&#x4EF6;&#x6CA1;&#x6709;&#x5934;&#x90E8;&#x6216;&#x8005;&#x4E0D;&#x591F;&#x53EF;&#x9760;), &#x5C06;&#x4F7F;&#x7528;&#x540E;&#x7F00;&#x540D;&#x6765;&#x9009; &#x62E9; &#x5206;&#x8DEF;&#x5668;. &#x540E;&#x5907;&#x7684;&#x57FA;&#x4E8E;&#x5185;&#x5BB9;&#x7684;&#x5206;&#x8DEF;&#x5668;&#x603B;&#x662F;&#x53EF;&#x7528;&#x7684;. 
+</p>
+
+<p>
+&#x2212;passwd &lt;&#x5BC6;&#x7801;&gt; (&#x53C2;&#x89C1;&#x2212;user&#x9009;&#x9879;) 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;http&#x8BA4;&#x8BC1;&#x7684;&#x5BC6;&#x7801;. 
+</p>
+
+<p>
+&#x2212;rawaudio &lt;&#x9009;&#x9879;1:&#x9009;&#x9879;2:&#x2026;&gt; 
+</p>
+
+<p>
+&#x7528; &#x8FD9; &#x4E2A; &#x9009; &#x9879; &#x4F60;&#x53EF;&#x4EE5;&#x64AD;&#x653E;&#x539F;&#x59CB;&#x97F3;&#x9891;&#x6587;&#x4EF6;. &#x4E5F;&#x53EF;&#x4EE5;&#x7528;&#x6765;&#x64AD;&#x653E;&#x4E0D;&#x662F;44KHz 16Bit&#x7ACB;&#x4F53;&#x58F0;&#x7684;&#x97F3;&#x9891;CD. 
+&#x53EF;&#x7528;&#x9009;&#x9879;&#x6709;: 
+</p>
+
+<p>
+on 
+&#x4F7F;&#x7528;&#x539F;&#x59CB;&#x97F3;&#x9891;&#x5206;&#x8DEF;&#x5668; 
+</p>
+
+<p>
+channels=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x58F0;&#x9053;&#x6570; 
+</p>
+
+<p>
+rate=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x6BCF;&#x79D2;&#x91C7;&#x6837;&#x7387; 
+</p>
+
+<p>
+samplesize=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x4EE5;&#x5B57;&#x8282;&#x4E3A;&#x5355;&#x4F4D;&#x7684;&#x6837;&#x672C;&#x5927;&#x5C0F; 
+</p>
+
+<p>
+format=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+16&#x8FDB;&#x5236;&#x7684;fourcc 
+</p>
+
+<p>
+&#x2212;rawvideo &lt;&#x9009;&#x9879;1:&#x9009;&#x9879;2:&#x2026;&gt; 
+</p>
+
+<p>
+&#x7528;&#x8FD9;&#x4E2A;&#x9009;&#x9879;&#x4F60;&#x53EF;&#x4EE5;&#x64AD;&#x653E;&#x539F;&#x59CB;&#x89C6;&#x9891;&#x6587;&#x4EF6;. 
+&#x53EF;&#x7528;&#x9009;&#x9879;&#x6709;: 
+</p>
+
+<p>
+on 
+&#x4F7F;&#x7528;&#x539F;&#x59CB;&#x89C6;&#x9891;&#x5206;&#x8DEF;&#x5668; 
+</p>
+
+<p>
+fps=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x6BCF;&#x79D2;&#x5E27;&#x901F;&#x7387;, &#x9ED8;&#x8BA4;&#x503C;&#x4E3A;25.0 
+</p>
+
+<p>
+sqcif|qcif|cif|4cif|pal|ntsc 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;&#x9ED8;&#x8BA4;&#x7684;&#x56FE;&#x50CF;&#x5927;&#x5C0F; 
+</p>
+
+<p>
+w=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x4EE5;&#x50CF;&#x7D20;&#x4E3A;&#x5355;&#x4F4D;&#x7684;&#x56FE;&#x50CF;&#x5BBD; 
+</p>
+
+<p>
+h=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x4EE5;&#x50CF;&#x7D20;&#x4E3A;&#x5355;&#x4F4D;&#x7684;&#x56FE;&#x50CF;&#x9AD8; 
+</p>
+
+<p>
+y420|yv12|yuy2|y8 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;&#x8272;&#x5F69;&#x7A7A;&#x95F4; 
+</p>
+
+<p>
+format=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+16&#x8FDB;&#x5236;&#x7684;&#x8272;&#x5F69;&#x7A7A;&#x95F4;(fourcc) 
+</p>
+
+<p>
+size=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x4EE5;&#x5B57;&#x8282;&#x4E3A;&#x5355;&#x4F4D;&#x7684;&#x5E27;&#x5927;&#x5C0F; 
+</p>
+
+<p>
+&#x2212;rtsp-stream-over-tcp 
+</p>
+
+<p>
+&#x4E0E;&#x2019;rtsp://&#x2019;URL&#x4E00;&#x8D77;&#x7528;&#x6765;&#x6307;&#x5B9A;&#x6700;&#x540E;&#x7ED3;&#x679C;&#x8F93;&#x5165;&#x7684;RTP&#x548C;RTCP&#x7684;&#x5305;&#x901A;&#x8FC7;TCP&#x6D41;, (&#x8DDF;RTSP&#x4F7F;&#x7528;&#x540C;&#x4E00;&#x4E2A;TCP&#x8FDE;&#x63A5; ). &#x8FD9;&#x4E2A;&#x9009;&#x9879;&#x53EF;&#x4EE5;&#x7528;&#x4E8E;&#x5F53;&#x4F60;&#x7684;Internet&#x8FDE;&#x63A5; &#x4E0D;&#x5141;&#x8BB8;UDP&#x5305;&#x8FDB;&#x5165;&#x7684;&#x60C5;&#x51B5;. (&#x53C2;&#x89C1;<a href="http://www.live.com/mplayer/" target="_blank" rel="noopener">http://www.live.com/mplayer/</a>). 
+</p>
+
+<p>
+&#x2212;skipopening 
+</p>
+
+<p>
+&#x63D0;&#x8FC7;DVD&#x6253;&#x5F00;(&#x4EC5;&#x7528;&#x4E8E;dvdnav). 
+</p>
+
+<p>
+&#x2212;sb &lt;&#x6BD4;&#x7279;&#x4F4D;&#x7F6E;&gt; (&#x53C2;&#x89C1;&#x2212;ss&#x9009;&#x9879;) 
+</p>
+
+<p>
+&#x641C;&#x7D22;&#x5230;&#x6BD4;&#x7279;&#x4F4D;&#x7F6E;. &#x7528;&#x4E8E;&#x64AD;&#x653E;&#x5F00;&#x59CB;&#x90E8;&#x5206;&#x662F;&#x5783;&#x573E;&#x7684;CDROM&#x955C;&#x50CF;/.VOB&#x6587;&#x4EF6;. 
+</p>
+
+<p>
+&#x2212;srate &lt;Hz&gt; 
+</p>
+
+<p>
+&#x6307;&#x5B9A;&#x97F3;&#x9891;&#x64AD;&#x653E;&#x901F;, &#x89C6;&#x9891;&#x64AD;&#x653E;&#x901F;&#x5EA6;&#x4E5F;&#x4F1A;&#x6539;&#x53D8;&#x4EE5;&#x4FDD;&#x6301;a-v&#x540C;&#x6B65;. MEncoder &#x4F1A; &#x628A;&#x8FD9;&#x4E2A;&#x503C;&#x4F20;&#x7ED9;lame&#x7528;&#x4E8E;&#x91CD;&#x65B0;&#x91C7;&#x6837;. 
+</p>
+
+<p>
+&#x2212;ss &lt;&#x65F6;&#x95F4;&gt; (&#x53C2;&#x89C1;&#x2212;sb&#x9009;&#x9879;) 
+</p>
+
+<p>
+&#x641C;&#x7D22;&#x5230;&#x6307;&#x5B9A;&#x7684;&#x65F6;&#x95F4;&#x4F4D;&#x7F6E;. 
+</p>
+
+<p>
+&#x793A;&#x4F8B;: 
+</p>
+
+<p>
+&#x2212;ss 56 
+</p>
+
+<p>
+&#x641C;&#x7D22;&#x5230;56&#x79D2;&#x5904; 
+</p>
+
+<p>
+&#x2212;ss 01:10:00 
+</p>
+
+<p>
+&#x641C;&#x7D22;&#x5230;1&#x5C0F;&#x65F6;10&#x5206;&#x949F;&#x5904; 
+</p>
+
+<p>
+&#x2212;tv &lt;&#x9009;&#x9879;1:&#x9009;&#x9879;2:&#x2026;&gt; 
+</p>
+
+<p>
+&#x8FD9;&#x4E2A;&#x9009;&#x9879;&#x4F1A;&#x542F;&#x7528;MPlayer&#x7684;&#x7535;&#x89C6;&#x622A;&#x53D6;&#x529F;&#x80FD;. 
+</p>
+
+<p>
+&#x6CE8;&#x610F;: 
+MPlayer &#x4E0D; &#x63A5;&#x53D7;&#x5192;&#x53F7;&#x6240;&#x4EE5;&#x5728;&#x8BBE;&#x5907;&#x6807;&#x8BC6;&#x4E2D;&#x7528;&#x9017;&#x53F7;&#x4EE3;&#x66FF;. (&#x4F8B;&#x5982;.&#x7528;hw.0,0&#x4EE3; &#x66FF;hw:0,0). 
+&#x867D;&#x7136;&#x4F7F;&#x7528;ALSA&#x662F;&#x4F60;&#x53EF;&#x4EE5;&#x9009;&#x62E9;&#x4EFB;&#x4F55;&#x91C7;&#x6837;&#x7387;, &#x4F46;LAME&#x97F3;&#x9891;&#x7F16;&#x7801;&#x5668;&#x53EA;&#x80FD; &#x5BF9;&#x2019; &#x6807; &#x51C6;&#x2019; &#x7684;&#x91C7;&#x6837;&#x7387;&#x8FDB;&#x884C;&#x7F16;&#x7801;. &#x5982;&#x679C;&#x4F60;&#x9009;&#x62E9;&#x4E00;&#x4E2A;&#x5947;&#x602A;&#x7684;&#x91C7;&#x6837;&#x7387;&#x4F7F;&#x7528;&#x8FD9;&#x4E2A;&#x7F16;&#x7801;&#x5668; &#x5F97;&#x5230;&#x7684;.avi&#x6587;&#x4EF6;&#x4F1A;&#x6CA1;&#x6709;&#x58F0;&#x97F3;. 
+&#x53EF;&#x7528;&#x9009;&#x9879;&#x6709;: 
+</p>
+
+<p>
+on 
+&#x4F7F;&#x7528;&#x7535;&#x89C6;&#x8F93;&#x5165; 
+</p>
+
+<p>
+noaudio 
+</p>
+
+<p>
+&#x6CA1;&#x6709;&#x58F0;&#x97F3; 
+</p>
+
+<p>
+driver=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x53EF;&#x7528;&#x53C2;&#x6570;: dummy, v4l, bsdbt848 
+</p>
+
+<p>
+device=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x5B9A;&#x9ED8;&#x8BA4;&#x7684;/dev/video0&#x4E4B;&#x5916;&#x7684;&#x8BBE;&#x5907; 
+</p>
+
+<p>
+input=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x5B9A;&#x9ED8;&#x8BA4;&#x7684;0(&#x7535;&#x89C6;)&#x4E4B;&#x5916;&#x7684;&#x8F93;&#x5165;(&#x53C2;&#x89C1;&#x8F93;&#x51FA;&#x7684;&#x5217;&#x8868;) 
+</p>
+
+<p>
+freq=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x5B9A;&#x7535;&#x89C6;&#x8C03;&#x8C10;&#x5668;&#x7684;&#x9891;&#x7387;(&#x4F8B;&#x5982; 511.250). &#x4E0E;&#x9891;&#x9053;&#x53C2;&#x6570;&#x4E0D;&#x517C;&#x5BB9;. 
+</p>
+
+<p>
+outfmt=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x7535;&#x89C6;&#x8C03;&#x8C10;&#x5668;&#x7684;&#x8F93;&#x51FA;&#x683C;&#x5F0F;(yv12, rgb32, rgb24, rgb16, rgb15, uyvy, yuy2, i420) 
+</p>
+
+<p>
+width=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x8F93;&#x51FA;&#x7A97;&#x53E3;&#x7684;&#x5BBD;&#x5EA6; 
+</p>
+
+<p>
+height=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x8F93;&#x51FA;&#x7A97;&#x53E3;&#x7684;&#x9AD8;&#x5EA6; 
+</p>
+
+<p>
+fps=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x6355;&#x6349;&#x89C6;&#x9891;&#x7684;&#x5E27;&#x901F;&#x7387;(&#x5E27;&#x6BCF;&#x79D2;) 
+</p>
+
+<p>
+buffersize=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x5B9A;&#x4EE5;&#x5146;&#x4E3A;&#x5355;&#x4F4D;&#x7684;&#x6355;&#x6349;&#x7F13;&#x51B2;&#x533A;&#x7684;&#x5927;&#x5C0F;(&#x9ED8;&#x8BA4;&#x503C;: &#x52A8;&#x6001;) 
+</p>
+
+<p>
+norm=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x53EF;&#x7528;&#x53C2;&#x6570;: PAL, SECAM, NTSC 
+</p>
+
+<p>
+channel=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x628A;&#x7535;&#x89C6;&#x8C03;&#x8C10;&#x5668;&#x8BBE;&#x5B9A;&#x5230;&lt;&#x53C2;&#x6570;&gt;&#x9891;&#x9053;. 
+</p>
+
+<p>
+chanlist=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x53EF; &#x7528;&#x53C2;&#x6570;: europe-east, europe-west, us-bcast, us-cable, &#x7B49;&#x7B49; 
+</p>
+
+<p>
+channels=&lt;&#x9891;&#x9053;&gt;&#x2212;&lt;&#x540D;&#x79F0;&gt;,&lt;&#x9891;&#x9053;&gt;&#x2212;&lt;&#x540D;&#x79F0;&gt;,&#x2026; 
+</p>
+
+<p>
+&#x8BBE;&#x5B9A;&#x9891;&#x9053;&#x7684;&#x540D;&#x79F0;. &#x5728;&#x540D;&#x79F0;&#x4E2D;&#x7528;<sub>&#x4EE3;&#x66FF;&#x7A7A;&#x683C;</sub>(&#x6216;&#x8005;&#x73A9;&#x5F15;&#x53F7; &#x6E38; &#x620F;;-). &#x9891; &#x9053; &#x540D; &#x79F0; &#x4F1A;&#x7528;OSD&#x663E;&#x793A;, tv<sub>step</sub><sub>channel</sub>, tv<sub>set</sub><sub>channel</sub> &#x548C;tv<sub>last</sub><sub>channel&#x7B49;&#x547D;&#x4EE4;&#x5C06;&#x53EF;&#x4EE5;&#x88AB;&#x9065;&#x63A7;&#x5668;</sub>(&#x53C2;&#x89C1;lirc)&#x4F7F;&#x7528;. &#x4E0E; &#x9891;&#x7387;&#x53C2;&#x6570;&#x4E0D;&#x517C;&#x5BB9;. &#x8B66;&#x544A;: &#x9891;&#x9053;&#x7F16;&#x53F7;&#x5C06;&#x51FA;&#x73B0;&#x5728;&#x2019;&#x9891;&#x9053;&#x2019;&#x5217;&#x8868;&#x4E0A;, &#x4ECE;1 &#x5F00;&#x59CB;. &#x793A;&#x4F8B;: &#x4F7F; &#x7528;tv://1,
+</p>
+
+<p>
+tv://2
+</p>
+
+<p>
+, tv<sub>set</sub><sub>channel</sub> 1, tv<sub>set</sub><sub>channel</sub> 2&#x7B49;&#x7B49;. 
+</p>
+
+<p>
+[brightness|contrast|hue|saturation]=&lt;&#x2212;100&#x2212;100&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;&#x663E;&#x5361;&#x7684;&#x8272;&#x5F69;&#x5747;&#x8861;&#x5668;. 
+</p>
+
+<p>
+audiorate=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x5B9A;&#x97F3;&#x9891;&#x6355;&#x6349;&#x6BD4;&#x7279;&#x7387; 
+</p>
+
+<p>
+forceaudio 
+</p>
+
+<p>
+&#x5373;&#x4F7F;v4l&#x62A5;&#x544A;&#x6CA1;&#x6709;&#x97F3;&#x9891;&#x6E90;&#x4E5F;&#x6355;&#x6349;&#x97F3;&#x9891; 
+</p>
+
+<p>
+alsa 
+</p>
+
+<p>
+&#x4ECE;ALSA&#x6355;&#x6349; 
+</p>
+
+<p>
+amode=&lt;0&#x2212;3&gt; 
+</p>
+
+<p>
+&#x9009;&#x62E9;&#x97F3;&#x9891;&#x6A21;&#x5F0F;: 
+</p>
+
+<p>
+0: mono 
+1: stereo 
+2: language 1 
+3: language 2 
+</p>
+
+<p>
+forcechan=&lt;1&#x2212;2&gt; 
+</p>
+
+<p>
+&#x9ED8; &#x8BA4;&#x60C5;&#x51B5;&#x4E0B;, &#x8BB0;&#x5F55;&#x97F3;&#x9891;&#x58F0;&#x9053;&#x6570;&#x7531;&#x7535;&#x89C6;&#x5361;&#x68C0;&#x5BDF;&#x97F3;&#x9891;&#x6A21;&#x5F0F;&#x81EA;&#x52A8;&#x51B3;&#x5B9A;. &#x8FD9;&#x4E2A;&#x9009;&#x9879;&#x5141;&#x8BB8;&#x6307;&#x5B9A;&#x7ACB;&#x4F53;&#x58F0;/&#x5355;&#x58F0;&#x9053;&#x8BB0;&#x5F55;&#x800C;&#x4E0D;&#x7BA1;amode&#x9009;&#x9879;&#x548C;v4l &#x8FD4; &#x56DE; &#x7684;&#x53C2;&#x6570;. &#x5728;&#x7535;&#x89C6;&#x5361;&#x4E0D;&#x80FD;&#x62A5;&#x544A;&#x6B63;&#x786E;&#x7684;&#x97F3;&#x9891;&#x6A21;&#x5F0F;&#x7684;&#x65F6;&#x5019;&#x53EF;&#x4EE5;&#x7528;&#x8FD9; &#x4E2A;&#x9009;&#x9879;&#x89E3;&#x51B3;&#x9EBB;&#x70E6;. 
+</p>
+
+<p>
+adevice=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;&#x97F3;&#x9891;&#x8BBE;&#x5907; 
+</p>
+
+<p>
+<i>dev</i>&#x2026;&#x7528;&#x4E8E;OSS 
+&#x786C;&#x4EF6;&#x6807;&#x8BC6;&#x7528;&#x4E8E;ALSA 
+</p>
+
+<p>
+audioid=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x9009;&#x62E9;&#x6355;&#x6349;&#x5361;&#x7684;&#x97F3;&#x9891;&#x8F93;&#x51FA;, &#x5982;&#x679C;&#x5B83;&#x6709;&#x4E0D;&#x6B62;&#x4E00;&#x4E2A;&#x7684;&#x8BDD; 
+</p>
+
+<p>
+[volume|bass|treble|balance]=&lt;0&#x2212;65535&gt; 
+</p>
+
+<p>
+&#x8FD9;&#x4E9B;&#x9009;&#x9879;&#x7528;&#x6765;&#x8BBE;&#x5B9A;&#x89C6;&#x9891;&#x6355;&#x6349;&#x5361;&#x4E0A;&#x7684;&#x6DF7;&#x97F3;&#x5668;&#x53C2;&#x6570;. &#x5982;&#x679C;&#x4F60;&#x7684;&#x5361; &#x6CA1; &#x6709;&#x6DF7;&#x97F3;&#x5668;, &#x5B83;&#x4EEC;&#x5C06;&#x6CA1;&#x6709;&#x6548;&#x679C;. 
+</p>
+
+<p>
+immediatemode=&lt;&#x5E03;&#x5C14;&#x503C;&gt; 
+</p>
+
+<p>
+&#x53C2;&#x6570;&#x503C;&#x4E3A;0&#x8868;&#x793A;&#x540C;&#x65F6;&#x6355;&#x6349;&#x548C;&#x7F13;&#x51B2;&#x97F3;&#x9891;&#x548C;&#x89C6;&#x9891;(mencoder&#x7684;&#x9ED8;&#x8BA4;&#x503C;). &#x53C2;&#x6570;&#x503C;&#x4E3A;1(mplayer&#x7684;&#x9ED8;&#x8BA4;&#x503C;)&#x8868;&#x793A;&#x53EA;&#x6355;&#x6349;&#x89C6;&#x9891;&#x800C;&#x8BA9;&#x97F3;&#x9891;&#x901A;&#x8FC7;&#x901A;&#x8FC7; &#x73AF;&#x8DEF;&#x7535;&#x7F06;&#x7531;&#x7535;&#x89C6;&#x5361;&#x8F93;&#x5165;&#x58F0;&#x5361;. 
+</p>
+
+<p>
+mjpeg 
+</p>
+
+<p>
+&#x4F7F; &#x7528;&#x786C;&#x4EF6;mjpeg&#x538B;&#x7F29;(&#x5982;&#x679C;&#x82AF;&#x7247;&#x652F;&#x6301;&#x7684;&#x8BDD;). &#x5F53;&#x4F7F;&#x7528;&#x8FD9;&#x4E2A;&#x9009;&#x9879;&#x7684;&#x65F6; &#x5019;, &#x4F60;&#x4E0D;&#x9700;&#x8981;&#x8BBE;&#x7F6E;&#x8F93;&#x51FA;&#x7A97;&#x53E3;&#x7684;&#x5BBD;&#x548C;&#x9AD8;, mplayer&#x4F1A;&#x6839;&#x636E;&#x62BD;&#x6837;&#x53C2;&#x6570;( &#x89C1;&#x4E0B;&#x9762;)&#x81EA;&#x52A8;&#x786E;&#x5B9A;. 
+</p>
+
+<p>
+decimation=&lt;1,2,4&gt; 
+</p>
+
+<p>
+&#x9009;&#x62E9;&#x786C;&#x4EF6;mjpeg&#x538B;&#x7F29;&#x7684;&#x56FE;&#x50CF;&#x7684;&#x5C3A;&#x5BF8;: 
+</p>
+
+<p>
+1: &#x5168;&#x5C3A;&#x5BF8; 704x576 PAL 704x480 NTSC 
+2: &#x4E2D;&#x7B49;&#x5C3A;&#x5BF8; 352x288 PAL 352x240 NTSC 
+4: &#x5C0F;&#x5C3A;&#x5BF8; 176x144 PAL 176x120 NTSC 
+</p>
+
+<p>
+quality=&lt;0-100&gt; 
+</p>
+
+<p>
+&#x9009;&#x62E9;jpeg&#x538B;&#x7F29;&#x7684;&#x8D28;&#x91CF; 
+(&#x5168;&#x5C3A;&#x5BF8;&#x63A8;&#x8350;&#x4F7F;&#x7528;quality &lt; 60) 
+</p>
+
+<p>
+&#x2212;user &lt;&#x7528;&#x6237;&#x540D;&gt; (&#x53C2;&#x89C1;&#x2212;passwd&#x9009;&#x9879;) 
+</p>
+
+<p>
+&#x8BBE;&#x5B9A;http&#x8BA4;&#x8BC1;&#x7684;&#x7528;&#x6237;&#x540D;. 
+</p>
+
+<p>
+://&lt;&#x97F3;&#x8F68;&gt; 
+</p>
+
+<p>
+&#x4ECE;&#x8BBE;&#x5907;&#x6216;&#x955C;&#x50CF;&#x6587;&#x4EF6;&#x4E2D;&#x64AD;&#x653E;video CD&#x97F3;&#x8F68;(&#x53C2;&#x89C1;&#x2212;cuefile). 
+</p>
+
+<p>
+&#x2212;vid &lt;&#x6807;&#x8BC6;&gt; 
+</p>
+
+<p>
+&#x9009;&#x62E9;&#x89C6;&#x9891;&#x9891;&#x9053;[MPG: 0&#x2212;15 ASF: 0&#x2212;255]. 
+</p>
+
+<p>
+&#x2212;vivo &lt;&#x5B50;&#x9009;&#x9879;&gt; (&#x8C03;&#x8BD5;&#x4EE3;&#x7801;) 
+</p>
+
+<p>
+&#x6307;&#x5B9A;.vivo&#x5206;&#x8DEF;&#x5668;&#x7684;&#x97F3;&#x9891;&#x53C2;&#x6570;(&#x7528;&#x4E8E;&#x8C03;&#x8BD5;). 
+</p>
+
+<p>
+OSD/ &#x5B57;&#x5E55;&#x9009;&#x9879; 
+&#x6CE8;&#x610F;: 
+&#x53C2;&#x89C1;&#x2212;vf expand. 
+</p>
+
+<p>
+&#x2212;dumpmicrodvdsub (&#x4EC5;&#x7528;&#x4E8E;MPLAYER) 
+</p>
+
+<p>
+&#x628A;&#x7ED9;&#x5B9A;&#x7684;&#x5B57;&#x5E55;&#x6587;&#x4EF6;(&#x7531;&#x2212;sub&#x9009;&#x9879;&#x8BBE;&#x7F6E;)&#x8F6C;&#x6362;&#x4E3A;MicroDVD&#x5B57;&#x5E55;&#x683C;&#x5F0F;. &#x5728;&#x5F53;&#x524D; &#x76EE;&#x5F55;&#x4E2D;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;dumpsub.sub&#x6587;&#x4EF6;. 
+</p>
+
+<p>
+&#x2212;dumpmpsub (&#x4EC5;&#x7528;&#x4E8E;MPLAYER) 
+</p>
+
+<p>
+&#x628A;&#x7ED9;&#x5B9A;&#x7684;&#x5B57;&#x5E55;&#x6587;&#x4EF6;(&#x7531;&#x2212;sub&#x9009;&#x9879;&#x8BBE;&#x7F6E;)&#x8F6C;&#x6362;&#x4E3A;MPlayer&#x7684;&#x5B57;&#x5E55;&#x683C;&#x5F0F;, MPsub. &#x5728;&#x5F53;&#x524D;&#x76EE;&#x5F55;&#x4E2D;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;dump.mpsub&#x6587;&#x4EF6;. 
+</p>
+
+<p>
+&#x2212;dumpsrtsub (&#x4EC5;&#x7528;&#x4E8E;MPLAYER) 
+</p>
+
+<p>
+&#x628A; &#x7ED9;&#x5B9A;&#x7684;&#x5B57;&#x5E55;&#x6587;&#x4EF6;(&#x7531;&#x2212;sub&#x9009;&#x9879;&#x8BBE;&#x7F6E;)&#x8F6C;&#x6362;&#x4E3A;&#x57FA;&#x4E8E;&#x65F6;&#x95F4;&#x7684;SubViewer(SRT) &#x5B57;&#x5E55;&#x683C;&#x5F0F;. &#x5728;&#x5F53;&#x524D;&#x76EE;&#x5F55;&#x4E2D;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;dumpsub.srt&#x6587;&#x4EF6;. 
+</p>
+
+<p>
+&#x2212;dumpjacosub (&#x4EC5;&#x7528;&#x4E8E;MPLAYER) 
+</p>
+
+<p>
+&#x628A;&#x7ED9;&#x5B9A;&#x7684;&#x5B57;&#x5E55;&#x6587;&#x4EF6;(&#x7531;&#x2212;sub&#x9009;&#x9879;&#x8BBE;&#x7F6E;)&#x8F6C;&#x6362;&#x4E3A;&#x57FA;&#x4E8E;&#x65F6;&#x95F4;&#x7684;JACOsub&#x5B57; &#x5E55; &#x683C; &#x5F0F;. &#x5728;&#x5F53;&#x524D;&#x76EE;&#x5F55;&#x4E2D;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;dumpsub.js&#x6587;&#x4EF6;. 
+</p>
+
+<p>
+&#x2212;dumpsami (&#x4EC5;&#x7528;&#x4E8E;MPLAYER) 
+</p>
+
+<p>
+&#x628A; &#x7ED9; &#x5B9A;&#x7684;&#x5B57;&#x5E55;&#x6587;&#x4EF6;(&#x7531;&#x2212;sub&#x9009;&#x9879;&#x8BBE;&#x7F6E;)&#x8F6C;&#x6362;&#x4E3A;&#x57FA;&#x4E8E;&#x65F6;&#x95F4;&#x7684;SAMI&#x5B57;&#x5E55;&#x683C;&#x5F0F;. &#x5728;&#x5F53;&#x524D;&#x76EE;&#x5F55;&#x4E2D;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;dumpsub.smi&#x6587;&#x4EF6;. 
+</p>
+
+<p>
+&#x2212;dumpsub (&#x4EC5;&#x7528;&#x4E8E;MPLAYER) (BETA&#x4EE3;&#x7801;) 
+</p>
+
+<p>
+&#x4ECE;VOB&#x6D41;&#x4E2D;&#x590D;&#x5236;&#x5B50;&#x5B57;&#x5E55;&#x6D41;. &#x53C2;&#x89C1;-dump*sub&#x548C;-vobsubout*&#x9009;&#x9879;. 
+</p>
+
+<p>
+&#x2212;ifo &lt;vobsub&#x7684;ifo&#x6587;&#x4EF6;&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;&#x7528;&#x4E8E;&#x8BFB;&#x53D6;&#x7684;&#x5305;&#x542B;VOBSUB&#x5B57;&#x5E55;&#x7684;&#x8C03;&#x8272;&#x677F;&#x548C;&#x5E27;&#x5C3A;&#x5BF8;&#x7684;&#x6587;&#x4EF6;. 
+</p>
+
+<p>
+&#x2212;ffactor &lt;&#x6570;&#x5B57;&gt; 
+</p>
+
+<p>
+&#x5BF9;&#x5B57;&#x4F53;&#x7684;alpha&#x6620;&#x5C04;&#x56FE;&#x91CD;&#x65B0;&#x91C7;&#x6837;. &#x53EF;&#x8BBE;&#x4E3A;: 
+</p>
+
+<p>
+0 
+&#x666E;&#x901A;&#x767D;&#x8272;&#x5B57;&#x4F53; 
+</p>
+
+<p>
+0.75 
+</p>
+
+<p>
+&#x975E;&#x5E38;&#x7EC6;&#x7684;&#x9ED1;&#x8272;&#x8FB9;&#x6846;(&#x9ED8;&#x8BA4;&#x503C;) 
+</p>
+
+<p>
+1 
+&#x7EC6;&#x7684;&#x9ED1;&#x8272;&#x8FB9;&#x6846; 
+</p>
+
+<p>
+10 
+&#x7C97;&#x7684;&#x9ED1;&#x8272;&#x8FB9;&#x6846; 
+</p>
+
+<p>
+&#x2212;font &lt;font.desc&#x6587;&#x4EF6;&#x7684;&#x8DEF;&#x5F84;&gt; 
+</p>
+
+<p>
+&#x5728;&#x53E6;&#x5916;&#x76EE;&#x5F55;&#x4F60;&#x5BFB;&#x627E;OSD/SUB&#x5B57;&#x4F53;(&#x9ED8;&#x8BA4;&#x7684;&#x666E;&#x901A;&#x5B57;&#x4F53;&#x4E3A;: ~/.mplayer/font/ font.desc, &#x9ED8;&#x8BA4;&#x7684;FreeType&#x5B57;&#x4F53;&#x4E3A;: ~/.mplayer/subfont.ttf). 
+</p>
+
+<p>
+&#x6CE8;&#x610F;: 
+&#x5BF9;&#x4E8E;FreeType, &#x8FD9;&#x4E2A;&#x9009;&#x9879;&#x6307;&#x5B9A;&#x6587;&#x672C;&#x5B57;&#x4F53;&#x6587;&#x4EF6;&#x7684;&#x8DEF;&#x5F84;. 
+&#x2212;subfont-*&#x9009;&#x9879;&#x53EA;&#x6709;&#x5F53;&#x7F16;&#x8BD1;&#x4E86;FreeType&#x652F;&#x6301;&#x624D;&#x53EF;&#x7528;. 
+</p>
+
+<p>
+&#x793A;&#x4F8B;: 
+</p>
+
+<p>
+&#x2212;font ~/.mplayer/arial&#x2212;14/font.desc 
+&#x2212;font ~/.mplayer/arialuni.ttf 
+</p>
+
+<p>
+&#x2212;noautosub 
+</p>
+
+<p>
+&#x5173;&#x95ED;&#x5B57;&#x5E55;&#x6587;&#x4EF6;&#x7684;&#x81EA;&#x52A8;&#x8F7D;&#x5165;&#x529F;&#x80FD;. 
+</p>
+
+<p>
+&#x2212;overlapsub 
+</p>
+
+<p>
+&#x5BF9;&#x6240;&#x6709;&#x5B57;&#x5E55;&#x683C;&#x5F0F;&#x542F;&#x7528;&#x91CD;&#x53E0;&#x5B57;&#x5E55;&#x652F;&#x6301;. 
+</p>
+
+<p>
+&#x2212;nooverlapsub 
+</p>
+
+<p>
+&#x5BF9;&#x6240;&#x6709;&#x5B57;&#x5E55;&#x683C;&#x5F0F;&#x7981;&#x7528;&#x91CD;&#x53E0;&#x5B57;&#x5E55;&#x652F;&#x6301;(&#x9ED8;&#x8BA4;&#x884C;&#x4E3A;&#x662F;&#x53EA;&#x5BF9;&#x7279;&#x5B9A;&#x683C;&#x5F0F;&#x542F;&#x7528;&#x652F;&#x6301;). 
+</p>
+
+<p>
+&#x2212;osdlevel &lt;0&#x2212;3&gt; (&#x4EC5;&#x7528;&#x4E8E;MPLAYER) 
+</p>
+
+<p>
+&#x8BBE;&#x5B9A;&#x5F00;&#x59CB;&#x7684;OSD&#x6A21;&#x5F0F;. 
+</p>
+
+<p>
+0 
+&#x53EA;&#x6709;&#x5B57;&#x5E55; 
+</p>
+
+<p>
+1 
+&#x97F3;&#x91CF; + &#x641C;&#x7D22;(&#x9ED8;&#x8BA4;) 
+</p>
+
+<p>
+2 
+&#x97F3;&#x91CF; + &#x641C;&#x7D22; + &#x8BA1;&#x65F6;&#x5668; + &#x767E;&#x5206;&#x6BD4; 
+</p>
+
+<p>
+3 
+&#x97F3;&#x91CF; + &#x641C;&#x7D22; + &#x8BA1;&#x65F6;&#x5668; + &#x767E;&#x5206;&#x6BD4; + &#x603B;&#x65F6;&#x95F4; 
+</p>
+
+<p>
+&#x2212;sid &lt;&#x6807;&#x8BC6;&gt; (&#x53C2;&#x89C1;&#x2212;slang&#x9009;&#x9879;) 
+</p>
+
+<p>
+&#x6253;&#x5F00;DVD&#x5B57;&#x5E55;&#x663E;&#x793A;. &#x540C;&#x65F6;, &#x4F60;&#x5FC5;&#x987B;&#x8BBE;&#x7F6E;&#x4E00;&#x4E2A;&#x5BF9;&#x5E94;&#x4E8E;&#x4E00;&#x79CD;DVD&#x5B57;&#x5E55;&#x8BED;&#x8A00;&#x7684; &#x6570; &#x5B57;(0&#x2212;31). &#x81F3;&#x4E8E;&#x53EF;&#x7528;&#x5B57;&#x5E55;&#x7684;&#x5217;&#x8868;, &#x53EF;&#x4EE5;&#x52A0;&#x4E0A;&#x2212;v&#x9009;&#x9879;&#x5E76;&#x5BDF;&#x770B;&#x8F93;&#x51FA;. 
+</p>
+
+<p>
+&#x2212;slang &lt;&#x4E24;&#x4E2A;&#x5B57;&#x6BCD;&#x7684;&#x56FD;&#x5BB6;&#x4EE3;&#x7801;&gt; (&#x53C2;&#x89C1;&#x2212;sid&#x9009;&#x9879;) 
+</p>
+
+<p>
+&#x4EC5; &#x7528;&#x4E8E;DVD&#x64AD;&#x653E;. &#x6253;&#x5F00;/&#x9009;&#x62E9;DVD&#x5B57;&#x5E55;&#x8BED;&#x8A00;. &#x81F3;&#x4E8E;&#x53EF;&#x7528;&#x5B57;&#x5E55;&#x7684;&#x5217;&#x8868;, &#x53EF;&#x4EE5; &#x52A0;&#x4E0A;&#x2212;v&#x9009;&#x9879;&#x5E76;&#x5BDF;&#x770B;&#x8F93;&#x51FA;. 
+</p>
+
+<p>
+&#x793A;&#x4F8B;: 
+</p>
+
+<p>
+&#x2212;slang hu,en 
+</p>
+
+<p>
+&#x9009;&#x62E9;&#x5308;&#x7259;&#x5229;&#x8BED;, &#x82F1;&#x8BED;&#x5728;&#x6CA1;&#x6709;&#x5308;&#x7259;&#x5229;&#x8BED;&#x65F6;&#x5907;&#x7528;. 
+</p>
+
+<p>
+&#x2212;sub &lt;&#x5B57;&#x5E55;&#x6587;&#x4EF6;&gt; 
+</p>
+
+<p>
+&#x4F7F;&#x7528;/&#x663E;&#x793A;&#x6307;&#x5B9A;&#x7684;&#x5B57;&#x5E55;&#x6587;&#x4EF6;. 
+</p>
+
+<p>
+&#x2212;sub-bg-alpha &lt;0&#x2212;255&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;&#x5B57;&#x5E55;&#x548C;OSD&#x80CC;&#x666F;&#x7684;alpha&#x901A;&#x9053;&#x503C;. &#x503C;&#x8D8A;&#x5927;&#x4EE3;&#x8868;&#x8D8A;&#x900F;&#x660E;. 0&#x662F;&#x4E00;&#x4E2A;&#x4F8B;&#x5916;&#x4EE3; &#x8868;&#x5B8C;&#x5168;&#x900F;&#x660E;. 
+</p>
+
+<p>
+&#x2212;sub-bg-color &lt;0&#x2212;255&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;&#x5B57;&#x5E55;&#x548C;OSD&#x80CC;&#x666F;&#x7684;&#x989C;&#x8272;&#x503C;. &#x76EE;&#x524D;&#x5B57;&#x5E55;&#x662F;&#x7070;&#x5EA6;&#x56FE;&#x50CF;&#x6240;&#x4EE5;&#x8FD9;&#x4E2A;&#x503C;&#x76F8;&#x5F53;&#x4E8E;&#x989C; &#x8272;&#x7684;&#x4EAE;&#x5EA6;. 255&#x4EE3;&#x8868;&#x767D;&#x8272;0&#x4EE3;&#x8868;&#x9ED1;&#x8272;. 
+</p>
+
+<p>
+&#x2212;subcc &#x663E;&#x793A;DVD&#x7684;&#x9690;&#x85CF;&#x5B57;&#x5E55;&#x6570;&#x636E;&#x8868;(CC)&#x5B57;&#x5E55;. 
+</p>
+
+<p>
+&#x5B83;&#x4EEC;&#x4E0D;&#x662F;VOB&#x5B57;&#x5E55;, &#x5B83;&#x4EEC;&#x662F;&#x4E3A;&#x542C;&#x529B;&#x969C;&#x788D;&#x7684;&#x4EBA;&#x51C6;&#x5907;&#x7684;&#x7279;&#x6B8A;&#x7684;ASCII&#x5B57;&#x5E55;, &#x7F16; &#x7801;&#x5728;&#x5927;&#x591A;&#x6570;&#x533A;&#x7801;&#x4E3A;1&#x7684;VOB&#x7684;&#x7528;&#x6237;&#x6570;&#x636E;&#x6D41;&#x4E2D;. CC&#x5B57;&#x5E55;&#x5230;&#x76EE;&#x524D;&#x4E3A;&#x6B62;&#x8FD8;&#x6CA1;&#x6709;&#x5728; &#x522B;&#x7684;&#x533A;&#x7801;&#x7684;DVD&#x4E2D;&#x53D1;&#x73B0;. 
+</p>
+
+<p>
+&#x2212;subcp &lt;&#x7F16;&#x7801;&#x9875;&gt; 
+</p>
+
+<p>
+&#x5982;&#x679C;&#x4F60;&#x7684;&#x7CFB;&#x7EDF;&#x652F;&#x6301;iconv(3), &#x4F60;&#x53EF;&#x4EE5;&#x7528;&#x8FD9;&#x4E2A;&#x9009;&#x9879;&#x6765;&#x8BBE;&#x7F6E;&#x5B57;&#x5E55;&#x6587;&#x4EF6;&#x7684;&#x7F16; &#x7801; &#x9875;. 
+</p>
+
+<p>
+&#x793A;&#x4F8B;: 
+</p>
+
+<p>
+&#x2212;subcp latin2 
+&#x2212;subcp cp1250 
+</p>
+
+<p>
+&#x2212;sub&#x2212;demuxer &lt;&#x6570;&#x503C;&gt; (BETA&#x4EE3;&#x7801;) 
+</p>
+
+<p>
+&#x6307;&#x5B9A;&#x2212;subfile&#x7684;&#x5B57;&#x5E55;&#x5206;&#x8DEF;&#x5668;&#x7684;&#x7C7B;&#x578B;. 
+</p>
+
+<p>
+&#x2212;subdelay &lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x5B57;&#x5E55;&#x5EF6;&#x8FDF;&lt;&#x53C2;&#x6570;&gt;&#x79D2;. &#x53EF;&#x4EE5;&#x662F;&#x8D1F;&#x6570;. 
+</p>
+
+<p>
+&#x2212;subfont-autoscale &lt;0&#x2212;3&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;&#x81EA;&#x52A8;&#x7F29;&#x653E;&#x6A21;&#x5F0F;. 
+</p>
+
+<p>
+&#x6CE8;&#x610F;: 
+0&#x8868;&#x793A;text-scale&#x548C;osd-scale&#x7684;&#x53C2;&#x6570;&#x4E3A;&#x4EE5;&#x70B9;&#x4E3A;&#x5C3A;&#x5BF8;&#x7684;&#x5B57;&#x4F53;&#x9AD8;&#x5EA6;. 
+&#x53EF;&#x7528;&#x6A21;&#x5F0F;&#x6709;: 
+</p>
+
+<p>
+0 
+&#x4E0D;&#x81EA;&#x52A8;&#x7F29;&#x653E; 
+</p>
+
+<p>
+1 
+&#x6309;&#x7535;&#x5F71;&#x9AD8;&#x5EA6;&#x7F29;&#x653E; 
+</p>
+
+<p>
+2 
+&#x6309;&#x7535;&#x5F71;&#x5BBD;&#x5EA6;&#x7F29;&#x653E; 
+</p>
+
+<p>
+3 
+&#x6309;&#x7535;&#x5F71;&#x5BF9;&#x89D2;&#x7EBF;&#x7F29;&#x653E;(&#x9ED8;&#x8BA4;&#x503C;) 
+</p>
+
+<p>
+&#x2212;subfont-blur &lt;0&#x2212;8&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;&#x5B57;&#x4F53;&#x6A21;&#x7CCA;&#x534A;&#x5F84;(&#x9ED8;&#x8BA4;&#x503C;: 2). 
+</p>
+
+<p>
+&#x2212;subfont-encoding &lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;&#x5B57;&#x5E55;&#x7F16;&#x7801;. &#x5F53;&#x8BBE;&#x4E3A;&#x2019;unicode&#x2019;&#x65F6;, &#x5B57;&#x4F53;&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x6240;&#x6709;&#x5B57;&#x6A21;&#x90FD;&#x4F1A;&#x88AB;&#x6E32;&#x67D3; &#x5E76;&#x4F7F;&#x7528;unicode&#x7F16;&#x7801;(&#x9ED8;&#x8BA4;&#x503C;: unicode). 
+</p>
+
+<p>
+&#x2212;subfont-osd-scale &lt;0&#x2212;100&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;osd&#x5143;&#x7D20;&#x7684;&#x81EA;&#x52A8;&#x7F29;&#x653E;&#x7CFB;&#x6570;(&#x9ED8;&#x8BA4;&#x503C;: 6). 
+</p>
+
+<p>
+&#x2212;subfont-outline &lt;0&#x2212;8&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;&#x5B57;&#x4F53;&#x8FB9;&#x6846;&#x7684;&#x5BBD;&#x5EA6;(&#x9ED8;&#x8BA4;&#x503C;: 2). 
+</p>
+
+<p>
+&#x2212;subfont-text-scale &lt;0&#x2212;100&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;&#x5B57;&#x5E55;&#x6587;&#x672C;&#x7684;&#x81EA;&#x52A8;&#x7F29;&#x653E;&#x7CFB;&#x6570;(&#x5C4F;&#x5E55;&#x5C3A;&#x5BF8;&#x7684;&#x767E;&#x5206;&#x6BD4;) (&#x9ED8;&#x8BA4;&#x503C;: 5). 
+</p>
+
+<p>
+&#x2212;subfps &lt;&#x901F;&#x7387;&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;&#x5B57;&#x5E55;&#x6587;&#x4EF6;&#x7684;&#x5E27;/&#x79D2;&#x901F;&#x7387;(&#x6D6E;&#x70B9;&#x6570;), &#x9ED8;&#x8BA4;&#x503C;: &#x4E0E;&#x7535;&#x5F71;&#x540C;&#x6837;&#x7684;fps. 
+</p>
+
+<p>
+&#x6CE8;&#x610F;: 
+&#x4EC5;&#x7528;&#x4E8E;&#x57FA;&#x4E8E;&#x5E27;&#x7684;SUB&#x6587;&#x4EF6;, &#x6BD4;&#x5982;&#x4E0D;&#x80FD;&#x7528;&#x4E8E;MicroDVD&#x683C;&#x5F0F;. 
+</p>
+
+<p>
+&#x2212;subfile &lt;&#x6587;&#x4EF6;&#x540D;&gt; (BETA&#x4EE3;&#x7801;) 
+</p>
+
+<p>
+&#x76EE;&#x524D;&#x6CA1;&#x6709;&#x7528;. &#x4E0E;&#x2212;audiofile&#x4E00;&#x6837;, &#x4F46;&#x7528;&#x4E8E;&#x5B57;&#x5E55;&#x6D41;(OggDS?). 
+</p>
+
+<p>
+&#x2212;subpos &lt;0&#x2212;100&gt; (&#x7528;&#x4E8E;&#x2212;vf expand) 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;&#x5B57;&#x5E55;&#x5728;&#x5C4F;&#x5E55;&#x4E0A;&#x663E;&#x793A;&#x7684;&#x4F4D;&#x7F6E;. &#x53C2;&#x6570;&#x8868;&#x793A;&#x5B57;&#x5E55;&#x7684;&#x5782;&#x76F4;&#x4F4D;&#x7F6E;&#x4F4D;&#x4E8E;&#x5C4F;&#x5E55;&#x7684; &#x767E; &#x5206;&#x4E4B;&#x591A;&#x5C11;. 
+</p>
+
+<p>
+&#x2212;subalign &lt;0&#x2212;2&gt; 
+</p>
+
+<p>
+&#x8BBE; &#x7F6E; &#x5B57; &#x5E55;&#x76F8;&#x5BF9;&#x4E8E;subpos&#x5982;&#x4F55;&#x5BF9;&#x9F50;. 0&#x8868;&#x793A;&#x9876;&#x90E8;&#x5BF9;&#x9F50;(&#x6700;&#x521D;&#x7684;/&#x9ED8;&#x8BA4;&#x7684;&#x884C; &#x4E3A;), 1&#x8868;&#x793A;&#x4E2D;&#x592E;&#x5BF9;&#x9F50;, &#x800C;2&#x6807;&#x8BC6;&#x5E95;&#x90E8;&#x5BF9;&#x9F50;. 
+</p>
+
+<p>
+&#x2212;subwidth &lt;10&#x2212;100&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;&#x5B57;&#x5E55;&#x5728;&#x5C4F;&#x5E55;&#x4E0A;&#x663E;&#x793A;&#x7684;&#x6700;&#x5927;&#x5BBD;&#x5EA6;. &#x5BF9;&#x4E8E;&#x7535;&#x89C6;&#x8F93;&#x51FA;&#x6709;&#x7528;. &#x53C2;&#x6570;&#x8868;&#x793A;&#x5B57;&#x5E55; &#x5BBD;&#x5EA6;&#x5360;&#x5C4F;&#x5E55;&#x5BBD;&#x5EA6;&#x7684;&#x767E;&#x5206;&#x4E4B;&#x591A;&#x5C11;. 
+</p>
+
+<p>
+&#x2212;unicode 
+</p>
+
+<p>
+&#x544A;&#x8BC9;MPlayer&#x4EE5;UNICODE&#x683C;&#x5F0F;&#x5904;&#x7406;&#x5B57;&#x5E55;. 
+</p>
+
+<p>
+&#x2212;utf8 
+&#x544A;&#x8BC9;MPlayer&#x4EE5;UTF8&#x683C;&#x5F0F;&#x5904;&#x7406;&#x5B57;&#x5E55;. 
+</p>
+
+<p>
+&#x2212;sub-no-text-pp 
+</p>
+
+<p>
+&#x7981;&#x7528;&#x8F7D;&#x5165;&#x5B57;&#x5E55;&#x540E;&#x7684;&#x4EFB;&#x4F55;&#x5F62;&#x5F0F;&#x7684;&#x6587;&#x5B57;&#x540E;&#x671F;&#x5904;&#x7406;. &#x7528;&#x4E8E;&#x8C03;&#x8BD5;. 
+</p>
+
+<p>
+&#x2212;vobsub &lt;&#x65E0;&#x540E;&#x7F00;&#x540D;&#x7684;vobsub&#x6587;&#x4EF6;&#x540D;&gt; 
+</p>
+
+<p>
+&#x8BBE; &#x7F6E;&#x7528;&#x4E8E;&#x5B57;&#x5E55;&#x663E;&#x793A;&#x7684;VobSub&#x6587;&#x4EF6;. &#x8FD9;&#x662F;&#x65E0;&#x540E;&#x7F00;&#x540D;&#x7684;&#x5B8C;&#x6574;&#x8DEF;&#x5F84;&#x540D;, &#x4F8B;&#x5982;&#x6CA1; &#x6709;&#x2019;.idx&#x2019;, &#xB4;.ifo&#x2019;&#x6216;&#x8005;&#x2019;.sub&#x2019;. 
+</p>
+
+<p>
+&#x2212;vobsubid &lt;0-31&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;VobSub&#x5B57;&#x5E55;&#x6807;&#x8BC6;. 
+</p>
+
+<p>
+&#x2212;spualign &lt;-1&#x2212;2&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;spu(DVD/VobSub)&#x5B57;&#x5E55;&#x5982;&#x4F55;&#x5BF9;&#x9F50;. &#x53C2;&#x6570;&#x503C;&#x4E0E;-subpos&#x76F8;&#x540C;, &#x7279; &#x522B; &#x7684;, -1&#x8868;&#x793A;&#x5728;&#x521D;&#x59CB;&#x4F4D;&#x7F6E;&#x663E;&#x793A;. 
+</p>
+
+<p>
+&#x2212;spuaa &lt;&#x6A21;&#x5F0F;&gt; 
+</p>
+
+<p>
+&#x8BBE; &#x7F6E;DVD/VobSub&#x7684;&#x53CD;&#x952F;&#x9F7F;/&#x7F29;&#x653E;&#x6A21;&#x5F0F;. &#x52A0;&#x4E0A;16&#x53EF;&#x4EE5;&#x5728;&#x539F;&#x59CB;&#x548C;&#x7F29;&#x653E;&#x5E27;&#x5C3A;&#x5BF8; &#x5B8C;&#x5168;&#x76F8;&#x540C;&#x65F6;&#x5F3A;&#x5236;&#x8FDB;&#x884C;&#x7F29;&#x653E;, &#x6BD4;&#x5982;&#x4F7F;&#x7528;&#x9AD8;&#x65AF;&#x6A21;&#x7CCA;&#x6765;&#x5E73;&#x6ED1;&#x5B57;&#x5E55;. &#x53EF;&#x7528; &#x6A21; &#x5F0F; &#x6709;: 
+</p>
+
+<p>
+0 
+&#x4E0D;&#x7F29;&#x653E;(&#x6700;&#x5FEB;, &#x5F88;&#x4E11;) 
+</p>
+
+<p>
+1 
+&#x8FD1;&#x4F3C;&#x7F29;&#x653E;(&#x597D;&#x50CF;&#x574F;&#x4E86;?) 
+</p>
+
+<p>
+2 
+&#x5B8C;&#x5168;&#x7F29;&#x653E;(&#x6162;) 
+</p>
+
+<p>
+3 
+&#x4E8C;&#x6B21;&#x7EBF;&#x6027;&#x7F29;&#x653E;(&#x9ED8;&#x8BA4;&#x503C;, &#x5FEB;&#x901F;&#x800C;&#x4E14;&#x6548;&#x679C;&#x4E0D;&#x574F;) 
+</p>
+
+<p>
+4 
+&#x4F7F;&#x7528;&#x8F6F;&#x4EF6;&#x7F29;&#x653E;&#x7684;&#x9AD8;&#x65AF;&#x6A21;&#x7CCA;(&#x770B;&#x8D77;&#x6765;&#x5F88;&#x597D;) 
+</p>
+
+<p>
+&#x2212;spugauss &lt;0.0&#x2212;3.0&gt; 
+</p>
+
+<p>
+-spuaa 4&#x4F7F;&#x7528;&#x7684;&#x9AD8;&#x65AF;&#x6A21;&#x7CCA;&#x7684;&#x53EF;&#x53D8;&#x53C2;&#x6570;. &#x8D8A;&#x9AD8;&#x8868;&#x793A;&#x8D8A;&#x6A21;&#x7CCA;. &#x9ED8;&#x8BA4;&#x503C;&#x4E3A;1.0. 
+</p>
+
+<p>
+&#x97F3;&#x9891;&#x8F93;&#x51FA;&#x9009;&#x9879; ( &#x4EC5;&#x7528;&#x4E8E; MPLAYER) 
+&#x2212;abs &lt;&#x53C2;&#x6570;&gt; (&#x5DF2;&#x88AB;&#x653E;&#x5F03;) 
+</p>
+
+<p>
+&#x66FF;&#x4EE3;&#x97F3;&#x9891;&#x9A71;&#x52A8;/&#x58F0;&#x5361;&#x7684;&#x7F13;&#x51B2;&#x533A;&#x5927;&#x5C0F;&#x68C0;&#x6D4B;, &#x4EC5;&#x7528;&#x4E8E;&#x2212;ao oss 
+</p>
+
+<p>
+&#x2212;af &lt;&#x6EE4;&#x955C;1[=&#x9009;&#x9879;],&#x6EE4;&#x955C;2,&#x2026;&gt; 
+</p>
+
+<p>
+&#x6FC0;&#x6D3B;&#x4E00;&#x4E2A;&#x9017;&#x53F7;&#x5206;&#x9694;&#x7684;&#x5E26;&#x53C2;&#x6570;&#x7684;&#x97F3;&#x9891;&#x6EE4;&#x955C;&#x5217;&#x8868;. 
+&#x53EF;&#x7528;&#x6EE4;&#x955C;&#x6709;: 
+</p>
+
+<p>
+resample[=srate[:sloppy][:type]] 
+</p>
+
+<p>
+&#x5C06;&#x97F3;&#x9891;&#x6D41;&#x7684;&#x91C7;&#x6837;&#x7387;&#x53D8;&#x4E3A;&#x6574;&#x6570;&#x503C;srate(Hz). &#x5B83;&#x53EA;&#x652F;&#x6301;16 bit&#x4F4E; &#x4F4D; &#x5728;&#x524D;&#x683C;&#x5F0F;. 
+</p>
+
+<p>
+channels[=nch] 
+</p>
+
+<p>
+&#x5C06;&#x58F0;&#x9053;&#x53D8;&#x4E3A;nch&#x4E2A;&#x8F93;&#x51FA;&#x58F0;&#x9053;. &#x5982;&#x679C;&#x8F93;&#x51FA;&#x58F0;&#x9053;&#x6570;&#x6BD4;&#x8F93;&#x5165;&#x58F0;&#x9053;&#x6570;&#x591A;&#x65F6;, &#x5C06;&#x63D2;&#x5165;&#x7A7A;&#x58F0;&#x9053;(&#x4F46;&#x5728;&#x5C06;&#x5355;&#x58F0;&#x9053;&#x6DF7;&#x5408;&#x4E3A;&#x7ACB;&#x4F53;&#x58F0;&#x65F6;, &#x4F1A;&#x628A;&#x5355;&#x58F0;&#x9053;&#x590D; &#x5236; &#x5230;&#x4E24;&#x4E2A;&#x8F93;&#x51FA;&#x58F0;&#x9053;). &#x5982;&#x679C;&#x8F93;&#x51FA;&#x58F0;&#x9053;&#x6570;&#x6BD4;&#x8F93;&#x5165;&#x58F0;&#x9053;&#x6570;&#x5C11;, &#x591A;&#x4F59;&#x7684;&#x58F0; &#x9053;&#x4F1A;&#x88AB;&#x53BB;&#x6389;. 
+</p>
+
+<p>
+format[=bps,f] 
+</p>
+
+<p>
+&#x9009;&#x62E9;&#x63D2;&#x4EF6;&#x5C42;&#x8F93;&#x51FA;&#x683C;&#x5F0F;&#x4E3A;f, &#x6837;&#x672C;&#x6BD4;&#x7279;&#x7387;&#x4E3A;bps. &#x9009;&#x9879;bps&#x662F;&#x4E00;&#x4E2A;&#x6574; &#x6570;&#x8868;&#x793A;&#x6BCF;&#x4E2A;&#x6837;&#x672C;&#x7684;&#x5B57;&#x8282;&#x6570;. &#x683C;&#x5F0F;f&#x662F;&#x4E0B;&#x9762;&#x51E0;&#x4E2A;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x8FDE;&#x63A5;: 
+alaw, mulaw&#x6216;imaadpcm 
+float&#x6216;int 
+unsigned&#x6216;signed 
+le&#x6216;be(&#x4F4E;&#x4F4D;&#x6216;&#x9AD8;&#x4F4D;&#x5728;&#x524D;) 
+</p>
+
+<p>
+volume[=v:sc] 
+</p>
+
+<p>
+&#x9009; &#x62E9;&#x8F93;&#x51FA;&#x97F3;&#x91CF;&#x7EA7;&#x522B;.&#x8FD9;&#x4E2A;&#x9009;&#x9879;&#x662F;&#x4E0D;&#x53EF;&#x91CD;&#x5165;&#x7684;, &#x6240;&#x4EE5;&#x5BF9;&#x6BCF;&#x4E2A;&#x97F3;&#x9891;&#x6D41; &#x53EA;&#x80FD;&#x4F7F;&#x7528;&#x4E00;&#x6B21;. 
+</p>
+
+<p>
+v: &#x5BF9;&#x6D41;&#x4E2D;&#x6240;&#x6709;&#x58F0;&#x9053;&#x7684;&#x589E;&#x76CA;, &#x4EE5;dB&#x4E3A;&#x5355;&#x4F4D;. &#x589E;&#x76CA;&#x53EF;&#x4EE5;&#x4ECE;-200dB &#x5230;+40dB(-200dB &#x5B8C; &#x5168; &#x9759;&#x97F3;completely&#x800C;+40dB&#x7B49;&#x4E8E;&#x653E;&#x5927;1000 &#x500D;). 
+sc: &#x542F;&#x7528;&#x8F6F;&#x4FEE;&#x9970;. 
+</p>
+
+<p>
+pan[=n:l01:l02:..l10:l11:l12:&#x2026;ln0:ln1:ln2:&#x2026;] 
+</p>
+
+<p>
+&#x4EFB;&#x610F;&#x6DF7;&#x5408;&#x58F0;&#x9053;, &#x7EC6;&#x8282;&#x53C2;&#x89C1;DOCS/sound.html. 
+</p>
+
+<p>
+n: &#x8F93;&#x51FA;&#x58F0;&#x9053;&#x6570;(1 - 6). 
+lij: &#x8F93;&#x51FA;&#x58F0;&#x9053;i&#x4E2D;&#x6DF7;&#x5408;&#x591A;&#x5C11;&#x8F93;&#x5165;&#x58F0;&#x9053;j&#x7684;&#x6210;&#x5206;. 
+</p>
+
+<p>
+sub[=fc:ch] 
+</p>
+
+<p>
+&#x589E;&#x52A0;&#x526F;&#x4F4E;&#x97F3;&#x58F0;&#x9053;. 
+</p>
+
+<p>
+fc: &#x4F4E;&#x901A;&#x6EE4;&#x6CE2;&#x5668;&#x7684;&#x526A;&#x9664;&#x9891;&#x7387;(20Hz to 300Hz)&#x9ED8;&#x8BA4;&#x503C;&#x4E3A;60Hz. 
+ch: &#x526F;&#x58F0;&#x9053;&#x7684;&#x58F0;&#x9053;&#x53F7;. 
+</p>
+
+<p>
+surround[=d] 
+</p>
+
+<p>
+&#x77E9;&#x9635;&#x7F16;&#x7801;&#x7684;&#x73AF;&#x7ED5;&#x97F3;&#x6548;&#x89E3;&#x7801;&#x5668;, &#x80FD;&#x7528;&#x4E8E;&#x8BB8;&#x591A;2&#x58F0;&#x9053;&#x6587;&#x4EF6;. 
+</p>
+
+<p>
+d: &#x4EE5;&#x6BEB;&#x79D2;&#x4E3A;&#x5355;&#x4F4D;&#x7684;&#x540E;&#x90E8;&#x626C;&#x58F0;&#x5668;&#x7684;&#x5EF6;&#x8FDF;&#x65F6;&#x95F4;(0ms&#x5230;1000ms), &#x9ED8; &#x8BA4;&#x503C;&#x4E3A;15ms. 
+</p>
+
+<p>
+delay[=ch1:ch2:&#x2026;] 
+</p>
+
+<p>
+&#x5EF6;&#x8FDF;&#x58F0;&#x97F3;&#x7684;&#x8F93;&#x51FA;. &#x4EE5;&#x767E;&#x4E07;&#x5206;&#x4E4B;&#x4E00;&#x79D2;&#x4E3A;&#x5355;&#x4F4D;&#x8BBE;&#x7F6E;&#x6BCF;&#x4E2A;&#x58F0;&#x9053;&#x7684;&#x5EF6;&#x8FDF;(0 &#x5230;1000&#x4E4B;&#x95F4;&#x7684;&#x6D6E;&#x70B9;&#x6570;). 
+</p>
+
+<p>
+&#x2212;af-adv &lt;force=(0&#x2212;3):list=(filters)&gt; (&#x53C2;&#x89C1;&#x2212;af&#x9009;&#x9879;) 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;&#x9AD8;&#x7EA7;&#x97F3;&#x9891;&#x6EE4;&#x955C;&#x9009;&#x9879;: 
+</p>
+
+<p>
+force=&lt;0-3&gt; 
+</p>
+
+<p>
+&#x5C06;&#x63D2;&#x5165;&#x97F3;&#x9891;&#x6EE4;&#x955C;&#x7684;&#x65B9;&#x5F0F;&#x6307;&#x5B9A;&#x4E3A;&#x4E0B;&#x9762;&#x4E4B;&#x4E00;: 
+</p>
+
+<p>
+0: &#x5B8C;&#x5168;&#x81EA;&#x52A8;&#x63D2;&#x5165;&#x6EE4;&#x955C;(&#x9ED8;&#x8BA4;) 
+1: &#x901F;&#x5EA6;&#x4F18;&#x5316; 
+2: &#x7CBE;&#x5EA6;&#x4F18;&#x5316; 
+3: &#x5173;&#x95ED;&#x81EA;&#x52A8;&#x63D2;&#x5165; 
+</p>
+
+<p>
+list=&lt;&#x6EE4;&#x955C;&gt; 
+</p>
+
+<p>
+&#x4E0E;&#x2212;af&#x76F8;&#x540C;(&#x53C2;&#x89C1;&#x2212;af&#x9009;&#x9879;). 
+</p>
+
+<p>
+&#x2212;ao &lt;&#x9A71;&#x52A8;1[:&#x8BBE;&#x5907;],&#x9A71;&#x52A8;2,&#x2026;[,]&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;&#x53EF;&#x7528;&#x7684;&#x97F3;&#x9891;&#x8F93;&#x51FA;&#x9A71;&#x52A8;&#x7684;&#x4F18;&#x5148;&#x7EA7;&#x5217;&#x8868;(&#x53EF;&#x4EE5;&#x52A0;&#x4E0A;&#x8BBE;&#x5907;). &#xB4;&#x8BBE;&#x5907;&#x2019; &#x4E5F; &#x7528; &#x4E8E;SDL, &#x90A3;&#x91CC;&#x5B83;&#x8868;&#x793A;&#x5B50;&#x9A71;&#x52A8;. 
+</p>
+
+<p>
+&#x6CE8;&#x610F;: 
+&#x8981;&#x83B7;&#x5F97;&#x5B8C;&#x6574;&#x7684;&#x53EF;&#x7528;&#x9A71;&#x52A8;&#x5217;&#x8868;, &#x53C2;&#x8003;&#x2212;ao help. 
+&#x5982;&#x679C;&#x5217;&#x8868;&#x7ED3;&#x5C3E;&#x6709;&#x4E00;&#x4E2A;&#x2019;,&#x2019; &#x5B83;&#x5C06;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x6CA1;&#x6709;&#x5217;&#x51FA;&#x7684;&#x9A71;&#x52A8;&#x4F5C;&#x4E3A;&#x540E;&#x5907;. 
+</p>
+
+<p>
+&#x793A;&#x4F8B; 
+</p>
+
+<p>
+&#x2212;ao oss:/dev/dsp2,oss:/dev/dsp1, 
+</p>
+
+<p>
+&#x5C1D;&#x8BD5;&#x4F7F;&#x7528;&#x6307;&#x5B9A;&#x58F0;&#x97F3;&#x8BBE;&#x5907;&#x7684;OSS&#x800C;&#x628A;&#x5176;&#x5B83;&#x8BBE;&#x7F6E;&#x4F5C;&#x4E3A;&#x540E;&#x5907; 
+</p>
+
+<p>
+&#x2212;ao sdl:esd 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;SDL&#x7684;&#x5B50;&#x9A71;&#x52A8; 
+</p>
+
+<p>
+&#x2212;aofile &lt;&#x6587;&#x4EF6;&#x540D;&gt; 
+</p>
+
+<p>
+&#x7528;&#x4E8E;&#x2212;ao pcm&#x7684;&#x6587;&#x4EF6;. 
+</p>
+
+<p>
+&#x2212;aop &lt;list=&#x63D2;&#x4EF6;1,&#x63D2;&#x4EF6;2&#x2026;:&#x9009;&#x9879;1=&#x53C2;&#x6570;1:&#x9009;&#x9879;2=&#x53C2;&#x6570;2&#x2026;&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;&#x97F3;&#x9891;&#x63D2;&#x4EF6;&#x548C;&#x4ED6;&#x4EEC;&#x7684;&#x9009;&#x9879;(&#x53C2;&#x89C1;&#x6587;&#x6863;). 
+&#x53EF;&#x7528;&#x9009;&#x9879;&#x6709;: 
+</p>
+
+<p>
+list=[&#x63D2;&#x4EF6;] 
+</p>
+
+<p>
+&#x9017; &#x53F7; &#x5206;&#x9694;&#x7684;&#x63D2;&#x4EF6;&#x5217;&#x8868;(resample, surround, format, volume, extrastereo, volnorm) 
+</p>
+
+<p>
+delay=&lt;&#x79D2;&gt; 
+</p>
+
+<p>
+&#x63D2;&#x4EF6;&#x4F8B;&#x5B50;, &#x6CA1;&#x6709;&#x7528; 
+</p>
+
+<p>
+format=&lt;&#x683C;&#x5F0F;&gt; 
+</p>
+
+<p>
+&#x8F93;&#x51FA;&#x683C;&#x5F0F;(&#x4EC5;&#x7528;&#x4E8E;format&#x63D2;&#x4EF6;) 
+</p>
+
+<p>
+fout=&lt;Hz&gt; 
+</p>
+
+<p>
+&#x8F93;&#x51FA;&#x9891;&#x7387;(&#x4EC5;&#x7528;&#x4E8E;resample&#x63D2;&#x4EF6;) 
+</p>
+
+<p>
+volume=&lt;0&#x2212;255&gt; 
+</p>
+
+<p>
+&#x97F3;&#x91CF;(&#x4EC5;&#x7528;&#x4E8E;volume&#x63D2;&#x4EF6;) 
+</p>
+
+<p>
+mul=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x7ACB;&#x4F53;&#x58F0;&#x7CFB;&#x6570;(&#x9ED8;&#x8BA4;&#x503C;: 2.5)(&#x4EC5;&#x7528;&#x4E8E;extrastereo&#x63D2;&#x4EF6;) 
+</p>
+
+<p>
+softclip 
+</p>
+
+<p>
+&#x4F7F;&#x7528;&#x2019;&#x8F6F;&#x4FEE;&#x9970;&#x2019;&#x538B;&#x7F29;&#x529F;&#x80FD;(&#x4EC5;&#x7528;&#x4E8E;volume&#x63D2;&#x4EF6;) 
+</p>
+
+<p>
+&#x2212;delay &lt;&#x79D2;&gt; 
+</p>
+
+<p>
+&#x4EE5;&#x79D2;&#x4E3A;&#x5355;&#x4F4D;&#x5EF6;&#x8FDF;&#x97F3;&#x9891;(&#x53EF;&#x4EE5;&#x662F;+/&#x2212;&#x6D6E;&#x70B9;&#x503C;). 
+</p>
+
+<p>
+&#x2212;format &lt;0&#x2212;8192&gt; 
+</p>
+
+<p>
+&#x9009;&#x62E9;&#x6EE4;&#x955C;&#x5C42;&#x4F7F;&#x7528;&#x7684;&#x8F93;&#x51FA;&#x683C;&#x5F0F; (&#x4F9D;&#x636E;libao2/afmt.h&#x4E2D;&#x7684;&#x5B9A;&#x4E49;): 
+</p>
+
+<p>
+1 
+Mu-Law 
+</p>
+
+<p>
+2 
+A-Law 
+</p>
+
+<p>
+4 
+Ima-ADPCM 
+</p>
+
+<p>
+8 
+Signed 8-bit 
+</p>
+
+<p>
+16 
+Unsigned 8-bit 
+</p>
+
+<p>
+32 
+Unsigned 16-bit (&#x4F4E;&#x4F4D;&#x4F18;&#x5148;) 
+</p>
+
+<p>
+64 
+Unsigned 16-bit (&#x9AD8;&#x4F4D;&#x4F18;&#x5148;) 
+</p>
+
+<p>
+128 
+Signed 16-bit (&#x4F4E;&#x4F4D;&#x4F18;&#x5148;) 
+</p>
+
+<p>
+256 
+Signed 16-bit (&#x9AD8;&#x4F4D;&#x4F18;&#x5148;) 
+</p>
+
+<p>
+512 
+MPEG (2)&#x97F3;&#x9891; 
+</p>
+
+<p>
+1024 
+</p>
+
+<p>
+AC3 
+</p>
+
+<p>
+4096 
+</p>
+
+<p>
+Signed 32-bit (&#x4F4E;&#x4F4D;&#x4F18;&#x5148;) 
+</p>
+
+<p>
+8192 
+</p>
+
+<p>
+Signed 32-bit (&#x9AD8;&#x4F4D;&#x4F18;&#x5148;) 
+</p>
+
+<p>
+&#x2212;mixer &lt;&#x8BBE;&#x5907;&gt; 
+</p>
+
+<p>
+&#x8FD9;&#x4E2A;&#x9009;&#x9879;&#x8BA9;MPlayer&#x4F7F;&#x7528;/dev/mixer&#x4E4B;&#x5916;&#x7684;&#x8BBE;&#x5907;&#x8FDB;&#x884C;&#x6DF7;&#x97F3;. 
+</p>
+
+<p>
+&#x2212;nowaveheader (&#x4EC5;&#x7528;&#x4E8E;-ao pcm) 
+</p>
+
+<p>
+&#x4E0D;&#x5305;&#x62EC;wave&#x6587;&#x4EF6;&#x5934;. &#x7528;&#x4E8E;&#x539F;&#x59CB;RAW PCM. 
+</p>
+
+<p>
+&#x89C6;&#x9891;&#x8F93;&#x51FA;&#x9009;&#x9879; ( &#x4EC5;&#x7528;&#x4E8E; MPLAYER) 
+&#x2212;aa* (&#x4EC5;&#x7528;&#x4E8E;&#x2212;vo aa) 
+</p>
+
+<p>
+&#x4F60;&#x53EF;&#x4EE5;&#x8FD0;&#x884C; mplayer &#x2212;aahelp &#x6765;&#x83B7;&#x5F97;&#x4E00;&#x4EFD;&#x53EF;&#x7528;&#x9009;&#x9879;&#x7684;&#x89E3;&#x91CA;&#x7684;&#x5217;&#x8868;. 
+</p>
+
+<p>
+&#x2212;bpp &lt;&#x6DF1;&#x5EA6;&gt; 
+</p>
+
+<p>
+&#x4F7F;&#x7528;&#x4E0E;&#x81EA;&#x52A8;&#x68C0;&#x6D4B;&#x7ED3;&#x679C;&#x4E0D;&#x540C;&#x7684;&#x989C;&#x8272;&#x6DF1;&#x5EA6;. &#x4E0D; &#x662F; &#x6240; &#x6709;&#x2212;vo &#x9A71; &#x52A8; &#x90FD; &#x652F; &#x6301; &#x5B83;(fbdev, dga2, svga, vesa). 
+</p>
+
+<p>
+&#x2212;brightness &lt;&#x2212;100&#x2212;100&gt; 
+</p>
+
+<p>
+&#x8C03; &#x6574; &#x89C6;&#x9891;&#x8F93;&#x51FA;&#x7684;&#x4EAE;&#x5EA6;(&#x9ED8;&#x8BA4;&#x503C;&#x4E3A;0). &#x5B83;&#x6539;&#x53D8;&#x89C6;&#x9891;&#x4FE1;&#x53F7;&#x4E2D;RGB&#x7EC4;&#x4EFD;&#x7684;&#x4EAE;&#x5EA6;, &#x4ECE;&#x9ED1;&#x5230;&#x767D;. 
+</p>
+
+<p>
+&#x2212;contrast &lt;&#x2212;100&#x2212;100&gt; 
+</p>
+
+<p>
+&#x8C03;&#x6574;&#x89C6;&#x9891;&#x8F93;&#x51FA;&#x7684;&#x5BF9;&#x6BD4;&#x5EA6;(&#x9ED8;&#x8BA4;&#x503C;&#x4E3A;0). &#x5DE5;&#x4F5C;&#x65B9;&#x5F0F;&#x4E0E;brightness&#x5DEE;&#x4E0D;&#x591A;. 
+</p>
+
+<p>
+&#x2212;dfbopts &lt;&#x53C2;&#x6570;&gt; (&#x4EC5;&#x7528;&#x4E8E;&#x2212;vo directfb2) 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;directfb&#x9A71;&#x52A8;&#x7684;&#x53C2;&#x6570;&#x5217;&#x8868;. 
+</p>
+
+<p>
+&#x2212;display &lt;name&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;&#x4F60;&#x5E0C;&#x671B;&#x4F7F;&#x7528;&#x7684;X server&#x7684;hostname&#x548C;display number. 
+</p>
+
+<p>
+&#x793A;&#x4F8B;: 
+</p>
+
+<p>
+&#x2212;display xtest.localdomain:0 
+</p>
+
+<p>
+&#x2212;double 
+</p>
+
+<p>
+&#x542F;&#x7528;&#x53CC;&#x7F13;&#x51B2;. &#x901A;&#x8FC7;&#x5728;&#x5185;&#x5B58;&#x91CC;&#x50A8;&#x5B58;&#x4E24;&#x5E27;&#x6765;&#x89E3;&#x51B3;&#x95EA;&#x70C1;&#x95EE;&#x9898;, &#x5728;&#x663E;&#x793A;&#x4E00;&#x5E27;&#x7684; &#x540C; &#x65F6; &#x89E3;&#x7801;&#x53E6;&#x4E00;&#x5E27;. &#x4F1A;&#x5F71;&#x54CD;OSD. &#x9700;&#x8981;&#x5355;&#x4E00;&#x7F13;&#x51B2;&#x65B9;&#x5F0F;&#x4E24;&#x500D;&#x7684;&#x5185;&#x5B58;. &#x6240;&#x4EE5;&#x4E0D;&#x80FD; &#x7528;&#x4E8E;&#x663E;&#x5B58;&#x5F88;&#x5C11;&#x7684;&#x663E;&#x5361;. 
+</p>
+
+<p>
+&#x2212;dr 
+&#x6253;&#x5F00;&#x76F4;&#x63A5;&#x6E32;&#x67D3;&#x529F;&#x80FD;(&#x4E0D;&#x662F;&#x6240;&#x6709;&#x7684;&#x7F16;&#x89E3;&#x7801;&#x5668;&#x548C;&#x89C6;&#x9891;&#x8F93;&#x51FA;&#x90FD;&#x652F;&#x6301;)(&#x9ED8; &#x8BA4; &#x4E3A;&#x5173;&#x95ED;). &#x8B66;&#x544A;: &#x53EF;&#x80FD;&#x5BFC;&#x81F4;OSD/&#x5B57;&#x5E55;&#x635F;&#x574F;! 
+</p>
+
+<p>
+&#x2212;dxr2 &lt;&#x9009;&#x9879;1:&#x9009;&#x9879;2:&#x2026;&gt; 
+</p>
+
+<p>
+&#x8FD9;&#x4E2A;&#x9009;&#x9879;&#x7528;&#x6765;&#x63A7;&#x5236;dxr2&#x9A71;&#x52A8;. &#x6CE8;&#x610F;: &#x73B0;&#x5728;&#x5F53;&#x4F60;&#x64AD;&#x653E;&#x975E;MPEG1/2&#x683C;&#x5F0F;&#x65F6;lavc &#x6EE4;&#x955C;&#x4F1A;&#x81EA;&#x52A8;&#x63D2;&#x5165;, &#x6240;&#x4EE5;&#x73B0;&#x5728;&#x6240;&#x6709;MPlayer&#x652F;&#x6301;&#x7684;&#x683C;&#x5F0F;&#x90FD;&#x53EF;&#x4EE5;&#x64AD;&#x653E;(&#x5982;&#x679C; &#x4F60; &#x6709;&#x5B9E;&#x65F6;&#x7F16;&#x7801;&#x6240;&#x9700;&#x8981;&#x7684;CPU&#x901F;&#x5EA6;). dxr2&#x7684;&#x53E0;&#x52A0;&#x82AF;&#x7247;&#x7684;&#x8D28;&#x91CF;&#x76F8;&#x5F53;&#x5DEE;&#x4E0D;&#x8FC7;&#x9ED8;&#x8BA4; &#x8BBE;&#x7F6E;&#x5E94;&#x8BE5;&#x53EF;&#x4EE5;&#x7528;&#x4E8E;&#x6BCF;&#x4E00;&#x4E2A;&#x4EBA;. OSD&#x53EF;&#x80FD;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x4F7F;&#x7528;colorkey&#x7684;&#x7ED8;&#x5236; &#x65B9; &#x6CD5;&#x5728;&#x53E0;&#x52A0;(&#x4E0D;&#x80FD;&#x7528;&#x4E8E;TV)&#x8F93;&#x51FA;&#x4E2D;&#x5B9E;&#x73B0;. &#x4F7F;&#x7528;&#x9ED8;&#x8BA4;&#x7684;colorkey&#x8BBE;&#x5B9A;&#x4F60;&#x53EF;&#x80FD;&#x83B7; &#x5F97;&#x5404;&#x79CD;&#x6548;&#x679C;, &#x4E00;&#x822C;&#x60C5;&#x51B5;&#x4E0B;&#x4F60;&#x53EF;&#x80FD;&#x770B;&#x5230;colorkey&#x73AF;&#x7ED5;&#x5728;&#x5B57;&#x7B26;&#x5468;&#x56F4;&#x6216;&#x8005;&#x5176; &#x5B83; &#x53EF;&#x7B11;&#x7684;&#x6548;&#x679C;. &#x4F46;&#x53EA;&#x8981;&#x4F60;&#x9002;&#x5F53;&#x7684;&#x8C03;&#x8282;colorkey&#x7684;&#x8BBE;&#x5B9A;&#x4F60;&#x5E94;&#x8BE5;&#x53EF;&#x4EE5;&#x83B7;&#x5F97;&#x53EF;&#x63A5; &#x53D7;&#x7684;&#x6548;&#x679C;. 
+</p>
+
+<p>
+ar-mode=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x957F;&#x5BBD;&#x6BD4;&#x6A21;&#x5F0F;(0 = &#x666E;&#x901A;, 1 = pan scan&#x6A21;&#x5F0F;, 2 = letterbox &#x6A21; &#x5F0F;(&#x9ED8;&#x8BA4;)) 
+</p>
+
+<p>
+iec958&#x2212;encoded/decoded 
+</p>
+
+<p>
+iec958&#x8F93;&#x51FA;&#x6A21;&#x5F0F; 
+</p>
+
+<p>
+mute 
+</p>
+
+<p>
+&#x58F0;&#x97F3;&#x8F93;&#x51FA;&#x9759;&#x97F3; 
+</p>
+
+<p>
+ucode=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+microcode&#x7684;&#x8DEF;&#x5F84; 
+</p>
+
+<p>
+TV Out 
+</p>
+
+<p>
+75ire 
+</p>
+
+<p>
+&#x542F;&#x7528;7.5IRE 
+</p>
+
+<p>
+bw 
+&#x9ED1;&#x767D;&#x7535;&#x89C6;&#x8F93;&#x51FA; 
+</p>
+
+<p>
+color 
+</p>
+
+<p>
+&#x5F69;&#x8272;&#x7535;&#x89C6;&#x8F93;&#x51FA; 
+</p>
+
+<p>
+interlaced 
+</p>
+
+<p>
+&#x4EA4;&#x9519;&#x7535;&#x89C6;&#x8F93;&#x51FA; 
+</p>
+
+<p>
+macrovision=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+macrovision &#x6A21; &#x5F0F;(0 = &#x5173;&#x95ED;(&#x9ED8;&#x8BA4;&#x503C;), 1 = agc, 2 = agc 2 colorstripe, 3 = agc 4 colorstripe) 
+</p>
+
+<p>
+norm=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x7535;&#x89C6;&#x5236;&#x5F0F;(ntsc(&#x9ED8;&#x8BA4;), pal,pal60,palm,paln,palnc) 
+</p>
+
+<p>
+square/ccir601&#x2212;pixel 
+</p>
+
+<p>
+&#x7535;&#x89C6;&#x50CF;&#x7D20;&#x6A21;&#x5F0F; 
+</p>
+
+<p>
+&#x53E0;&#x52A0; 
+</p>
+
+<p>
+cr-[left|right|top|bot]=&lt;&#x2212;20&#x2212;20&gt; 
+</p>
+
+<p>
+&#x8C03;&#x6574;&#x53E0;&#x52A0;&#x88C1;&#x51CF; 
+</p>
+
+<p>
+ck-[rgb]min=&lt;0&#x2212;255&gt; 
+</p>
+
+<p>
+color key&#x53C2;&#x6570;&#x6700;&#x5C0F;&#x503C; 
+</p>
+
+<p>
+ck-[rgb]max=&lt;0&#x2212;255&gt; 
+</p>
+
+<p>
+color key&#x53C2;&#x6570;&#x6700;&#x5927;&#x503C; 
+</p>
+
+<p>
+ck-[rgb]=&lt;0&#x2212;255&gt; 
+</p>
+
+<p>
+color key&#x53C2;&#x6570; 
+</p>
+
+<p>
+ignore&#x2212;cache 
+</p>
+
+<p>
+&#x4E0D;&#x4F7F;&#x7528;VGA&#x7F13;&#x5B58; 
+</p>
+
+<p>
+ol-osd 
+</p>
+
+<p>
+&#x542F;&#x7528;&#x53E0;&#x52A0;&#x6A21;&#x5F0F;&#x7684;osd hack 
+</p>
+
+<p>
+ol[hwxy]&#x2212;cor=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x8C03;&#x6574;&#x53E0;&#x52A0;&#x5C3A;&#x5BF8;&#x548C;&#x4F4D;&#x7F6E;, &#x5982;&#x679C;&#x5B83;&#x8DDF;&#x7A97;&#x53E3;&#x5339;&#x914D;&#x4E0D;&#x591F;&#x5B8C;&#x7F8E; 
+</p>
+
+<p>
+overlay 
+</p>
+
+<p>
+&#x542F;&#x7528;&#x53E0;&#x52A0; 
+</p>
+
+<p>
+overlay-ratio=&lt;1&#x2212;2500&gt; 
+</p>
+
+<p>
+&#x8C03;&#x6574;&#x53E0;&#x52A0;&#x6A21;&#x5F0F;(&#x9ED8;&#x8BA4;&#x503C;&#x4E3A;1000) 
+</p>
+
+<p>
+update&#x2212;cache 
+</p>
+
+<p>
+&#x91CD;&#x5EFA;VGA&#x7F13;&#x5B58; 
+</p>
+
+<p>
+&#x2212;fb &lt;&#x8BBE;&#x5907;&gt; (&#x4EC5;&#x7528;&#x4E8E;fbdev&#x6216;&#x8005;DirectFB) 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;&#x4F7F;&#x7528;&#x7684;&#x5E27;&#x7F13;&#x51B2;&#x8BBE;&#x5907;. &#x9ED8;&#x8BA4;&#x4E3A;/dev/fb0. 
+</p>
+
+<p>
+&#x2212;fbmode &lt;&#x6A21;&#x5F0F;&#x540D;&gt; (&#x4EC5;&#x7528;&#x4E8E;fbdev) 
+</p>
+
+<p>
+&#x628A;&#x89C6;&#x9891;&#x6A21;&#x5F0F;&#x8BBE;&#x4E3A;/etc/fb.modes&#x4E2D;&#x6807;&#x8BB0;&#x4E3A;&lt;&#x6A21;&#x5F0F;&#x540D;&gt;&#x7684;&#x6A21;&#x5F0F; 
+</p>
+
+<p>
+&#x6CE8;&#x610F;: 
+VESA&#x5E27;&#x7F13;&#x51B2;&#x4E0D;&#x652F;&#x6301;&#x6539;&#x53D8;&#x663E;&#x793A;&#x6A21;&#x5F0F;. 
+</p>
+
+<p>
+&#x2212;fbmodeconfig &lt;&#x6587;&#x4EF6;&#x540D;&gt; (&#x4EC5;&#x7528;&#x4E8E;fbdev) 
+</p>
+
+<p>
+&#x4F7F;&#x7528;&#x8FD9;&#x4E2A;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x53D6;&#x4EE3;&#x9ED8;&#x8BA4;&#x7684;/etc/fb.modes. &#x53EA;&#x5BF9;fbdev&#x9A71;&#x52A8;&#x6709;&#x6548;. 
+</p>
+
+<p>
+&#x2212;forcexv (&#x4EC5;&#x7528;&#x4E8E;SDL) 
+</p>
+
+<p>
+&#x6307;&#x5B9A;&#x4F7F;&#x7528;XVideo. 
+</p>
+
+<p>
+&#x2212;fs 
+&#x5168;&#x5C4F;&#x64AD;&#x653E;(&#x7535;&#x5F71;&#x663E;&#x793A;&#x5728;&#x4E2D;&#x592E;, &#x56DB;&#x5468;&#x586B;&#x5145;&#x9ED1;&#x8272;&#x6761;&#x8FB9;). &#x7528;&#x2019;f&#x2019;&#x952E;&#x89E6; &#x53D1;( &#x4E0D;&#x662F;&#x6240;&#x6709;&#x7684;&#x89C6;&#x9891;&#x8F93;&#x51FA;&#x90FD;&#x652F;&#x6301;&#x5B83;). &#x53C2;&#x89C1;&#x2212;zoom. 
+</p>
+
+<p>
+&#x2212;fsmode-dontuse &lt;0-31&gt; (&#x5DF2;&#x653E;&#x5F03;) (&#x4F7F;&#x7528;&#x2212;fs&#x9009;&#x9879;) 
+</p>
+
+<p>
+&#x5982;&#x679C;&#x4F60;&#x8FD8;&#x6709;&#x5168;&#x5C4F;&#x95EE;&#x9898;&#x8BD5;&#x8BD5;&#x8FD9;&#x4E2A;&#x9009;&#x9879;. 
+</p>
+
+<p>
+&#x2212;fstype &lt;type1,type2,&#x2026;&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;&#x53EF;&#x7528;&#x7684;&#x5168;&#x5C4F;&#x5C42;&#x8BBE;&#x7F6E;&#x6A21;&#x5F0F;&#x7684;&#x4F18;&#x5148;&#x7EA7;&#x5217;&#x8868;. 
+</p>
+
+<p>
+&#x9ED8; &#x8BA4;&#x7684;&#x6B21;&#x5E8F;&#x662F;&quot;layer,stays<sub>on</sub><sub>top,above,fullscreen</sub>&quot;. &#x5982;&#x679C;&#x8BBE;&#x7F6E;&#x7684; &#x6A21;&#x5F0F;&#x4E0D;&#x6B63;&#x786E;&#x6216;&#x4E0D;&#x652F;&#x6301;&#x4F1A;&#x4F7F;&#x7528;&#x540E;&#x5907;&#x9879;. 
+&#x5982;&#x679C;&#x4F60;&#x9047;&#x5230;&#x5168;&#x5C4F;&#x7A97;&#x53E3;&#x88AB;&#x522B;&#x7684;&#x7A97;&#x53E3;&#x8986;&#x76D6;&#x7684;&#x95EE;&#x9898;&#x8BD5;&#x8BD5;&#x8BBE;&#x7F6E;&#x4E0D;&#x540C;&#x7684;&#x987A;&#x5E8F;. 
+</p>
+
+<p>
+&#x6CE8;&#x610F;: 
+&#x53C2;&#x8003;&#x2212;fstype help&#x5217;&#x51FA;&#x7684;&#x5168;&#x90E8;&#x53EF;&#x7528;&#x6A21;&#x5F0F;&#x7684;&#x5217;&#x8868;. 
+</p>
+
+<p>
+&#x2212;geometry x<code>[%]</code>[:y<code>[%]</code>] or [WxH][+x+y] 
+</p>
+
+<p>
+&#x8C03;&#x6574;&#x5C4F;&#x5E55;&#x8F93;&#x51FA;&#x7684;&#x521D;&#x59CB;&#x4F4D;&#x7F6E;. x&#x548C;y&#x4EE3;&#x8868;&#x4ECE;&#x5C4F;&#x5E55;&#x53F3;&#x4E0A;&#x89D2;&#x5230;&#x663E;&#x793A;&#x56FE;&#x50CF;&#x53F3;&#x4E0A;&#x89D2;&#x7684; &#x8DDD;&#x79BB;, &#x4EE5;&#x50CF;&#x7D20;&#x4E3A;&#x5355;&#x4F4D;. &#x4E0D;&#x8FC7;&#x5982;&#x679C;&#x5728;&#x53C2;&#x6570;&#x540E;&#x6709;&#x767E;&#x5206;&#x53F7;&#x8BB0;&#x53F7;&#x5B83;&#x5C06;&#x628A;&#x53C2;&#x6570;&#x7406;&#x89E3; &#x4E3A;&#x8BE5;&#x65B9;&#x5411;&#x4E0A;&#x7684;&#x5C4F;&#x5E55;&#x5C3A;&#x5BF8;&#x6BD4;&#x4F8B;. &#x5B83;&#x4E5F;&#x652F;&#x6301;&#x6807;&#x51C6;&#x7684;X &#x2212;geometry&#x7684;&#x6807;&#x51C6;&#x9009; &#x9879; &#x683C;&#x5F0F;. &#x53C2;&#x6570;&#x5FC5;&#x987B;&#x4E3A;&#x6574;&#x6570;. 
+</p>
+
+<p>
+&#x6CE8;&#x610F;: &#x8FD9;&#x4E2A;&#x9009;&#x9879;&#x53EA;&#x6709;&#x4E00;&#x4E2A;vo&#x652F;&#x6301;: xv. 
+</p>
+
+<p>
+&#x793A;&#x4F8B;: 
+</p>
+
+<p>
+50:40 
+</p>
+
+<p>
+&#x628A;&#x7A97;&#x53E3;&#x653E;&#x5728;x=50, y=40&#x5904; 
+</p>
+
+<p>
+50%:50% 
+</p>
+
+<p>
+&#x628A;&#x7A97;&#x53E3;&#x653E;&#x5728;&#x5C4F;&#x5E55;&#x4E2D;&#x592E; 
+</p>
+
+<p>
+100% 
+</p>
+
+<p>
+&#x628A;&#x7A97;&#x53E3;&#x653E;&#x5728;&#x5C4F;&#x5E55;&#x5DE6;&#x4E0A;&#x89D2; 
+</p>
+
+<p>
+100%:100% 
+</p>
+
+<p>
+&#x628A;&#x7A97;&#x53E3;&#x653E;&#x5728;&#x5C4F;&#x5E55;&#x5DE6;&#x4E0B;&#x89D2; 
+</p>
+
+<p>
+&#x2212;guiwid &lt;&#x7A97;&#x53E3;&#x6807;&#x8BC6;&gt; 
+</p>
+
+<p>
+&#x8FD9; &#x544A; &#x8BC9;GUI &#x4E5F;&#x4F7F;&#x7528;&#x4E00;&#x4E2A;X11&#x7A97;&#x53E3;&#x5E76;&#x628A;&#x81EA;&#x5DF1;&#x7C98;&#x5230;&#x89C6;&#x9891;&#x7A97;&#x53E3;&#x7684;&#x4E0B;&#x65B9;, &#x5728;&#x5C06;&#x4E00; &#x4E2A;mini-GUI&#x5D4C;&#x5165;&#x5230;&#x6D4F;&#x89C8;&#x5668;&#x65F6;(&#x6BD4;&#x5982;mplayer&#x63D2;&#x4EF6;)&#x6709;&#x7528;. 
+</p>
+
+<p>
+&#x2212;hue &lt;&#x2212;100&#x2212;100&gt; 
+</p>
+
+<p>
+&#x8C03;&#x6574;&#x89C6;&#x9891;&#x4FE1;&#x53F7;&#x7684;&#x8272;&#x76F8;(&#x9ED8;&#x8BA4;: 0). &#x4F60;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x8FD9;&#x4E2A;&#x9009;&#x9879;&#x5F97;&#x5230;&#x8D1F;&#x7247;&#x6548;&#x679C; &#x7684; &#x56FE;&#x50CF;. 
+</p>
+
+<p>
+&#x2212;icelayer &lt;0&#x2212;15&gt; (&#x4EC5;&#x7528;&#x4E8E;icewm) 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;icewm&#x4E0B;mplayer&#x7684;&#x5168;&#x5C4F;&#x7A97;&#x53E3;&#x5C42;. 
+</p>
+
+<p>
+0 
+Desktop 
+</p>
+
+<p>
+2 
+Below 
+</p>
+
+<p>
+4 
+Normal 
+</p>
+
+<p>
+6 
+OnTop 
+</p>
+
+<p>
+8 
+Dock 
+</p>
+
+<p>
+10 
+AboveDock 
+</p>
+
+<p>
+12 
+Menu (&#x9ED8;&#x8BA4;) 
+</p>
+
+<p>
+&#x2212;jpeg &lt;&#x9009;&#x9879;1:&#x9009;&#x9879;2:&#x2026;&gt; (&#x4EC5;&#x7528;&#x4E8E;&#x2212;vo jpeg) 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;JPEG&#x8F93;&#x51FA;&#x7684;&#x9009;&#x9879;. 
+&#x53EF;&#x7528;&#x9009;&#x9879;&#x6709;: 
+</p>
+
+<p>
+[no]progressive 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;&#x6807;&#x51C6;&#x7684;&#x6216;&#x6E10;&#x8FDB;&#x7684;JPEG. 
+</p>
+
+<p>
+[no]baseline 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;&#x662F;&#x5426;&#x4F7F;&#x7528;&#x57FA;&#x7EBF;. 
+</p>
+
+<p>
+optimize=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x4F18;&#x5316;&#x56E0;&#x5B50;[0-100] 
+</p>
+
+<p>
+smooth=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x5E73;&#x6ED1;&#x56E0;&#x5B50;[0-100] 
+</p>
+
+<p>
+quality=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x8D28;&#x91CF;&#x56E0;&#x5B50;[0-100] 
+</p>
+
+<p>
+outdir=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x4FDD;&#x5B58;JPEG&#x6587;&#x4EF6;&#x7684;&#x76EE;&#x5F55; 
+</p>
+
+<p>
+&#x2212;monitor<sub>dotclock</sub> &lt;dotclock (or pixelclock) range&gt; (&#x4EC5;&#x7528;&#x4E8E;fbdev&#x548C;vesa) 
+</p>
+
+<p>
+&#x5BDF;&#x770B;etc/example.conf&#x548C;DOCS/video.html&#x6765;&#x8FDB;&#x4E00;&#x6B65;&#x4E86;&#x89E3;&#x4FE1;&#x606F;. 
+</p>
+
+<p>
+&#x2212;monitor<sub>hfreq</sub> &lt;&#x6C34;&#x5E73;&#x9891;&#x7387;&#x8303;&#x56F4;&gt; (&#x4EC5;&#x7528;&#x4E8E;fbdev&#x548C;vesa) 
+</p>
+
+<p>
+&#x2212;monitor<sub>vfreq</sub> &lt;&#x5782;&#x76F4;&#x9891;&#x7387;&#x8303;&#x56F4;&gt; (&#x4EC5;&#x7528;&#x4E8E;fbdev&#x548C;vesa) 
+</p>
+
+<p>
+&#x2212;monitoraspect &lt;&#x957F;&#x5BBD;&#x6BD4;&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;&#x4F60;&#x7684;&#x663E;&#x793A;&#x5668;&#x6216;&#x7535;&#x89C6;&#x5C4F;&#x5E55;&#x7684;&#x957F;&#x5BBD;&#x6BD4;, &#x53C2;&#x89C1;&#x7528;&#x4E8E;&#x7535;&#x5F71;&#x957F;&#x5BBD;&#x6BD4;&#x7684;&#x2212;aspect&#x9009; &#x9879;. 
+</p>
+
+<p>
+&#x793A;&#x4F8B;: 
+</p>
+
+<p>
+&#x2212;monitoraspect 4:3&#x6216;&#x8005;1.3333 
+&#x2212;monitoraspect 16:9&#x6216;&#x8005;1.7777 
+</p>
+
+<p>
+&#x2212;nograbpointer 
+</p>
+
+<p>
+VidMode&#x6539;&#x53D8;(&#x2212;vm)&#x540E;&#x4E0D;&#x622A;&#x83B7;&#x9F20;&#x6807;&#x7126;&#x70B9;, &#x7528;&#x4E8E;&#x591A;&#x8F93;&#x51FA;&#x5934;&#x8BBE;&#x7F6E;. 
+</p>
+
+<p>
+&#x2212;nokeepaspect 
+</p>
+
+<p>
+&#x7F29; &#x653E;X11 &#x7A97; &#x53E3; &#x65F6; &#x4E0D; &#x4FDD;&#x6301;&#x7A97;&#x53E3;&#x7684;&#x957F;&#x5BBD;&#x6BD4;(&#x53EA;&#x5DE5;&#x4F5C;&#x4E8E;&#x2212;vo x11, xv, xmga &#x548C;xvidix&#x800C;&#x4E14;&#x4F60;&#x7684;&#x7A97;&#x53E3;&#x7BA1;&#x7406;&#x5668;&#x5FC5;&#x987B;&#x7406;&#x89E3;window aspect hints.). 
+</p>
+
+<p>
+&#x2212;noslices 
+</p>
+
+<p>
+&#x7981;&#x7528;&#x628A;&#x89C6;&#x9891;&#x5206;&#x9694;&#x6210;16&#x50CF;&#x7D20;&#x9AD8;&#x7684;&#x6761;/&#x5E26;&#x7ED8;&#x5236;&#x7684;&#x65B9;&#x5F0F;, &#x800C;&#x662F;&#x4E00;&#x6B21;&#x7ED8;&#x5236;&#x6574;&#x4E2A; &#x5E27;. &#x53EF; &#x80FD;&#x66F4;&#x5FEB;&#x6216;&#x66F4;&#x6162;, &#x53D6;&#x51B3;&#x4E8E;&#x663E;&#x5361;/&#x7F13;&#x5B58;. &#x5B83;&#x53EA;&#x5BF9;libmpeg2&#x548C;libavcodec&#x7F16; &#x89E3;&#x7801;&#x5668;&#x6709;&#x6548;. 
+</p>
+
+<p>
+&#x2212;panscan &lt;0.0&#x2212;1.0&gt; 
+</p>
+
+<p>
+&#x542F;&#x7528;Pan &amp; Scan&#x529F;&#x80FD;, &#x4E5F;&#x5C31;&#x662F;&#x4E3A;&#x4E86;&#x5728;4:3&#x7684;&#x663E;&#x793A;&#x5668;&#x4E0A;&#x663E;&#x793A;16:9, &#x628A;&#x7535;&#x5F71;&#x7684; &#x8FB9; &#x7F18; &#x5207; &#x6389;&#x6765;&#x83B7;&#x5F97;4:3&#x7684;, &#x4E0E;&#x5C4F;&#x5E55;&#x5339;&#x914D;&#x7684;&#x56FE;&#x50CF;&#x7684;&#x65B9;&#x6CD5;. &#x8FD9;&#x4E2A;&#x529F;&#x80FD;&#x53EA;&#x80FD;&#x7528; &#x4E8E;xv, xmga, mga&#x548C;xvidix&#x89C6;&#x9891;&#x8F93;&#x51FA;&#x9A71;&#x52A8;. 
+&#x53C2;&#x6570;&#x7528;&#x6765;&#x63A7;&#x5236;&#x5207;&#x6389;&#x591A;&#x5C11;&#x56FE;&#x50CF;. 
+</p>
+
+<p>
+&#x2212;rootwin 
+</p>
+
+<p>
+&#x5728;&#x6839;&#x7A97;&#x53E3;(&#x684C;&#x9762;&#x80CC;&#x666F;)&#x4E2D;&#x64AD;&#x653E;&#x7535;&#x5F71;&#x800C;&#x4E0D;&#x662F;&#x91CD;&#x65B0;&#x6253;&#x5F00;&#x4E00;&#x4E2A;&#x65B0;&#x7A97;&#x53E3;. &#x53EA; &#x80FD; &#x7528; &#x4E8E;x11, xv, xmga&#x548C;xvidix&#x9A71;&#x52A8;. 
+</p>
+
+<p>
+&#x2212;saturation &lt;&#x2212;100&#x2212;100&gt; 
+</p>
+
+<p>
+&#x8C03; &#x6574;&#x89C6;&#x9891;&#x8F93;&#x51FA;&#x7684;&#x9971;&#x548C;&#x5EA6;(&#x9ED8;&#x8BA4;&#x503C;: 0). &#x4F60;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x8FD9;&#x4E2A;&#x9009;&#x9879;&#x83B7;&#x5F97;&#x7070;&#x5EA6;&#x8F93; &#x51FA;. 
+</p>
+
+<p>
+&#x2212;screenw &lt;&#x50CF;&#x7D20;&gt; &#x2212;screenh &lt;&#x50CF;&#x7D20;&gt; 
+</p>
+
+<p>
+&#x5982;&#x679C;&#x4F60;&#x4F7F;&#x7528;&#x7684;&#x8F93;&#x51FA;&#x9A71;&#x52A8;&#x65E0;&#x6CD5;&#x83B7;&#x5F97;&#x5C4F;&#x5E55;&#x5206;&#x8FA8;&#x7387;(fbdev/x11&#x548C;/&#x6216;&#x8005; TVout) &#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x5728;&#x8FD9;&#x91CC;&#x8BBE;&#x7F6E;&#x6C34;&#x5E73;&#x548C;&#x5782;&#x76F4;&#x5206;&#x8FA8;&#x7387;. 
+</p>
+
+<p>
+&#x2212;stop<sub>xscreensaver</sub> 
+</p>
+
+<p>
+&#x5728;&#x542F;&#x52A8;&#x662F;&#x5173;&#x95ED;xscreensaver&#x5728;&#x9000;&#x51FA;&#x65F6;&#x518D;&#x6253;&#x5F00;&#x5B83;. 
+</p>
+
+<p>
+&#x2212;vm 
+&#x5C1D;&#x8BD5;&#x6539;&#x53D8;&#x5230;&#x66F4;&#x5408;&#x9002;&#x7684;&#x89C6;&#x9891;&#x6A21;&#x5F0F;. dga, x11/xv (XF86VidMode)&#x548C;sdl &#x8F93;&#x51FA;&#x9A71;&#x52A8;&#x652F;&#x6301;. 
+</p>
+
+<p>
+&#x2212;vo &lt;&#x9A71;&#x52A8;1[:&#x8BBE;&#x5907;],&#x9A71;&#x52A8;2,&#x2026;[,]&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;&#x53EF;&#x7528;&#x7684;&#x89C6;&#x9891;&#x8F93;&#x51FA;&#x9A71;&#x52A8;&#x7684;&#x4F18;&#x5148;&#x7EA7;&#x5217;&#x8868;(&#x53EF;&#x4EE5;&#x52A0;&#x4E0A;&#x8BBE;&#x5907;). &#xB4;&#x8BBE;&#x5907;&#x2019; &#x4E5F; &#x7528; &#x4E8E;SDL&#x548C;GGI, &#x90A3;&#x91CC;&#x5B83;&#x8868;&#x793A;&#x5B50;&#x9A71;&#x52A8;. 
+</p>
+
+<p>
+&#x6CE8;&#x610F;: 
+&#x8981;&#x83B7;&#x5F97;&#x5B8C;&#x6574;&#x7684;&#x53EF;&#x7528;&#x9A71;&#x52A8;&#x5217;&#x8868;, &#x53C2;&#x8003;&#x2212;vo help. 
+&#x5982;&#x679C;&#x5217;&#x8868;&#x7ED3;&#x5C3E;&#x6709;&#x4E00;&#x4E2A;&#x2019;,&#x2019; &#x5B83;&#x5C06;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x6CA1;&#x6709;&#x5217;&#x51FA;&#x7684;&#x9A71;&#x52A8;&#x4F5C;&#x4E3A;&#x540E;&#x5907;. 
+</p>
+
+<p>
+&#x793A;&#x4F8B;: 
+</p>
+
+<p>
+&#x2212;vo xmga,xv, 
+</p>
+
+<p>
+&#x5148;&#x5C1D;&#x8BD5;Matrox&#x5185;&#x6838;&#x9A71;&#x52A8;, &#x7136;&#x540E;Xv&#x9A71;&#x52A8;, &#x7136;&#x540E;&#x5176;&#x5B83; 
+</p>
+
+<p>
+&#x2212;vo sdl:aalib 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;SDL&#x5B50;&#x9A71;&#x52A8; 
+</p>
+
+<p>
+&#x2212;vsync 
+&#x542F;&#x7528;vesa&#x7684;VBI&#x652F;&#x6301;. 
+</p>
+
+<p>
+&#x2212;wid &lt;&#x7A97;&#x53E3;&#x6807;&#x8BC6;&gt; 
+</p>
+
+<p>
+&#x544A; &#x8BC9;MPlayer &#x4F7F; &#x7528; &#x4E00; &#x4E2A;X11&#x7A97;&#x53E3;, &#x5728;&#x628A;MPlayer&#x5D4C;&#x5165;&#x6D4F;&#x89C8;&#x5668;&#x662F;&#x6709;&#x7528;(&#x6BD4; &#x5982;plugger&#x6269;&#x5C55;). 
+</p>
+
+<p>
+&#x2212;xineramascreen &lt;0&#x2212;&#x2026;&gt; 
+</p>
+
+<p>
+&#x5728;Xinerama&#x914D;&#x7F6E;&#x65F6;&#xFF0C;(&#x5C31;&#x662F;&#x4E00;&#x4E2A;&#x5355;&#x4E00;&#x684C;&#x9762;&#x5C55;&#x5F00;&#x5728;&#x591A;&#x4E2A;&#x663E;&#x793A;&#x5668;&#x4E0A;)&#xFF0C;&#x8FD9;&#x4E2A; &#x9009; &#x9879;&#x544A;&#x8BC9;MPlayer&#x628A;&#x7535;&#x5F71;&#x663E;&#x793A;&#x5728;&#x54EA;&#x4E2A;&#x5C4F;&#x5E55;&#x4E0A;. 
+</p>
+
+<p>
+&#x2212;z &lt;0&#x2212;9&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;PNG&#x8F93;&#x51FA;&#x7684;&#x538B;&#x7F29;&#x7EA7;&#x522B;(&#x4EC5;&#x7528;&#x4E8E;&#x2212;vo png) 
+</p>
+
+<p>
+0 
+&#x4E0D;&#x538B;&#x7F29; 
+</p>
+
+<p>
+9 
+&#x6700;&#x5927;&#x538B;&#x7F29; 
+</p>
+
+<p>
+&#x2212;zrbw (&#x4EC5;&#x7528;&#x4E8E;&#x2212;vo zr) 
+</p>
+
+<p>
+&#x9ED1; &#x767D; &#x663E;&#x793A;(&#x7528;&#x4E8E;&#x4F18;&#x5316;&#x6027;&#x80FD;, &#x8FD9;&#x4E2A;&#x9009;&#x9879;&#x53EF;&#x4EE5;&#x8DDF;&#x5C5E;&#x4E8E;FFmpeg&#x5BB6;&#x65CF;&#x7684;&#x7F16;&#x89E3;&#x7801;&#x5668; &#x7684;&#x2019;&#x9ED1;&#x767D;&#x89E3;&#x7801;&#x2019;&#x7684;&#x9009;&#x9879;&#x8054;&#x5408;&#x4F7F;&#x7528;). 
+</p>
+
+<p>
+&#x2212;zrcrop &lt;[&#x5BBD;]x[&#x9AD8;]+[x&#x504F;&#x79FB;]+[y&#x504F;&#x79FB;]&gt; (&#x4EC5;&#x7528;&#x4E8E;&#x2212;vo zr) 
+</p>
+
+<p>
+&#x9009;&#x62E9;&#x663E;&#x793A;&#x8F93;&#x5165;&#x56FE;&#x50CF;&#x7684;&#x4E00;&#x90E8;&#x5206;, &#x4F7F;&#x7528;&#x591A;&#x4E2A;&#x8FD9;&#x6837;&#x7684;&#x9009;&#x9879;&#x5C31;&#x542F;&#x52A8;&#x4E86;cinerama &#x6A21; &#x5F0F;. &#x5728;cinerama&#x6A21;&#x5F0F;&#x4E0B;&#x7535;&#x5F71;&#x5206;&#x5E03;&#x5728;&#x591A;&#x4E2A;&#x7535;&#x89C6;(&#x6216;&#x6295;&#x5F71;&#x4EEA;)&#x6765;&#x521B;&#x9020;&#x4E00;&#x4E2A;&#x66F4;&#x5927; &#x7684;&#x5C4F;&#x5E55;. &#x5728;&#x7B2C;n&#x4E2A;&#x2212;zrcrop&#x540E;&#x9762;&#x7684;&#x9009;&#x9879;&#x5E94;&#x7528;&#x4E8E;&#x7B2C;n&#x4E2A;MJPEG&#x89E3;&#x7801;&#x5361;, &#x6BCF;&#x4E00;&#x4E2A; &#x7F16;&#x7801;&#x5361;&#x81F3;&#x5C11;&#x9700;&#x8981;&#x6709;&#x4E00;&#x4E2A;&#x2212;zrcrop&#x9009;&#x9879;&#x52A0;&#x4E0A;&#x4E00;&#x4E2A;&#x2212;zrdev&#x9009;&#x9879;. &#x5BDF;&#x770B;&#x2212;zrhelp &#x7684;&#x8F93;&#x51FA;&#x548C;&#x6587;&#x6863;&#x7684;Zr&#x90E8;&#x5206;&#x53EF;&#x4EE5;&#x627E;&#x5230;&#x793A;&#x4F8B;. 
+</p>
+
+<p>
+&#x2212;zrdev &lt;&#x8BBE;&#x5907;&gt; (&#x4EC5;&#x7528;&#x4E8E;&#x2212;vo zr) 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;&#x4F60;&#x7684;MJPEG&#x7F16;&#x7801;&#x5361;&#x4F7F;&#x7528;&#x7684;&#x8BBE;&#x5907;&#x6587;&#x4EF6;&#x540D;, &#x9ED8;&#x8BA4;&#x60C5;&#x51B5;&#x4E0B;&#x8FD9;&#x4E2A;&#x9A71;&#x52A8;&#x5C06;&#x4F7F;&#x7528;&#x5B83; &#x627E;&#x5230;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;v4l&#x8BBE;&#x5907;. 
+</p>
+
+<p>
+&#x2212;zrfd (&#x4EC5;&#x7528;&#x4E8E;&#x2212;vo zr) 
+</p>
+
+<p>
+&#x6307; &#x5B9A;&#x4F7F;&#x7528;&#x7B80;&#x5316;&#x53D6;&#x6837;: &#x7B80;&#x5316;&#x53D6;&#x6837;&#x7531;&#x2212;zrhdec&#x548C;&#x2212;zrvdec&#x8BBE;&#x7F6E;, &#x4E00;&#x822C;&#x53EA;&#x6709;&#x5728;&#x786C; &#x4EF6;&#x7F29;&#x653E;&#x80FD;&#x628A;&#x56FE;&#x50CF;&#x5EF6;&#x5C55;&#x5230;&#x539F;&#x59CB;&#x5C3A;&#x5BF8;&#x65F6;&#x624D;&#x4F7F;&#x7528;. &#x4F7F;&#x7528;&#x8FD9;&#x4E2A;&#x9009;&#x9879;&#x6307;&#x5B9A;&#x4F7F;&#x7528;&#x7B80; &#x5316; &#x53D6;&#x6837;. 
+</p>
+
+<p>
+&#x2212;zrhelp (&#x4EC5;&#x7528;&#x4E8E;&#x2212;vo zr) 
+</p>
+
+<p>
+&#x663E;&#x793A;&#x6240;&#x6709;&#x2212;zr*&#x9009;&#x9879;&#x5217;&#x8868;, &#x4ED6;&#x4EEC;&#x7684;&#x9ED8;&#x8BA4;&#x503C;&#x548C;&#x4F7F;&#x7528;cinerama&#x6A21;&#x5F0F;&#x7684;&#x4F8B;&#x5B50;. 
+</p>
+
+<p>
+&#x2212;zrnorm &lt;&#x5236;&#x5F0F;&gt; (&#x4EC5;&#x7528;&#x4E8E;&#x2212;vo zr) 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;&#x5236;&#x5F0F;&#x4E3A;PAL/NTSC, &#x9ED8;&#x8BA4;&#x503C;&#x4E3A;&#x2019;&#x4E0D;&#x6539;&#x53D8;&#x2019; 
+</p>
+
+<p>
+&#x2212;zrquality &lt;1&#x2212;20&gt; (&#x4EC5;&#x7528;&#x4E8E;&#x2212;vo zr) 
+</p>
+
+<p>
+&#x4ECE;1&#x5230;20&#x7684;&#x6570;&#x503C;&#x4EE3;&#x8868;jpeg&#x7F16;&#x7801;&#x8D28;&#x91CF;. 1&#x7684;&#x8D28;&#x91CF;&#x6700;&#x597D;&#x800C;20&#x7684;&#x8D28;&#x91CF;&#x975E;&#x5E38;&#x5DEE;. 
+</p>
+
+<p>
+&#x2212;zrvdec &lt;1,2,4&gt; &#x2212;zrhdec &lt;1,2,4&gt; (&#x4EC5;&#x7528;&#x4E8E;&#x2212;vo zr) 
+</p>
+
+<p>
+&#x5782;&#x76F4;/&#x6C34;&#x5E73;&#x7B80;&#x5316;&#x53D6;&#x6837;: &#x9A71;&#x52A8;&#x53EA;&#x4F1A;&#x628A;&#x8F93;&#x5165;&#x56FE;&#x50CF;&#x7684;&#x6BCF;2&#x6216;4&#x884C;/&#x70B9;&#x53D1;&#x9001;&#x5230;MJPEG&#x7F16; &#x7801;&#x5361;, &#x800C;&#x4F7F;&#x7528;MJPEG&#x5361;&#x7684;&#x7F29;&#x653E;&#x5668;&#x628A;&#x56FE;&#x50CF;&#x56DE;&#x590D;&#x5230;&#x539F;&#x6709;&#x5C3A;&#x5BF8;. 
+</p>
+
+<p>
+&#x2212;zrxdoff &lt;x&#x663E;&#x793A;&#x4F4D;&#x79FB;&gt;, &#x2212;zrydoff &lt;y&#x663E;&#x793A;&#x4F4D;&#x79FB;&gt; (&#x4EC5;&#x7528;&#x4E8E;&#x2212;vo zr) 
+</p>
+
+<p>
+&#x5982;&#x679C;&#x7535;&#x5F71;&#x6BD4;&#x7535;&#x89C6;&#x5C4F;&#x5E55;&#x5C0F;, &#x8FD9;&#x4E9B;&#x9009;&#x9879;&#x63A7;&#x5236;&#x7535;&#x5F71;&#x76F8;&#x5BF9;&#x4E8E;&#x5C4F;&#x5E55;&#x5DE6;&#x4E0A;&#x89D2;&#x7684;&#x663E;&#x793A; &#x4F4D; &#x7F6E;. &#x9ED8;&#x8BA4;&#x60C5;&#x51B5;&#x4E0B;&#x7535;&#x5F71;&#x653E;&#x5728;&#x4E2D;&#x592E;&#x4F4D;&#x7F6E;. 
+</p>
+
+<p>
+&#x89E3;&#x7801; / &#x6EE4;&#x955C;&#x9009;&#x9879; 
+&#x2212;ac &lt;[-]&#x7F16;&#x89E3;&#x7801;&#x5668;1,[-]&#x7F16;&#x89E3;&#x7801;&#x5668;2,&#x2026;[,]&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;&#x53EF;&#x7528;&#x7F16;&#x89E3;&#x7801;&#x5668;&#x7684;&#x4F18;&#x5148;&#x7EA7;&#x5217;&#x8868;, &#x6309;&#x7167;&#x5B83;&#x4EEC;&#x5728;codecs.conf&#x4E2D;&#x7684;&#x7F16;&#x89E3;&#x7801;&#x5668; &#x540D;&#x79F0;. &#x5728;&#x540D;&#x79F0;&#x524D;&#x52A0;&#x2019;-&#x2019;&#x8868;&#x793A;&#x5FFD;&#x7565;&#x8BE5;&#x7F16;&#x89E3;&#x7801;&#x5668;. 
+</p>
+
+<p>
+&#x6CE8;&#x610F;: 
+&#x5168;&#x90E8;&#x53EF;&#x7528;&#x7F16;&#x89E3;&#x7801;&#x5668;&#x7684;&#x5B8C;&#x6574;&#x5217;&#x8868;&#x53C2;&#x89C1;&#x2212;ac help&#x7684;&#x8F93;&#x51FA;. 
+&#x5982;&#x679C;&#x5217;&#x8868;&#x7ED3;&#x5C3E;&#x6709;&#x4E00;&#x4E2A;&#x2019;,&#x2019; &#x5C06;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x6CA1;&#x6709;&#x5217;&#x51FA;&#x7684;&#x7F16;&#x89E3;&#x7801;&#x5668;&#x4F5C;&#x4E3A;&#x540E;&#x5907;. 
+</p>
+
+<p>
+&#x793A;&#x4F8B;: 
+</p>
+
+<p>
+&#x2212;ac mp3acm 
+</p>
+
+<p>
+&#x6307;&#x5B9A;&#x4F7F;&#x7528;l3codeca.acm MP3&#x7F16;&#x89E3;&#x7801;&#x5668; 
+</p>
+
+<p>
+&#x2212;ac mad, 
+</p>
+
+<p>
+&#x5148;&#x5C1D;&#x8BD5;libmad, &#x5176;&#x5B83;&#x4F5C;&#x4E3A;&#x540E;&#x5907; 
+</p>
+
+<p>
+&#x2212;ac hwac3,a52, 
+</p>
+
+<p>
+&#x5148;&#x5C1D;&#x8BD5;&#x786C;&#x4EF6;AC3&#x8F93;&#x51FA;, &#x7136;&#x540E;&#x662F;&#x8F6F;&#x4EF6;AC3&#x7F16;&#x89E3;&#x7801;&#x5668;, &#x6700;&#x540E;&#x662F;&#x5176;&#x5B83; 
+</p>
+
+<p>
+&#x2212;ac -ffmp3, 
+</p>
+
+<p>
+&#x5C1D;&#x8BD5;&#x9664;&#x4E86;FFmpeg&#x7684;MP3&#x89E3;&#x7801;&#x5668;&#x4E4B;&#x5916;&#x7684;&#x6240;&#x6709;&#x89E3;&#x7801;&#x5668; 
+</p>
+
+<p>
+&#x2212;afm &lt;&#x9A71;&#x52A8;1,&#x9A71;&#x52A8;2,&#x2026;&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;&#x53EF;&#x7528;&#x7684;&#x97F3;&#x9891;&#x9A71;&#x52A8;&#x4F18;&#x5148;&#x7EA7;&#x5217;&#x8868;, &#x6309;&#x7167;&#x5B83;&#x4EEC;&#x5728;codecs.conf&#x4E2D;&#x7684;&#x9A71; &#x52A8; &#x540D; &#x79F0;. &#x5F53;&#x90FD;&#x4E0D;&#x53EF;&#x7528;&#x662F;&#x4F7F;&#x7528;&#x9ED8;&#x8BA4;&#x540E;&#x5907;&#x9A71;&#x52A8;. 
+</p>
+
+<p>
+&#x6CE8;&#x610F;: 
+&#x5168;&#x90E8;&#x53EF;&#x7528;&#x7F16;&#x89E3;&#x7801;&#x5668;&#x7684;&#x5B8C;&#x6574;&#x5217;&#x8868;&#x53C2;&#x89C1;&#x2212;afm help&#x7684;&#x8F93;&#x51FA;. 
+</p>
+
+<p>
+&#x793A;&#x4F8B;: 
+</p>
+
+<p>
+&#x2212;afm ffmpeg 
+</p>
+
+<p>
+&#x5148;&#x5C1D;&#x8BD5;FFmpeg&#x7684;libavcodec(mp1/2/3)&#x7F16;&#x89E3;&#x7801;&#x5668; 
+</p>
+
+<p>
+&#x2212;afm acm,dshow 
+</p>
+
+<p>
+&#x5148;&#x5C1D;&#x8BD5;Win32&#x7F16;&#x89E3;&#x7801;&#x5668; 
+</p>
+
+<p>
+&#x2212;aspect &lt;&#x6BD4;&#x7387;&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;&#x7535;&#x5F71;&#x7684;&#x957F;&#x5BBD;&#x6BD4;. MPEG&#x6587;&#x4EF6;&#x4F1A;&#x81EA;&#x52A8;&#x68C0;&#x6D4B;, &#x4F46;&#x5927;&#x591A;&#x6570;AVI&#x6587;&#x4EF6;&#x4E0D;&#x4F1A;. 
+</p>
+
+<p>
+&#x793A;&#x4F8B;: 
+</p>
+
+<p>
+&#x2212;aspect 4:3&#x6216;&#x2212;aspect 1.3333 
+&#x2212;aspect 16:9&#x6216;&#x2212;aspect 1.7777 
+</p>
+
+<p>
+&#x2212;flip 
+&#x4E0A;&#x4E0B;&#x7FFB;&#x8F6C;&#x56FE;&#x50CF;. 
+</p>
+
+<p>
+&#x2212;lavdopts &lt;&#x9009;&#x9879;1:&#x9009;&#x9879;2:&#x2026;&gt; (&#x8C03;&#x8BD5;&#x4EE3;&#x7801;) 
+</p>
+
+<p>
+&#x5982;&#x679C;&#x4F7F;&#x7528;libavcodec&#x89E3;&#x7801;, &#x4F60;&#x53EF;&#x4EE5;&#x5728;&#x8FD9;&#x91CC;&#x8BBE;&#x7F6E;&#x53C2;&#x6570;. 
+</p>
+
+<p>
+&#x793A;&#x4F8B;: 
+</p>
+
+<p>
+&#x2212;lavdopts bug=1 
+</p>
+
+<p>
+&#x6CE8;&#x610F;: 
+&#x53EA;&#x8981;&#x52A0;&#x4E0A;&#x4F60;&#x60F3;&#x8981;&#x542F;&#x7528;&#x7684;&#x9879;&#x76EE;&#x7684;&#x53C2;&#x6570;&#x5373;&#x53EF;. 
+&#x53EF;&#x7528;&#x9009;&#x9879;&#x6709;: 
+</p>
+
+<p>
+ec 
+&#x9519;&#x8BEF;&#x9690;&#x85CF;: 
+</p>
+
+<p>
+1: &#x5BF9;&#x635F;&#x574F;&#x7684;MB&#x4F7F;&#x7528;&#x5F3A;&#x67D4;&#x5316;&#x9A6C;&#x8D5B;&#x514B;&#x6EE4;&#x955C; 
+2: MV&#x91CD;&#x590D;&#x641C;&#x7D22;(&#x5F88;&#x6162;) 
+3: &#x6240;&#x6709;(&#x9ED8;&#x8BA4;) 
+</p>
+
+<p>
+er=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x9519;&#x8BEF;&#x6062;&#x590D;: 
+</p>
+
+<p>
+0: &#x7981;&#x7528; 
+1: &#x5C0F;&#x5FC3; (&#x7528;&#x4E8E;&#x635F;&#x574F;&#x7684;&#x7F16;&#x7801;&#x5668;) 
+2: &#x6B63;&#x5E38; (&#x9ED8;&#x8BA4;) (&#x7528;&#x4E8E;&#x6B63;&#x5E38;&#x7684;&#x7F16;&#x7801;&#x5668;) 
+3: &#x6269;&#x5F20;&#x6027;&#x7684; (&#x66F4;&#x591A;&#x68C0;&#x67E5;&#x4F46;&#x53EF;&#x80FD;&#x5373;&#x4F7F;&#x5BF9;&#x6709;&#x6548;&#x6BD4;&#x7279;&#x6D41;&#x4E5F;&#x5BFC;&#x81F4;&#x95EE;&#x9898;) 
+4: &#x975E;&#x5E38;&#x6269;&#x5F20;&#x6027;&#x7684; 
+</p>
+
+<p>
+bug=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x624B;&#x5DE5;&#x7ED5;&#x8FC7;&#x7F16;&#x7801;&#x5668;bug: 
+</p>
+
+<p>
+0: &#x65E0; 
+1: &#x81EA;&#x52A8;&#x68C0;&#x6D4B;bugs (&#x9ED8;&#x8BA4;) 
+2 (msmpeg4v3): &#x7531;&#x8001;&#x5F0F;lavc&#x751F;&#x6210;&#x7684;msmpeg4v3&#x6587;&#x4EF6;(&#x4E0D;&#x81EA;&#x52A8; &#x68C0; &#x6D4B;) 
+4 (mpeg4): xvid&#x4EA4;&#x9519;bug(&#x5982;&#x679C;fourcc==XVIX&#x4F1A;&#x81EA;&#x52A8;&#x68C0;&#x6D4B;) 
+8 (mpeg4): UMP4(&#x5982;&#x679C;fourcc==UMP4&#x4F1A;&#x81EA;&#x52A8;&#x68C0;&#x6D4B;) 
+16 (mpeg4): padding bug(&#x81EA;&#x52A8;&#x68C0;&#x6D4B;) 
+32 (mpeg4): &#x975E;&#x6CD5;vlc bug(&#x6BCF;&#x4E2A;fourcc&#x90FD;&#x81EA;&#x52A8;&#x68C0;&#x6D4B;) 
+64 (mpeg4): XVID&#x548C;DIVX qpel&#x7684;bug(&#x6BCF;&#x4E2A;fourcc/&#x7248;&#x672C;&#x90FD;&#x81EA;&#x52A8; &#x68C0;&#x6D4B;) 
+128 (mpeg4): &#x8001;&#x7684;&#x6807;&#x51C6;&#x7684;qpel(&#x6BCF;&#x4E2A;fourcc/&#x7248;&#x672C;&#x90FD;&#x81EA;&#x52A8;&#x68C0;&#x6D4B;) 
+256 (mpeg4): &#x53E6;&#x4E00;&#x4E2A;qpel&#x7684;bug(&#x6BCF;&#x4E2A;fourcc/&#x7248;&#x672C;&#x90FD;&#x81EA;&#x52A8;&#x68C0; &#x6D4B;) 
+512 (mpeg4): direct-qpel-blocksize&#x7684;bug(&#x6BCF;&#x4E2A;fourcc/ &#x7248; &#x672C;&#x90FD;&#x81EA;&#x52A8;&#x68C0;&#x6D4B;) 
+1024 (mpeg4): edge padding&#x7684;bug(&#x6BCF;&#x4E2A;fourcc/&#x7248;&#x672C;&#x90FD;&#x81EA;&#x52A8; &#x68C0;&#x6D4B;) 
+</p>
+
+<p>
+idct=&lt;0&#x2212;99&gt; 
+</p>
+
+<p>
+(&#x53C2;&#x89C1;lavcopts) &#x60F3;&#x8981;&#x6700;&#x597D;&#x7684;&#x89E3;&#x7801;&#x8D28;&#x91CF;&#x5E94;&#x8BE5;&#x5728;&#x7F16;&#x7801;&#x548C;&#x89E3;&#x7801;&#x65F6;&#x4F7F; &#x7528; &#x76F8;&#x540C;&#x7684;idct&#x7B97;&#x6CD5;. &#x4E0D;&#x8FC7;&#x8FD9;&#x53EF;&#x80FD;&#x4F1A;&#x727A;&#x7272;&#x4E00;&#x4E9B;&#x7CBE;&#x786E;&#x6027;. 
+</p>
+
+<p>
+gray 
+</p>
+
+<p>
+&#x53EA;&#x89E3;&#x7801;&#x7070;&#x5EA6;&#x56FE;&#x50CF;(&#x6BD4;&#x5F69;&#x8272;&#x89E3;&#x7801;&#x5FEB;&#x4E00;&#x70B9;) 
+</p>
+
+<p>
+&#x2212;noaspect 
+</p>
+
+<p>
+&#x7981;&#x7528;&#x7535;&#x5F71;&#x957F;&#x5BBD;&#x6BD4;&#x81EA;&#x52A8;&#x5C1D;&#x8BD5;. 
+</p>
+
+<p>
+&#x2212;nosound 
+</p>
+
+<p>
+&#x4E0D;&#x64AD;&#x653E;/&#x7F16;&#x7801;&#x58F0;&#x97F3;. 
+</p>
+
+<p>
+&#x2212;pp &lt;&#x8D28;&#x91CF;&gt; (&#x53C2;&#x89C1;&#x2212;vf pp&#x9009;&#x9879;!) 
+</p>
+
+<p>
+&#x8BBE; &#x7F6E;DLL&#x7684;&#x540E;&#x671F;&#x5904;&#x7406;&#x7EA7;&#x522B;. &#x8FD9;&#x4E2A;&#x9009;&#x9879;&#x4E0D;&#x80FD;&#x7528;&#x4E8E;MPlayer&#x7684;&#x540E;&#x671F;&#x5904;&#x7406;&#x6EE4;&#x955C;, &#x4F46;&#x53EF;&#x4EE5;&#x7528;&#x4E8E;&#x6709;&#x5185;&#x90E8;&#x540E;&#x671F;&#x5904;&#x7406;&#x4F8B;&#x7A0B;&#x7684;Win32 DirectShow DLL. 
+</p>
+
+<p>
+&#x2212;pp&#x7684;&#x53C2;&#x6570;&#x8303;&#x56F4;&#x4F9D;&#x7F16;&#x89E3;&#x7801;&#x5668;&#x4E0D;&#x540C;, &#x5927;&#x90E8;&#x5206;&#x4E3A;0&#x2212;6, 0=&#x7981;&#x7528; 6=&#x6700;&#x6162;/&#x6700;&#x597D;. 
+</p>
+
+<p>
+&#x2212;pphelp (&#x53C2;&#x89C1;&#x2212;vf pp&#x9009;&#x9879;) 
+</p>
+
+<p>
+&#x5217;&#x51FA;&#x53EF;&#x7528;&#x540E;&#x671F;&#x5904;&#x7406;&#x6EE4;&#x955C;&#x548C;&#x4ED6;&#x4EEC;&#x7684;&#x4F7F;&#x7528;&#x65B9;&#x6CD5;&#x7B80;&#x4ECB;. 
+</p>
+
+<p>
+&#x2212;ssf &lt;mode&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;SwScaler&#x53C2;&#x6570;. 
+</p>
+
+<p>
+&#x793A;&#x4F8B; 
+</p>
+
+<p>
+&#x2212;vf scale &#x2212;ssf lgb=3.0 
+</p>
+
+<p>
+lgb=&lt;0&#x2212;100&gt; 
+</p>
+
+<p>
+&#x9AD8;&#x65AF;&#x6A21;&#x7CCA;&#x6EE4;&#x955C;(&#x4EAE;&#x5EA6;) 
+</p>
+
+<p>
+cgb=&lt;0&#x2212;100&gt; 
+</p>
+
+<p>
+&#x9AD8;&#x65AF;&#x6A21;&#x7CCA;&#x6EE4;&#x955C;(&#x8272;&#x5EA6;) 
+</p>
+
+<p>
+ls=&lt;0&#x2212;100&gt; 
+</p>
+
+<p>
+&#x9510;&#x5316;&#x6EE4;&#x955C;(&#x4EAE;&#x5EA6;) 
+</p>
+
+<p>
+cs=&lt;0&#x2212;100&gt; 
+</p>
+
+<p>
+&#x9510;&#x5316;&#x6EE4;&#x955C;(&#x8272;&#x5EA6;) 
+</p>
+
+<p>
+chs=&lt;h&gt; 
+</p>
+
+<p>
+&#x6C34;&#x5E73;&#x8272;&#x5EA6;&#x504F;&#x79FB; 
+</p>
+
+<p>
+cvs=&lt;v&gt; 
+</p>
+
+<p>
+&#x5782;&#x76F4;&#x8272;&#x5EA6;&#x504F;&#x79FB; 
+</p>
+
+<p>
+&#x2212;stereo &lt;&#x6A21;&#x5F0F;&gt; 
+</p>
+
+<p>
+&#x9009;&#x62E9;MP2/MP3&#x7ACB;&#x4F53;&#x58F0;&#x8F93;&#x51FA;&#x6A21;&#x5F0F;. 
+</p>
+
+<p>
+0 
+&#x7ACB;&#x4F53;&#x58F0; 
+</p>
+
+<p>
+1 
+&#x5DE6;&#x58F0;&#x9053; 
+</p>
+
+<p>
+2 
+&#x53F3;&#x58F0;&#x9053; 
+</p>
+
+<p>
+&#x2212;sws &lt;&#x8F6F;&#x4EF6;&#x7F29;&#x653E;&#x7C7B;&#x578B;&gt; (&#x53C2;&#x89C1;&#x2212;vf scale&#x9009;&#x9879;) 
+</p>
+
+<p>
+&#x8FD9;&#x4E2A;&#x9009;&#x9879;&#x7528;&#x6765;&#x8BBE;&#x7F6E;&#x2212;zoom&#x9009;&#x9879;&#x4F7F;&#x7528;&#x7684;&#x8F6F;&#x4EF6;&#x7F29;&#x653E;&#x7684;&#x8D28;&#x91CF;(&#x8FD8;&#x6709;&#x901F;&#x5EA6;, &#x76F8; &#x5BF9; &#x7684;). &#x7528;&#x4E8E;x11&#x6216;&#x5176;&#x5B83;&#x6CA1;&#x6709;&#x786C;&#x4EF6;&#x52A0;&#x901F;&#x7684;&#x89C6;&#x9891;&#x8F93;&#x51FA;. &#x53EF;&#x7528;&#x9009;&#x9879;&#x6709;: 
+</p>
+
+<p>
+&#x6CE8;&#x610F;: 
+&#x5BF9;&#x4E8E;&#x2212;sws 2&#x548C;7, &#x53EF;&#x4EE5;&#x7528;&#x2212;vf scale&#x7684;&#x7F29;&#x653E;&#x53C2;&#x6570;(p)&#x6765;&#x8BBE;&#x7F6E;&#x9510;&#x5316;(0(&#x67D4;&#x5316;) &#x2212; 100(&#x9510;&#x5316;)), &#x5BF9;&#x4E8E;&#x2212;sws 9, &#x8FD9;&#x4E2A;&#x53C2;&#x6570;&#x8BBE;&#x7F6E;&#x6EE4;&#x955C;&#x957F;&#x5EA6;&#x53C2;&#x6570;(1 &#x2212; 10). 
+</p>
+
+<p>
+0 
+&#x5FEB;&#x901F;&#x4E8C;&#x6B21;&#x7EBF;&#x6027;(&#x9ED8;&#x8BA4;) 
+</p>
+
+<p>
+1 
+&#x4E8C;&#x6B21;&#x7EBF;&#x6027; 
+</p>
+
+<p>
+2 
+&#x4E8C;&#x6B21;&#x7ACB;&#x65B9;(&#x8D28;&#x91CF;&#x5F88;&#x597D;) 
+</p>
+
+<p>
+3 
+&#x5B9E;&#x9A8C;&#x4E2D; 
+</p>
+
+<p>
+4 
+&#x6700;&#x77ED;&#x8DDD;&#x79BB; (bad quality) 
+</p>
+
+<p>
+5 
+&#x533A;&#x57DF; 
+</p>
+
+<p>
+6 
+&#x4EAE;&#x5EA6;&#x4E8C;&#x6B21;&#x7ACB;&#x65B9;/&#x8272;&#x5EA6;&#x4E8C;&#x6B21;&#x7EBF;&#x6027; 
+</p>
+
+<p>
+7 
+&#x9AD8;&#x65AF; 
+</p>
+
+<p>
+8 
+sincR 
+</p>
+
+<p>
+9 
+lanczos 
+</p>
+
+<p>
+10 
+&#x53CC;&#x4E09;&#x6B21;&#x6837;&#x6761;&#x66F2;&#x7EBF; 
+</p>
+
+<p>
+&#x2212;vc &lt;[-]&#x7F16;&#x89E3;&#x7801;&#x5668;1,[-]&#x7F16;&#x89E3;&#x7801;&#x5668;2,&#x2026;[,]&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;&#x53EF;&#x7528;&#x7F16;&#x89E3;&#x7801;&#x5668;&#x7684;&#x4F18;&#x5148;&#x7EA7;&#x5217;&#x8868;, &#x6309;&#x7167;&#x5B83;&#x4EEC;&#x5728;codecs.conf&#x4E2D;&#x7684;&#x7F16;&#x89E3;&#x7801;&#x5668; &#x540D;&#x79F0;. &#x5728;&#x540D;&#x79F0;&#x524D;&#x52A0;&#x2019;-&#x2019;&#x8868;&#x793A;&#x5FFD;&#x7565;&#x8BE5;&#x7F16;&#x89E3;&#x7801;&#x5668;. 
+</p>
+
+<p>
+&#x6CE8;&#x610F;: 
+&#x5168;&#x90E8;&#x53EF;&#x7528;&#x7F16;&#x89E3;&#x7801;&#x5668;&#x7684;&#x5B8C;&#x6574;&#x5217;&#x8868;&#x53C2;&#x89C1;&#x2212;vc help&#x7684;&#x8F93;&#x51FA;. 
+&#x5982;&#x679C;&#x5217;&#x8868;&#x7ED3;&#x5C3E;&#x6709;&#x4E00;&#x4E2A;&#x2019;,&#x2019; &#x5C06;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x6CA1;&#x6709;&#x5217;&#x51FA;&#x7684;&#x7F16;&#x89E3;&#x7801;&#x5668;&#x4F5C;&#x4E3A;&#x540E;&#x5907;. 
+</p>
+
+<p>
+&#x793A;&#x4F8B;: 
+</p>
+
+<p>
+&#x2212;vc divx 
+</p>
+
+<p>
+&#x6307;&#x5B9A;&#x4F7F;&#x7528;Win32/VFW DivX&#x7F16;&#x89E3;&#x7801;&#x5668;, &#x6CA1;&#x6709;&#x540E;&#x5907; 
+</p>
+
+<p>
+&#x2212;vc divx4, 
+</p>
+
+<p>
+&#x5148;&#x5C1D;&#x8BD5;divx4linux&#x7F16;&#x89E3;&#x7801;&#x5668;, &#x7136;&#x540E;&#x4F7F;&#x7528;&#x540E;&#x5907; 
+</p>
+
+<p>
+&#x2212;vc -divxds,-divx, 
+</p>
+
+<p>
+&#x5C1D;&#x8BD5;&#x9664;&#x4E86;Win32 DivX&#x7F16;&#x89E3;&#x7801;&#x5668;&#x4E4B;&#x5916;&#x7684;&#x7F16;&#x89E3;&#x7801;&#x5668; 
+</p>
+
+<p>
+&#x2212;vc ffmpeg12,mpeg12, 
+</p>
+
+<p>
+&#x5C1D; &#x8BD5;libavcodec&#x7684;MPEG1/2&#x7F16;&#x89E3;&#x7801;&#x5668;, &#x7136;&#x540E;&#x5C1D;&#x8BD5;libmpeg2, &#x7136;&#x540E; &#x5176;&#x5B83; 
+</p>
+
+<p>
+&#x2212;vf &lt;&#x2026;,&#x6EE4;&#x955C;3[=&#x9009;&#x9879;],&#x6EE4;&#x955C;2,&#x6EE4;&#x955C;1&gt; 
+</p>
+
+<p>
+&#x6FC0;&#x6D3B;&#x4E00;&#x4E2A;&#x53CD;&#x5E8F;&#x6392;&#x5217;&#x7684;&#x9017;&#x53F7;&#x5206;&#x9694;&#x7684;&#x89C6;&#x9891;&#x63D2;&#x4EF6;&#x548C;&#x5B83;&#x4EEC;&#x7684;&#x53C2;&#x6570;&#x7684;&#x5217;&#x8868;. 
+</p>
+
+<p>
+&#x6CE8;&#x610F;: 
+&#x53C2;&#x6570;&#x662F;&#x53EF;&#x9009;&#x7684;, &#x5F53;&#x88AB;&#x7701;&#x7565;&#x65F6;, &#x6709;&#x4E9B;&#x4F1A;&#x8BBE;&#x4E3A;&#x9ED8;&#x8BA4;&#x503C;. &#x4F7F;&#x7528;&#x2019;-1&#x2019;&#x4FDD;&#x6301; &#x9ED8; &#x8BA4; &#x503C;. &#x53C2;&#x6570;w:h&#x6807;&#x8BC6;&#x5BBD;&#x5EA6;x&#x9AD8;&#x5EA6;, &#x4EE5;&#x70B9;&#x4E3A;&#x5355;&#x4F4D;, x:y&#x8868;&#x793A;&#x76F8;&#x5F53;&#x56FE;&#x50CF;&#x5DE6;&#x4E0A;&#x89D2;x;y &#x7684;&#x4F4D;&#x7F6E;. 
+&#x5168;&#x90E8;&#x53EF;&#x7528;&#x63D2;&#x4EF6;&#x7684;&#x5B8C;&#x6574;&#x5217;&#x8868;&#x53C2;&#x89C1;&#x2212;vf help&#x7684;&#x8F93;&#x51FA;. 
+&#x53EF;&#x7528;&#x63D2;&#x4EF6;&#x6709;: 
+</p>
+
+<p>
+crop[=w:h:x:y] 
+</p>
+
+<p>
+&#x5207;&#x5272;&#x56FE;&#x50CF;&#x7684;&#x6307;&#x5B9A;&#x90E8;&#x5206;&#x5176;&#x4F59;&#x4E22;&#x5F03;. &#x7528;&#x4E8E;&#x53BB;&#x6389;&#x5BBD;&#x94F6;&#x5E55;&#x7535;&#x5F71;&#x7684;&#x9ED1;&#x8FB9;. 
+</p>
+
+<p>
+w,h: &#x5207;&#x5272;&#x90E8;&#x5206;&#x7684;&#x5BBD;&#x548C;&#x9AD8;, &#x9ED8;&#x8BA4;&#x503C;&#x4E3A;&#x539F;&#x59CB;&#x7684;&#x5BBD;&#x5EA6;&#x548C;&#x9AD8;&#x5EA6;. 
+x,y: &#x5207;&#x5272;&#x90E8;&#x5206;&#x7684;&#x4F4D;&#x7F6E;, &#x9ED8;&#x8BA4;&#x503C;&#x662F;&#x4E2D;&#x592E;. 
+</p>
+
+<p>
+cropdetect[=0&#x2212;255] 
+</p>
+
+<p>
+&#x8BA1;&#x7B97;&#x5FC5;&#x8981;&#x7684;&#x5207;&#x5272;&#x53C2;&#x6570;&#x5E76;&#x628A;&#x63A8;&#x8350;&#x503C;&#x663E;&#x793A;&#x5728;&#x6807;&#x51C6;&#x8F93;&#x51FA;&#x4E0A;. &#x6781;&#x9650;&#x503C; &#x7684; &#x8BBE;&#x7F6E;&#x53EF;&#x4EE5;&#x4ECE;&#x65E0;(0)&#x5230;&#x6240;&#x6709;(255).(&#x9ED8;&#x8BA4;&#x503C;: 24) 
+</p>
+
+<p>
+rectangle[=w:h:x:y] 
+</p>
+
+<p>
+&#x5728; &#x56FE; &#x50CF; &#x7684;&#x6307;&#x5B9A;&#x5750;&#x6807;&#x51FA;&#x7ED8;&#x5236;&#x4E00;&#x4E2A;&#x6307;&#x5B9A;&#x5BBD;&#x5EA6;&#x548C;&#x9AD8;&#x5EA6;&#x7684;&#x77E9;&#x5F62;(&#x7528;&#x6765;&#x5B9E; &#x9A8C;crop&#x7684;&#x53C2;&#x6570;). 
+</p>
+
+<p>
+w,h: &#x5BBD;&#x5EA6;&#x548C;&#x9AD8;&#x5EA6;(&#x9ED8;&#x8BA4;&#x503C;: -1, &#x4FDD;&#x8BC1;&#x8FB9;&#x754C;&#x4ECD;&#x7136;&#x53EF;&#x89C1;&#x7684;&#x6700;&#x5927;&#x53EF;&#x80FD; &#x5BBD;&#x5EA6;). 
+x,y: &#x5DE6;&#x4E0A;&#x89D2;&#x5750;&#x6807;(&#x9ED8;&#x8BA4;&#x503C;: -1, &#x6700;&#x5DE6;&#x6700;&#x4E0A;) 
+</p>
+
+<p>
+&#x8FD9;&#x4E2A;&#x63D2;&#x4EF6;&#x4F1A;&#x54CD;&#x5E94;input.conf&#x4E2D;&#x7684;&#x2019;change<sub>rectangle</sub>&#x2019;&#x6307;&#x4EE4;, &#x9700; &#x8981;&#x4E24;&#x4E2A;&#x53C2;&#x6570;. &#x7B2C;&#x4E00;&#x4E2A;&#x53C2;&#x6570;&#x53EF;&#x4EE5;&#x662F;0&#x8868;&#x793A;w, 1&#x8868;&#x793A;h, 2&#x8868;&#x793A;x&#x6216;&#x8005;3 &#x8868;&#x793A;y. &#x7B2C;&#x4E8C;&#x4E2A;&#x53C2;&#x6570;&#x6807;&#x8BC6;&#x6BCF;&#x6B21;&#x6539;&#x53D8;&#x76EE;&#x6807;&#x77E9;&#x5F62;&#x8FB9;&#x754C;&#x7684;&#x70B9;&#x6570;. 
+</p>
+
+<p>
+expand[=w:h:x:y:o] 
+</p>
+
+<p>
+&#x628A; &#x7535; &#x5F71;&#x7684;&#x5206;&#x8FA8;&#x7387;&#x6269;&#x5C55;(&#x4E0D;&#x7F29;&#x653E;)&#x5230;&#x6307;&#x5B9A;&#x7684;&#x503C;&#x5E76;&#x628A;&#x539F;&#x59CB;&#x56FE;&#x50CF;&#x653E;&#x5728;&#x5750; &#x6807;x, y&#x5904;. &#x53EF;&#x4EE5;&#x7528;&#x83B7;&#x5F97;&#x7684;&#x9ED1;&#x5E26;&#x663E;&#x793A;&#x5B57;&#x5E55;/OSD. 
+</p>
+
+<p>
+w,h: &#x6269;&#x5C55;&#x540E;&#x7684;&#x5BBD;&#x5EA6;, &#x9AD8;&#x5EA6;(&#x9ED8;&#x8BA4;&#x503C;: &#x539F;&#x59CB;&#x7684;&#x5BBD;&#x5EA6;, &#x9AD8;&#x5EA6;) 
+x,y: &#x6269;&#x5C55;&#x540E;&#x7684;&#x56FE;&#x50CF;&#x4E2D;&#x539F;&#x59CB;&#x56FE;&#x50CF;&#x7684;&#x4F4D;&#x7F6E;(&#x9ED8;&#x8BA4;&#x503C;: &#x4E2D;&#x592E;) 
+o: OSD/&#x5B57;&#x5E55;&#x6E32;&#x67D3; 0: &#x7981;&#x7528;(&#x9ED8;&#x8BA4;&#x503C;) 1: &#x542F;&#x7528; 
+</p>
+
+<p>
+w&#x548C;h&#x7684; &#x8D1F; &#x53C2; &#x6570; &#x89C6; &#x4E3A; &#x76F8; &#x5BF9; &#x539F; &#x59CB; &#x5C3A; &#x5BF8; &#x7684; &#x504F; &#x79FB;, &#x4F8B; &#x5982;expand=0:-50:0:0&#x5728;&#x56FE;&#x50CF;&#x5E95;&#x90E8;&#x589E;&#x52A0;50&#x4E2A;&#x50CF;&#x7D20;&#x7684;&#x8FB9;&#x754C;. 
+</p>
+
+<p>
+flip 
+</p>
+
+<p>
+&#x4E0A;&#x4E0B;&#x7FFB;&#x8F6C;&#x56FE;&#x50CF;. &#x53C2;&#x89C1;&#x2212;flip&#x9009;&#x9879;. 
+</p>
+
+<p>
+mirror 
+</p>
+
+<p>
+&#x6CBF;Y&#x8F74;&#x955C;&#x50CF;&#x56FE;&#x50CF;. 
+</p>
+
+<p>
+rotate[=&lt;0-7&gt;] 
+</p>
+
+<p>
++/&#x2212; 90&#x5EA6;&#x7684;&#x65CB;&#x8F6C;&#x5E76;&#x7FFB;&#x8F6C;(&#x53EF;&#x9009;)&#x56FE;&#x50CF;. &#x53C2;&#x6570;&#x4E3A;4-7&#x4E4B;&#x95F4;&#x7684;&#x65CB;&#x8F6C;&#x53EA;&#x6709; &#x5F53;&#x7535;&#x5F71;&#x7684;&#x5F62;&#x72B6;&#x662F;&#x7EB5;&#x5411;&#x800C;&#x4E0D;&#x662F;&#x6A2A;&#x5411;&#x65F6;. 
+</p>
+
+<p>
+scale[=w:h[:c[:p]]] 
+</p>
+
+<p>
+&#x4F7F;&#x7528;&#x8F6F;&#x4EF6;&#x7F29;&#x653E;(&#x5F88;&#x6162;)&#x6765;&#x7F29;&#x653E;&#x56FE;&#x50CF;&#x5E76;&#x8FDB;&#x884C;YUV&lt;&#x2212;&gt;RGB&#x8272;&#x5F69;&#x7A7A;&#x95F4;&#x8F6C;&#x6362;( &#x53C2;&#x89C1;&#x2212;sws&#x53C2;&#x6570;). 
+</p>
+
+<p>
+w,h: &#x7F29;&#x653E;&#x540E;&#x7684;&#x65B0;&#x5BBD;&#x5EA6;/&#x9AD8;&#x5EA6;(&#x9ED8;&#x8BA4;&#x503C;: &#x539F;&#x59CB;&#x7684;&#x5BBD;&#x5EA6;, &#x9AD8;&#x5EA6;) &#x6CE8;&#x610F;: &#x5982;&#x679C;&#x4F7F;&#x7528;&#x4E86;&#x2212;zoom, &#x800C;&#x540E;&#x7EE7;&#x7684;&#x6EE4;&#x955C;(&#x5305;&#x62EC;libvo)&#x4E0D;&#x652F; &#x6301;&#x7F29;&#x653E;, &#x90A3;&#x4E48;&#x5B83;&#x7684;&#x9ED8;&#x8BA4;&#x503C;&#x4E3A;d<sub>width</sub>/d<sub>height</sub>! -1: &#x539F;&#x59CB;&#x7684;width/height 0: &#x7F29;&#x653E;&#x540E;&#x7684;d<sub>width</sub>/d<sub>height</sub> -2: &#x7528;&#x53E6;&#x5916;&#x5C3A;&#x5EA6;&#x548C;&#x9884;&#x653E;&#x5927;&#x7684;&#x957F;&#x5BBD;&#x6BD4;&#x8BA1;&#x7B97;w/h. -3: &#x7528;&#x53E6;&#x5916;&#x5C3A;&#x5EA6;&#x548C;&#x539F;&#x59CB;&#x7684;&#x957F;&#x5BBD;&#x6BD4;&#x8BA1;&#x7B97;w/h. 
+c: &#x8272;&#x5EA6;&#x62BD;&#x6837; 0: &#x4F7F;&#x7528;&#x6240;&#x6709;&#x53EF;&#x7528;&#x7684;&#x8F93;&#x5165;&#x884C;&#x7684;&#x8272;&#x5EA6; 1: &#x4F7F;&#x7528;&#x6BCF;2&#x4E2A;&#x8F93;&#x5165;&#x884C;&#x7684;&#x8272;&#x5EA6; 2: &#x4F7F;&#x7528;&#x6BCF;4&#x4E2A;&#x8F93;&#x5165;&#x884C;&#x7684;&#x8272;&#x5EA6; 3: &#x4F7F;&#x7528;&#x6BCF;8&#x4E2A;&#x8F93;&#x5165;&#x884C;&#x7684;&#x8272;&#x5EA6; 
+p: &#x7F29;&#x653E;&#x53C2;&#x6570;(&#x53D6;&#x51B3;&#x4E8E;&#x6240;&#x7528;&#x7684;&#x7F29;&#x653E;&#x6A21;&#x5F0F;) &#x5BF9;&#x4E8E;-sws 2(&#x4E8C;&#x6B21;&#x7ACB;&#x65B9;)&#x8FD9;&#x8868;&#x793A;&#x9510;&#x5316;(0 (&#x67D4;&#x5316;) - 100 ( &#x9510; &#x5316;)) &#x5BF9;&#x4E8E;-sws 7(&#x7EBF;&#x6027;)&#x8FD9;&#x8868;&#x793A;&#x9510;&#x5316;(0(&#x67D4;&#x5316;) - 100(&#x9510;&#x5316;)) &#x5BF9;&#x4E8E;-sws 9(lanczos)&#x8FD9;&#x8868;&#x793A;&#x6EE4;&#x955C;&#x957F;&#x5EA6;(1 - 10) 0&#x8868;&#x793A;(&#x6309; &#x957F;&#x5BBD;&#x6BD4;)&#x7F29;&#x653E;&#x7684;&#x76EE;&#x6807;w/h. (&#x9ED8;&#x8BA4;&#x503C;: &#x539F;&#x59CB;w/h, &#x4E0E;&#x2212;zoom&#x540C;&#x65F6; &#x4F7F; &#x7528;&#x8868;&#x793A;&#x76EE;&#x6807;w/h), &#x53EF;&#x9009;&#x7528;&#x8272;&#x5EA6;&#x91C7;&#x6837;(c&#x4ECE;0&#x5230;3)&#x548C;&#x8BBE;&#x7F6E;&#x7F29;&#x653E;&#x53C2;&#x6570;. (&#x7EC6;&#x8282;&#x53C2;&#x89C1;&#x2212;sws&#x9009;&#x9879;) 
+</p>
+
+<p>
+yuy2 
+</p>
+
+<p>
+&#x6307;&#x5B9A;&#x4F7F;&#x7528;YV12/I420&#x6216;422P&#x5230;YUY2&#x7684;&#x8F6F;&#x4EF6;&#x8F6C;&#x6362;. &#x7528;&#x4E8E;&#x5F53;&#x663E;&#x5361;/ &#x9A71; &#x52A8;&#x663E;&#x793A;YV12&#x901F;&#x5EA6;&#x6162;&#x800C;YUY2&#x901F;&#x5EA6;&#x5FEB;&#x7684;&#x60C5;&#x51B5;. 
+</p>
+
+<p>
+yvu9 
+</p>
+
+<p>
+&#x6307;&#x5B9A;&#x4F7F;&#x7528;YVU9&#x5230;YV12&#x7684;&#x8F6F;&#x4EF6;&#x8F6C;&#x6362;. &#x4E0D;&#x7BA1;&#x8F6F;&#x4EF6;&#x7F29;&#x653E;&#x7684;&#x8BBE;&#x7F6E;. 
+</p>
+
+<p>
+rgb2bgr[=swap] 
+</p>
+
+<p>
+RGB 24/32 &lt;&#x2212;&gt; BGR 24/32&#x8272;&#x5F69;&#x7A7A;&#x95F4;&#x8F6C;&#x6362;. 
+</p>
+
+<p>
+swap: &#x540C;&#x65F6;&#x8FDB;&#x884C;R &lt;&#x2212;&gt; B&#x4E92;&#x6362;. 
+</p>
+
+<p>
+palette 
+</p>
+
+<p>
+&#x4F7F;&#x7528;&#x8C03;&#x8272;&#x677F;&#x8FDB;&#x884C;RGB/BGR 8 &#x2212;&gt; 15/16/24/32bpp&#x8272;&#x5F69;&#x7A7A;&#x95F4;&#x8F6C;&#x6362;. 
+</p>
+
+<p>
+format[=fourcc] 
+</p>
+
+<p>
+&#x9650;&#x5236;&#x4E0B;&#x4E00;&#x4E2A;&#x63D2;&#x4EF6;&#x4F7F;&#x7528;&#x7684;&#x8272;&#x5F69;&#x7A7A;&#x95F4;&#x800C;&#x4E0D;&#x8FDB;&#x884C;&#x4EFB;&#x4F55;&#x8F6C;&#x6362;. &#x4E0E;scale&#x63D2; &#x4EF6;&#x4E00;&#x8D77;&#x7528;&#x4E8E;&#x4E00;&#x6B21;&#x771F;&#x5B9E;&#x8F6C;&#x6362;. 
+</p>
+
+<p>
+fourcc: &#x7C7B;&#x4F3C;rgb15, bgr24, yv12&#x7B49;&#x7B49;&#x7684;&#x683C;&#x5F0F;(&#x9ED8;&#x8BA4;&#x503C;: yuy2) 
+</p>
+
+<p>
+pp[=&#x6EE4;&#x955C;1[:&#x9009;&#x9879;1[:&#x9009;&#x9879;2&#x2026;]]/[-]&#x6EE4;&#x955C;&#x2026;] 
+</p>
+
+<p>
+&#x8FD9; &#x4E2A;&#x9009;&#x9879;&#x5F00;&#x542F;MPlayer&#x7684;&#x5185;&#x90E8;&#x540E;&#x671F;&#x5904;&#x7406;&#x6EE4;&#x955C;&#x7684;&#x4F7F;&#x7528;, &#x540C;&#x65F6;&#x63D0;&#x4F9B;&#x4E00; &#x4E2A;&#x4F60;&#x53EF;&#x4EE5;&#x5411;&#x6709;&#x540D;&#x5B57;&#x7684;&#x6EE4;&#x955C;&#x4F20;&#x9001;&#x9009;&#x9879;&#x7684;&#x63A5;&#x53E3;. &#x53EF;&#x7528;&#x6EE4;&#x955C;&#x7684;&#x5217;&#x8868; &#x53C2; &#x89C1;&#x2212;pphelp&#x7684;&#x8F93;&#x51FA;. 
+&#x6CE8;&#x610F;&#x6BCF;&#x4E00;&#x4E2A;&#x5B50;&#x6EE4;&#x955C;&#x90FD;&#x5FC5;&#x987B;&#x7528;&#x4E00;&#x4E2A;/&#x8BB0;&#x53F7;&#x5206;&#x9694;. 
+&#x6240;&#x6709;&#x6EE4;&#x955C;&#x9ED8;&#x8BA4;&#x4F5C;&#x7528;&#x4E8E;&#x2019;c&#x2019;(&#x8272;&#x5EA6;). 
+&#x5728;&#x9009;&#x9879;&#x540E;&#x9762;&#x53EF;&#x4EE5;&#x52A0;&#x4E0A;&#x4E00;&#x4E2A;&#x2019;:&#x2019;&#x548C;&#x4E00;&#x4E2A;&#x5B57;&#x6BCD;&#x8868;&#x793A;&#x5B83;&#x7684;&#x4F5C;&#x7528;&#x8303;&#x56F4;: 
+</p>
+
+<p>
+a: &#x5982;&#x679C;CPU&#x592A;&#x6162;&#x5219;&#x81EA;&#x52A8;&#x5173;&#x95ED;&#x6EE4;&#x955C;. 
+c: &#x540C;&#x65F6;&#x8FDB;&#x884C;&#x8272;&#x5EA6;&#x5904;&#x7406;. 
+y: &#x4E0D;&#x8FDB;&#x884C;&#x8272;&#x5EA6;&#x5904;&#x7406;(&#x53EA;&#x8FDB;&#x884C;&#x4EAE;&#x5EA6;&#x5904;&#x7406;). 
+</p>
+
+<p>
+&#x793A;&#x4F8B;: 
+</p>
+
+<p>
+&#x2212;vf pp=hb/vb/dr/al/lb 
+&#x2212;vf pp=hb/vb/dr/al 
+&#x4F7F;&#x7528;&#x9664;&#x4E86;&#x4EAE;&#x5EA6;/&#x5BF9;&#x6BD4;&#x5EA6;&#x4FEE;&#x6B63;&#x4E4B;&#x5916;&#x7684;&#x9ED8;&#x8BA4;&#x6EE4;&#x955C;: 
+&#x2212;vf pp=de/&#x2212;al 
+&#x4F7F;&#x7528;&#x9ED8;&#x8BA4;&#x6EE4;&#x955C;&#x548C;&#x65F6;&#x95F4;&#x566A;&#x97F3;&#x6D88;&#x9664;: 
+&#x2212;vf pp=de/tn:1:2:3 
+&#x4EC5; &#x5BF9;&#x4EAE;&#x5EA6;&#x67D4;&#x5316;&#x9A6C;&#x8D5B;&#x514B;&#x5E76;&#x6839;&#x636E;CPU&#x53EF;&#x7528;&#x65F6;&#x95F4;&#x6253;&#x5F00;&#x6216;&#x5173;&#x95ED;&#x5782;&#x76F4;&#x67D4;&#x5316; &#x9A6C;&#x8D5B;&#x514B;: 
+&#x2212;vf pp=hb:y/vb:a &#x2212;autoq 6 
+</p>
+
+<p>
+test 
+</p>
+
+<p>
+&#x4EA7;&#x751F;&#x5404;&#x79CD;&#x8BBE;&#x7F6E;&#x6837;&#x5F0F;. 
+</p>
+
+<p>
+lavc[=quality:fps] 
+</p>
+
+<p>
+&#x7528;&#x4E8E;DVB/DXR3&#x7684;&#x901A;&#x8FC7;libavcodec&#x8FDB;&#x884C;YV12&#x5230;MPEG1&#x7684;&#x5FEB;&#x901F; &#x8F6C; &#x6362;. &#x6BD4;&#x2212;vf=fame&#x901F;&#x5EA6;&#x66F4;&#x5FEB;&#x8D28;&#x91CF;&#x66F4;&#x597D;. 
+</p>
+
+<p>
+quality: 1 &#x2212; 31 &#x56FA;&#x5B9A;qscale 32 &#x2212; &#x56FA;&#x5B9A;&#x6BD4;&#x7279;&#x7387;, &#x4EE5;kBits&#x4E3A;&#x5355;&#x4F4D; 
+fps: &#x6307;&#x5B9A;&#x8F93;&#x51FA;&#x5E27;&#x901F;&#x7387;(&#x6D6E;&#x70B9;&#x6570;) (&#x9ED8;&#x8BA4;&#x503C;: 0, &#x57FA;&#x4E8E;&#x9AD8;&#x5EA6;&#x7684;&#x81EA;&#x52A8; &#x68C0;&#x6D4B;) 
+</p>
+
+<p>
+fame 
+</p>
+
+<p>
+&#x7528;&#x4E8E;DVB/DXR3&#x7684;YV12&#x5230;MPEG1&#x7684;&#x5FEB;&#x901F;&#x8F6C;&#x6362;. 
+</p>
+
+<p>
+dvbscale[=aspect] 
+</p>
+
+<p>
+&#x4F7F;&#x7528;DVB&#x5361;&#x7684;&#x6700;&#x4F73;&#x7F29;&#x653E;, X&#x8F74;&#x4EE5;&#x786C;&#x4EF6;&#x7F29;&#x653E;&#x800C;Y&#x8F74;&#x7528;&#x8F6F;&#x4EF6;&#x7F29;&#x653E;&#x4EE5;&#x4FDD; &#x6301; &#x957F;&#x5BBD;&#x6BD4;. 
+</p>
+
+<p>
+aspect: &#x63A7;&#x5236;&#x957F;&#x5BBD;&#x6BD4;, &#x6309;DVB<sub>HEIGHT</sub>*ASPECTRATIO&#x8BA1;&#x7B97;(&#x9ED8;&#x8BA4; &#x503C;: 576*4/3=768), &#x5BF9; &#x4E8E;16:9 &#x7684; &#x7535; &#x89C6; &#x628A; &#x5B83; &#x8BBE; &#x7F6E; &#x4E3A;576*(16/9)=1024. 
+</p>
+
+<p>
+&#x53EA; &#x5E94; &#x8BE5; &#x4E0E;expand+scale &#x4E00; &#x8D77; &#x4F7F; &#x7528;: &#x2212;vf lavc,expand=-1:576:-1:-1:1,scale=-1:0,dvbscale 
+</p>
+
+<p>
+noise[=&#x4EAE;&#x5EA6;[u][t|a][h][p]:&#x8272;&#x5EA6;[u][t|a][h][p]] 
+</p>
+
+<p>
+&#x589E;&#x52A0;&#x566A;&#x97F3;. 
+</p>
+
+<p>
+&lt;0&#x2212;100&gt;: &#x4EAE;&#x5EA6;&#x566A;&#x97F3; 
+&lt;0&#x2212;100&gt;: &#x8272;&#x5EA6;&#x566A;&#x97F3; 
+u: &#x5747;&#x8861;&#x566A;&#x97F3; (&#x5426;&#x5219;&#x4F7F;&#x7528;&#x9AD8;&#x65AF;&#x7B97;&#x6CD5;) 
+t: &#x65F6;&#x95F4;&#x566A;&#x97F3; (&#x566A;&#x97F3;&#x6837;&#x5F0F;&#x968F;&#x5E27;&#x6539;&#x53D8;) 
+a: &#x5E73;&#x5747;&#x968F;&#x673A;&#x566A;&#x97F3; (&#x66F4;&#x5E73;&#x6ED1;, &#x6709;&#x70B9;&#x6162;) 
+h: &#x9AD8;&#x8D28;&#x91CF; (&#x770B;&#x8D77;&#x6765;&#x7A0D;&#x4E3A;&#x597D;&#x4E9B;, &#x6709;&#x70B9;&#x6162;) 
+p: &#x5728;&#x4E00;&#x4E2A;(&#x534A;)&#x89C4;&#x5219;&#x6837;&#x5F0F;&#x4E2D;&#x6DF7;&#x5165;&#x968F;&#x673A;&#x566A;&#x97F3; 
+</p>
+
+<p>
+denoise3d[=&#x4EAE;&#x5EA6;:&#x8272;&#x5EA6;:&#x65F6;&#x95F4;] 
+</p>
+
+<p>
+&#x8FD9;&#x4E2A;&#x6EE4;&#x955C;&#x7684;&#x76EE;&#x6807;&#x662F;&#x964D;&#x4F4E;&#x56FE;&#x50CF;&#x566A;&#x97F3;&#x751F;&#x6210;&#x5E73;&#x6ED1;&#x56FE;&#x50CF;&#x5E76;&#x8BA9;&#x9759;&#x6B62;&#x56FE;&#x50CF;&#x771F;&#x6B63; &#x9759; &#x6B62;, (&#x8FD9;&#x6709;&#x5229;&#x4E8E;&#x538B;&#x7F29;). &#x5B83;&#x53EF;&#x4EE5;&#x52A0;0&#x5230;3&#x4E2A;&#x53C2;&#x6570;. &#x5982;&#x679C;&#x4F60;&#x7701;&#x7565;&#x4E00; &#x4E2A;&#x53C2;&#x6570;, &#x5C06;&#x731C;&#x6D4B;&#x4E00;&#x4E2A;&#x5408;&#x7406;&#x7684;&#x503C;. 
+</p>
+
+
+<p>
+&#x4EAE;&#x5EA6;: 
+</p>
+
+
+<p>
+&#x7A7A;&#x95F4;&#x4EAE;&#x5EA6;&#x6D53;&#x5EA6; (&#x9ED8;&#x8BA4;&#x503C; = 4) 
+</p>
+
+<p>
+chroma: 
+</p>
+
+<p>
+&#x7A7A;&#x95F4;&#x8272;&#x5EA6;&#x6D53;&#x5EA6; (&#x9ED8;&#x8BA4;&#x503C; = 3) 
+</p>
+
+<p>
+time: 
+</p>
+
+<p>
+&#x65F6;&#x95F4;&#x5F3A;&#x5EA6; (&#x9ED8;&#x8BA4;&#x503C; = 6) 
+hqdn3d[=luma:chroma:time] 
+</p>
+
+<p>
+&#x9AD8;&#x7CBE;&#x5EA6;/&#x8D28;&#x91CF;&#x7684;denoise3d&#x6EE4;&#x955C;. &#x53C2;&#x6570;&#x548C;&#x4F7F;&#x7528;&#x65B9;&#x6CD5;&#x76F8;&#x540C;. 
+</p>
+
+<p>
+eq[=&#x4EAE;&#x5EA6;:&#x5BF9;&#x6BD4;&#x5EA6;] 
+</p>
+
+<p>
+&#x50CF;&#x786C;&#x4EF6;&#x5747;&#x8861;&#x5668;&#x4E00;&#x6837;&#x53EF;&#x4EE5;&#x4EA4;&#x4E92;&#x63A7;&#x5236;&#x7684;&#x8F6F;&#x4EF6;&#x5747;&#x8861;&#x5668;, &#x7528;&#x4E8E;&#x4E0D;&#x652F;&#x6301;&#x786C;&#x4EF6; &#x4EAE;&#x5EA6;&#x5BF9;&#x6BD4;&#x5EA6;&#x63A7;&#x5236;&#x7684;&#x663E;&#x5361;/&#x9A71;&#x52A8;. &#x4E5F;&#x53EF;&#x4EE5;&#x7528;&#x4E8E;MEncoder, &#x4FEE;&#x590D;&#x6355;&#x6349; &#x8D28;&#x91CF;&#x5DEE;&#x7684;&#x7535;&#x5F71;, &#x6216;&#x8005;&#x7565;&#x5FAE;&#x964D;&#x4F4E;&#x5BF9;&#x6BD4;&#x5EA6;&#x6765;&#x63A9;&#x76D6;&#x52A0;&#x5DE5;&#x75D5;&#x8FF9;&#x6216;&#x83B7;&#x5F97;&#x8F83;&#x4F4E; &#x7684;&#x6BD4;&#x7279;&#x7387;. &#x521D;&#x59CB;&#x503C;&#x53EF;&#x4EE5;&#x7531;&#x547D;&#x4EE4;&#x884C;&#x7ED9;&#x51FA;, &#x8303;&#x56F4;&#x5728;-100 &#x2212; 100&#x4E4B;&#x95F4;. 
+</p>
+
+<p>
+eq2[=gamma:&#x5BF9;&#x6BD4;&#x5EA6;:&#x4EAE;&#x5EA6;:&#x8272;&#x76F8;:rg:gg:bg] 
+</p>
+
+<p>
+&#x53E6;&#x4E00;&#x4E2A;&#x4F7F;&#x7528;&#x67E5;&#x8868;&#x7684;&#x8F6F;&#x4EF6;&#x5747;&#x8861;&#x5668;(&#x975E;&#x5E38;&#x6162;), &#x5728;&#x7B80;&#x5355;&#x7684;&#x4EAE;&#x5EA6;, &#x5BF9;&#x6BD4;&#x5EA6; &#x548C;&#x8272;&#x76F8;&#x8C03;&#x6574;&#x4E4B;&#x5916;&#x8FD8;&#x652F;&#x6301;gamma&#x4FEE;&#x6B63;. &#x6CE8;&#x610F;&#x5F53;&#x6240;&#x6709;gamma&#x503C;&#x90FD;&#x4E3A;1.0 &#x65F6;, &#x5B83;&#x4F7F;&#x7528;&#x4E0E;&#x2212;vf eq&#x4E00;&#x6837;&#x7684;MMX&#x4F18;&#x5316;&#x4EE3;&#x7801;. &#x53C2;&#x6570;&#x4EE5;&#x6D6E;&#x70B9;&#x503C;&#x7ED9; &#x5B9A;. &#x53C2; &#x6570;rg, gg, bg &#x662F;&#x7EA2;, &#x7EFF;, &#x5170;&#x7EC4;&#x4EFD;&#x7684;&#x72EC;&#x7ACB;gamma&#x503C;. &#x9ED8;&#x8BA4;&#x503C; &#x4E3A;1.0, &#x4EAE;&#x5EA6;=0.0. gamma&#x7684;&#x53D6;&#x503C;&#x8303;&#x56F4;&#x662F;0.1&#x2212;10, &#x5BF9;&#x6BD4;&#x5EA6;&#x662F;-2&#x2212;2( &#x8D1F;&#x6570;&#x4EA7;&#x751F;&#x8D1F;&#x7247;&#x6548;&#x679C;), &#x4EAE;&#x5EA6;&#x662F;-1&#x2212;1&#x800C;&#x8272;&#x5EA6;&#x4E3A;0&#x2212;3. 
+</p>
+
+<p>
+halfpack[=f] 
+</p>
+
+<p>
+&#x628A;4:2:0&#x7684;planar YUV&#x8F6C;&#x6362;&#x4E3A;4:2:2&#x9AD8;&#x5EA6;&#x51CF;&#x534A;&#x7684;packed&#x683C;&#x5F0F;, &#x964D;&#x4F4E; &#x4EAE;&#x5EA6;&#x91C7;&#x6837;&#x7387;&#x4F46;&#x4FDD;&#x6301;&#x6240;&#x6709;&#x8272;&#x5EA6;&#x6837;&#x672C;. &#x7528;&#x4E8E;&#x8F93;&#x51FA;&#x5230;&#x786C;&#x4EF6;&#x7F29;&#x653E;&#x8D28;&#x91CF; &#x5DEE; &#x6216;&#x4E0D;&#x53EF;&#x7528;&#x7684;&#x4F4E;&#x5206;&#x8FA8;&#x7387;&#x663E;&#x793A;&#x8BBE;&#x5907;. &#x4E5F;&#x53EF;&#x4EE5;&#x4F5C;&#x4E3A;&#x4E00;&#x4E2A;cpu&#x6D88;&#x8017;&#x5F88;&#x4F4E;&#x7684; &#x7B80;&#x5355;&#x7684;&#x4EC5;&#x7528;&#x4E8E;&#x4EAE;&#x5EA6;&#x7684;&#x4EA4;&#x9519;/&#x9010;&#x884C;&#x626B;&#x63CF;&#x8F6C;&#x6362;&#x5668;. &#x9ED8; &#x8BA4; &#x60C5; &#x51B5; &#x4E0B;, halfpack&#x5728;&#x964D;&#x4F4E;&#x91C7;&#x6837;&#x7387;&#x7684;&#x65F6;&#x5019;&#x53BB;&#x4E24;&#x884C;&#x7684;&#x5E73;&#x5747;&#x503C;. &#x53EF;&#x9009;&#x7684;&#x53C2;&#x6570;f&#x53EF; &#x4EE5;&#x662F;0&#x8868;&#x793A;&#x53EA;&#x4F7F;&#x7528;&#x5076;&#x6570;&#x884C;, &#x6216;&#x8005;1&#x8868;&#x793A;&#x53EA;&#x4F7F;&#x7528;&#x5947;&#x6570;&#x884C;. 
+</p>
+
+<p>
+dint[=sense:level] 
+</p>
+
+<p>
+&#x68C0;&#x6D4B;&#x5E76;&#x4E22;&#x5F03;&#x89C6;&#x9891;&#x6D41;&#x4E2D;&#x7684;&#x9694;&#x884C;&#x626B;&#x63CF;&#x7684;&#x5E27;. &#x53C2;&#x6570;&#x53D6; &#x503C; &#x8303; &#x56F4; &#x4ECE;0.0 &#x5230;1.0 - &#x7B2C;&#x4E00;&#x4E2A;(&#x9ED8;&#x8BA4;&#x503C; 0.1)&#x8868;&#x793A;&#x76F8;&#x90BB;&#x70B9;&#x7684;&#x76F8;&#x5BF9;&#x5DEE;&#x522B;, &#x7B2C;&#x4E8C;&#x4E2A;( &#x9ED8;&#x8BA4;&#x503C; 0.15)&#x8868;&#x793A;&#x68C0;&#x6D4B;&#x56FE;&#x50CF;&#x7684;&#x54EA;&#x4E00;&#x90E8;&#x5206;&#x6765;&#x51B3;&#x5B9A;&#x662F;&#x5426;&#x628A;&#x5E27;&#x4F5C;&#x4E3A;&#x9694;&#x884C; &#x626B;&#x63CF;&#x4E22;&#x5F03;. 
+</p>
+
+<p>
+lavcdeint 
+</p>
+
+<p>
+&#x4F7F;&#x7528;libavcodec&#x7684;&#x9694;&#x884C;/&#x9010;&#x884C;&#x626B;&#x63CF;&#x8F6C;&#x6362;&#x6EE4;&#x955C;. 
+</p>
+
+<p>
+unsharp=l|cWxH:amount[:l|cWxH:amount] 
+</p>
+
+<p>
+&#x53CD;&#x9510;&#x5316;&#x63A9;&#x9970;/&#x9AD8;&#x65AF;&#x6A21;&#x7CCA;. 
+</p>
+
+<p>
+l: &#x5E94;&#x7528;&#x5230;&#x4EAE;&#x5EA6;&#x7EC4;&#x4EFD;. 
+c: &#x5E94;&#x7528;&#x5230;&#x8272;&#x5EA6;&#x7EC4;&#x4EFD;. 
+WxH: &#x77E9; &#x9635;&#x7684;&#x5BBD;&#x5EA6;&#x548C;&#x9AD8;&#x5EA6;, &#x4E24;&#x4E2A;&#x65B9;&#x5411;&#x90FD;&#x5FC5;&#x987B;&#x662F;&#x5947;&#x6570; (&#x6700;&#x5C0F; = 3x3, &#x6700;&#x5927; = 13x11&#x6216;&#x8005;11x13, &#x4E00;&#x822C;&#x5728;3x3&#x5230;7x7&#x4E4B;&#x95F4;) 
+amount: &#x52A0;&#x5230;&#x56FE;&#x50CF;&#x4E0A;&#x7684;&#x9510;&#x5316;/&#x6A21;&#x7CCA;&#x7684;&#x76F8;&#x5BF9;&#x91CF; (&#x6B63;&#x5E38;&#x8303; &#x56F4; &#x5E94; &#x8BE5; &#x662F;-1.5 &#x2212; 1.5). &lt;0: &#x6A21;&#x7CCA; &gt;0: &#x9510;&#x5316; 
+</p>
+
+<p>
+swapuv 
+</p>
+
+<p>
+&#x4EA4;&#x6362;U &amp; V&#x5E73;&#x9762;. 
+</p>
+
+<p>
+il=[d|i][s][:[d|i][s]] 
+</p>
+
+<p>
+&#x4EA4;&#x9519;/&#x9010;&#x884C;&#x8F6C;&#x6362;. &#x8FD9;&#x4E2A;&#x6EE4;&#x955C;&#x7684;&#x76EE;&#x6807;&#x662F;&#x5206;&#x533A;&#x5904;&#x7406;&#x4EA4;&#x9519;&#x56FE;&#x50CF;&#x800C;&#x4E0D;&#x8FDB;&#x884C; &#x9010;&#x884C;&#x8F6C;&#x6362;. &#x4F60;&#x53EF;&#x4EE5;&#x7528;&#x5B83;&#x5904;&#x7406;&#x4F60;&#x7684;&#x4EA4;&#x9519;&#x56FE;&#x50CF;&#x7684;DVD, &#x4E0D;&#x5FC5;&#x4EA4;&#x9519;&#x56FE;&#x50CF; &#x5C31; &#x53EF;&#x4EE5;&#x5728;&#x7535;&#x89C6;&#x4E0A;&#x64AD;&#x653E;&#x5B83;. &#x5F53;&#x9010;&#x884C;&#x5904;&#x7406;(&#x7528;&#x540E;&#x671F;&#x5904;&#x7406;&#x6EE4;&#x955C;)&#x4F1A;&#x6C38;&#x4E45; &#x7834;&#x574F;&#x4EA4;&#x9519;&#x56FE;&#x50CF;(&#x7528;&#x5E73;&#x6ED1;, &#x5E73;&#x5747;&#x7B49;&#x7B49;), &#x9010;&#x884C;&#x5904;&#x7406;&#x4F1A;&#x628A;&#x5E27;&#x5206;&#x6210;&#x4E24; &#x5757;( &#x6210; &#x4E3A;&#x534A;&#x56FE;&#x50CF;), &#x6240;&#x4EE5;&#x4F60;&#x9700;&#x8981;&#x5206;&#x522B;&#x8FDB;&#x884C;(&#x5904;&#x7406;)&#x4ED6;&#x4EEC;&#x7136;&#x540E;&#x628A;&#x5B83;&#x4EEC;&#x91CD;&#x65B0; &#x4EA4;&#x9519;. 
+</p>
+
+<p>
+d: &#x9010;&#x884C; 
+i: &#x9694;&#x884C; 
+s: &#x4EA4;&#x6362;&#x57DF;(&#x4EA4;&#x6362;&#x5076;&#x6570;&amp;&#x5947;&#x6570;&#x884C;) 
+</p>
+
+<p>
+field[=n] 
+</p>
+
+<p>
+&#x4F7F;&#x7528;&#x6B65;&#x8FDB;&#x7B97;&#x6CD5;&#x89E3;&#x538B;&#x4EA4;&#x9519;&#x56FE;&#x50CF;&#x4E2D;&#x7684;&#x5355;&#x72EC;&#x57DF;&#x4ECE;&#x800C;&#x907F;&#x514D;&#x6D6A;&#x8D39;CPU &#x65F6; &#x95F4;. &#x53EF; &#x9009; &#x53C2; &#x6570;n&#x8BBE;&#x7F6E;&#x89E3;&#x538B;&#x5076;&#x6570;&#x57DF;&#x8FD8;&#x662F;&#x5947;&#x6570;&#x57DF;(&#x53D6;&#x51B3;&#x4E8E;n&#x662F;&#x5076;&#x6570;&#x8FD8;&#x662F;&#x5947; &#x6570;). 
+</p>
+
+<p>
+detc[=&#x53D8;&#x91CF;1=&#x53C2;&#x6570;1:&#x53D8;&#x91CF;2=&#x53C2;&#x6570;2:&#x2026;] 
+</p>
+
+<p>
+&#x5C1D;&#x8BD5;&#x53CD;&#x8F6C;&quot;telecine&quot;&#x8FC7;&#x7A0B;&#x751F;&#x6210;&#x4E00;&#x4E2A;&#x7535;&#x5F71;&#x5E27;&#x901F;&#x7387;&#x7684;&#x5E72;&#x51C0;&#x7684;&#x975E;&#x4EA4;&#x9519;&#x7684; &#x89C6;&#x9891;&#x6D41;. &#x8FD9;&#x4E2A;&#x6EE4;&#x955C;&#x8FD8;&#x5728;&#x8BD5;&#x9A8C;&#x9636;&#x6BB5;&#x4F46;&#x4F3C;&#x4E4E;&#x53EF;&#x7528;. &#x4F60;&#x5FC5;&#x987B;&#x660E;&#x767D;&#x5982;&#x679C; &#x4F60;&#x770B;&#x7535;&#x5F71;&#x7684;&#x65F6;&#x5019;&#x6CA1;&#x6709;&#x4EA4;&#x9519;&#x73B0;&#x8C61;, &#x8FD9;&#x4E2A;&#x6EE4;&#x955C;&#x7EDD;&#x5BF9;&#x6CA1;&#x6709;&#x7528;. &#x4E0B;&#x9762; &#x7684; &#x53C2;&#x6570;(&#x53C2;&#x8003;&#x4E0A;&#x9762;&#x7684;&#x8BED;&#x6CD5;)&#x53EF;&#x4EE5;&#x7528;&#x6765;&#x63A7;&#x5236;&#x5B83;&#x7684;&#x884C;&#x4E3A;: 
+</p>
+
+<p>
+dr: &#x8BBE;&#x7F6E;&#x6389;&#x5E27;&#x6A21;&#x5F0F;. 0(&#x9ED8;&#x8BA4;)&#x8868;&#x793A;&#x4E0D;&#x6389;&#x5E27;&#x4EE5;&#x4FDD;&#x6301;&#x56FA;&#x5B9A;&#x7684;&#x8F93;&#x51FA;&#x5E27; &#x901F;&#x7387;. 1&#x8868;&#x793A;&#x603B;&#x662F;&#x5982;&#x679C;&#x524D;5&#x5E27;&#x6CA1;&#x6709;&#x6389;&#x5E27;&#x6216;telecine&#x5408;&#x5E76; &#x5C31; &#x6389;1 &#x5E27;. 2 &#x8868; &#x793A;&#x603B;&#x662F;&#x4FDD;&#x6301;&#x51C6;&#x786E;&#x7684;5:4&#x7684;&#x8F93;&#x5165;&#x8F93;&#x51FA;&#x5E27;&#x6BD4;&#x7387;. (&#x6CE8;&#x610F;: MEncoder&#x4F7F;&#x7528;1!) 
+am: &#x5206;&#x6790;&#x6A21;&#x5F0F;. &#x53EF;&#x7528;&#x53C2;&#x6570;&#x6709;0(&#x4F7F;&#x7528;fr=#&#x8BBE;&#x7F6E;&#x7684;&#x521D;&#x59CB;&#x5E27;&#x6570;&#x7684;&#x56FA;&#x5B9A; &#x6837;&#x5F0F;), &#x548C;1(&#x6269;&#x5F20;&#x6027;&#x641C;&#x7D22;telecine&#x6837;&#x5F0F;).&#x9ED8;&#x8BA4;&#x503C;&#x4E3A;1. 
+fr: &#x8BBE;&#x7F6E;&#x521D;&#x59CB;&#x5E27;&#x6570;&#x5E8F;&#x5217;. 0-2&#x662F;&#x4E09;&#x4E2A;&#x5E72;&#x51C0;&#x7684;&#x6E10;&#x8FDB;&#x5E27;; 3&#x548C;4&#x662F;&#x4E24; &#x4E2A;&#x4EA4;&#x9519;&#x5E27;. &#x9ED8;&#x8BA4;&#x503C;, -1, &#x8868;&#x793A;&quot;&#x4E0D;&#x5728;telecine&#x5E8F;&#x5217;&#x4E2D;&quot;. &#x8FD9; &#x91CC; &#x8BBE;&#x7F6E;&#x7684;&#x6570;&#x5B57;&#x662F;&#x5047;&#x60F3;&#x7684;&#x7535;&#x5F71;&#x5F00;&#x59CB;&#x524D;&#x7684;&#x5E27;&#x6570;. 
+tr0, tr1, tr2, tr3: &#x7279;&#x5B9A;&#x6A21;&#x5F0F;&#x7684;&#x521D;&#x59CB;&#x503C;. 
+</p>
+
+<p>
+telecine[=&#x5F00;&#x59CB;] 
+</p>
+
+<p>
+&#x4F7F;&#x7528;3:2&#x7684;&quot;telecine&quot;&#x8FC7;&#x7A0B;&#x589E;&#x52A0;&#x5E27;&#x901F;&#x7387;20%. mplayer&#x7684;&#x8FD9;&#x4E2A;&#x529F;&#x80FD; &#x5E94;&#x8BE5;&#x4E0D;&#x80FD;&#x6B63;&#x5E38;&#x5DE5;&#x4F5C;, &#x4E0D;&#x8FC7;&#x5B83;&#x53EF;&#x4EE5; &#x7528; &#x4E8E;&#x2019;mencoder -fps 29.97 -ofps 29.97 -vf telecine&#x2019;. &#x4E24;&#x4E2A;fps&#x9009;&#x9879;&#x90FD;&#x662F;&#x5FC5;&#x9700;&#x7684;! (&#x5982; &#x679C;&#x9519;&#x8BEF;&#x5C06;&#x5BFC;&#x81F4;A/V&#x4E0D;&#x540C;&#x6B65;). &#x53EF;&#x9009;&#x7684;&#x5F00;&#x59CB;&#x53C2;&#x6570;&#x544A;&#x8BC9;&#x6EE4;&#x955C;telecine&#x683C; &#x5F0F;&#x4ECE;&#x54EA;&#x91CC;&#x5F00;&#x59CB;(0-3). 
+</p>
+
+<p>
+tfields[=&#x6A21;&#x5F0F;] 
+</p>
+
+<p>
+&#x4E34;&#x65F6;&#x57DF;&#x5206;&#x79BB; &#x2013; &#x628A;&#x57DF;&#x5206;&#x6210;&#x5E27;, &#x8F93;&#x51FA;&#x5E27;&#x901F;&#x7387;&#x52A0;&#x500D;. 0&#x6A21;&#x5F0F;&#x65F6;, &#x6EE4;&#x955C; &#x4FDD;&#x6301;&#x57DF;&#x4E0D;&#x53D8;, &#x8F93;&#x51FA;&#x7ED3;&#x679C;&#x9AD8;&#x5EA6;&#x51CF;&#x534A;. 1&#x6A21;&#x5F0F;&#x65F6;, &#x56FE;&#x50CF;&#x7684;&#x4EA4;&#x9519;&#x90E8;&#x5206;&#x5C06; &#x88AB; &#x6539; &#x5199; &#x91CD; &#x65B0; &#x6784; &#x6210; &#x5B8C; &#x6574;&#x9AD8;&#x5EA6;&#x7684;&#x5E27;. &#x8DDF;telecine&#x6EE4;&#x955C;&#x4E00;&#x6837;, &quot;tfields&quot;&#x53EA;&#x6709;&#x7528;mencoder, &#x5E76;&#x4E14;&#x53EA;&#x6709;-fps&#x548C;-ofps&#x90FD;&#x8BBE;&#x7F6E;&#x6210;&#x9700;&#x8981; &#x7684;(&#x52A0;&#x500D;)&#x7684;&#x5E27;&#x901F;&#x7387;&#x65F6;&#x624D;&#x80FD;&#x6B63;&#x5E38;&#x5DE5;&#x4F5C;! 
+</p>
+
+<p>
+boxblur=&#x534A;&#x5F84;:&#x5F3A;&#x5EA6;[:&#x534A;&#x5F84;:&#x5F3A;&#x5EA6;] 
+</p>
+
+<p>
+&#x76D2;&#x5B50;&#x6A21;&#x7CCA; 
+</p>
+
+<p>
+&#x534A;&#x5F84;: &#x6EE4;&#x955C;&#x5927;&#x5C0F; 
+&#x5F3A;&#x5EA6;: &#x6EE4;&#x955C;&#x5E94;&#x7528;&#x7684;&#x5F3A;&#x5EA6; 
+</p>
+
+<p>
+sab=&#x534A;&#x5F84;:&#x5F3A;&#x5EA6;:&#x8272;&#x5DEE;[:&#x534A;&#x5F84;:&#x5F3A;&#x5EA6;:&#x8272;&#x5DEE;] 
+</p>
+
+<p>
+&#x5916;&#x5F62;&#x8BC6;&#x522B;&#x6A21;&#x7CCA; 
+</p>
+
+<p>
+&#x534A;&#x5F84;: &#x6A21;&#x7CCA;&#x6EE4;&#x955C;&#x5F3A;&#x5EA6;(~0.1&#x2212;4.0)(&#x8D8A;&#x5927;&#x8D8A;&#x6162;) 
+&#x5F3A;&#x5EA6;: &#x9884;&#x8FC7;&#x6EE4;&#x5F3A;&#x5EA6;(~0.1&#x2212;2.0) 
+&#x8272;&#x5DEE;: &#x53EF;&#x4EE5;&#x5BB9;&#x5FCD;&#x7684;&#x50CF;&#x7D20;&#x5DEE;&#x522B;.(~0.1-100.0) 
+</p>
+
+<p>
+smartblur=&#x534A;&#x5F84;:&#x5F3A;&#x5EA6;:&#x9600;&#x503C;[:&#x534A;&#x5F84;:&#x5F3A;&#x5EA6;:&#x9600;&#x503C;] 
+</p>
+
+<p>
+&#x53EA;&#x80FD;&#x6A21;&#x7CCA; 
+</p>
+
+<p>
+&#x534A;&#x5F84;: &#x6A21;&#x7CCA;&#x6EE4;&#x955C;&#x5F3A;&#x5EA6;(~0.1&#x2212;5.0)(&#x8D8A;&#x5927;&#x8D8A;&#x6162;) 
+&#x5F3A;&#x5EA6;: &#x6A21;&#x7CCA;(0.0&#x2212;1.0)&#x6216;&#x9510;&#x5316;(-1.0&#x2212;0.0) 
+&#x9600;&#x503C;: &#x8FC7;&#x6EE4;&#x5168;&#x90E8;(0), &#x8FC7;&#x6EE4;&#x5355;&#x8C03;&#x533A;&#x57DF;(0&#x2212;30)&#x6216;&#x8FC7;&#x6EE4;&#x8FB9;&#x754C;(-30&#x2212;0) 
+</p>
+
+<p>
+perspective=x0:y0:x1:y1:x2:y2:x3:y3:t 
+</p>
+
+<p>
+&#x5F62;&#x72B6;&#x4FEE;&#x6B63; 
+</p>
+
+<p>
+x0,y0,&#x2026;: &#x5DE6;&#x4E0A;, &#x53F3;&#x4E0A;, &#x5DE6;&#x4E0B;, &#x53F3;&#x4E0B;&#x5750;&#x6807; 
+t: &#x7EBF;&#x6027;(0)&#x6216;&#x7ACB;&#x65B9;(1)&#x91CD;&#x65B0;&#x91C7;&#x6837; 
+</p>
+
+<p>
+2xsai 
+</p>
+
+<p>
+&#x4F7F;&#x7528;&#x53CC;&#x500D;&#x653E;&#x5927;&#x63D2;&#x5165;&#x7B97;&#x7B26;&#x653E;&#x5927;&#x5E76;&#x5E73;&#x6ED1;&#x56FE;&#x50CF;. 
+</p>
+
+<p>
+1bpp 
+</p>
+
+<p>
+1bpp&#x4F4D;&#x56FE;&#x5230;YUV/BGR 8/15/16/32&#x8F6C;&#x6362; 
+</p>
+
+<p>
+down3dright[=&#x884C;&#x6570;] 
+</p>
+
+<p>
+&#x91CD;&#x65B0;&#x914D;&#x7F6E;&#x7F29;&#x653E;&#x7ACB;&#x4F53;&#x56FE;&#x50CF;. &#x89E3;&#x538B;&#x4E24;&#x4E2A;&#x7ACB;&#x4F53;&#x57DF;&#x5E76;&#x628A;&#x5B83;&#x4EEC;&#x653E;&#x5728; &#x4E00; &#x8D77;, &#x91CD;&#x65B0;&#x7F29;&#x653E;&#x4EE5;&#x7EF4;&#x6301;&#x539F;&#x59CB;&#x7535;&#x5F71;&#x957F;&#x5BBD;&#x6BD4;. 
+</p>
+
+<p>
+&#x884C;&#x6570;: &#x4ECE;&#x56FE;&#x50CF;&#x4E2D;&#x90E8;&#x9009;&#x62E9;&#x7684;&#x884C;&#x6570;(&#x9ED8;&#x8BA4;&#x503C;: 12) 
+</p>
+
+<p>
+bmovl=&#x9690;&#x85CF;:&#x4E0D;&#x900F;&#x660E;:&lt;&#x547D;&#x540D;&#x7BA1;&#x9053;&gt; 
+</p>
+
+<p>
+&#x4ECE;&#x4E00;&#x4E2A;&#x547D;&#x540D;&#x7BA1;&#x9053;&#x8BFB;&#x53D6;&#x4F4D;&#x56FE;&#x5E76;&#x628A;&#x5B83;&#x4EEC;&#x663E;&#x793A;&#x5728;&#x7A97;&#x53E3;&#x4E2D;. 
+</p>
+
+<p>
+&#x9690;&#x85CF;: &#x8BBE;&#x7F6E;&#x2019;&#x9690;&#x85CF;&#x2019;&#x6807;&#x8BB0;&#x7684;&#x9ED8;&#x8BA4;&#x503C;(&#x5E03;&#x5C14;&#x503C;) 
+&#x4E0D;&#x900F;&#x660E;: &#x5207;&#x6362;alphablended(&#x900F;&#x660E;)&#x548C;&#x4E0D;&#x900F;&#x660E;(&#x5FEB;&#x901F;)&#x6A21;&#x5F0F;&#x6807;&#x8BB0; 
+&#x547D; &#x540D;&#x7BA1;&#x9053;: &#x547D;&#x540D;&#x7BA1;&#x9053;&#x7684;&#x8DEF;&#x5F84;/&#x6587;&#x4EF6;&#x540D;(&#x8FDE;&#x63A5;mplayer -vf bmovl &#x548C;&#x63A7;&#x5236;&#x7A0B;&#x5E8F;&#x7684;&#x547D;&#x540D;&#x7BA1;&#x9053;) 
+</p>
+
+<p>
+&#x547D;&#x540D;&#x7BA1;&#x9053;&#x547D;&#x4EE4;&#x6709;: 
+</p>
+
+<p>
+RGBA32 width height xpos ypos alpha clear 
+&#x63A5;&#x53D7;width*height*4&#x5B57;&#x8282;&#x7684;&#x539F;&#x59CB;RGBA32&#x6570;&#x636E; 
+</p>
+
+<p>
+ABGR32 width height xpos ypos alpha clear 
+&#x63A5;&#x53D7;width*height*4&#x5B57;&#x8282;&#x7684;&#x539F;&#x59CB;ABGR32 data. 
+</p>
+
+<p>
+RGB24 width height xpos ypos alpha clear 
+&#x63A5;&#x53D7;width*height*3&#x5B57;&#x8282;&#x7684;&#x539F;&#x59CB;RGB32 data. 
+</p>
+
+<p>
+BGR24 width height xpos ypos alpha clear 
+&#x63A5;&#x53D7;width*height*3&#x5B57;&#x8282;&#x7684;&#x539F;&#x59CB;BGR32 data. 
+</p>
+
+<p>
+ALPHA width height xpos ypos alpha 
+&#x6539;&#x53D8;&#x533A;&#x57DF;&#x7684;alpha&#x503C; 
+</p>
+
+<p>
+CLEAR width height xpos ypos 
+&#x6E05;&#x9664;&#x6570;&#x636E; 
+</p>
+
+<p>
+OPAQUE 
+&#x7981;&#x7528;&#x6240;&#x6709;alpha&#x900F;&#x660E;&#x53D1;&#x9001;&quot;ALPHA 0 0 0 0 0&quot;&#x53EF;&#x4EE5;&#x91CD;&#x65B0;&#x6253;&#x5F00; &#x5B83;. 
+</p>
+
+<p>
+HIDE 
+&#x9690;&#x85CF;&#x4F4D;&#x56FE; 
+</p>
+
+<p>
+SHOW 
+&#x663E;&#x793A;&#x4F4D;&#x56FE; 
+</p>
+
+<p>
+&#x53C2;&#x6570;&#x6709;: 
+</p>
+
+<p>
+width, height: &#x56FE;&#x50CF;/&#x533A;&#x57DF;&#x5C3A;&#x5BF8; 
+xpos, ypos: &#x4F4D;&#x56FE;&#x4F20;&#x9001;&#x7684;X/Y&#x4F4D;&#x7F6E; 
+alpha: &#x8BBE;&#x7F6E;alpha&#x5DEE;&#x522B;. 0&#x6807;&#x8BC6;&#x539F;&#x59CB;&#x503C;, 255&#x4F7F;&#x6240;&#x6709;&#x90FD;&#x4E0D;&#x900F;&#x660E;, -255&#x4F7F;&#x6240;&#x6709;&#x90FD;&#x900F;&#x660E;. &#x5982;&#x679C;&#x4F60;&#x628A;&#x5B83;&#x8BBE;&#x4E3A;-255, &#x4F60;&#x53EF;&#x4EE5;&#x968F;&#x540E;&#x53D1; &#x9001; &#x4E00; &#x4E2A;ALPHA&#x547D;&#x4EE4;&#x5E8F;&#x5217;&#x5427;&#x533A;&#x57DF;&#x8BBE;&#x7F6E;&#x4E3A;-225, -200, -175&#x7B49;&#x7B49;&#x6765;&#x83B7; &#x5F97;&#x4E00;&#x4E2A;&#x6F02;&#x4EAE;&#x7684;&#x6DE1;&#x5165;&#x6548;&#x679C;! ;)
+clear: &#x4F20;&#x9001;&#x524D;&#x6E05;&#x695A;&#x5E27;&#x7F13;&#x51B2;. 1&#x8868;&#x793A;&#x6E05;&#x9664;, &#x5982;&#x679C;&#x662F;0, &#x56FE;&#x50CF;&#x4F1A;&#x88AB; &#x4F20;&#x9001;&#x5230;&#x8001;&#x56FE;&#x50CF;&#x4E0A;, &#x6240;&#x4EE5;&#x4F60;&#x4E0D;&#x9700;&#x8981;&#x6BCF;&#x6B21;&#x4E3A;&#x5C4F;&#x5E55;&#x5C0F;&#x90E8;&#x5206;&#x7684;&#x53D8;&#x5316;&#x90FD;&#x53D1; &#x9001;1,8MB&#x7684;RGBA32&#x6570;&#x636E;. 
+</p>
+
+<p>
+&#x2212;vfm &lt;&#x9A71;&#x52A8;1,&#x9A71;&#x52A8;2,&#x2026;&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;&#x53EF;&#x7528;&#x7684;&#x89C6;&#x9891;&#x9A71;&#x52A8;&#x4F18;&#x5148;&#x7EA7;&#x5217;&#x8868;, &#x6309;&#x7167;&#x5B83;&#x4EEC;&#x5728;codecs.conf&#x4E2D;&#x7684;&#x9A71; &#x52A8; &#x540D; &#x79F0;. &#x5F53;&#x90FD;&#x4E0D;&#x53EF;&#x7528;&#x662F;&#x4F7F;&#x7528;&#x9ED8;&#x8BA4;&#x540E;&#x5907;&#x9A71;&#x52A8;. 
+</p>
+
+<p>
+&#x6CE8;&#x610F;: 
+&#x5982;&#x679C;&#x7F16;&#x8BD1;&#x4E86;libdivxdecore&#x652F;&#x6301;,&#x5219;odivx&#x548C;divx4&#x4F1A;&#x5305;&#x542B;&#x540C;&#x4E00;&#x4E2A;DivX4&#x7F16;&#x89E3; &#x7801;&#x5668;, &#x4F46;&#x7528;&#x4E0D;&#x540C;&#x7684;API&#x8C03;&#x7528;&#x5B83;. &#x4ED6;&#x4EEC;&#x7684;&#x533A;&#x522B;&#x548C;&#x4EC0;&#x4E48;&#x60C5;&#x51B5;&#x4E0B;&#x5E94;&#x8BE5;&#x4F7F;&#x7528; &#x54EA; &#x4E00; &#x4E2A;, &#x53C2;&#x8003;&#x6587;&#x6863;&#x7684;DivX4&#x90E8;&#x5206;. 
+&#x5168;&#x90E8;&#x53EF;&#x7528;&#x7F16;&#x89E3;&#x7801;&#x5668;&#x7684;&#x5B8C;&#x6574;&#x5217;&#x8868;&#x53C2;&#x89C1;&#x2212;vfm help&#x7684;&#x8F93;&#x51FA;. 
+</p>
+
+<p>
+&#x793A;&#x4F8B;: 
+</p>
+
+<p>
+&#x2212;vfm ffmpeg,dshow,vfw 
+</p>
+
+<p>
+&#x5148; &#x5C1D;&#x8BD5;libavcodec, &#x7136;&#x540E;&#x662F;Directshow, &#x7136;&#x540E;&#x662F;VFW, &#x5982;&#x679C;&#x90FD;&#x4E0D; &#x884C;&#x5C31;&#x4F7F;&#x7528;&#x5176;&#x5B83;&#x540E;&#x5907;&#x7F16;&#x89E3;&#x7801;&#x5668;. 
+</p>
+
+<p>
+&#x2212;vfm xanim 
+</p>
+
+<p>
+&#x5148;&#x5C1D;&#x8BD5;XAnim&#x7F16;&#x89E3;&#x7801;&#x5668; 
+</p>
+
+<p>
+&#x2212;x &lt;x&gt; (&#x4EC5;&#x7528;&#x4E8E;MPLAYER) 
+</p>
+
+<p>
+&#x628A;&#x56FE;&#x50CF;&#x7F29;&#x653E;&#x5230;&#x5BBD;&#x5EA6;x(&#x5982;&#x679C;&#x8F6F;&#x4EF6;/&#x786C;&#x4EF6;&#x7F29;&#x653E;&#x53EF;&#x7528;). &#x7981;&#x7528;&#x957F;&#x5BBD;&#x6BD4;&#x8BA1;&#x7B97;. 
+</p>
+
+<p>
+&#x2212;xvidopts &lt;&#x9009;&#x9879;1:&#x9009;&#x9879;2:&#x2026;&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;&#x4F7F;&#x7528;XviD&#x89E3;&#x7801;&#x65F6;&#x7684;&#x9644;&#x52A0;&#x53C2;&#x6570;. 
+</p>
+
+<p>
+dr2 
+&#x6FC0;&#x6D3B;&#x76F4;&#x63A5;&#x6E32;&#x67D3;&#x6A21;&#x5F0F;2. 
+</p>
+
+<p>
+nodr2 
+</p>
+
+<p>
+&#x5173;&#x95ED;&#x76F4;&#x63A5;&#x6E32;&#x67D3;&#x6A21;&#x5F0F;2. 
+</p>
+
+<p>
+&#x2212;xy &lt;x&gt; 
+</p>
+
+<p>
+x&lt;=8 
+</p>
+
+<p>
+&#x6309;&#x56E0;&#x5B50;&lt;x&gt;&#x7F29;&#x653E;&#x56FE;&#x50CF;. 
+</p>
+
+<p>
+x&gt;8 
+</p>
+
+<p>
+&#x628A;&#x56FE;&#x50CF;&#x5BBD;&#x5EA6;&#x8BBE;&#x4E3A;&lt;x&gt;&#x5E76;&#x8BA1;&#x7B97;&#x56FE;&#x50CF;&#x9AD8;&#x5EA6;&#x4EE5;&#x4FDD;&#x6301;&#x957F;&#x5BBD;&#x6BD4;. 
+</p>
+
+<p>
+&#x2212;y &lt;y&gt; (&#x4EC5;&#x7528;&#x4E8E;MPLAYER) 
+</p>
+
+<p>
+&#x628A;&#x56FE;&#x50CF;&#x7F29;&#x653E;&#x5230;&#x9AD8;&#x5EA6;y(&#x5982;&#x679C;&#x8F6F;&#x4EF6;/&#x786C;&#x4EF6;&#x7F29;&#x653E;&#x53EF;&#x7528;). &#x7981;&#x7528;&#x957F;&#x5BBD;&#x6BD4; &#x8BA1; &#x7B97;..TP &#x2212;zoom &#x5728;&#x53EF;&#x80FD;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x4F7F;&#x7528;&#x8F6F;&#x4EF6;&#x7F29;&#x653E;. &#x53EF;&#x4EE5;&#x7528;&#x6765;&#x6307;&#x5B9A;&#x2212;vf scale&#x8FDB;&#x884C;&#x7F29; &#x653E;. 
+</p>
+
+<p>
+&#x6CE8;&#x610F;: 
+&#x5982;&#x679C;&#x6CA1;&#x6709;&#x2212;zoom&#x9009;&#x9879;&#x2212;vf scale&#x5C06;&#x5FFD;&#x7565;&#x2212;x / &#x2212;y / &#x2212;xy / &#x2212;fs / &#x2212;aspect&#x7B49; &#x9009;&#x9879;. 
+</p>
+
+<p>
+&#x7F16;&#x7801;&#x9009;&#x9879; ( &#x4EC5;&#x7528;&#x4E8E; MENCODER) 
+&#x2212;audio-density &lt;1&#x2212;50&gt; 
+</p>
+
+<p>
+&#x6BCF;&#x79D2;&#x7684;&#x97F3;&#x9891;&#x5757;&#x6570;(&#x9ED8;&#x8BA4;&#x662F;&#x4E24;&#x4E2A;0.5&#x79D2;&#x7684;&#x957F;&#x97F3;&#x9891;&#x5757;). 
+</p>
+
+<p>
+&#x6CE8;&#x610F;: 
+&#x4EC5;&#x7528;&#x4E8E;CBR, VBR&#x5C06;&#x5FFD;&#x7565;&#x5B83;&#x56E0;&#x4E3A;&#x5B83;&#x628A;&#x6BCF;&#x4E2A;&#x5305;&#x653E;&#x5728;&#x4E00;&#x4E2A;&#x65B0;&#x5757;&#x4E2D;. 
+</p>
+
+<p>
+&#x2212;audio-delay &lt;0.0&#x2212;&#x2026;&gt; 
+</p>
+
+<p>
+&#x8BBE; &#x7F6E;&#x6587;&#x4EF6;&#x5934;&#x4E2D;&#x7684;&#x97F3;&#x9891;&#x5EF6;&#x8FDF;&#x57DF;. &#x9ED8;&#x8BA4;&#x503C;&#x4E3A;0.0, &#x8D1F;&#x6570;&#x4E0D;&#x80FD;&#x6B63;&#x5E38;&#x5DE5;&#x4F5C;. &#x8FD9;&#x4E0D; &#x662F;&#x5728;&#x7F16;&#x7801;&#x7684;&#x65F6;&#x5019;&#x5EF6;&#x8FDF;&#x97F3;&#x9891;, &#x800C;&#x662F;&#x64AD;&#x653E;&#x5668;&#x4F1A;&#x628A;&#x5B83;&#x4F5C;&#x4E3A;&#x9ED8;&#x8BA4;&#x7684;&#x97F3;&#x9891;&#x5EF6;&#x8FDF;, &#x4F60; &#x53EF;&#x4EE5;&#x4E0D;&#x5FC5;&#x7528;&#x2212;delay&#x9009;&#x9879;. 
+</p>
+
+<p>
+&#x2212;audio-preload &lt;0.0&#x2212;2.0&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;&#x97F3;&#x9891;&#x7F13;&#x51B2;&#x95F4;&#x9694;(&#x9ED8;&#x8BA4;&#x503C;: 0.5&#x79D2;). 
+</p>
+
+<p>
+&#x2212;divx4opts &lt;&#x9009;&#x9879;1:&#x9009;&#x9879;2:&#x2026;&gt; 
+</p>
+
+<p>
+&#x5F53;&#x7528;DivX4&#x7F16;&#x7801;&#x65F6;, &#x4F60;&#x53EF;&#x4EE5;&#x7531;&#x6B64;&#x8BBE;&#x7F6E;&#x53C2;&#x6570;. 
+&#x53EF;&#x7528;&#x9009;&#x9879;&#x6709;: 
+</p>
+
+<p>
+help 
+</p>
+
+<p>
+&#x83B7;&#x5F97;&#x5E2E;&#x52A9; 
+</p>
+
+<p>
+br=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;&#x6BD4;&#x7279;&#x7387;&#x4EE5; 
+</p>
+
+<p>
+kbit&lt;4&#x2212;16000&gt;&#x6216;&#x8005; 
+bit&lt;16001&#x2212;24000000&gt;&#x4E3A;&#x5355;&#x4F4D; 
+</p>
+
+<p>
+key=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x6700;&#x5927;&#x5173;&#x952E;&#x5E27;&#x95F4;&#x9694;(&#x4EE5;&#x5E27;&#x4E3A;&#x5355;&#x4F4D;) 
+</p>
+
+<p>
+deinterlace 
+</p>
+
+<p>
+&#x542F;&#x7528;&#x9010;&#x884C;&#x626B;&#x63CF;(&#x522B;&#x7528;&#x5B83;, DivX4&#x5F88;buggy) 
+</p>
+
+<p>
+q=&lt;1&#x2212;5&gt; 
+</p>
+
+<p>
+&#x8D28;&#x91CF;(1&#x2212;&#x6700;&#x5FEB;, 5&#x2212;&#x6700;&#x597D;) 
+</p>
+
+<p>
+min<sub>quant</sub>=&lt;1&#x2212;31&gt; 
+</p>
+
+<p>
+&#x6700;&#x5C0F;&#x91CF;&#x5316;&#x503C; 
+</p>
+
+<p>
+max<sub>quant</sub>=&lt;1&#x2212;31&gt; 
+</p>
+
+<p>
+&#x6700;&#x5927;&#x91CF;&#x5316;&#x503C; 
+</p>
+
+<p>
+rc<sub>period</sub>=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x901F;&#x7387;&#x63A7;&#x5236;&#x5468;&#x671F; 
+</p>
+
+<p>
+rc<sub>reaction</sub><sub>period</sub>=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x901F;&#x7387;&#x63A7;&#x5236;&#x53CD;&#x5E94;&#x5468;&#x671F; 
+</p>
+
+<p>
+rc<sub>reaction</sub><sub>ratio</sub>=&lt;&#x53C2;&#x6570;&gt; 
+</p>
+
+<p>
+&#x901F;&#x7387;&#x63A7;&#x5236;&#x53CD;&#x5E94;&#x7387; 
+</p>
+
+<p>
+crispness=&lt;0&#x2212;100&gt; 
+</p>
+
+<p>
+&#x8BBE;&#x7F6E;&#x751F;&#x786C;/&#x5E73;&#x6ED1; 
+</p>
+
+<p>
+pass=&lt;1&#x2212;2&gt; 
+</p>
+
+<p>
+&#x7528; &#x8FD9;&#x4E2A;&#x9009;&#x9879;&#x4F60;&#x53EF;&#x4EE5;&#x7F16;&#x7801;2 pass&#x7684;DivX4&#x6587;&#x4EF6;. &#x5148;&#x7528;pass=1&#x7F16;&#x7801;, &#x7136;&#x540E;&#x4EE5;&#x540C;&#x6837;&#x7684;&#x53C2;&#x6570;, &#x7528;pass=2&#x7F16;&#x7801;. 
+</p>
+
+<p>
+vbrpass=&lt;0&#x2212;2&gt; 
+</p>
+
+<p>
+&#x4EE3;&#x66FF;pass&#x53C2;&#x6570;&#x5E76;&#x4F7F;&#x7528;XviD VBR&#x4EE3;&#x66FF;DivX4 VBR. &#x53EF;&#x7528;&#x9009;.
+</p>
+</div>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+        </div>
+      
+
+      
+      
+        <div class="post-widgets">
+        
+
+        
+
+        
+          
+          <div id="needsharebutton-postbottom">
+            <span class="btn">
+              <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </span>
+          </div>
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/27/tools/org-mode/" rel="next" title="Org-mode笔记">
+                <i class="fa fa-chevron-left"></i> Org-mode笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/24/idea/something-find/" rel="prev" title="发现">
+                发现 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzU0Ny8xNDA3OQ=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/polarbear.jpg" alt="Kyle Three Stone">
+            
+              <p class="site-author-name" itemprop="name">Kyle Three Stone</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">57</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-globe"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://github.com/kylestones" title="GitHub" target="_blank">GitHub</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="mailto:kyleemail@163.com" title="E-Mail" target="_blank">E-Mail</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kyle Three Stone</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+    <span title="Symbols count total">1.9m</span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    
+    <span title="Reading time total">28:45</span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="Total Visitors">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="Total Views">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+  
+  <script src="/lib/needsharebutton/needsharebutton.js"></script>
+
+  <script>
+    
+      pbOptions = {};
+      
+          pbOptions.iconStyle = "box";
+      
+          pbOptions.boxForm = "horizontal";
+      
+          pbOptions.position = "bottomCenter";
+      
+          pbOptions.networks = "Wechat,Weibo,Douban,QQZone,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-postbottom', pbOptions);
+    
+    
+  </script>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
