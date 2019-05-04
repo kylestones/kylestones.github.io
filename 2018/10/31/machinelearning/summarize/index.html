@@ -497,8 +497,8 @@
 <a href="https://blog.csdn.net/qq_33783896/article/details/80675398" target="_blank" rel="noopener">https://blog.csdn.net/qq_33783896/article/details/80675398</a>
 </p>
 
-<div id="outline-container-orgc4126a6" class="outline-2">
-<h2 id="orgc4126a6"><span class="section-number-2">1</span> &#x7F51;&#x7EDC;&#x67B6;&#x6784;</h2>
+<div id="outline-container-orgf15cb9a" class="outline-2">
+<h2 id="orgf15cb9a"><span class="section-number-2">1</span> &#x7F51;&#x7EDC;&#x67B6;&#x6784;</h2>
 <div class="outline-text-2" id="text-1">
 <ul class="org-ul">
 <li>&#x89E3;&#x91CA;resnet&#x3001;&#x4F18;&#x7F3A;&#x70B9;&#x4EE5;&#x53CA;&#x9002;&#x7528;&#x8303;&#x56F4;</li>
@@ -511,8 +511,8 @@
 </div>
 
 
-<div id="outline-container-org921bd54" class="outline-2">
-<h2 id="org921bd54"><span class="section-number-2">2</span> &#x5377;&#x79EF;&#x6838;&#x53C2;&#x6570;</h2>
+<div id="outline-container-org707805b" class="outline-2">
+<h2 id="org707805b"><span class="section-number-2">2</span> &#x5377;&#x79EF;&#x6838;&#x53C2;&#x6570;</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 &#x4E00;&#x4E2A;&#x6807;&#x51C6;&#x5377;&#x79EF;&#x5C42;&#x53C2;&#x6570;&#x7684;&#x4E2A;&#x6570;&#x662F; input*ksize*ksize*output &#xFF0C;&#x4E0D;&#x77E5;&#x9053;&#x4E3A;&#x4EC0;&#x4E48;&#x81EA;&#x5DF1;&#x4F1A;&#x4E24;&#x6B21;&#x72AF;&#x4E86;&#x76F8;&#x540C;&#x9519;&#x5374;&#x4ECD;&#x7136;&#x4E0D;&#x81EA;&#x77E5;&#x3002;
@@ -532,8 +532,8 @@ deepwith conv &#x5BF9;&#x8F93;&#x5165;&#x7684;&#x6BCF;&#x4E00;&#x4E2A; channel &
 </div>
 
 
-<div id="outline-container-org54e5280" class="outline-2">
-<h2 id="org54e5280"><span class="section-number-2">3</span> &#x611F;&#x53D7;&#x91CE;</h2>
+<div id="outline-container-org8295d10" class="outline-2">
+<h2 id="org8295d10"><span class="section-number-2">3</span> &#x611F;&#x53D7;&#x91CE;</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 vgg &#x8BBA;&#x6587;&#x4E0A;&#x8BF4;&#x660E;&#x4E24;&#x6B21; 3x3 &#x5377;&#x79EF;&#x53EF;&#x4EE5;&#x8FBE;&#x5230; 5x5 &#x5377;&#x79EF;&#x6838;&#x7684;&#x6548;&#x679C;&#x3001;&#x4E09;&#x5C42; 3x3 &#x5377;&#x79EF;&#x53EF;&#x4EE5;&#x8FBE;&#x5230; 7x7 &#x5377;&#x79EF;&#x6838;&#x7684;&#x6548;&#x679C;&#xFF1B; <b>&#x73B0;&#x5728;&#x7EC8;&#x4E8E;&#x7406;&#x89E3;&#x4F5C;&#x8005;&#x7684;&#x610F;&#x601D;&#xFF0C;
@@ -548,8 +548,8 @@ vgg &#x8BBA;&#x6587;&#x4E0A;&#x8BF4;&#x660E;&#x4E24;&#x6B21; 3x3 &#x5377;&#x79EF
 
 
 
-<div id="outline-container-org15432d9" class="outline-2">
-<h2 id="org15432d9"><span class="section-number-2">4</span> Dilated conv vs Deconvolution</h2>
+<div id="outline-container-org160de0f" class="outline-2">
+<h2 id="org160de0f"><span class="section-number-2">4</span> Dilated conv vs Deconvolution</h2>
 <div class="outline-text-2" id="text-4">
 <ol class="org-ol">
 <li>Dilated convolution &#x5728;&#x5377;&#x79EF;&#x6838;&#x7684;&#x6BCF;&#x4E24;&#x4E2A;&#x503C;&#x4E2D;&#x95F4;&#x63D2;&#x5165; d-1 &#x4E2A;&#x7A7A;&#x6D1E;</li>
@@ -570,8 +570,8 @@ dA &amp;= W^T \cdot dZ
 </div>
 
 
-<div id="outline-container-org4f9f98f" class="outline-3">
-<h3 id="org4f9f98f"><span class="section-number-3">4.1</span> Dilated convolution</h3>
+<div id="outline-container-org2c392a8" class="outline-3">
+<h3 id="org2c392a8"><span class="section-number-3">4.1</span> Dilated convolution</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 The goal of this layer is to increase the size of the receptive field (input activations that are used to compute a
@@ -618,8 +618,8 @@ Dilated Convolution &#x7684;&#x6700;&#x5927;&#x4EF7;&#x503C;&#x662F;&#x53EF;&#x4
 </div>
 
 
-<div id="outline-container-orgb8fcc00" class="outline-4">
-<h4 id="orgb8fcc00"><span class="section-number-4">4.1.1</span> &#x4E3A;&#x4EC0;&#x4E48;&#x4F7F;&#x7528;&#x7A7A;&#x6D1E;&#x5377;&#x79EF;(dilated convolution)</h4>
+<div id="outline-container-org1407b67" class="outline-4">
+<h4 id="org1407b67"><span class="section-number-4">4.1.1</span> &#x4E3A;&#x4EC0;&#x4E48;&#x4F7F;&#x7528;&#x7A7A;&#x6D1E;&#x5377;&#x79EF;(dilated convolution)</h4>
 <div class="outline-text-4" id="text-4-1-1">
 <ol class="org-ol">
 <li>&#x57FA;&#x4E8E;FCN&#x7684;&#x8BED;&#x4E49;&#x5206;&#x5272;&#x95EE;&#x9898;&#x4E2D;&#xFF0C;&#x9700;&#x4FDD;&#x6301;&#x8F93;&#x5165;&#x56FE;&#x50CF;&#x4E0E;&#x8F93;&#x51FA;&#x7279;&#x5F81;&#x56FE;&#x7684;size&#x76F8;&#x540C;&#x3002;</li>
@@ -633,8 +633,8 @@ Dilated Convolution &#x7684;&#x6700;&#x5927;&#x4EF7;&#x503C;&#x662F;&#x53EF;&#x4
 </div>
 
 
-<div id="outline-container-orgef57bf2" class="outline-3">
-<h3 id="orgef57bf2"><span class="section-number-3">4.2</span> Deconvolution</h3>
+<div id="outline-container-orgdd77f52" class="outline-3">
+<h3 id="orgdd77f52"><span class="section-number-3">4.2</span> Deconvolution</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
 Here the idea is to upsample an initial layer, and therefore we spread the input by padding them with zeros and then
@@ -673,8 +673,8 @@ convolution &#x5377;&#x79EF;&#x64CD;&#x4F5C;&#x901A;&#x8FC7;&#x77E9;&#x9635; W &
 </div>
 
 
-<div id="outline-container-org7825317" class="outline-2">
-<h2 id="org7825317"><span class="section-number-2">5</span> RoIAlign</h2>
+<div id="outline-container-org1ae4bfe" class="outline-2">
+<h2 id="org1ae4bfe"><span class="section-number-2">5</span> RoIAlign</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 RoIAlign &#x6539;&#x8FDB;&#x4E8E; RoI max Pooling&#xFF0C;&#x800C; RoI max Pooling &#x4E3B;&#x8981;&#x7528;&#x4E8E;&#x89E3;&#x51B3;&#x5C06;&#x4E0D;&#x540C;&#x5927;&#x5C0F;&#x7684; RoI (region proposal) &#x7EDF;&#x4E00;&#x5206;&#x5272;&#x6210;&#x56FA;&#x5B9A;&#x7684; HxW
@@ -699,8 +699,8 @@ RoI bins &#x4E4B;&#x5185;&#xFF0C;&#x6839;&#x636E; feature maps &#x4E34;&#x8FD1;&
 </div>
 
 
-<div id="outline-container-org18b1881" class="outline-2">
-<h2 id="org18b1881"><span class="section-number-2">6</span> compute IOU</h2>
+<div id="outline-container-org8da8de0" class="outline-2">
+<h2 id="org8da8de0"><span class="section-number-2">6</span> compute IOU</h2>
 <div class="outline-text-2" id="text-6">
 <div class="org-src-container">
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">compute_iou</span><span class="params">(box, boxes)</span>:</span></span><br><span class="line">    x1 = np.maxinum(box[<span class="number">0</span>], boxes[:, <span class="number">0</span>])</span><br><span class="line">    y1 = np.maxinum(box[<span class="number">1</span>], boxes[:, <span class="number">1</span>])</span><br><span class="line">    x2 = np.mininum(box[<span class="number">2</span>], boxes[:, <span class="number">2</span>])</span><br><span class="line">    y2 = np.mininum(box[<span class="number">3</span>], boxes[:, <span class="number">3</span>])</span><br><span class="line"></span><br><span class="line">    intersection = np.maxinum(x2 - x1, <span class="number">0</span>) * np.maxinum(y2 - y1, <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    boxesarea = (boxes[:, <span class="number">2</span>] - boxes[:, <span class="number">0</span>]) * (boxes[:, <span class="number">3</span>] - boxes[:, <span class="number">1</span>])</span><br><span class="line">    union = (box[<span class="number">2</span>] - box[<span class="number">0</span>]) * (box[<span class="number">3</span>] - box[<span class="number">1</span>]) + boxesarea - intersection</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> intersection / union</span><br></pre></td></tr></table></figure>
@@ -709,8 +709,8 @@ RoI bins &#x4E4B;&#x5185;&#xFF0C;&#x6839;&#x636E; feature maps &#x4E34;&#x8FD1;&
 </div>
 
 
-<div id="outline-container-org0463f01" class="outline-2">
-<h2 id="org0463f01"><span class="section-number-2">7</span> Data argument</h2>
+<div id="outline-container-org521f2db" class="outline-2">
+<h2 id="org521f2db"><span class="section-number-2">7</span> Data argument</h2>
 <div class="outline-text-2" id="text-7">
 <p>
 <a href="https://github.com/aleju/imgaug" target="_blank" rel="noopener">code</a>
@@ -762,8 +762,8 @@ Dropout &#x968F;&#x673A;&#x4E22;&#x5F03;&#x4E00;&#x4E9B;&#x50CF;&#x7D20;&#x70B9;
 </div>
 
 
-<div id="outline-container-org61c795a" class="outline-2">
-<h2 id="org61c795a"><span class="section-number-2">8</span> &#x8BA1;&#x7B97;&#x673A;&#x89C6;&#x89C9;&#x7684;&#x4EFB;&#x52A1;&#x5206;&#x7C7B;</h2>
+<div id="outline-container-org3517615" class="outline-2">
+<h2 id="org3517615"><span class="section-number-2">8</span> &#x8BA1;&#x7B97;&#x673A;&#x89C6;&#x89C9;&#x7684;&#x4EFB;&#x52A1;&#x5206;&#x7C7B;</h2>
 <div class="outline-text-2" id="text-8">
 <p>
 &#x50CF;&#x7D20;&#x7EA7;&#x522B;&#xFF1A; &#x56FE;&#x50CF;&#x590D;&#x539F;&#xFF08;&#x53BB;&#x6A21;&#x7CCA;&#xFF09;&#x3001;&#x8D85;&#x5206;
@@ -780,8 +780,8 @@ Dropout &#x968F;&#x673A;&#x4E22;&#x5F03;&#x4E00;&#x4E9B;&#x50CF;&#x7D20;&#x70B9;
 </div>
 
 
-<div id="outline-container-org58fbd7b" class="outline-2">
-<h2 id="org58fbd7b"><span class="section-number-2">9</span> &#x4EC0;&#x4E48;&#x65F6;&#x5019;&#x7528;local-conv&#xFF1F;&#x4EC0;&#x4E48;&#x65F6;&#x5019;&#x7528;&#x5168;&#x5377;&#x79EF;</h2>
+<div id="outline-container-orgec964bc" class="outline-2">
+<h2 id="orgec964bc"><span class="section-number-2">9</span> &#x4EC0;&#x4E48;&#x65F6;&#x5019;&#x7528;local-conv&#xFF1F;&#x4EC0;&#x4E48;&#x65F6;&#x5019;&#x7528;&#x5168;&#x5377;&#x79EF;</h2>
 <div class="outline-text-2" id="text-9">
 <p>
 &#x4E24;&#x4E2A;&#x4E0D;&#x662F;&#x4E00;&#x4E2A;&#x7B49;&#x7EA7;&#x7684;&#x6982;&#x5FF5;&#x3002;local-conv &#x5C31;&#x662F;&#x666E;&#x901A;&#x7684;&#x5377;&#x79EF;&#x64CD;&#x4F5C;&#xFF0C;filter &#x6709;&#x4E00;&#x5B9A;&#x7684;&#x5927;&#x5C0F;&#xFF0C;&#x4E14;&#x540C;&#x4E00;&#x4E2A; channel &#x5185;&#x5171;&#x4EAB;&#x6743;&#x91CD;&#xFF1B;
@@ -794,12 +794,12 @@ Dropout &#x968F;&#x673A;&#x4E22;&#x5F03;&#x4E00;&#x4E9B;&#x50CF;&#x7D20;&#x70B9;
 </div>
 
 
-<div id="outline-container-org52d4369" class="outline-2">
-<h2 id="org52d4369"><span class="section-number-2">10</span> &#x5982;&#x4F55;&#x4F18;&#x5316;&#x6A21;&#x578B; : &#x52A0;&#x901F;&#x6536;&#x655B;&#xFF0C; &#x907F;&#x514D;overfit, &#x63D0;&#x5347;&#x7CBE;&#x5EA6; ..&#xFF1F;</h2>
+<div id="outline-container-orgf02c874" class="outline-2">
+<h2 id="orgf02c874"><span class="section-number-2">10</span> &#x5982;&#x4F55;&#x4F18;&#x5316;&#x6A21;&#x578B; : &#x52A0;&#x901F;&#x6536;&#x655B;&#xFF0C; &#x907F;&#x514D;overfit, &#x63D0;&#x5347;&#x7CBE;&#x5EA6; ..&#xFF1F;</h2>
 <div class="outline-text-2" id="text-10">
 </div>
-<div id="outline-container-orgeb92d41" class="outline-3">
-<h3 id="orgeb92d41"><span class="section-number-3">10.1</span> &#x52A0;&#x901F;&#x6536;&#x655B;</h3>
+<div id="outline-container-org76247f4" class="outline-3">
+<h3 id="org76247f4"><span class="section-number-3">10.1</span> &#x52A0;&#x901F;&#x6536;&#x655B;</h3>
 <div class="outline-text-3" id="text-10-1">
 <ul class="org-ul">
 <li>&#x6FC0;&#x6D3B;&#x51FD;&#x6570; ReLU &#x4EE3;&#x66FF; sigmoid / tanh &#xFF1B;</li>
@@ -813,8 +813,8 @@ Dropout &#x968F;&#x673A;&#x4E22;&#x5F03;&#x4E00;&#x4E9B;&#x50CF;&#x7D20;&#x70B9;
 </div>
 
 
-<div id="outline-container-orge522ed8" class="outline-3">
-<h3 id="orge522ed8"><span class="section-number-3">10.2</span> &#x907F;&#x514D;&#x8FC7;&#x62DF;&#x5408;</h3>
+<div id="outline-container-org9b32beb" class="outline-3">
+<h3 id="org9b32beb"><span class="section-number-3">10.2</span> &#x907F;&#x514D;&#x8FC7;&#x62DF;&#x5408;</h3>
 <div class="outline-text-3" id="text-10-2">
 <ul class="org-ul">
 <li>&#x589E;&#x52A0;&#x8BAD;&#x7EC3;&#x6837;&#x672C;&#xFF0C;&#x4F7F;&#x5F97;&#x6837;&#x672C;&#x66F4;&#x597D;&#x7684;&#x6DB5;&#x76D6;&#x8BE5;&#x5206;&#x5E03;</li>
@@ -828,8 +828,8 @@ Dropout &#x968F;&#x673A;&#x4E22;&#x5F03;&#x4E00;&#x4E9B;&#x50CF;&#x7D20;&#x70B9;
 </div>
 
 
-<div id="outline-container-org85225b2" class="outline-3">
-<h3 id="org85225b2"><span class="section-number-3">10.3</span> &#x63D0;&#x5347;&#x7CBE;&#x5EA6;</h3>
+<div id="outline-container-org94f4f8b" class="outline-3">
+<h3 id="org94f4f8b"><span class="section-number-3">10.3</span> &#x63D0;&#x5347;&#x7CBE;&#x5EA6;</h3>
 <div class="outline-text-3" id="text-10-3">
 <ul class="org-ul">
 <li>&#x66F4;&#x597D;&#x7684;&#x635F;&#x5931;&#x51FD;&#x6570;</li>
@@ -844,8 +844,8 @@ Dropout &#x968F;&#x673A;&#x4E22;&#x5F03;&#x4E00;&#x4E9B;&#x50CF;&#x7D20;&#x70B9;
 </div>
 
 
-<div id="outline-container-orgad7f0ec" class="outline-2">
-<h2 id="orgad7f0ec"><span class="section-number-2">11</span> CNN&#x6700;&#x6210;&#x529F;&#x7684;&#x5E94;&#x7528;&#x662F;&#x5728;CV&#xFF0C;&#x90A3;&#x4E3A;&#x4EC0;&#x4E48;NLP&#x548C;Speech&#x7684;&#x5F88;&#x591A;&#x95EE;&#x9898;&#x4E5F;&#x53EF;&#x4EE5;&#x7528;CNN&#x89E3;&#x51FA;&#x6765;&#xFF1F;</h2>
+<div id="outline-container-org399cc68" class="outline-2">
+<h2 id="org399cc68"><span class="section-number-2">11</span> CNN&#x6700;&#x6210;&#x529F;&#x7684;&#x5E94;&#x7528;&#x662F;&#x5728;CV&#xFF0C;&#x90A3;&#x4E3A;&#x4EC0;&#x4E48;NLP&#x548C;Speech&#x7684;&#x5F88;&#x591A;&#x95EE;&#x9898;&#x4E5F;&#x53EF;&#x4EE5;&#x7528;CNN&#x89E3;&#x51FA;&#x6765;&#xFF1F;</h2>
 <div class="outline-text-2" id="text-11">
 <p>
 &#x4E3A;&#x4EC0;&#x4E48;AlphaGo&#x91CC;&#x4E5F;&#x7528;&#x4E86;CNN&#xFF1F;&#x8FD9;&#x51E0;&#x4E2A;&#x4E0D;&#x76F8;&#x5173;&#x7684;&#x95EE;&#x9898;&#x7684;&#x76F8;&#x4F3C;&#x6027;&#x5728;&#x54EA;&#x91CC;&#xFF1F;CNN&#x901A;&#x8FC7;&#x4EC0;&#x4E48;&#x624B;&#x6BB5;&#x6293;&#x4F4F;&#x4E86;&#x8FD9;&#x4E2A;&#x5171;&#x6027;&#xFF1F;
@@ -858,8 +858,8 @@ Dropout &#x968F;&#x673A;&#x4E22;&#x5F03;&#x4E00;&#x4E9B;&#x50CF;&#x7D20;&#x70B9;
 </div>
 
 
-<div id="outline-container-orgbb5f7d6" class="outline-2">
-<h2 id="orgbb5f7d6"><span class="section-number-2">12</span> Batch Normalization &#x5982;&#x4F55;&#x5B9E;&#x73B0;&#xFF1F;&#x4F5C;&#x7528;&#xFF1F;</h2>
+<div id="outline-container-org146395b" class="outline-2">
+<h2 id="org146395b"><span class="section-number-2">12</span> Batch Normalization &#x5982;&#x4F55;&#x5B9E;&#x73B0;&#xFF1F;&#x4F5C;&#x7528;&#xFF1F;</h2>
 <div class="outline-text-2" id="text-12">
 <p>
 &#x5B9E;&#x73B0;&#x8FC7;&#x7A0B;&#xFF1A;&#x8BA1;&#x7B97;&#x8BAD;&#x7EC3;&#x9636;&#x6BB5; mini<sub>batch</sub> &#x6570;&#x91CF;&#x6FC0;&#x6D3B;&#x51FD;&#x6570;&#x524D;&#x7ED3;&#x679C;&#x7684;&#x5747;&#x503C;&#x548C;&#x65B9;&#x5DEE;&#xFF0C;&#x7136;&#x540E;&#x5BF9;&#x5176;&#x8FDB;&#x884C;&#x5F52;&#x4E00;&#x5316;&#xFF0C;&#x6700;&#x540E;&#x5BF9;&#x5176;&#x8FDB;&#x884C;&#x7F29;&#x653E;&#x548C;&#x5E73;&#x79FB;&#x3002;
@@ -880,8 +880,8 @@ c.&#x6709;&#x8F7B;&#x5FAE;&#x7684;&#x6B63;&#x5219;&#x5316;&#x6548;&#x679C;&#x300
 </div>
 
 
-<div id="outline-container-orgbddae0a" class="outline-2">
-<h2 id="orgbddae0a"><span class="section-number-2">13</span> Momentum &#x4F18;&#x5316;&#x7B97;&#x6CD5;&#x539F;&#x7406;&#xFF1F;&#x4F5C;&#x7528;&#xFF1F;</h2>
+<div id="outline-container-orgc3bbfe5" class="outline-2">
+<h2 id="orgc3bbfe5"><span class="section-number-2">13</span> Momentum &#x4F18;&#x5316;&#x7B97;&#x6CD5;&#x539F;&#x7406;&#xFF1F;&#x4F5C;&#x7528;&#xFF1F;</h2>
 <div class="outline-text-2" id="text-13">
 <p>
 &#x539F;&#x7406;&#xFF1A;&#x5728;&#x68AF;&#x5EA6;&#x4E0B;&#x964D;&#x7B97;&#x6CD5;&#x4E2D;&#x5F15;&#x5165;&#x6307;&#x6570;&#x52A0;&#x6743;&#x5E73;&#x5747;&#x6570;&#xFF0C;&#x5728;&#x66F4;&#x65B0;&#x68AF;&#x5EA6;&#x65B9;&#x5411;&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x5728;&#x4E00;&#x5B9A;&#x7A0B;&#x5EA6;&#x4E0A;&#x4FDD;&#x7559;&#x4E86;&#x4E4B;&#x524D;&#x68AF;&#x5EA6;&#x66F4;&#x65B0;&#x7684;&#x65B9;&#x5411;&#xFF0C;&#x540C;&#x65F6;&#x5229;&#x7528;&#x5F53;&#x524D;
@@ -895,8 +895,8 @@ mini<sub>batch&#x7684;&#x68AF;&#x5EA6;&#x65B9;&#x5411;&#x5FAE;&#x8C03;&#x6700;&#
 </div>
 
 
-<div id="outline-container-org53c44ea" class="outline-2">
-<h2 id="org53c44ea"><span class="section-number-2">14</span> &#x4EC0;&#x4E48;&#x9020;&#x6210;&#x68AF;&#x5EA6;&#x6D88;&#x5931;&#xFF1F;&#x63A8;&#x5BFC;&#xFF1F;</h2>
+<div id="outline-container-org20677a8" class="outline-2">
+<h2 id="org20677a8"><span class="section-number-2">14</span> &#x4EC0;&#x4E48;&#x9020;&#x6210;&#x68AF;&#x5EA6;&#x6D88;&#x5931;&#xFF1F;&#x63A8;&#x5BFC;&#xFF1F;</h2>
 <div class="outline-text-2" id="text-14">
 <ul class="org-ul">
 <li>&#x7206;&#x70B8;&#xFF1A;&#x51FA;&#x73B0;&#x5728;&#x6FC0;&#x6D3B;&#x51FD;&#x6570;&#x5904;&#x5728;&#x6FC0;&#x6D3B;&#x533A;&#xFF0C;&#x800C;&#x4E14;&#x6743;&#x91CD;W&#x8FC7;&#x5927;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x3001;&#x5927;&#x91CF;&#x7684;&#x8FDE;&#x4E58;&#x64CD;&#x4F5C;&#xFF1B;&#x95EE;&#x9898;&#xFF1A;&#x4F7F;&#x5F97;&#x5B66;&#x4E60;&#x4E0D;&#x7A33;&#x5B9A;</li>
@@ -933,8 +933,8 @@ mini<sub>batch&#x7684;&#x68AF;&#x5EA6;&#x65B9;&#x5411;&#x5FAE;&#x8C03;&#x6700;&#
 </div>
 
 
-<div id="outline-container-orgc63405c" class="outline-2">
-<h2 id="orgc63405c"><span class="section-number-2">15</span> &#x6FC0;&#x6D3B;&#x51FD;&#x6570;</h2>
+<div id="outline-container-org633e89e" class="outline-2">
+<h2 id="org633e89e"><span class="section-number-2">15</span> &#x6FC0;&#x6D3B;&#x51FD;&#x6570;</h2>
 <div class="outline-text-2" id="text-15">
 <p>
 &#x4E3A;&#x4EC0;&#x4E48;&#x4E0D;&#x518D;&#x7EE7;&#x7EED;&#x4F7F;&#x7528; sigmoid &#x51FD;&#x6570;&#x4F5C;&#x4E3A;&#x6FC0;&#x6D3B;&#x51FD;&#x6570;&#xFF1A;&#x5BB9;&#x6613;&#x51FA;&#x73B0;&#x68AF;&#x5EA6;&#x6D88;&#x6563;&#x548C;&#x68AF;&#x5EA6;&#x7206;&#x70B8;&#xFF1B;&#x5F53;&#x503C;&#x8F83;&#x5927;&#x65F6;&#xFF08;&#x5373;&#x8FDC;&#x79BB; 0 &#x70B9;&#xFF09;&#x51FD;&#x6570;&#x7684;&#x659C;&#x7387;&#x8D8B;&#x5411;&#x4E8E; 0 &#xFF0C;
@@ -1038,8 +1038,8 @@ a. &#x53C2;&#x6570;&#x8F83;&#x591A;&#xFF1B;
 </div>
 
 
-<div id="outline-container-org5d368d2" class="outline-2">
-<h2 id="org5d368d2"><span class="section-number-2">16</span> &#x4EA4;&#x53C9;&#x71B5;</h2>
+<div id="outline-container-orgc2c1ce8" class="outline-2">
+<h2 id="orgc2c1ce8"><span class="section-number-2">16</span> &#x4EA4;&#x53C9;&#x71B5;</h2>
 <div class="outline-text-2" id="text-16">
 <p>
 &#x4E3A;&#x4EC0;&#x4E48;&#x4EA4;&#x53C9;&#x71B5;&#x635F;&#x5931;&#x53EF;&#x4EE5;&#x63D0;&#x9AD8;&#x5177;&#x6709;sigmoid&#x548C;softmax&#x8F93;&#x51FA;&#x7684;&#x6A21;&#x578B;&#x7684;&#x6027;&#x80FD;&#xFF0C;&#x800C;&#x4F7F;&#x7528;&#x5747;&#x65B9;&#x8BEF;&#x5DEE;&#x635F;&#x5931;&#x5219;&#x4F1A;&#x5B58;&#x5728;&#x5F88;&#x591A;&#x95EE;&#x9898;&#x3002;&#x5206;&#x6BB5;&#x7EBF;&#x6027;&#x9690;&#x85CF;&#x5C42;&#x4EE3;&#x66FF;
@@ -1049,8 +1049,8 @@ sigmoid&#x7684;&#x5229;&#x5F0A;
 </div>
 
 
-<div id="outline-container-org33bc290" class="outline-2">
-<h2 id="org33bc290"><span class="section-number-2">17</span> &#x89C4;&#x5219;&#x5316;&#x9879;&#x6709;&#x4EC0;&#x4E48;&#xFF0C;&#x5404;&#x6709;&#x4EC0;&#x4E48;&#x6837;&#x7684;&#x6548;&#x679C;&#xFF0C;&#x4E3A;&#x4EC0;&#x4E48;&#x8D77;&#x4F5C;&#x7528;</h2>
+<div id="outline-container-org2d5efae" class="outline-2">
+<h2 id="org2d5efae"><span class="section-number-2">17</span> &#x89C4;&#x5219;&#x5316;&#x9879;&#x6709;&#x4EC0;&#x4E48;&#xFF0C;&#x5404;&#x6709;&#x4EC0;&#x4E48;&#x6837;&#x7684;&#x6548;&#x679C;&#xFF0C;&#x4E3A;&#x4EC0;&#x4E48;&#x8D77;&#x4F5C;&#x7528;</h2>
 <div class="outline-text-2" id="text-17">
 <p>
 L0&#x8303;&#x6570;&#xFF1A;&#x8BA1;&#x7B97;&#x5411;&#x91CF;&#x4E2D;&#x975E;0&#x5143;&#x7D20;&#x7684;&#x4E2A;&#x6570;&#x3002;
@@ -1083,8 +1083,8 @@ Frobenius&#x8303;&#x6570;
 </div>
 
 
-<div id="outline-container-org071acf8" class="outline-2">
-<h2 id="org071acf8"><span class="section-number-2">18</span> PCA&#x4F20;&#x7EDF;&#x8BA1;&#x7B97;&#x6D41;&#x7A0B;&#xFF1A;</h2>
+<div id="outline-container-org2dc77f1" class="outline-2">
+<h2 id="org2dc77f1"><span class="section-number-2">18</span> PCA&#x4F20;&#x7EDF;&#x8BA1;&#x7B97;&#x6D41;&#x7A0B;&#xFF1A;</h2>
 <div class="outline-text-2" id="text-18">
 <p>
 &#x53BB;&#x9664;&#x5747;&#x503C;
@@ -1098,8 +1098,8 @@ Frobenius&#x8303;&#x6570;
 </div>
 
 
-<div id="outline-container-orga4a0c57" class="outline-2">
-<h2 id="orga4a0c57"><span class="section-number-2">19</span> &#x76D1;&#x7763;&#x5B66;&#x4E60;&#x7684;&#x751F;&#x6210;&#x6A21;&#x578B;&#x548C;&#x5224;&#x522B;&#x6A21;&#x578B;</h2>
+<div id="outline-container-org33bab17" class="outline-2">
+<h2 id="org33bab17"><span class="section-number-2">19</span> &#x76D1;&#x7763;&#x5B66;&#x4E60;&#x7684;&#x751F;&#x6210;&#x6A21;&#x578B;&#x548C;&#x5224;&#x522B;&#x6A21;&#x578B;</h2>
 <div class="outline-text-2" id="text-19">
 <p>
 &#x8FD9;&#x53EF;&#x4EE5;&#x8BF4;&#x662F;&#x4E00;&#x4E2A;&#x6700;&#x57FA;&#x7840;&#x7684;&#x95EE;&#x9898;&#xFF0C;&#x4F46;&#x662F;&#x6DF1;&#x6316;&#x8D77;&#x6765;&#x53C8;&#x5F88;&#x590D;&#x6742;&#xFF0C;&#x9762;&#x8BD5;&#x7684;&#x65F6;&#x5019;&#x5E94;&#x8BE5;&#x8BF4;&#x51FA;&#x51E0;&#x4E2A;&#x6709;&#x4EAE;&#x70B9;&#x7684;&#x90E8;&#x5206;&#x3002; 
@@ -1118,8 +1118,8 @@ Frobenius&#x8303;&#x6570;
 </div>
 
 
-<div id="outline-container-org3415ecc" class="outline-2">
-<h2 id="org3415ecc"><span class="section-number-2">20</span> &#x9891;&#x7387;&#x5B66;&#x6D3E;&#x7684;&#x4E00;&#x4E9B;&#x57FA;&#x672C;&#x7406;&#x8BBA;</h2>
+<div id="outline-container-org6aae902" class="outline-2">
+<h2 id="org6aae902"><span class="section-number-2">20</span> &#x9891;&#x7387;&#x5B66;&#x6D3E;&#x7684;&#x4E00;&#x4E9B;&#x57FA;&#x672C;&#x7406;&#x8BBA;</h2>
 <div class="outline-text-2" id="text-20">
 <p>
 &#xFF08;1&#xFF09;&#x671F;&#x671B;&#x635F;&#x5931;&#xFF08;&#x98CE;&#x9669;&#x51FD;&#x6570;&#xFF09;&#x3001;&#x7ECF;&#x9A8C;&#x635F;&#x5931;&#xFF08;&#x7ECF;&#x9A8C;&#x98CE;&#x9669;&#xFF09;&#x3001;&#x7ED3;&#x6784;&#x98CE;&#x9669; 
@@ -1134,8 +1134,8 @@ Frobenius&#x8303;&#x6570;
 </div>
 
 
-<div id="outline-container-org6a2bb7c" class="outline-2">
-<h2 id="org6a2bb7c"><span class="section-number-2">21</span> &#x4EC0;&#x4E48;&#x662F;&#x51F8;&#x96C6;&#x3001;&#x51F8;&#x51FD;&#x6570;&#x3001;&#x51F8;&#x5B66;&#x4E60;&#x95EE;&#x9898;&#xFF1F;</h2>
+<div id="outline-container-org26b368d" class="outline-2">
+<h2 id="org26b368d"><span class="section-number-2">21</span> &#x4EC0;&#x4E48;&#x662F;&#x51F8;&#x96C6;&#x3001;&#x51F8;&#x51FD;&#x6570;&#x3001;&#x51F8;&#x5B66;&#x4E60;&#x95EE;&#x9898;&#xFF1F;</h2>
 <div class="outline-text-2" id="text-21">
 <p>
 &#x51F8;&#x96C6;&#xFF1A;&#x82E5;&#x5BF9;&#x96C6;&#x5408;C&#x4E2D;&#x4EFB;&#x610F;&#x4E24;&#x70B9;u&#x548C;v&#xFF0C;&#x8FDE;&#x63A5;&#x4ED6;&#x4EEC;&#x7684;&#x7EBF;&#x6BB5;&#x4ECD;&#x5728;&#x96C6;&#x5408;C&#x4E2D;&#xFF0C;&#x90A3;&#x4E48;&#x96C6;&#x5408;C&#x662F;&#x51F8;&#x96C6;&#x3002;
@@ -1157,8 +1157,8 @@ Frobenius&#x8303;&#x6570;
 
 
 
-<div id="outline-container-org707be2d" class="outline-2">
-<h2 id="org707be2d"><span class="section-number-2">22</span> tf.layer &#x548C; tf.nn</h2>
+<div id="outline-container-orgfd22ac8" class="outline-2">
+<h2 id="orgfd22ac8"><span class="section-number-2">22</span> tf.layer &#x548C; tf.nn</h2>
 <div class="outline-text-2" id="text-22">
 <p>
 tf.layer &#x9AD8;&#x7EA7; API &#xFF1B;tf.nn &#x4F4E;&#x5C42;&#x6B21;&#x7684; API ; 
@@ -1195,8 +1195,8 @@ in<sub>channels</sub> &#x548C; out<sub>channels</sub> &#x53CD;&#x8FC7;&#x6765;&#
 </div>
 
 
-<div id="outline-container-org9c3b014" class="outline-2">
-<h2 id="org9c3b014"><span class="section-number-2">23</span> pooling</h2>
+<div id="outline-container-org7b6a925" class="outline-2">
+<h2 id="org7b6a925"><span class="section-number-2">23</span> pooling</h2>
 <div class="outline-text-2" id="text-23">
 <p>
 pooling &#x76EE;&#x7684;&#x662F;&#x4E3A;&#x4E86;&#x4FDD;&#x6301;&#x67D0;&#x79CD;&#x4E0D;&#x53D8;&#x6027;&#xFF08;&#x65CB;&#x8F6C;&#x3001;&#x5E73;&#x79FB;&#x3001;&#x4F38;&#x7F29;&#x7B49;&#xFF09;&#xFF1B;&#x51CF;&#x5C0F; feature map &#x7684;&#x5927;&#x5C0F;&#xFF1B;
@@ -1205,8 +1205,8 @@ pooling &#x76EE;&#x7684;&#x662F;&#x4E3A;&#x4E86;&#x4FDD;&#x6301;&#x67D0;&#x79CD;
 </div>
 
 
-<div id="outline-container-org5ad0766" class="outline-2">
-<h2 id="org5ad0766"><span class="section-number-2">24</span> anchor</h2>
+<div id="outline-container-orged33627" class="outline-2">
+<h2 id="orged33627"><span class="section-number-2">24</span> anchor</h2>
 <div class="outline-text-2" id="text-24">
 <p>
 &#x867D;&#x7136; anchor &#x662F;&#x5728;&#x539F;&#x59CB;&#x56FE;&#x50CF;&#x4E0A;&#xFF0C;&#x4F46;&#x662F; anchor &#x7684;&#x4E2A;&#x6570;&#x7531; feature<sub>map</sub> &#x7684;&#x5927;&#x5C0F;&#x51B3;&#x5B9A;&#x3002;
@@ -1355,7 +1355,7 @@ pooling &#x76EE;&#x7684;&#x662F;&#x4E3A;&#x4E86;&#x4FDD;&#x6301;&#x67D0;&#x79CD;
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">58</span>
+                    <span class="site-state-item-count">59</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -1481,7 +1481,9 @@ pooling &#x76EE;&#x7684;&#x662F;&#x4E3A;&#x4E86;&#x4FDD;&#x6301;&#x67D0;&#x79CD;
                     
                       
                     
-                    <span class="site-state-item-count">35</span>
+                      
+                    
+                    <span class="site-state-item-count">36</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
@@ -1535,7 +1537,7 @@ pooling &#x76EE;&#x7684;&#x662F;&#x4E3A;&#x4E86;&#x4FDD;&#x6301;&#x67D0;&#x79CD;
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc4126a6"><span class="nav-text">1 网络架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org921bd54"><span class="nav-text">2 卷积核参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org54e5280"><span class="nav-text">3 感受野</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org15432d9"><span class="nav-text">4 Dilated conv vs Deconvolution</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org4f9f98f"><span class="nav-text">4.1 Dilated convolution</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#orgb8fcc00"><span class="nav-text">4.1.1 为什么使用空洞卷积(dilated convolution)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgef57bf2"><span class="nav-text">4.2 Deconvolution</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7825317"><span class="nav-text">5 RoIAlign</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org18b1881"><span class="nav-text">6 compute IOU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0463f01"><span class="nav-text">7 Data argument</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org61c795a"><span class="nav-text">8 计算机视觉的任务分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org58fbd7b"><span class="nav-text">9 什么时候用local-conv？什么时候用全卷积</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org52d4369"><span class="nav-text">10 如何优化模型 : 加速收敛， 避免overfit, 提升精度 ..？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgeb92d41"><span class="nav-text">10.1 加速收敛</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orge522ed8"><span class="nav-text">10.2 避免过拟合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org85225b2"><span class="nav-text">10.3 提升精度</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgad7f0ec"><span class="nav-text">11 CNN最成功的应用是在CV，那为什么NLP和Speech的很多问题也可以用CNN解出来？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgbb5f7d6"><span class="nav-text">12 Batch Normalization 如何实现？作用？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgbddae0a"><span class="nav-text">13 Momentum 优化算法原理？作用？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org53c44ea"><span class="nav-text">14 什么造成梯度消失？推导？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc63405c"><span class="nav-text">15 激活函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org5d368d2"><span class="nav-text">16 交叉熵</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org33bc290"><span class="nav-text">17 规则化项有什么，各有什么样的效果，为什么起作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org071acf8"><span class="nav-text">18 PCA传统计算流程：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga4a0c57"><span class="nav-text">19 监督学习的生成模型和判别模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3415ecc"><span class="nav-text">20 频率学派的一些基本理论</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6a2bb7c"><span class="nav-text">21 什么是凸集、凸函数、凸学习问题？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org707be2d"><span class="nav-text">22 tf.layer 和 tf.nn</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9c3b014"><span class="nav-text">23 pooling</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org5ad0766"><span class="nav-text">24 anchor</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf15cb9a"><span class="nav-text">1 网络架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org707805b"><span class="nav-text">2 卷积核参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8295d10"><span class="nav-text">3 感受野</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org160de0f"><span class="nav-text">4 Dilated conv vs Deconvolution</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org2c392a8"><span class="nav-text">4.1 Dilated convolution</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#org1407b67"><span class="nav-text">4.1.1 为什么使用空洞卷积(dilated convolution)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgdd77f52"><span class="nav-text">4.2 Deconvolution</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1ae4bfe"><span class="nav-text">5 RoIAlign</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8da8de0"><span class="nav-text">6 compute IOU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org521f2db"><span class="nav-text">7 Data argument</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3517615"><span class="nav-text">8 计算机视觉的任务分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgec964bc"><span class="nav-text">9 什么时候用local-conv？什么时候用全卷积</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf02c874"><span class="nav-text">10 如何优化模型 : 加速收敛， 避免overfit, 提升精度 ..？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org76247f4"><span class="nav-text">10.1 加速收敛</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org9b32beb"><span class="nav-text">10.2 避免过拟合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org94f4f8b"><span class="nav-text">10.3 提升精度</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org399cc68"><span class="nav-text">11 CNN最成功的应用是在CV，那为什么NLP和Speech的很多问题也可以用CNN解出来？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org146395b"><span class="nav-text">12 Batch Normalization 如何实现？作用？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc3bbfe5"><span class="nav-text">13 Momentum 优化算法原理？作用？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org20677a8"><span class="nav-text">14 什么造成梯度消失？推导？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org633e89e"><span class="nav-text">15 激活函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc2c1ce8"><span class="nav-text">16 交叉熵</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2d5efae"><span class="nav-text">17 规则化项有什么，各有什么样的效果，为什么起作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2dc77f1"><span class="nav-text">18 PCA传统计算流程：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org33bab17"><span class="nav-text">19 监督学习的生成模型和判别模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6aae902"><span class="nav-text">20 频率学派的一些基本理论</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org26b368d"><span class="nav-text">21 什么是凸集、凸函数、凸学习问题？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgfd22ac8"><span class="nav-text">22 tf.layer 和 tf.nn</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7b6a925"><span class="nav-text">23 pooling</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orged33627"><span class="nav-text">24 anchor</span></a></li></ol></div>
             
 
           </div>
@@ -1576,7 +1578,7 @@ pooling &#x76EE;&#x7684;&#x662F;&#x4E3A;&#x4E86;&#x4FDD;&#x6301;&#x67D0;&#x79CD;
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="Reading time total">29:06</span>
+    <span title="Reading time total">29:17</span>
   
 </div>
 

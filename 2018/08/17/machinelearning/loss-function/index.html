@@ -498,8 +498,8 @@
 <li>Metric: Used to evaluate and choose models in the context of the project.</li>
 </ul>
 
-<div id="outline-container-orgf8251bc" class="outline-2">
-<h2 id="orgf8251bc"><span class="section-number-2">1</span> Mean Squared Error</h2>
+<div id="outline-container-org4b760f3" class="outline-2">
+<h2 id="org4b760f3"><span class="section-number-2">1</span> Mean Squared Error</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 MSE &#x662F;&#x7ECF;&#x5E38;&#x88AB;&#x4F7F;&#x7528;&#x7684;&#x635F;&#x5931;&#x51FD;&#x6570;&#xFF0C;&#x6613;&#x4E8E;&#x7406;&#x89E3;&#xFF0C;&#x4E14;&#x8868;&#x73B0;&#x5F88;&#x597D;&#x3002;
@@ -518,8 +518,8 @@ MSE &#x662F;&#x7ECF;&#x5E38;&#x88AB;&#x4F7F;&#x7528;&#x7684;&#x635F;&#x5931;&#x5
 </div>
 
 
-<div id="outline-container-org2b59104" class="outline-2">
-<h2 id="org2b59104"><span class="section-number-2">2</span> Cross Entropy Loss (Log Loss)</h2>
+<div id="outline-container-org0d715d2" class="outline-2">
+<h2 id="org0d715d2"><span class="section-number-2">2</span> Cross Entropy Loss (Log Loss)</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 &#x4EA4;&#x53C9;&#x71B5;&#x635F;&#x5931;&#x7ECF;&#x5E38;&#x7528;&#x4E8E;&#x5206;&#x7C7B;&#x95EE;&#x9898;&#x3002;&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;
@@ -561,8 +561,8 @@ very wrong. Predicting high probabilities for the wrong class makes the function
 </div>
 
 
-<div id="outline-container-org74c7905" class="outline-2">
-<h2 id="org74c7905"><span class="section-number-2">3</span> softmax loss</h2>
+<div id="outline-container-orga3a3d5e" class="outline-2">
+<h2 id="orga3a3d5e"><span class="section-number-2">3</span> softmax loss</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 &#x4F7F;&#x7528; Softmax &#x6FC0;&#x6D3B;&#x51FD;&#x6570;&#xFF0C;&#x5E0C;&#x671B;&#x6837;&#x672C;&#x6807;&#x8BB0;&#x7C7B;&#x522B;&#x7684;&#x8F93;&#x51FA;&#x6982;&#x7387;&#x8D8A;&#x5927;&#x8D8A;&#x597D;&#xFF0C;&#x6240;&#x4EE5;&#x635F;&#x5931;&#x51FD;&#x6570;&#x60E9;&#x7F5A;&#x6807;&#x8BB0;&#x7C7B;&#x522B;&#x7684;&#x8F93;&#x51FA;&#x6982;&#x7387;&#x503C;&#x4E0D;&#x591F;&#x5927;&#x7684;&#x60C5;&#x51B5;
@@ -575,8 +575,8 @@ L = \sum_{i=1}^m - \log \left( \frac{ e^{W_{y_i}^T x_i + b_{y_i}} }{ \sum_j e^{W
 </div>
 
 
-<div id="outline-container-orgc0e49ce" class="outline-2">
-<h2 id="orgc0e49ce"><span class="section-number-2">4</span> contrastive loss</h2>
+<div id="outline-container-org50ac055" class="outline-2">
+<h2 id="org50ac055"><span class="section-number-2">4</span> contrastive loss</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 &#x5728;&#x8DDD;&#x79BB;&#x4E2D;&#x589E;&#x52A0;&#x4E86; margin &#xFF0C;&#x4F7F;&#x5F97;&#x4E0D;&#x540C;&#x7684;&#x7C7B;&#x522B;&#x8DDD;&#x79BB;&#x81F3;&#x5C11;&#x4E3A; margin 
@@ -589,8 +589,8 @@ L = (1 - Y) \frac{1}{2} (D_W)^2 + (Y)\frac{1}{2} \{ \max(0,m-D_W) \}^2
 </div>
 
 
-<div id="outline-container-org952c7c9" class="outline-2">
-<h2 id="org952c7c9"><span class="section-number-2">5</span> triplet loss</h2>
+<div id="outline-container-org7f60e70" class="outline-2">
+<h2 id="org7f60e70"><span class="section-number-2">5</span> triplet loss</h2>
 <div class="outline-text-2" id="text-5">
 \begin{align*}
 L = \sum_i^N \left [||f(x_i^a) - f(x_i^p)||_2^2 - ||f(x_i^a) - f(x_i^n)||_2^2 + \alpha \right ]_+
@@ -611,8 +611,8 @@ f(x_i^p)||_2^2 - ||f(x_i^a) - f(x_i^n)||_2^2 \]
 </div>
 
 
-<div id="outline-container-orgd9edfef" class="outline-2">
-<h2 id="orgd9edfef"><span class="section-number-2">6</span> centerloss</h2>
+<div id="outline-container-org468c319" class="outline-2">
+<h2 id="org468c319"><span class="section-number-2">6</span> centerloss</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 &#x4F5C;&#x8005;&#x8BA4;&#x4E3A; Softmax &#x53EA;&#x662F;&#x589E;&#x5927;&#x4E86;&#x7C7B;&#x95F4;&#x7684;&#x79BB;&#x6563;&#x5EA6;&#xFF0C;&#x5E76;&#x6CA1;&#x6709;&#x5F88;&#x597D;&#x7684;&#x63A7;&#x5236;&#x7C7B;&#x5185;&#x79BB;&#x6563;&#x5EA6;&#xFF0C;&#x6240;&#x4EE5;&#x5728;&#x635F;&#x5931;&#x51FD;&#x6570;&#x4E0A;&#x589E;&#x52A0;&#x4E86;&#x6BCF;&#x4E2A;&#x6837;&#x672C;&#x5230;&#x7C7B;&#x4E2D;&#x5FC3;&#x70B9;&#x7684;&#x8DDD;&#x79BB;&#x60E9;&#x7F5A;
@@ -628,8 +628,8 @@ L &amp; = L_s + \lambda L_c \\
 </div>
 
 
-<div id="outline-container-orgde53088" class="outline-2">
-<h2 id="orgde53088"><span class="section-number-2">7</span> A-softmax loss</h2>
+<div id="outline-container-orgde327e6" class="outline-2">
+<h2 id="orgde327e6"><span class="section-number-2">7</span> A-softmax loss</h2>
 <div class="outline-text-2" id="text-7">
 <p>
 &#x5C06; Softmax loss &#x8868;&#x793A;&#x6210;&#x89D2;&#x5EA6;&#x7684;&#x5F62;&#x5F0F;
@@ -723,8 +723,8 @@ L_{ang} = \sum_i - \log \left( \frac{ e^{ ||x_i||cos(m\theta_{y_j,i}) } }
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/08/22/machinelearning/vgg-GoogLeNet-resnet/" rel="prev" title="VGG GoogLeNet ResNet">
-                VGG GoogLeNet ResNet <i class="fa fa-chevron-right"></i>
+              <a href="/2018/08/22/machinelearning/revolution/" rel="prev" title="卷积神经网络进化">
+                卷积神经网络进化 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -806,7 +806,7 @@ L_{ang} = \sum_i - \log \left( \frac{ e^{ ||x_i||cos(m\theta_{y_j,i}) } }
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">58</span>
+                    <span class="site-state-item-count">59</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -932,7 +932,9 @@ L_{ang} = \sum_i - \log \left( \frac{ e^{ ||x_i||cos(m\theta_{y_j,i}) } }
                     
                       
                     
-                    <span class="site-state-item-count">35</span>
+                      
+                    
+                    <span class="site-state-item-count">36</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
@@ -986,7 +988,7 @@ L_{ang} = \sum_i - \log \left( \frac{ e^{ ||x_i||cos(m\theta_{y_j,i}) } }
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf8251bc"><span class="nav-text">1 Mean Squared Error</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2b59104"><span class="nav-text">2 Cross Entropy Loss (Log Loss)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org74c7905"><span class="nav-text">3 softmax loss</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc0e49ce"><span class="nav-text">4 contrastive loss</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org952c7c9"><span class="nav-text">5 triplet loss</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgd9edfef"><span class="nav-text">6 centerloss</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgde53088"><span class="nav-text">7 A-softmax loss</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org4b760f3"><span class="nav-text">1 Mean Squared Error</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0d715d2"><span class="nav-text">2 Cross Entropy Loss (Log Loss)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga3a3d5e"><span class="nav-text">3 softmax loss</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org50ac055"><span class="nav-text">4 contrastive loss</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7f60e70"><span class="nav-text">5 triplet loss</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org468c319"><span class="nav-text">6 centerloss</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgde327e6"><span class="nav-text">7 A-softmax loss</span></a></li></ol></div>
             
 
           </div>
@@ -1027,7 +1029,7 @@ L_{ang} = \sum_i - \log \left( \frac{ e^{ ||x_i||cos(m\theta_{y_j,i}) } }
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="Reading time total">29:06</span>
+    <span title="Reading time total">29:17</span>
   
 </div>
 

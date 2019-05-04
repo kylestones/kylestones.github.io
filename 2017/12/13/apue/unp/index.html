@@ -492,27 +492,27 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orga379f29">&#x95EE;&#x9898;</a>
+<li><a href="#org7846c60">&#x95EE;&#x9898;</a>
 <ul>
-<li><a href="#org9e24fba">&#x7A0B;&#x5E8F;&#x5F02;&#x5E38;&#x7EC8;&#x6B62;</a></li>
+<li><a href="#orga0c5344">&#x7A0B;&#x5E8F;&#x5F02;&#x5E38;&#x7EC8;&#x6B62;</a></li>
 </ul>
 </li>
-<li><a href="#orgcc08568">IP &#x5206;&#x7247;(fragment) &#x2013; TCP &#x5206;&#x6BB5;</a>
+<li><a href="#org3306437">IP &#x5206;&#x7247;(fragment) &#x2013; TCP &#x5206;&#x6BB5;</a>
 <ul>
-<li><a href="#org2e36602">MTU : &#x6700;&#x5927;&#x4F20;&#x8F93;&#x5355;&#x5143;</a></li>
-<li><a href="#orgaf734f3">MSS : &#x6700;&#x5927;&#x62A5;&#x6587;&#x6BB5;&#x957F;&#x5EA6;</a></li>
-<li><a href="#org99e311f">&#x4E0D;&#x5E0C;&#x671B; IP &#x5206;&#x7247;&#x7684;&#x539F;&#x56E0;</a></li>
-<li><a href="#org594a8b4">TCP&#x3001;UDP &#x4E0E; IP &#x5206;&#x7247;</a></li>
-<li><a href="#org97e83ed">CSMA/CD</a></li>
+<li><a href="#org34e7d07">MTU : &#x6700;&#x5927;&#x4F20;&#x8F93;&#x5355;&#x5143;</a></li>
+<li><a href="#orgf2fb0a3">MSS : &#x6700;&#x5927;&#x62A5;&#x6587;&#x6BB5;&#x957F;&#x5EA6;</a></li>
+<li><a href="#org1f85ddf">&#x4E0D;&#x5E0C;&#x671B; IP &#x5206;&#x7247;&#x7684;&#x539F;&#x56E0;</a></li>
+<li><a href="#org35e99b9">TCP&#x3001;UDP &#x4E0E; IP &#x5206;&#x7247;</a></li>
+<li><a href="#org31d75aa">CSMA/CD</a></li>
 </ul>
 </li>
-<li><a href="#org42482aa">TIME<sub>WAIT</sub> &#x72B6;&#x6001;</a></li>
-<li><a href="#org8621dd8">TCP &#x5EFA;&#x7ACB;&#x8FDE;&#x63A5;</a></li>
-<li><a href="#org8adde7b">TCP &#x72B6;&#x6001;&#x8F6C;&#x6362;&#x56FE;</a>
+<li><a href="#org4b78dd7">TIME<sub>WAIT</sub> &#x72B6;&#x6001;</a></li>
+<li><a href="#orga79535c">TCP &#x5EFA;&#x7ACB;&#x8FDE;&#x63A5;</a></li>
+<li><a href="#org2398041">TCP &#x72B6;&#x6001;&#x8F6C;&#x6362;&#x56FE;</a>
 <ul>
-<li><a href="#org60cb43e">TIME<sub>WAIT</sub></a>
+<li><a href="#org3861b6c">TIME<sub>WAIT</sub></a>
 <ul>
-<li><a href="#org2aff326">&#x5B58;&#x5728;&#x7406;&#x7531;</a></li>
+<li><a href="#org3f6522d">&#x5B58;&#x5728;&#x7406;&#x7531;</a></li>
 </ul>
 </li>
 </ul>
@@ -522,13 +522,13 @@
 </div>
 
 
-<div id="outline-container-orga379f29" class="outline-2">
-<h2 id="orga379f29">&#x95EE;&#x9898;</h2>
-<div class="outline-text-2" id="text-orga379f29">
+<div id="outline-container-org7846c60" class="outline-2">
+<h2 id="org7846c60">&#x95EE;&#x9898;</h2>
+<div class="outline-text-2" id="text-org7846c60">
 </div>
-<div id="outline-container-org9e24fba" class="outline-3">
-<h3 id="org9e24fba">&#x7A0B;&#x5E8F;&#x5F02;&#x5E38;&#x7EC8;&#x6B62;</h3>
-<div class="outline-text-3" id="text-org9e24fba">
+<div id="outline-container-orga0c5344" class="outline-3">
+<h3 id="orga0c5344">&#x7A0B;&#x5E8F;&#x5F02;&#x5E38;&#x7EC8;&#x6B62;</h3>
+<div class="outline-text-3" id="text-orga0c5344">
 <p>
 &#x6B64;&#x65F6;&#x6240;&#x6709;&#x6253;&#x5F00;&#x7684;&#x6587;&#x4EF6;&#x63CF;&#x8FF0;&#x7B26;&#x5C06;&#x88AB;&#x5173;&#x95ED;&#xFF0C;TCP &#x8FDE;&#x63A5;&#x53D1;&#x9001;&#x4E00;&#x4E2A; FIN &#x3002;&#x7136;&#x540E;&#x5462;&#xFF1F;&#x5BF9;&#x7AEF;&#x7684;&#x786E;&#x8BA4;&#x62A5;&#x6587;&#x662F;&#x5426;&#x6536;&#x5230;&#x65E0;&#x6240;&#x8C13;&#xFF1F;
 &#x5BF9;&#x7AEF;&#x53D1;&#x9001; FIN &#x62A5;&#x6587;&#xFF0C;&#x6B64;&#x65F6;&#x5DF2;&#x7ECF;&#x7EC8;&#x6B62;&#xFF1F;&#x65E0;&#x6CD5;&#x6062;&#x590D;&#x786E;&#x8BA4;&#x62A5;&#x6587;&#xFF1F;&#x5BF9;&#x7AEF;&#x4F1A;&#x91CD;&#x590D;&#x53D1;&#x9001;&#xFF1F;
@@ -538,13 +538,13 @@
 </div>
 
 
-<div id="outline-container-orgcc08568" class="outline-2">
-<h2 id="orgcc08568">IP &#x5206;&#x7247;(fragment) &#x2013; TCP &#x5206;&#x6BB5;</h2>
-<div class="outline-text-2" id="text-orgcc08568">
+<div id="outline-container-org3306437" class="outline-2">
+<h2 id="org3306437">IP &#x5206;&#x7247;(fragment) &#x2013; TCP &#x5206;&#x6BB5;</h2>
+<div class="outline-text-2" id="text-org3306437">
 </div>
-<div id="outline-container-org2e36602" class="outline-3">
-<h3 id="org2e36602">MTU : &#x6700;&#x5927;&#x4F20;&#x8F93;&#x5355;&#x5143;</h3>
-<div class="outline-text-3" id="text-org2e36602">
+<div id="outline-container-org34e7d07" class="outline-3">
+<h3 id="org34e7d07">MTU : &#x6700;&#x5927;&#x4F20;&#x8F93;&#x5355;&#x5143;</h3>
+<div class="outline-text-3" id="text-org34e7d07">
 <p>
 &#x94FE;&#x8DEF;&#x5C42;&#x5BF9;&#x7F51;&#x7EDC;&#x6570;&#x636E;&#x5E27;&#x7684;&#x4E00;&#x4E2A;&#x9650;&#x5236;&#xFF1A;&#x4EE5;&#x592A;&#x7F51;&#x9650;&#x5236; MTU &#x4E3A; 1500 &#x5B57;&#x8282;&#x3002;
 &#x5C3D;&#x7BA1; IP &#x62A5;&#x6587;&#x5934;&#x4E2D;&#x6709; 16 &#x4F4D;&#x8868;&#x793A;&#x6570;&#x636E;&#x62A5;&#x7684;&#x957F;&#x5EA6;&#xFF08;&#x6700;&#x5927;&#x957F;&#x5EA6; 2<sup>16</sup>-1=65535&#xFF09;
@@ -558,9 +558,9 @@ Type 2Bytes + CRC 4Bytes&#xFF09;&#x6700;&#x5927;&#x53EA;&#x80FD;&#x6709; 1500 by
 </p>
 </div>
 </div>
-<div id="outline-container-orgaf734f3" class="outline-3">
-<h3 id="orgaf734f3">MSS : &#x6700;&#x5927;&#x62A5;&#x6587;&#x6BB5;&#x957F;&#x5EA6;</h3>
-<div class="outline-text-3" id="text-orgaf734f3">
+<div id="outline-container-orgf2fb0a3" class="outline-3">
+<h3 id="orgf2fb0a3">MSS : &#x6700;&#x5927;&#x62A5;&#x6587;&#x6BB5;&#x957F;&#x5EA6;</h3>
+<div class="outline-text-3" id="text-orgf2fb0a3">
 <p>
 &#x4E00;&#x822C; MSS &#x4E3A; MTU &#x51CF;&#x53BB; IP &#x9996;&#x90E8;&#x957F;&#x5EA6; 20 &#x5B57;&#x8282;&#x548C; TCP &#x9996;&#x90E8;&#x957F;&#x5EA6; 20 &#x5B57;&#x8282;&#xFF0C;1500-40-40=1460 &#x3002;&#x4F46;&#x662F;&#x8BB8;&#x591A; BSD &#x5B9E;&#x73B0;
 &#x7248;&#x672C;&#x9700;&#x8981; MSS &#x4E3A; 512 &#x7684;&#x500D;&#x6570;&#xFF0C;&#x6240;&#x4EE5;&#x4E00;&#x822C; MSS &#x90FD;&#x662F; 1024&#x3002;&#x5F53;&#x5EFA;&#x7ACB;&#x4E00;&#x4E2A; TCP &#x8FDE;&#x63A5;&#x65F6;&#xFF0C;&#x6BCF;&#x4E00;&#x65B9;&#x90FD;&#x901A;&#x544A;&#x5176;&#x671F;&#x671B;&#x7684; MSS
@@ -569,9 +569,9 @@ TCP &#x62A5;&#x6587;&#x6BB5;&#x7684;&#x5206;&#x6BB5;&#x4E0E;&#x91CD;&#x7EC4;&#x6
 </p>
 </div>
 </div>
-<div id="outline-container-org99e311f" class="outline-3">
-<h3 id="org99e311f">&#x4E0D;&#x5E0C;&#x671B; IP &#x5206;&#x7247;&#x7684;&#x539F;&#x56E0;</h3>
-<div class="outline-text-3" id="text-org99e311f">
+<div id="outline-container-org1f85ddf" class="outline-3">
+<h3 id="org1f85ddf">&#x4E0D;&#x5E0C;&#x671B; IP &#x5206;&#x7247;&#x7684;&#x539F;&#x56E0;</h3>
+<div class="outline-text-3" id="text-org1f85ddf">
 <p>
 &#x5BF9;&#x4E8E; IP &#x5206;&#x7247;&#x7684;&#x6570;&#x636E;&#x62A5;&#xFF0C;&#x5373;&#x4F7F;&#x4E22;&#x5931;&#x4E00;&#x7247;&#x6570;&#x636E;&#xFF0C;&#x4E5F;&#x8981;&#x91CD;&#x4F20;&#x6574;&#x4E2A;&#x6570;&#x636E;&#x62A5;&#x3002;&#x56E0;&#x4E3A; IP &#x5C42;&#x6CA1;&#x6709;&#x91CD;&#x4F20;&#x673A;&#x5236;&#xFF0C;&#x6CA1;&#x6709;&#x529E;&#x6CD5;&#x53EA;&#x91CD;&#x4F20;&#x67D0;
 &#x4E00;&#x7247;&#x3002;&#x6240;&#x4EE5;&#x5373;&#x4F7F; IP &#x5206;&#x7247;&#x8FC7;&#x7A0B;&#x770B;&#x8D77;&#x6765;&#x662F;&#x900F;&#x660E;&#x7684;&#xFF0C;&#x4F46;&#x4EBA;&#x4EEC;&#x4ECD;&#x7136;&#x4E0D;&#x60F3;&#x7528;&#x5B83;&#x3002;&#x6240;&#x4EE5; TCP &#x603B;&#x662F;&#x907F;&#x514D;&#x5206;&#x7247;&#xFF0C;&#x901A;&#x8FC7;&#x8BBE;&#x7F6E; MSS &#x4F7F;
@@ -579,18 +579,18 @@ TCP &#x62A5;&#x6587;&#x6BB5;&#x7684;&#x5206;&#x6BB5;&#x4E0E;&#x91CD;&#x7EC4;&#x6
 </p>
 </div>
 </div>
-<div id="outline-container-org594a8b4" class="outline-3">
-<h3 id="org594a8b4">TCP&#x3001;UDP &#x4E0E; IP &#x5206;&#x7247;</h3>
-<div class="outline-text-3" id="text-org594a8b4">
+<div id="outline-container-org35e99b9" class="outline-3">
+<h3 id="org35e99b9">TCP&#x3001;UDP &#x4E0E; IP &#x5206;&#x7247;</h3>
+<div class="outline-text-3" id="text-org35e99b9">
 <p>
 UDP &#x5F88;&#x5BB9;&#x6613;&#x5BFC;&#x81F4;&#x5206;&#x7247;&#xFF1B;
 TCP &#x8BD5;&#x56FE;&#x907F;&#x514D;&#x5206;&#x7247;&#xFF0C;&#x5E94;&#x7528;&#x7A0B;&#x5E8F;&#x51E0;&#x4E4E;&#x4E0D;&#x53EF;&#x80FD;&#x5F3A;&#x8FEB; TCP &#x53D1;&#x9001;&#x4E00;&#x4E2A;&#x9700;&#x8981;&#x5206;&#x7247;&#x7684;&#x62A5;&#x6587;&#x3002;
 </p>
 </div>
 </div>
-<div id="outline-container-org97e83ed" class="outline-3">
-<h3 id="org97e83ed">CSMA/CD</h3>
-<div class="outline-text-3" id="text-org97e83ed">
+<div id="outline-container-org31d75aa" class="outline-3">
+<h3 id="org31d75aa">CSMA/CD</h3>
+<div class="outline-text-3" id="text-org31d75aa">
 <p>
 CSMA/CD&#x662F;Carrier Sense Multiple Access with Collision Detection &#x7684;&#x7F29;&#x5199;&#xFF0C;
 &#x53EF;&#x8BD1;&#x4E3A;&#x201C;&#x8F7D;&#x6CE2;&#x4FA6;&#x542C;&#x591A;&#x8DEF;&#x8BBF;&#x95EE;/&#x51B2;&#x7A81;&#x68C0;&#x6D4B;&#x201D;&#xFF0C;&#x6216;&#x201C;&#x5E26;&#x6709;&#x51B2;&#x7A81;&#x68C0;&#x6D4B;&#x7684;&#x8F7D;&#x6CE2;&#x4FA6;&#x542C;&#x591A;&#x8DEF;&#x8BBF;&#x95EE;&#x201D;&#x3002;
@@ -700,13 +700,13 @@ CSMA/CD&#x7F51;&#x7EDC;&#x4E0A;&#x8FDB;&#x884C;&#x4F20;&#x8F93;&#x65F6;&#xFF0C;&
 </div>
 </div>
 
-<div id="outline-container-org42482aa" class="outline-2">
-<h2 id="org42482aa">TIME<sub>WAIT</sub> &#x72B6;&#x6001;</h2>
+<div id="outline-container-org4b78dd7" class="outline-2">
+<h2 id="org4b78dd7">TIME<sub>WAIT</sub> &#x72B6;&#x6001;</h2>
 </div>
 
-<div id="outline-container-org8621dd8" class="outline-2">
-<h2 id="org8621dd8">TCP &#x5EFA;&#x7ACB;&#x8FDE;&#x63A5;</h2>
-<div class="outline-text-2" id="text-org8621dd8">
+<div id="outline-container-orga79535c" class="outline-2">
+<h2 id="orga79535c">TCP &#x5EFA;&#x7ACB;&#x8FDE;&#x63A5;</h2>
+<div class="outline-text-2" id="text-orga79535c">
 <p>
 &#x5C06; TCP &#x8FDE;&#x63A5;&#x6BD4;&#x4F5C;&#x4E00;&#x4E2A;&#x7535;&#x8BDD;&#x7CFB;&#x7EDF;&#xFF1A;
 socket &#x51FD;&#x6570;&#x8868;&#x793A;&#x62FF;&#x5230;&#x4E00;&#x4E2A;&#x7535;&#x8BDD;&#xFF1B;
@@ -722,26 +722,26 @@ getaddrinfo &#x5728;&#x7535;&#x8BDD;&#x7C3F;&#x4E0A;&#x67E5;&#x8BE2;&#x67D0;&#x4
 
 
 
-<div id="outline-container-org8adde7b" class="outline-2">
-<h2 id="org8adde7b">TCP &#x72B6;&#x6001;&#x8F6C;&#x6362;&#x56FE;</h2>
-<div class="outline-text-2" id="text-org8adde7b">
+<div id="outline-container-org2398041" class="outline-2">
+<h2 id="org2398041">TCP &#x72B6;&#x6001;&#x8F6C;&#x6362;&#x56FE;</h2>
+<div class="outline-text-2" id="text-org2398041">
 <p>
 TCP &#x5EFA;&#x7ACB;&#x8FDE;&#x63A5;&#x548C;&#x8FDE;&#x63A5;&#x7EC8;&#x6B62;&#x7684;&#x64CD;&#x4F5C;&#x53EF;&#x4EE5;&#x7528;&#x72B6;&#x6001;&#x8F6C;&#x6362;&#x56FE;&#xFF08;state transition diagram&#xFF09;&#x6765;&#x8868;&#x793A;&#x3002;
 TCP &#x4E3A;&#x4E00;&#x4E2A;&#x8FDE;&#x63A5;&#x5B9A;&#x4E49;&#x4E86; 11 &#x4E2D;&#x72B6;&#x6001;&#xFF0C;&#x4E14;&#x89C4;&#x5B9A;&#x5982;&#x4F55;&#x57FA;&#x4E8E;&#x5F53;&#x524D;&#x72B6;&#x6001;&#x4EE5;&#x53CA;&#x5728;&#x8BE5;&#x72B6;&#x6001;&#x4E0B;&#x6240;&#x63A5;&#x6536;&#x7684;&#x5206;&#x8282;&#x6765;&#x786E;&#x5B9A;&#x4E0B;&#x4E00;&#x4E2A;&#x72B6;&#x6001;&#x3002;
 </p>
 </div>
-<div id="outline-container-org60cb43e" class="outline-3">
-<h3 id="org60cb43e">TIME<sub>WAIT</sub></h3>
-<div class="outline-text-3" id="text-org60cb43e">
+<div id="outline-container-org3861b6c" class="outline-3">
+<h3 id="org3861b6c">TIME<sub>WAIT</sub></h3>
+<div class="outline-text-3" id="text-org3861b6c">
 <p>
 TIME<sub>WAIT</sub> &#x7684;&#x65F6;&#x95F4;&#x662F; 2MSL &#xFF08;maximum segment lifetime&#xFF09; &#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x80AF;&#x5B9A;&#x4F1A;&#x5728;&#x8FD9;&#x4E2A;&#x72B6;&#x6001;&#x7B49;&#x5F85;&#x8FD9;&#x4E48;&#x957F;&#x65F6;&#x95F4;&#x3002;
 TCP &#x4E0D;&#x7ED9;&#x5904;&#x4E8E; TIME<sub>WAIT</sub> &#x72B6;&#x6001;&#x7684;&#x8FDE;&#x63A5;&#x5EFA;&#x7ACB;&#x65B0;&#x8FDE;&#x63A5;&#x3002;&#x4FDD;&#x8BC1;&#x6BCF;&#x5EFA;&#x7ACB;&#x4E00;&#x4E2A;&#x65B0; TCP &#x8FDE;&#x63A5;&#xFF0C;&#x6765;&#x81EA;&#x8BE5;&#x8FDE;&#x63A5;&#x5148;&#x524D;&#x5316;&#x8EAB;&#x7684;&#x8001;&#x7684;&#x91CD;&#x590D;
 &#x5206;&#x7EC4;&#x90FD;&#x5DF2;&#x5728;&#x7F51;&#x7EDC;&#x4E2D;&#x6D88;&#x901D;&#x4E86;&#x3002;
 </p>
 </div>
-<div id="outline-container-org2aff326" class="outline-4">
-<h4 id="org2aff326">&#x5B58;&#x5728;&#x7406;&#x7531;</h4>
-<div class="outline-text-4" id="text-org2aff326">
+<div id="outline-container-org3f6522d" class="outline-4">
+<h4 id="org3f6522d">&#x5B58;&#x5728;&#x7406;&#x7531;</h4>
+<div class="outline-text-4" id="text-org3f6522d">
 <ol class="org-ol">
 <li>&#x53EF;&#x9760;&#x7684;&#x5B9E;&#x73B0; TCP &#x5168;&#x53CC;&#x5DE5;&#x8FDE;&#x63A5;&#x7684;&#x7EC8;&#x6B62;&#xFF1B;</li>
 <li>&#x8FDF;&#x5230;&#x7684;&#x62A5;&#x6587;&#x88AB;&#x4E22;&#x5F03;&#x3002;</li>
@@ -894,7 +894,7 @@ TCP &#x4E0D;&#x7ED9;&#x5904;&#x4E8E; TIME<sub>WAIT</sub> &#x72B6;&#x6001;&#x7684
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">58</span>
+                    <span class="site-state-item-count">59</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -1020,7 +1020,9 @@ TCP &#x4E0D;&#x7ED9;&#x5904;&#x4E8E; TIME<sub>WAIT</sub> &#x72B6;&#x6001;&#x7684
                     
                       
                     
-                    <span class="site-state-item-count">35</span>
+                      
+                    
+                    <span class="site-state-item-count">36</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
@@ -1074,7 +1076,7 @@ TCP &#x4E0D;&#x7ED9;&#x5904;&#x4E8E; TIME<sub>WAIT</sub> &#x72B6;&#x6001;&#x7684
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-text">Table of Contents</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga379f29"><span class="nav-text">问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org9e24fba"><span class="nav-text">程序异常终止</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgcc08568"><span class="nav-text">IP 分片(fragment) – TCP 分段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org2e36602"><span class="nav-text">MTU : 最大传输单元</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgaf734f3"><span class="nav-text">MSS : 最大报文段长度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org99e311f"><span class="nav-text">不希望 IP 分片的原因</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org594a8b4"><span class="nav-text">TCP、UDP 与 IP 分片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org97e83ed"><span class="nav-text">CSMA/CD</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org42482aa"><span class="nav-text">TIMEWAIT 状态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8621dd8"><span class="nav-text">TCP 建立连接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8adde7b"><span class="nav-text">TCP 状态转换图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org60cb43e"><span class="nav-text">TIMEWAIT</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#org2aff326"><span class="nav-text">存在理由</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-text">Table of Contents</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org7846c60"><span class="nav-text">问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orga0c5344"><span class="nav-text">程序异常终止</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3306437"><span class="nav-text">IP 分片(fragment) – TCP 分段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org34e7d07"><span class="nav-text">MTU : 最大传输单元</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgf2fb0a3"><span class="nav-text">MSS : 最大报文段长度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org1f85ddf"><span class="nav-text">不希望 IP 分片的原因</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org35e99b9"><span class="nav-text">TCP、UDP 与 IP 分片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org31d75aa"><span class="nav-text">CSMA/CD</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4b78dd7"><span class="nav-text">TIMEWAIT 状态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga79535c"><span class="nav-text">TCP 建立连接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org2398041"><span class="nav-text">TCP 状态转换图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org3861b6c"><span class="nav-text">TIMEWAIT</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#org3f6522d"><span class="nav-text">存在理由</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
@@ -1115,7 +1117,7 @@ TCP &#x4E0D;&#x7ED9;&#x5904;&#x4E8E; TIME<sub>WAIT</sub> &#x72B6;&#x6001;&#x7684
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="Reading time total">29:06</span>
+    <span title="Reading time total">29:17</span>
   
 </div>
 

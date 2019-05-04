@@ -113,7 +113,7 @@
 
 
   <meta name="description" content="&amp;#x5B66;&amp;#x4E60;&amp;#x5468;&amp;#x658C;&amp;#x8001;&amp;#x5E08;&amp;#x7684;&amp;#x300A;NVIDIA CUDA &amp;#x521D;&amp;#x7EA7;&amp;#x6559;&amp;#x7A0B;&amp;#x89C6;&amp;#x9891;&amp;#x300B;&amp;#x7B14;&amp;#x8BB0;     1 &amp;#x91CD;&amp;#x770B; CPU   CPU &amp;#x82AF;&amp;#x7247;">
-<meta name="keywords" content="深度学习,cuda">
+<meta name="keywords" content="cuda,深度学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="cuda 编程基础">
 <meta property="og:url" content="https://kylestones.github.io/2018/12/30/cuda/cuda-basic/index.html">
@@ -493,8 +493,8 @@
 </p>
 
 
-<div id="outline-container-orgc01e6c9" class="outline-2">
-<h2 id="orgc01e6c9"><span class="section-number-2">1</span> &#x91CD;&#x770B; CPU</h2>
+<div id="outline-container-org3908f7c" class="outline-2">
+<h2 id="org3908f7c"><span class="section-number-2">1</span> &#x91CD;&#x770B; CPU</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 CPU &#x82AF;&#x7247;&#x4E2D;&#x5927;&#x91CF;&#x7684;&#x6676;&#x4F53;&#x7BA1;&#x7528;&#x4E8E; cache3 &#xFF0C;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x82AF;&#x7247;&#x4E2D;&#x5F88;&#x5927;&#x4E00;&#x90E8;&#x5206;&#x9762;&#x79EF;&#x90FD;&#x662F; cache3 &#x3002;&#x4E3B;&#x8981;&#x7531;&#x4E8E; CPU &#x59CB;&#x7EC8;&#x5728;&#x5927;&#x91CF;&#x7684;&#x79FB;&#x52A8;&#x6570;&#x636E;&#xFF0C;&#x5C06;&#x786C;&#x76D8;
@@ -505,8 +505,8 @@ CPU &#x82AF;&#x7247;&#x4E2D;&#x5927;&#x91CF;&#x7684;&#x6676;&#x4F53;&#x7BA1;&#x7
 </div>
 
 
-<div id="outline-container-org3aeec65" class="outline-3">
-<h3 id="org3aeec65"><span class="section-number-3">1.1</span> &#x6574;&#x4F53;&#x67B6;&#x6784;</h3>
+<div id="outline-container-orgbb80675" class="outline-3">
+<h3 id="orgbb80675"><span class="section-number-3">1.1</span> &#x6574;&#x4F53;&#x67B6;&#x6784;</h3>
 <div class="outline-text-3" id="text-1-1">
 <ol class="org-ol">
 <li>CPU &#x53EF;&#x4EE5;&#x5206;&#x6210; <b>&#x6570;&#x636E;&#x901A;&#x9053;</b> &#x548C; <b>&#x63A7;&#x5236;&#x903B;&#x8F91;</b> &#x4E24;&#x4E2A;&#x90E8;&#x5206;&#x3002;</li>
@@ -516,8 +516,8 @@ CPU &#x82AF;&#x7247;&#x4E2D;&#x5927;&#x91CF;&#x7684;&#x6676;&#x4F53;&#x7BA1;&#x7
 </div>
 
 
-<div id="outline-container-org35fb1ce" class="outline-3">
-<h3 id="org35fb1ce"><span class="section-number-3">1.2</span> Pipeline</h3>
+<div id="outline-container-orge9dbc5a" class="outline-3">
+<h3 id="orge9dbc5a"><span class="section-number-3">1.2</span> Pipeline</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
 &#x6D41;&#x6C34;&#x7EBF;&#x662F;&#x6307;&#x4EE4;&#x7EA7;&#x5E76;&#x884C; ILP &#x3002;&#x53EF;&#x4EE5;&#x6781;&#x5927;&#x7684;&#x51CF;&#x5C0F;&#x65F6;&#x949F;&#x5468;&#x671F;&#xFF0C;&#x4F46;&#x540C;&#x65F6;&#x4E5F;&#x53EF;&#x80FD;&#x5B58;&#x5728;&#x5EF6;&#x8FDF;&#xFF08;&#x5565;&#xFF1F;&#xFF09;&#xFF0C;&#x4F1A;&#x589E;&#x5927;&#x82AF;&#x7247;&#x9762;&#x79EF;&#xFF0C;&#x6307;&#x4EE4;&#x6D41;&#x524D;&#x540E;&#x6709;&#x5173;&#x7CFB;&#x65F6;&#xFF0C;&#x65E0;&#x6CD5;
@@ -527,8 +527,8 @@ CPU &#x82AF;&#x7247;&#x4E2D;&#x5927;&#x91CF;&#x7684;&#x6676;&#x4F53;&#x7BA1;&#x7
 </div>
 
 
-<div id="outline-container-orge7eceb1" class="outline-3">
-<h3 id="orge7eceb1"><span class="section-number-3">1.3</span> Bypassing</h3>
+<div id="outline-container-orgd12b98b" class="outline-3">
+<h3 id="orgd12b98b"><span class="section-number-3">1.3</span> Bypassing</h3>
 <div class="outline-text-3" id="text-1-3">
 <p>
 &#x4E0D;&#x7B49;&#x5F85;&#x524D;&#x4E00;&#x6761;&#x6307;&#x4EE4;&#x7684;&#x6240;&#x6709;&#x6D41;&#x6C34;&#x7EBF;&#x6267;&#x884C;&#x5B8C;&#x6210;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x5F97;&#x5230;&#x524D;&#x4E00;&#x6761;&#x6307;&#x4EE4;&#x7ED3;&#x679C;&#x7684;&#x67D0;&#x4E00;&#x4E2A;&#x6570;&#x636E;&#xFF0C;&#x76F4;&#x63A5;&#x901A;&#x8FC7;&#x4E00;&#x4E2A;&#x7279;&#x6B8A;&#x7684;&#x901A;&#x9053;&#x4F20;&#x9012;&#x3002;
@@ -537,8 +537,8 @@ CPU &#x82AF;&#x7247;&#x4E2D;&#x5927;&#x91CF;&#x7684;&#x6676;&#x4F53;&#x7BA1;&#x7
 </div>
 
 
-<div id="outline-container-orgaa6f3e0" class="outline-3">
-<h3 id="orgaa6f3e0"><span class="section-number-3">1.4</span> Branches</h3>
+<div id="outline-container-orgc24c1e2" class="outline-3">
+<h3 id="orgc24c1e2"><span class="section-number-3">1.4</span> Branches</h3>
 <div class="outline-text-3" id="text-1-4">
 <ol class="org-ol">
 <li>&#x5206;&#x652F;&#x9884;&#x6D4B; Branch Prediction &#xFF0C;&#x731C;&#x6D4B;&#x4E0B;&#x4E00;&#x6761;&#x6307;&#x4EE4; &#xFF0C;&#x57FA;&#x4E8E;&#x8FC7;&#x53BB;&#x5206;&#x652F;&#x8BB0;&#x5F55;&#xFF0C;&#x901A;&#x5E38;&#x51C6;&#x786E;&#x7387;&#x5927;&#x4E8E; 90%</li>
@@ -548,8 +548,8 @@ CPU &#x82AF;&#x7247;&#x4E2D;&#x5927;&#x91CF;&#x7684;&#x6676;&#x4F53;&#x7BA1;&#x7
 </div>
 
 
-<div id="outline-container-org8a1cbc0" class="outline-3">
-<h3 id="org8a1cbc0"><span class="section-number-3">1.5</span> IPC</h3>
+<div id="outline-container-org69fdf94" class="outline-3">
+<h3 id="org69fdf94"><span class="section-number-3">1.5</span> IPC</h3>
 <div class="outline-text-3" id="text-1-5">
 <p>
 instructions per cycle &#xFF1B;&#x8D85;&#x6807;&#x91CF; superscalar &#xFF0C;&#x589E;&#x52A0;&#x6D41;&#x6C34;&#x7EBF;&#x7684;&#x5BBD;&#x5EA6;&#xFF0C; N &#x6761;&#x6D41;&#x6C34;&#x7EBF;&#x3002;&#x4ECE;&#x800C;&#x63D0;&#x9AD8; IPC
@@ -558,8 +558,8 @@ instructions per cycle &#xFF1B;&#x8D85;&#x6807;&#x91CF; superscalar &#xFF0C;&#x5
 </div>
 
 
-<div id="outline-container-org64f4aeb" class="outline-3">
-<h3 id="org64f4aeb"><span class="section-number-3">1.6</span> &#x6307;&#x4EE4;&#x8C03;&#x5EA6;</h3>
+<div id="outline-container-orgeed2793" class="outline-3">
+<h3 id="orgeed2793"><span class="section-number-3">1.6</span> &#x6307;&#x4EE4;&#x8C03;&#x5EA6;</h3>
 <div class="outline-text-3" id="text-1-6">
 <ol class="org-ol">
 <li>Read-After-Write - RAW</li>
@@ -574,8 +574,8 @@ instructions per cycle &#xFF1B;&#x8D85;&#x6807;&#x91CF; superscalar &#xFF0C;&#x5
 </div>
 
 
-<div id="outline-container-org3152437" class="outline-3">
-<h3 id="org3152437"><span class="section-number-3">1.7</span> Out-of-Order OoO</h3>
+<div id="outline-container-orga942970" class="outline-3">
+<h3 id="orga942970"><span class="section-number-3">1.7</span> Out-of-Order OoO</h3>
 <div class="outline-text-3" id="text-1-7">
 <p>
 &#x4E71;&#x5E8F;&#x6267;&#x884C;&#xFF0C;&#x91CD;&#x6392;&#x6307;&#x4EE4;&#xFF0C;&#x83B7;&#x5F97;&#x6700;&#x5927;&#x7684;&#x541E;&#x5410;&#x7387;&#x3002;&#x53EF;&#x4EE5;&#x91CD;&#x6392;&#x7F13;&#x51B2;&#x533A;&#x6216;&#x53D1;&#x5C04;&#x961F;&#x5217;/&#x8C03;&#x5EA6;&#x5668;
@@ -584,8 +584,8 @@ instructions per cycle &#xFF1B;&#x8D85;&#x6807;&#x91CF; superscalar &#xFF0C;&#x5
 </div>
 
 
-<div id="outline-container-orgf680f51" class="outline-3">
-<h3 id="orgf680f51"><span class="section-number-3">1.8</span> &#x5B58;&#x50A8;&#x5668;&#x5C42;&#x6B21;&#x67B6;&#x6784;</h3>
+<div id="outline-container-org7a5fa41" class="outline-3">
+<h3 id="org7a5fa41"><span class="section-number-3">1.8</span> &#x5B58;&#x50A8;&#x5668;&#x5C42;&#x6B21;&#x67B6;&#x6784;</h3>
 <div class="outline-text-3" id="text-1-8">
 <p>
 &#x5BC4;&#x5B58;&#x5668; - L1 - L2 - L3 - &#x4E3B;&#x5B58; - &#x786C;&#x76D8;
@@ -619,8 +619,8 @@ instructions per cycle &#xFF1B;&#x8D85;&#x6807;&#x91CF; superscalar &#xFF0C;&#x5
 </div>
 
 
-<div id="outline-container-org2b6115e" class="outline-3">
-<h3 id="org2b6115e"><span class="section-number-3">1.9</span> CPU &#x5185;&#x90E8;&#x5E76;&#x884C;&#x6027;</h3>
+<div id="outline-container-org48f3b85" class="outline-3">
+<h3 id="org48f3b85"><span class="section-number-3">1.9</span> CPU &#x5185;&#x90E8;&#x5E76;&#x884C;&#x6027;</h3>
 <div class="outline-text-3" id="text-1-9">
 <ol class="org-ol">
 <li>&#x6307;&#x4EE4;&#x7EA7;&#x5E76;&#x884C; Instruction-Level extraction :: &#x8D85;&#x6807;&#x91CF;&#x3001;&#x4E71;&#x5E8F;&#x6267;&#x884C;</li>
@@ -632,8 +632,8 @@ instructions per cycle &#xFF1B;&#x8D85;&#x6807;&#x91CF; superscalar &#xFF0C;&#x5
 </div>
 
 
-<div id="outline-container-orgb1eb9ae" class="outline-3">
-<h3 id="orgb1eb9ae"><span class="section-number-3">1.10</span> Multicore</h3>
+<div id="outline-container-orga29c632" class="outline-3">
+<h3 id="orga29c632"><span class="section-number-3">1.10</span> Multicore</h3>
 <div class="outline-text-3" id="text-1-10">
 <dl class="org-dl">
 <dt>&#x771F;&#x591A;&#x6838;</dt><dd>&#x9664;&#x6700;&#x540E;&#x4E00;&#x7EA7;&#x7F13;&#x5B58;&#x5916;&#xFF0C;&#x4E0D;&#x5171;&#x4EAB;&#x5176;&#x4ED6;&#x8D44;&#x6E90;&#xFF1B;</dd>
@@ -643,8 +643,8 @@ instructions per cycle &#xFF1B;&#x8D85;&#x6807;&#x91CF; superscalar &#xFF0C;&#x5
 </div>
 
 
-<div id="outline-container-orgfba98c4" class="outline-3">
-<h3 id="orgfba98c4"><span class="section-number-3">1.11</span> &#x9501;&#x5B58;</h3>
+<div id="outline-container-org7b1638c" class="outline-3">
+<h3 id="org7b1638c"><span class="section-number-3">1.11</span> &#x9501;&#x5B58;</h3>
 <div class="outline-text-3" id="text-1-11">
 <ul class="org-ul">
 <li>&#x591A;&#x4E2A;&#x7EBF;&#x7A0B;&#x8BFB;&#x5199;&#x540C;&#x4E00;&#x6B3E;&#x6570;&#x636E;&#xFF1A;&#x52A0;&#x9501;&#xFF1B;</li>
@@ -655,8 +655,8 @@ instructions per cycle &#xFF1B;&#x8D85;&#x6807;&#x91CF; superscalar &#xFF0C;&#x5
 </div>
 
 
-<div id="outline-container-org86ac922" class="outline-3">
-<h3 id="org86ac922"><span class="section-number-3">1.12</span> Powerwall</h3>
+<div id="outline-container-org5f1f6f0" class="outline-3">
+<h3 id="org5f1f6f0"><span class="section-number-3">1.12</span> Powerwall</h3>
 <div class="outline-text-3" id="text-1-12">
 <p>
 &#x7531;&#x4E8E;&#x80FD;&#x91CF;&#x5899;&#x7684;&#x9650;&#x5236;&#xFF0C;&#x5BFC;&#x81F4;&#x6469;&#x5C14;&#x5B9A;&#x5F8B;&#x65E0;&#x6CD5;&#x4FDD;&#x6301;&#x3002;
@@ -673,8 +673,8 @@ instructions per cycle &#xFF1B;&#x8D85;&#x6807;&#x91CF; superscalar &#xFF0C;&#x5
 </div>
 
 
-<div id="outline-container-org2500248" class="outline-3">
-<h3 id="org2500248"><span class="section-number-3">1.13</span> Flynn &#x77E9;&#x9635;</h3>
+<div id="outline-container-orgbf7eb3d" class="outline-3">
+<h3 id="orgbf7eb3d"><span class="section-number-3">1.13</span> Flynn &#x77E9;&#x9635;</h3>
 <div class="outline-text-3" id="text-1-13">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -700,8 +700,8 @@ instructions per cycle &#xFF1B;&#x8D85;&#x6807;&#x91CF; superscalar &#xFF0C;&#x5
 </div>
 
 
-<div id="outline-container-orge24230f" class="outline-3">
-<h3 id="orge24230f"><span class="section-number-3">1.14</span> &#x540D;&#x8BCD;&#x4E0D;&#x89E3;&#x91CA;</h3>
+<div id="outline-container-orgd5e0cd8" class="outline-3">
+<h3 id="orgd5e0cd8"><span class="section-number-3">1.14</span> &#x540D;&#x8BCD;&#x4E0D;&#x89E3;&#x91CA;</h3>
 <div class="outline-text-3" id="text-1-14">
 <ul class="org-ul">
 <li>Task &#x4EFB;&#x52A1;</li>
@@ -721,8 +721,8 @@ instructions per cycle &#xFF1B;&#x8D85;&#x6807;&#x91CF; superscalar &#xFF0C;&#x5
 </div>
 
 
-<div id="outline-container-org5fcac7c" class="outline-3">
-<h3 id="org5fcac7c"><span class="section-number-3">1.15</span> &#x5E76;&#x884C;&#x7F16;&#x7A0B;&#x6A21;&#x578B;</h3>
+<div id="outline-container-org9be8835" class="outline-3">
+<h3 id="org9be8835"><span class="section-number-3">1.15</span> &#x5E76;&#x884C;&#x7F16;&#x7A0B;&#x6A21;&#x578B;</h3>
 <div class="outline-text-3" id="text-1-15">
 <ul class="org-ul">
 <li>&#x5171;&#x4EAB;&#x5B58;&#x50A8;&#x6A21;&#x578B; shared memory model</li>
@@ -738,8 +738,8 @@ OpenMP , MPI , SPMD , MPMD
 </div>
 
 
-<div id="outline-container-orgf096223" class="outline-3">
-<h3 id="orgf096223"><span class="section-number-3">1.16</span> Amdahl&apos;s Law</h3>
+<div id="outline-container-orgc27c287" class="outline-3">
+<h3 id="orgc27c287"><span class="section-number-3">1.16</span> Amdahl&apos;s Law</h3>
 <div class="outline-text-3" id="text-1-16">
 <p>
 &#x7A0B;&#x5E8F;&#x53EF;&#x80FD;&#x7684;&#x52A0;&#x901F;&#x6BD4;&#x53D6;&#x51B3;&#x4E8E;&#x53EF;&#x4EE5;&#x88AB;&#x5E76;&#x884C;&#x5316;&#x7684;&#x90E8;&#x5206;&#xFF1A; speedup = 1/(1-p)
@@ -753,8 +753,8 @@ OpenMP , MPI , SPMD , MPMD
 </div>
 
 
-<div id="outline-container-org9e7323f" class="outline-2">
-<h2 id="org9e7323f"><span class="section-number-2">2</span> GPU &#x8BBE;&#x8BA1;&#x601D;&#x8DEF;</h2>
+<div id="outline-container-orge7c0144" class="outline-2">
+<h2 id="orge7c0144"><span class="section-number-2">2</span> GPU &#x8BBE;&#x8BA1;&#x601D;&#x8DEF;</h2>
 <div class="outline-text-2" id="text-2">
 <ol class="org-ol">
 <li>&#x53BB;&#x6389;&#x590D;&#x6742;&#x7684;&#x5206;&#x652F;&#x9884;&#x6D4B;&#x3001;&#x4E71;&#x5E8F;&#x6267;&#x884C;&#x3001;&#x5185;&#x5B58;&#x7BA1;&#x7406;&#x7B49;&#x5355;&#x5143;</li>
@@ -822,8 +822,8 @@ GPU &#x67B6;&#x6784;&#x51B3;&#x5B9A;&#xFF0C;&#x7F16;&#x5199; GPU &#x4EE3;&#x7801
 </div>
 
 
-<div id="outline-container-org4f330c0" class="outline-2">
-<h2 id="org4f330c0"><span class="section-number-2">3</span> GPU &#x5185;&#x5B58;&#x6A21;&#x578B;</h2>
+<div id="outline-container-org81bb9e8" class="outline-2">
+<h2 id="org81bb9e8"><span class="section-number-2">3</span> GPU &#x5185;&#x5B58;&#x6A21;&#x578B;</h2>
 <div class="outline-text-2" id="text-3">
 <dl class="org-dl">
 <dt>&#x5BC4;&#x5B58;&#x5668;</dt><dd>&#x7247;&#x4E0A;&#xFF0C;&#x5FEB;&#x901F;&#xFF0C;&#x53EF;&#x8BFB;&#x5199;&#xFF1B;&#x7EBF;&#x7A0B;&#x4E13;&#x7528;&#x3002;&#x6BCF;&#x4E2A; SM &#x4E0A;&#x6709;&#x4E00;&#x5B9A;&#x6570;&#x91CF;&#x7684;&#x5BC4;&#x5B58;&#x5668;&#xFF0C;&#x5982; G80 &#xFF0C;&#x6BCF;&#x4E2A; SM &#x6709; 8K &#x4E2A;&#x5BC4;&#x5B58;&#x5668;</dd>
@@ -896,8 +896,8 @@ SM &#x5185;&#x6709;&#x56FA;&#x5B9A;&#x5927;&#x5C0F;&#x7684;&#x5171;&#x4EAB;&#x5B
 </div>
 
 
-<div id="outline-container-orga259ad7" class="outline-2">
-<h2 id="orga259ad7"><span class="section-number-2">4</span> &#x7EBF;&#x7A0B;&#x8C03;&#x5EA6;</h2>
+<div id="outline-container-org8f2f975" class="outline-2">
+<h2 id="org8f2f975"><span class="section-number-2">4</span> &#x7EBF;&#x7A0B;&#x8C03;&#x5EA6;</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 cuda &#x901A;&#x8FC7;&#x5206;&#x7EA7;&#x7BA1;&#x7406;&#x7EBF;&#x7A0B; Grid - Block - warp - Thread &#x3002; &#x903B;&#x8F91; Block &#x53EF;&#x4EE5;&#x60F3;&#x8C61;&#x5BF9;&#x5E94;&#x786C;&#x4EF6;&#x7684; SM &#x3002;
@@ -989,8 +989,8 @@ warp &#x624D;&#x80FD;&#x9690;&#x85CF;&#x5185;&#x5B58;&#x5EF6;&#x8FDF;&#xFF1F;
 </div>
 
 
-<div id="outline-container-org6b5004b" class="outline-2">
-<h2 id="org6b5004b"><span class="section-number-2">5</span> CUDA &#x5F00;&#x53D1;&#x5DE5;&#x5177;</h2>
+<div id="outline-container-org1467ec4" class="outline-2">
+<h2 id="org1467ec4"><span class="section-number-2">5</span> CUDA &#x5F00;&#x53D1;&#x5DE5;&#x5177;</h2>
 <div class="outline-text-2" id="text-5">
 <ol class="org-ol">
 <li>nvcc &#x7F16;&#x8BD1;&#x5668;</li>
@@ -1009,8 +1009,8 @@ cuda &#x548C; OpenCL &#x662F;&#x540C;&#x4E00;&#x7EA7;&#x522B;&#x7684;&#x3002;
 </div>
 
 
-<div id="outline-container-orgf4dc53f" class="outline-2">
-<h2 id="orgf4dc53f"><span class="section-number-2">6</span> cuda &#x7B97;&#x6CD5;&#x6846;&#x67B6;</h2>
+<div id="outline-container-org078c133" class="outline-2">
+<h2 id="org078c133"><span class="section-number-2">6</span> cuda &#x7B97;&#x6CD5;&#x6846;&#x67B6;</h2>
 <div class="outline-text-2" id="text-6">
 <ol class="org-ol">
 <li>&#x5728;&#x8BBE;&#x5907;&#x4FA7;&#x5206;&#x914D;&#x7A7A;&#x95F4;&#x548C;&#x521D;&#x59CB;&#x5316;</li>
@@ -1036,8 +1036,8 @@ cuda &#x548C; OpenCL &#x662F;&#x540C;&#x4E00;&#x7EA7;&#x522B;&#x7684;&#x3002;
 </div>
 
 
-<div id="outline-container-org769a632" class="outline-2">
-<h2 id="org769a632"><span class="section-number-2">7</span> GPU &#x5411;&#x91CF;&#x6570;&#x636E;&#x7C7B;&#x578B; - &#x51FD;&#x6570;&#x5E93;</h2>
+<div id="outline-container-org0e277c0" class="outline-2">
+<h2 id="org0e277c0"><span class="section-number-2">7</span> GPU &#x5411;&#x91CF;&#x6570;&#x636E;&#x7C7B;&#x578B; - &#x51FD;&#x6570;&#x5E93;</h2>
 <div class="outline-text-2" id="text-7">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -1086,8 +1086,8 @@ cuda &#x63D0;&#x4F9B;&#x5E38;&#x89C1;&#x7684;&#x51FD;&#x6570;&#x5E93;&#xFF0C;&#x
 </div>
 
 
-<div id="outline-container-org11fd36b" class="outline-2">
-<h2 id="org11fd36b"><span class="section-number-2">8</span> cuda &#x4F18;&#x5316;</h2>
+<div id="outline-container-org01fc1a1" class="outline-2">
+<h2 id="org01fc1a1"><span class="section-number-2">8</span> cuda &#x4F18;&#x5316;</h2>
 <div class="outline-text-2" id="text-8">
 <p>
 &#x6709;&#x6548;&#x7684;&#x6570;&#x636E;&#x5E76;&#x884C;&#x7B97;&#x6CD5; + &#x9488;&#x5BF9; GPU &#x67B6;&#x6784;&#x7279;&#x6027;&#x7684;&#x4F18;&#x5316; = &#x6700;&#x4F18;&#x6027;&#x80FD;
@@ -1095,12 +1095,12 @@ cuda &#x63D0;&#x4F9B;&#x5E38;&#x89C1;&#x7684;&#x51FD;&#x6570;&#x5E93;&#xFF0C;&#x
 </div>
 
 
-<div id="outline-container-orgd3ecf75" class="outline-3">
-<h3 id="orgd3ecf75"><span class="section-number-3">8.1</span> &#x5B58;&#x50A8;&#x4F18;&#x5316;</h3>
+<div id="outline-container-orgb497a48" class="outline-3">
+<h3 id="orgb497a48"><span class="section-number-3">8.1</span> &#x5B58;&#x50A8;&#x4F18;&#x5316;</h3>
 <div class="outline-text-3" id="text-8-1">
 </div>
-<div id="outline-container-org76f3fa2" class="outline-4">
-<h4 id="org76f3fa2"><span class="section-number-4">8.1.1</span> &#x8F83;&#x5C11; CPU &#x548C; GPU &#x4FA7;&#x6570;&#x636E;&#x7684;&#x4F20;&#x8F93;</h4>
+<div id="outline-container-org35a8d91" class="outline-4">
+<h4 id="org35a8d91"><span class="section-number-4">8.1.1</span> &#x8F83;&#x5C11; CPU &#x548C; GPU &#x4FA7;&#x6570;&#x636E;&#x7684;&#x4F20;&#x8F93;</h4>
 <div class="outline-text-4" id="text-8-1-1">
 <ol class="org-ol">
 <li>Host - device &#x6570;&#x636E;&#x6570;&#x636E;&#x4F20;&#x8F93; PCIe &#x5E26;&#x5BBD;&#x8FDC;&#x4F4E;&#x4E8E;&#x8BBE;&#x5907;&#x8BBF;&#x95EE; global memory</li>
@@ -1113,8 +1113,8 @@ cuda &#x63D0;&#x4F9B;&#x5E38;&#x89C1;&#x7684;&#x51FD;&#x6570;&#x5E93;&#xFF0C;&#x
 </div>
 
 
-<div id="outline-container-org5335440" class="outline-4">
-<h4 id="org5335440"><span class="section-number-4">8.1.2</span> &#x8BBF;&#x5B58;&#x5408;&#x5E76;</h4>
+<div id="outline-container-orgb2bd0db" class="outline-4">
+<h4 id="orgb2bd0db"><span class="section-number-4">8.1.2</span> &#x8BBF;&#x5B58;&#x5408;&#x5E76;</h4>
 <div class="outline-text-4" id="text-8-1-2">
 <p>
 <b>coalescing &#x5408;&#x5E76;&#x662F;&#x6700;&#x91CD;&#x8981;&#x7684;&#x6027;&#x80FD;&#x5F71;&#x54CD;&#x56E0;&#x5B50;</b> &#x3002;Global memory &#x5EF6;&#x8FDF;&#x901A;&#x5E38;&#x5728;&#x6570;&#x767E;&#x4E2A; cycles &#x3002;
@@ -1134,8 +1134,8 @@ cuda &#x63D0;&#x4F9B;&#x5E38;&#x89C1;&#x7684;&#x51FD;&#x6570;&#x5E93;&#xFF0C;&#x
 </div>
 
 
-<div id="outline-container-orge668861" class="outline-4">
-<h4 id="orge668861"><span class="section-number-4">8.1.3</span> shared memory</h4>
+<div id="outline-container-org4b03cba" class="outline-4">
+<h4 id="org4b03cba"><span class="section-number-4">8.1.3</span> shared memory</h4>
 <div class="outline-text-4" id="text-8-1-3">
 <p>
 <b>shared memory &#x7684;&#x8BBE;&#x8BA1;&#x5F88;&#x5927;&#x7A0B;&#x5EA6;&#x4E0A;&#x5C31;&#x662F;&#x7531;&#x4E8E;&#x5E94;&#x5BF9;&#x4E0D;&#x89C4;&#x5219;&#x7684;&#x5B58;&#x50A8;&#x5668;&#x8BBF;&#x95EE;</b> &#x3002;shared memory &#x6BD4; global memory &#x5FEB;&#x4E0A;&#x767E;&#x500D;&#xFF0C;&#x53EF;&#x4EE5;&#x7F13;&#x5B58;&#x6570;&#x636E;&#x6765;
@@ -1162,8 +1162,8 @@ tile[TILE<sub>DIM</sub>][TILE<sub>DIM</sub>] &#xFF0C;&#x6765;&#x586B;&#x5145; sh
 </div>
 
 
-<div id="outline-container-org5bce1f2" class="outline-4">
-<h4 id="org5bce1f2"><span class="section-number-4">8.1.4</span> Texture memory</h4>
+<div id="outline-container-org91d7868" class="outline-4">
+<h4 id="org91d7868"><span class="section-number-4">8.1.4</span> Texture memory</h4>
 <div class="outline-text-4" id="text-8-1-4">
 <p>
 &#x65E0;&#x6CD5;&#x5408;&#x5E76;&#x8BBF;&#x5B58;&#xFF0C;&#x540C;&#x65F6;&#x53C8;&#x6709;&#x591A;&#x79CD;&#x5BFB;&#x5740;&#x65B9;&#x5F0F;&#xFF0C;&#x4EE5;&#x53CA;&#x5C0F;&#x7684;&#x6570;&#x636E;&#x533A;&#x5757;&#x8BFB;&#x53D6;&#x3002;&#x5982;&#x5750;&#x6807;&#x8D8A;&#x754C;&#x5BFB;&#x5740;&#xFF08;warp/clamp&#xFF09; &#x3002;
@@ -1176,8 +1176,8 @@ tile[TILE<sub>DIM</sub>][TILE<sub>DIM</sub>] &#xFF0C;&#x6765;&#x586B;&#x5145; sh
 </div>
 
 
-<div id="outline-container-org2d4f45f" class="outline-4">
-<h4 id="org2d4f45f"><span class="section-number-4">8.1.5</span> Occupancy</h4>
+<div id="outline-container-org41557e3" class="outline-4">
+<h4 id="org41557e3"><span class="section-number-4">8.1.5</span> Occupancy</h4>
 <div class="outline-text-4" id="text-8-1-5">
 <p>
 &#x4E00;&#x4E2A; SM &#x91CC;&#x9762;&#x6FC0;&#x6D3B; warp/&#x6700;&#x591A;&#x53EF;&#x5BB9;&#x7EB3; warp &#x6570;&#x76EE; &#xFF1B; &#x4EE3;&#x8868;&#x4E86; GPU &#x7684;&#x7E41;&#x5FD9;&#x7A0B;&#x5EA6;&#x3002;
@@ -1191,12 +1191,12 @@ performance cliff
 </div>
 
 
-<div id="outline-container-orgde80394" class="outline-4">
-<h4 id="orgde80394"><span class="section-number-4">8.1.6</span> Grid - Block &#x5927;&#x5C0F;</h4>
+<div id="outline-container-org8fd100e" class="outline-4">
+<h4 id="org8fd100e"><span class="section-number-4">8.1.6</span> Grid - Block &#x5927;&#x5C0F;</h4>
 <div class="outline-text-4" id="text-8-1-6">
 </div>
 <ol class="org-ol">
-<li><a id="org4306403"></a>Grid size &#x8BD5;&#x63A2;&#x6CD5;<br>
+<li><a id="org2cf7aff"></a>Grid size &#x8BD5;&#x63A2;&#x6CD5;<br>
 <div class="outline-text-5" id="text-8-1-6-1">
 <ol class="org-ol">
 <li>block &#x4E2A;&#x6570; &gt; SM &#x7684;&#x4E2A;&#x6570;&#xFF0C;&#x4FDD;&#x8BC1;&#x6BCF;&#x4E2A; SM &#x81F3;&#x5C11;&#x6709;&#x4E00;&#x4E2A; work-group</li>
@@ -1207,7 +1207,7 @@ performance cliff
 </li>
 
 
-<li><a id="orgdc251c3"></a>Block size<br>
+<li><a id="orgb652769"></a>Block size<br>
 <div class="outline-text-5" id="text-8-1-6-2">
 <ol class="org-ol">
 <li>block &#x5927;&#x5C0F;&#x6700;&#x597D;&#x662F; 32(warp &#x7684;&#x5927;&#x5C0F;) &#x7684;&#x500D;&#x6570;</li>
@@ -1220,8 +1220,8 @@ performance cliff
 </div>
 
 
-<div id="outline-container-orga011929" class="outline-4">
-<h4 id="orga011929"><span class="section-number-4">8.1.7</span> Latency Hiding</h4>
+<div id="outline-container-org8f3ed75" class="outline-4">
+<h4 id="org8f3ed75"><span class="section-number-4">8.1.7</span> Latency Hiding</h4>
 <div class="outline-text-4" id="text-8-1-7">
 <p>
 &#x5EF6;&#x8FDF;&#x63A9;&#x85CF;&#xFF1A;&#x6307;&#x4EE4;&#x6309;&#x987A;&#x5E8F;&#x6267;&#x884C;&#xFF0C;&#x4E00;&#x4E2A;&#x7EBF;&#x7A0B;&#x7684;&#x4EFB;&#x4E00;&#x64CD;&#x4F5C;&#x6570;&#x6CA1;&#x6709;&#x51C6;&#x5907;&#x597D;&#x5C06;&#x963B;&#x585E;&#x7B49;&#x5F85;&#xFF1B;&#x5EF6;&#x8FDF;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x8DB3;&#x591F;&#x591A;&#x7684;&#x7EBF;&#x7A0B;&#x5207;&#x6362;&#x6765;&#x9690;&#x85CF;&#x3002;
@@ -1234,8 +1234,8 @@ performance cliff
 </div>
 
 
-<div id="outline-container-org8de154e" class="outline-4">
-<h4 id="org8de154e"><span class="section-number-4">8.1.8</span> Data Prefetching</h4>
+<div id="outline-container-orgd4273d7" class="outline-4">
+<h4 id="orgd4273d7"><span class="section-number-4">8.1.8</span> Data Prefetching</h4>
 <div class="outline-text-4" id="text-8-1-8">
 <p>
 &#x6570;&#x636E;&#x9884;&#x8BFB;&#x53D6;&#x3002;&#x8BA9;&#x6570;&#x636E;&#x8BFB;&#x53D6;&#x548C;&#x8BA1;&#x7B97;&#x5E76;&#x884C;
@@ -1244,8 +1244,8 @@ performance cliff
 </div>
 
 
-<div id="outline-container-orgc083afc" class="outline-4">
-<h4 id="orgc083afc"><span class="section-number-4">8.1.9</span> &#x6307;&#x4EE4;&#x4F18;&#x5316;</h4>
+<div id="outline-container-org0e1ddac" class="outline-4">
+<h4 id="org0e1ddac"><span class="section-number-4">8.1.9</span> &#x6307;&#x4EE4;&#x4F18;&#x5316;</h4>
 <div class="outline-text-4" id="text-8-1-9">
 <p>
 &#x8F83;&#x540E;&#x8003;&#x8651;&#x7684;&#x4E8B;&#x60C5;
@@ -1258,8 +1258,8 @@ performance cliff
 </div>
 
 
-<div id="outline-container-orgbd58ef9" class="outline-4">
-<h4 id="orgbd58ef9"><span class="section-number-4">8.1.10</span> Unroll loop</h4>
+<div id="outline-container-org0aab0a0" class="outline-4">
+<h4 id="org0aab0a0"><span class="section-number-4">8.1.10</span> Unroll loop</h4>
 <div class="outline-text-4" id="text-8-1-10">
 <p>
 &#x5FAA;&#x73AF;&#x5C55;&#x5F00;&#xFF0C;&#x53BB;&#x6389;&#x4E0D;&#x5FC5;&#x8981;&#x7684;&#x5224;&#x65AD;&#x8BED;&#x53E5;&#xFF0C;&#x589E;&#x52A0;&#x4EE3;&#x7801;&#x901F;&#x5EA6;&#x3002;&#x4F46;&#x4E0D;&#x5229;&#x4E8E;&#x6269;&#x5C55;
@@ -1271,8 +1271,8 @@ performance cliff
 </div>
 </div>
 
-<div id="outline-container-org901f777" class="outline-4">
-<h4 id="org901f777"><span class="section-number-4">8.1.11</span> &#x603B;&#x7ED3;</h4>
+<div id="outline-container-orgca1a561" class="outline-4">
+<h4 id="orgca1a561"><span class="section-number-4">8.1.11</span> &#x603B;&#x7ED3;</h4>
 <div class="outline-text-4" id="text-8-1-11">
 <ol class="org-ol">
 <li>&#x6709;&#x6548;&#x5229;&#x7528;&#x5E76;&#x884C;&#x6027;</li>
@@ -1306,9 +1306,9 @@ performance cliff
       
         <div class="post-tags">
           
-            <a href="/tags/深度学习/" rel="tag"># 深度学习</a>
-          
             <a href="/tags/cuda/" rel="tag"># cuda</a>
+          
+            <a href="/tags/深度学习/" rel="tag"># 深度学习</a>
           
         </div>
       
@@ -1429,7 +1429,7 @@ performance cliff
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">58</span>
+                    <span class="site-state-item-count">59</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -1555,7 +1555,9 @@ performance cliff
                     
                       
                     
-                    <span class="site-state-item-count">35</span>
+                      
+                    
+                    <span class="site-state-item-count">36</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
@@ -1609,7 +1611,7 @@ performance cliff
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc01e6c9"><span class="nav-text">1 重看 CPU</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org3aeec65"><span class="nav-text">1.1 整体架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org35fb1ce"><span class="nav-text">1.2 Pipeline</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orge7eceb1"><span class="nav-text">1.3 Bypassing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgaa6f3e0"><span class="nav-text">1.4 Branches</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org8a1cbc0"><span class="nav-text">1.5 IPC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org64f4aeb"><span class="nav-text">1.6 指令调度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org3152437"><span class="nav-text">1.7 Out-of-Order OoO</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgf680f51"><span class="nav-text">1.8 存储器层次架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org2b6115e"><span class="nav-text">1.9 CPU 内部并行性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgb1eb9ae"><span class="nav-text">1.10 Multicore</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgfba98c4"><span class="nav-text">1.11 锁存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org86ac922"><span class="nav-text">1.12 Powerwall</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org2500248"><span class="nav-text">1.13 Flynn 矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orge24230f"><span class="nav-text">1.14 名词不解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org5fcac7c"><span class="nav-text">1.15 并行编程模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgf096223"><span class="nav-text">1.16 Amdahl&#39;s Law</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org9e7323f"><span class="nav-text">2 GPU 设计思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4f330c0"><span class="nav-text">3 GPU 内存模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga259ad7"><span class="nav-text">4 线程调度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6b5004b"><span class="nav-text">5 CUDA 开发工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf4dc53f"><span class="nav-text">6 cuda 算法框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org769a632"><span class="nav-text">7 GPU 向量数据类型 - 函数库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org11fd36b"><span class="nav-text">8 cuda 优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgd3ecf75"><span class="nav-text">8.1 存储优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#org76f3fa2"><span class="nav-text">8.1.1 较少 CPU 和 GPU 侧数据的传输</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#org5335440"><span class="nav-text">8.1.2 访存合并</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#orge668861"><span class="nav-text">8.1.3 shared memory</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#org5bce1f2"><span class="nav-text">8.1.4 Texture memory</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#org2d4f45f"><span class="nav-text">8.1.5 Occupancy</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#orgde80394"><span class="nav-text">8.1.6 Grid - Block 大小</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#orga011929"><span class="nav-text">8.1.7 Latency Hiding</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#org8de154e"><span class="nav-text">8.1.8 Data Prefetching</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#orgc083afc"><span class="nav-text">8.1.9 指令优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#orgbd58ef9"><span class="nav-text">8.1.10 Unroll loop</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#org901f777"><span class="nav-text">8.1.11 总结</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org3908f7c"><span class="nav-text">1 重看 CPU</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgbb80675"><span class="nav-text">1.1 整体架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orge9dbc5a"><span class="nav-text">1.2 Pipeline</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgd12b98b"><span class="nav-text">1.3 Bypassing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgc24c1e2"><span class="nav-text">1.4 Branches</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org69fdf94"><span class="nav-text">1.5 IPC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgeed2793"><span class="nav-text">1.6 指令调度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orga942970"><span class="nav-text">1.7 Out-of-Order OoO</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org7a5fa41"><span class="nav-text">1.8 存储器层次架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org48f3b85"><span class="nav-text">1.9 CPU 内部并行性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orga29c632"><span class="nav-text">1.10 Multicore</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org7b1638c"><span class="nav-text">1.11 锁存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org5f1f6f0"><span class="nav-text">1.12 Powerwall</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgbf7eb3d"><span class="nav-text">1.13 Flynn 矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgd5e0cd8"><span class="nav-text">1.14 名词不解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org9be8835"><span class="nav-text">1.15 并行编程模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgc27c287"><span class="nav-text">1.16 Amdahl&#39;s Law</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orge7c0144"><span class="nav-text">2 GPU 设计思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org81bb9e8"><span class="nav-text">3 GPU 内存模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8f2f975"><span class="nav-text">4 线程调度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org1467ec4"><span class="nav-text">5 CUDA 开发工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org078c133"><span class="nav-text">6 cuda 算法框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org0e277c0"><span class="nav-text">7 GPU 向量数据类型 - 函数库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org01fc1a1"><span class="nav-text">8 cuda 优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgb497a48"><span class="nav-text">8.1 存储优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#org35a8d91"><span class="nav-text">8.1.1 较少 CPU 和 GPU 侧数据的传输</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#orgb2bd0db"><span class="nav-text">8.1.2 访存合并</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#org4b03cba"><span class="nav-text">8.1.3 shared memory</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#org91d7868"><span class="nav-text">8.1.4 Texture memory</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#org41557e3"><span class="nav-text">8.1.5 Occupancy</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#org8fd100e"><span class="nav-text">8.1.6 Grid - Block 大小</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#org8f3ed75"><span class="nav-text">8.1.7 Latency Hiding</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#orgd4273d7"><span class="nav-text">8.1.8 Data Prefetching</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#org0e1ddac"><span class="nav-text">8.1.9 指令优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#org0aab0a0"><span class="nav-text">8.1.10 Unroll loop</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#orgca1a561"><span class="nav-text">8.1.11 总结</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
@@ -1650,7 +1652,7 @@ performance cliff
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="Reading time total">29:06</span>
+    <span title="Reading time total">29:17</span>
   
 </div>
 

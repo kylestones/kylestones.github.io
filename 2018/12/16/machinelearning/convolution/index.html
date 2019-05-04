@@ -490,8 +490,8 @@
         <div id="content">
 
 
-<div id="outline-container-org1b9c1d7" class="outline-2">
-<h2 id="org1b9c1d7"><span class="section-number-2">1</span> <a href="http://cs231n.github.io/convolutional-networks/" target="_blank" rel="noopener">cs231n</a></h2>
+<div id="outline-container-org3e93123" class="outline-2">
+<h2 id="org3e93123"><span class="section-number-2">1</span> <a href="http://cs231n.github.io/convolutional-networks/" target="_blank" rel="noopener">cs231n</a></h2>
 <div class="outline-text-2" id="text-1">
 <p>
 &#x65AF;&#x5766;&#x798F;&#x5927;&#x5B66;&#x7684;&#x8BFE;&#x7A0B; <a href="http://cs231n.stanford.edu/" target="_blank" rel="noopener">CS231n: Convolutional Neural Networks for Visual Recognition</a> &#x3002;&#x53D1;&#x73B0;&#x5199;&#x7684;&#x5F88;&#x597D;&#xFF0C;&#x540E;&#x6094;&#x6CA1;&#x6709;&#x65E9;&#x70B9;&#x770B;&#x3002;&#x53EF;&#x60DC;&#x53EA;&#x770B;&#x4E86;
@@ -501,8 +501,8 @@
 </div>
 
 
-<div id="outline-container-orgf6296ec" class="outline-2">
-<h2 id="orgf6296ec"><span class="section-number-2">2</span> &#x5377;&#x79EF;</h2>
+<div id="outline-container-org57d3cdc" class="outline-2">
+<h2 id="org57d3cdc"><span class="section-number-2">2</span> &#x5377;&#x79EF;</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 &#x5377;&#x79EF;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x660E;&#x786E;&#x5047;&#x8BBE;&#x8F93;&#x5165;&#x662F; <b>images</b> &#xFF0C;&#x6839;&#x636E;&#x8FD9;&#x4E2A;&#x5047;&#x8BBE;&#x53EF;&#x4EE5;&#x5927;&#x91CF;&#x7684;&#x51CF;&#x5C11;&#x53C2;&#x6570;&#x7684;&#x4E2A;&#x6570;&#x3002;&#x540C;&#x65F6;&#x6709;&#x5229;&#x4E8E;&#x66F4; efficient &#x7684;&#x5B9E;&#x73B0;&#x3002;&#x666E;&#x901A;&#x7684;&#x795E;&#x7ECF;&#x7F51;
@@ -529,8 +529,8 @@ highlighted input (blue) with the filter (red), summing it up, and then offsetti
 </div>
 
 
-<div id="outline-container-orge6a247f" class="outline-3">
-<h3 id="orge6a247f"><span class="section-number-3">2.1</span> &#x5377;&#x79EF;&#x5C42;&#x7279;&#x6027;&#xFF1A;</h3>
+<div id="outline-container-org09bcafe" class="outline-3">
+<h3 id="org09bcafe"><span class="section-number-3">2.1</span> &#x5377;&#x79EF;&#x5C42;&#x7279;&#x6027;&#xFF1A;</h3>
 <div class="outline-text-3" id="text-2-1">
 <ol class="org-ol">
 <li>&#x8F93;&#x5165;&#x7EF4;&#x5EA6; \(W_1 * H_1 * D_1\)</li>
@@ -544,8 +544,8 @@ highlighted input (blue) with the filter (red), summing it up, and then offsetti
 </div>
 
 
-<div id="outline-container-org32ce2e7" class="outline-3">
-<h3 id="org32ce2e7"><span class="section-number-3">2.2</span> Converting FC layers to CONV layers</h3>
+<div id="outline-container-orgd373232" class="outline-3">
+<h3 id="orgd373232"><span class="section-number-3">2.2</span> Converting FC layers to CONV layers</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
 &#x5377;&#x79EF;&#x5C42;&#x548C;&#x5168;&#x8FDE;&#x63A5;&#x5C42;&#x53EF;&#x4EE5;&#x76F8;&#x4E92;&#x8F6C;&#x5316;&#x3002;It is worth noting that the only difference between FC and CONV layers is that the neurons
@@ -590,8 +590,8 @@ height.
 </div>
 
 
-<div id="outline-container-org1024063" class="outline-4">
-<h4 id="org1024063"><span class="section-number-4">2.2.1</span> Padding</h4>
+<div id="outline-container-org9667860" class="outline-4">
+<h4 id="org9667860"><span class="section-number-4">2.2.1</span> Padding</h4>
 <div class="outline-text-4" id="text-2-2-1">
 <p>
 &#x4F7F;&#x7528; padding &#x4FDD;&#x6301;&#x5377;&#x79EF;&#x4E4B;&#x540E;&#xFF0C;&#x56FE;&#x50CF;&#x7684;&#x5C3A;&#x5BF8;&#x4E0D;&#x53D8;&#xFF0C;&#x7F51;&#x7EDC;&#x7684;&#x8868;&#x73B0;&#x4F1A;&#x66F4;&#x597D;&#x3002;valid &#x5377;&#x79EF;&#x65E0;&#x6CD5;&#x5145;&#x5206;&#x83B7;&#x53D6;&#x56FE;&#x50CF;&#x8FB9;&#x754C;&#x7684;&#x4FE1;&#x606F;&#x3002; Why use padding? In
@@ -605,8 +605,8 @@ too quickly.
 </div>
 
 
-<div id="outline-container-org2b47dae" class="outline-3">
-<h3 id="org2b47dae"><span class="section-number-3">2.3</span> &#x4F7F;&#x7528;&#x77E9;&#x9635;&#x4E58;&#x6CD5;&#x5B9E;&#x73B0;&#x5377;&#x79EF;</h3>
+<div id="outline-container-orgf499a7c" class="outline-3">
+<h3 id="orgf499a7c"><span class="section-number-3">2.3</span> &#x4F7F;&#x7528;&#x77E9;&#x9635;&#x4E58;&#x6CD5;&#x5B9E;&#x73B0;&#x5377;&#x79EF;</h3>
 <div class="outline-text-3" id="text-2-3">
 <p>
 caffe &#x4E2D;&#x7684; im2col &#x5B9E;&#x73B0;&#x56FE;&#x50CF;&#x5377;&#x79EF;&#x5C55;&#x5F00;&#x6210;&#x77E9;&#x9635;&#x3002;&#x7531;&#x4E8E;&#x540C;&#x4E00;&#x4E2A;&#x503C;&#x9700;&#x8981;&#x5B58;&#x50A8;&#x5728;&#x77E9;&#x9635;&#x7684;&#x4E0D;&#x540C;&#x4F4D;&#x7F6E;&#xFF0C;&#x4F1A;&#x6D88;&#x8017;&#x5927;&#x91CF;&#x7684;&#x5185;&#x5B58;&#x3002;&#x4F46;&#x53EF;&#x4EE5;&#x5229;&#x7528;&#x73B0;&#x6709;&#x7684;&#x77E9;&#x9635;&#x4E58;
@@ -646,8 +646,8 @@ idea can be reused to perform the pooling operation, which we discuss next.
 </div>
 
 
-<div id="outline-container-org4afae76" class="outline-2">
-<h2 id="org4afae76"><span class="section-number-2">3</span> Pooling Layer</h2>
+<div id="outline-container-orga7b3f64" class="outline-2">
+<h2 id="orga7b3f64"><span class="section-number-2">3</span> Pooling Layer</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 Pooling &#x53EF;&#x4EE5;&#x5927;&#x5927;&#x8F83;&#x5C11;&#x53C2;&#x6570;&#x7684;&#x4E2A;&#x6570;&#xFF0C;&#x9632;&#x6B62;&#x8FC7;&#x62DF;&#x5408;&#x3002; It is common to periodically insert a Pooling layer in-between successive
@@ -693,8 +693,8 @@ out of favor compared to the max pooling operation, which has been shown to work
 </div>
 
 
-<div id="outline-container-org8ab61ba" class="outline-2">
-<h2 id="org8ab61ba"><span class="section-number-2">4</span> Layer Patterns</h2>
+<div id="outline-container-orgfad5aa9" class="outline-2">
+<h2 id="orgfad5aa9"><span class="section-number-2">4</span> Layer Patterns</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 INPUT -&gt; [[CONV -&gt; RELU]*N -&gt; POOL?]*M -&gt; [FC -&gt; RELU]*K -&gt; FC
@@ -732,8 +732,8 @@ ConvNet from scratch or design one from scratch. I also made this point at the D
 </div>
 
 
-<div id="outline-container-org57d86b9" class="outline-2">
-<h2 id="org57d86b9"><span class="section-number-2">5</span> Layer Sizing Patterns</h2>
+<div id="outline-container-org4862984" class="outline-2">
+<h2 id="org4862984"><span class="section-number-2">5</span> Layer Sizing Patterns</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 &#x8F93;&#x5165;&#x56FE;&#x50CF;&#x7684;&#x5927;&#x5C0F;&#x6700;&#x597D;&#x53EF;&#x4EE5;&#x591A;&#x6B21;&#x88AB; 2 &#x6574;&#x9664;&#x3002; The input layer (that contains the image) should be divisible by 2 many times.
@@ -794,8 +794,8 @@ another example, an AlexNet uses filter sizes of 11x11 and stride of 4.
 
 
 
-<div id="outline-container-orgf1b39ca" class="outline-2">
-<h2 id="orgf1b39ca"><span class="section-number-2">6</span> <a href="https://arxiv.org/abs/1603.07285" target="_blank" rel="noopener">&lt;A guide to convolution arithmetic for deep learning&gt;</a></h2>
+<div id="outline-container-org4dc08b8" class="outline-2">
+<h2 id="org4dc08b8"><span class="section-number-2">6</span> <a href="https://arxiv.org/abs/1603.07285" target="_blank" rel="noopener">&lt;A guide to convolution arithmetic for deep learning&gt;</a></h2>
 <div class="outline-text-2" id="text-6">
 <p>
 &#x8BBA;&#x6587;&#x7684;&#x90E8;&#x5206;&#x7FFB;&#x8BD1;&#xFF0C;<a href="https://github.com/vdumoulin/conv_arithmetic" target="_blank" rel="noopener">github &#x5730;&#x5740;</a> &#xFF0C;&#x7531;&#x4E8E;&#x4E0D;&#x662F;&#x5F88;&#x7406;&#x89E3;&#x8F6C;&#x7F6E;&#x5377;&#x79EF;&#x548C;&#x7A7A;&#x6D1E;&#x5377;&#x79EF;&#xFF0C;&#x6240;&#x4EE5;&#x770B;&#x4E86;&#x770B;&#x8FD9;&#x7BC7;&#x6587;&#x7AE0;&#xFF0C;&#x7FFB;&#x8BD1;&#x4E00;&#x4E0B;&#x4EE5;&#x5907;&#x5FD8;&#x3002;&#x76F8;&#x6BD4;&#x4E8E;&#x65AF;&#x5766;&#x798F;&#x5927;&#x5B66;&#x7684;&#x8BFE;
@@ -805,8 +805,8 @@ another example, an AlexNet uses filter sizes of 11x11 and stride of 4.
 </div>
 
 
-<div id="outline-container-org59a6a2a" class="outline-2">
-<h2 id="org59a6a2a"><span class="section-number-2">7</span> Introduction</h2>
+<div id="outline-container-org4fedd08" class="outline-2">
+<h2 id="org4fedd08"><span class="section-number-2">7</span> Introduction</h2>
 <div class="outline-text-2" id="text-7">
 <p>
 CNNs &#x5728;&#x6DF1;&#x5EA6;&#x5B66;&#x4E60;&#x4E2D;&#x5904;&#x4E8E;&#x6838;&#x5FC3;&#x89D2;&#x8272;&#xFF0C;&#x4F46;&#x901A;&#x5E38;&#x7B2C;&#x4E00;&#x6B21;&#x4F7F;&#x7528; CNNs &#x5374;&#x662F;&#x4E00;&#x573A;&#x5669;&#x68A6;&#x3002;&#x56E0;&#x4E3A;&#x4E00;&#x4E2A;&#x5377;&#x79EF;&#x5C42;&#x8F93;&#x51FA;&#x7684;&#x5927;&#x5C0F;&#x4F1A;&#x7531;&#x8F93;&#x5165;&#x7684;&#x5927;&#x5C0F;&#x3001;&#x5377;&#x79EF;&#x6838;&#x7684;&#x5C3A;&#x5BF8;&#x3001;
@@ -826,8 +826,8 @@ padding &#x7684;&#x5927;&#x5C0F;&#x3001;stride &#x5171;&#x540C;&#x51B3;&#x5B9A;&
 </div>
 
 
-<div id="outline-container-org5a1f002" class="outline-3">
-<h3 id="org5a1f002"><span class="section-number-3">7.1</span> Discrete convolutions</h3>
+<div id="outline-container-orgbe1bbf6" class="outline-3">
+<h3 id="orgbe1bbf6"><span class="section-number-3">7.1</span> Discrete convolutions</h3>
 <div class="outline-text-3" id="text-7-1">
 <p>
 &#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x7684;&#x5FC5;&#x5907;&#x5143;&#x7D20;&#x662F;&#x4EFF;&#x5C04;&#x53D8;&#x6362; &#xFF1A; &#x8F93;&#x5165;&#x662F;&#x4E00;&#x4E2A;&#x5411;&#x91CF;&#xFF0C;&#x4E58;&#x4EE5;&#x4E00;&#x4E2A;&#x77E9;&#x9635;&#xFF0C;&#x5728;&#x52A0;&#x4E0A;&#x4E00;&#x4E2A;&#x504F;&#x79FB;&#x5F97;&#x5230;&#x8F93;&#x51FA;&#x3002;&#x8FD9;&#x9002;&#x7528;&#x4E8E;&#x4EFB;&#x4F55;&#x5F62;&#x5F0F;&#x7684;&#x8F93;&#x5165;&#xFF08;&#x56FE;&#x7247;&#x3001;&#x97F3;&#x9891;
@@ -871,8 +871,8 @@ strides &#x8868;&#x793A;&#x7684;&#x662F; kernel &#x79FB;&#x52A8;&#x7684;&#x6B65;
 </div>
 
 
-<div id="outline-container-org5b7074a" class="outline-3">
-<h3 id="org5b7074a"><span class="section-number-3">7.2</span> pooling</h3>
+<div id="outline-container-orgfa7e379" class="outline-3">
+<h3 id="orgfa7e379"><span class="section-number-3">7.2</span> pooling</h3>
 <div class="outline-text-3" id="text-7-2">
 <p>
 pooling &#x662F; CNNs &#x7684;&#x53E6;&#x4E00;&#x4E2A;&#x5173;&#x952E;&#x90E8;&#x4EF6;&#x3002;&#x7528;&#x4E8E;&#x51CF;&#x5C0F; feature maps &#x7684;&#x5C3A;&#x5BF8;&#xFF0C;&#x901A;&#x5E38;&#x6709; average pooling &#x548C; max pooling &#x4E24;&#x79CD;&#x3002; Pooling &#x548C;
@@ -883,8 +883,8 @@ pooling &#x662F; CNNs &#x7684;&#x53E6;&#x4E00;&#x4E2A;&#x5173;&#x952E;&#x90E8;&#
 </div>
 
 
-<div id="outline-container-org626832b" class="outline-2">
-<h2 id="org626832b"><span class="section-number-2">8</span> Convolution arithmetic</h2>
+<div id="outline-container-orgc49d4a9" class="outline-2">
+<h2 id="orgc49d4a9"><span class="section-number-2">8</span> Convolution arithmetic</h2>
 <div class="outline-text-2" id="text-8">
 <p>
 &#x4E0B;&#x9762;&#x7684;&#x5206;&#x6790;&#x4F9D;&#x8D56;&#x4E8E;&#x5377;&#x79EF;&#x4E0D;&#x4F1A;&#x8DE8;&#x8D8A;&#x4E0D;&#x540C;&#x8F74;&#x7684;&#x7279;&#x6027;&#xFF1B;[i.e., the choice of kernel size, stride and zero padding along axis j only
@@ -893,8 +893,8 @@ affects the output size of axis j.]
 </div>
 
 
-<div id="outline-container-org945d624" class="outline-3">
-<h3 id="org945d624"><span class="section-number-3">8.1</span> Half (same) padding</h3>
+<div id="outline-container-org4b5d2f7" class="outline-3">
+<h3 id="org4b5d2f7"><span class="section-number-3">8.1</span> Half (same) padding</h3>
 <div class="outline-text-3" id="text-8-1">
 <p>
 &#x4FDD;&#x6301;&#x8F93;&#x51FA;&#x548C;&#x8F93;&#x5165;&#x7684;&#x5C3A;&#x5BF8;&#x4E0D;&#x53D8;&#x65F6;&#x4F7F;&#x7528;&#xFF0C;&#x9700;&#x8981;&#x586B;&#x5145;&#x7684;&#x4E2A;&#x6570; \( p = \lfloor k / 2 \rfloor \) &#x3002;
@@ -903,8 +903,8 @@ affects the output size of axis j.]
 </div>
 
 
-<div id="outline-container-org4cf1e81" class="outline-3">
-<h3 id="org4cf1e81"><span class="section-number-3">8.2</span> Full padding</h3>
+<div id="outline-container-orgaa39c34" class="outline-3">
+<h3 id="orgaa39c34"><span class="section-number-3">8.2</span> Full padding</h3>
 <div class="outline-text-3" id="text-8-2">
 <p>
 &#x5377;&#x79EF;&#x901A;&#x5E38;&#x4F1A;&#x8F83;&#x5C0F;&#x8F93;&#x51FA;&#x7684;&#x5C3A;&#x5BF8;&#xFF0C;&#x4F46;&#x6709;&#x65F6;&#x5019;&#x9700;&#x8981;&#x589E;&#x5927;&#x8F93;&#x51FA;&#x7684;&#x5C3A;&#x5BF8;&#xFF08;&#x8FD9;&#x4E2A;&#x4E0D;&#x662F;&#x8F6C;&#x7F6E;&#x5377;&#x79EF;&#x7684;&#x4EFB;&#x52A1;&#x5417;&#xFF09;&#xFF0C;&#x6B64;&#x65F6;&#x53EF;&#x4EE5;&#x7528; full padding &#x3002;&#x6B64;&#x65F6;&#x586B;&#x5145;&#x7684;&#x4E2A;
@@ -914,8 +914,8 @@ affects the output size of axis j.]
 </div>
 
 
-<div id="outline-container-org742f0c6" class="outline-3">
-<h3 id="org742f0c6"><span class="section-number-3">8.3</span> Zero padding, non-unit strides</h3>
+<div id="outline-container-orgccbec95" class="outline-3">
+<h3 id="orgccbec95"><span class="section-number-3">8.3</span> Zero padding, non-unit strides</h3>
 <div class="outline-text-3" id="text-8-3">
 <p>
 &#x5377;&#x79EF;&#x8F93;&#x51FA;&#x5927;&#x5C0F;&#x7684;&#x901A;&#x7528;&#x516C;&#x5F0F; \[ o = \lfloor \frac{i + 2p - k}{s} \rfloor + 1 \]
@@ -929,8 +929,8 @@ affects the output size of axis j.]
 </div>
 
 
-<div id="outline-container-orgf0db6fc" class="outline-2">
-<h2 id="orgf0db6fc"><span class="section-number-2">9</span> Pooling arithmetic</h2>
+<div id="outline-container-org3d7050c" class="outline-2">
+<h2 id="org3d7050c"><span class="section-number-2">9</span> Pooling arithmetic</h2>
 <div class="outline-text-2" id="text-9">
 <p>
 pooling &#x5C42;&#x4F7F;&#x5F97;&#x7F51;&#x7EDC;&#x5BF9;&#x8F93;&#x5165;&#x7684;&#x5FAE;&#x5C0F;&#x504F;&#x79FB;&#x4E0D;&#x654F;&#x611F;&#x3002;max pooling &#x4F7F;&#x7528;&#x8F83;&#x9891;&#x7E41;&#xFF1A; &#x5C06;&#x8F93;&#x5165;&#x5206;&#x5272;&#x6210; patches &#xFF08;&#x901A;&#x5E38;&#x4E0D;&#x4F1A;&#x91CD;&#x53E0;&#xFF09; &#xFF0C;&#x5E76;&#x8F93;&#x51FA;&#x6BCF;&#x4E2A;
@@ -948,8 +948,8 @@ patch &#x5185;&#x7684;&#x6700;&#x5927;&#x503C;&#xFF1B;&#x53E6;&#x5916;&#x8FD8;&#
 </div>
 
 
-<div id="outline-container-org6b29ef8" class="outline-2">
-<h2 id="org6b29ef8"><span class="section-number-2">10</span> Transposed convolution arithmetic</h2>
+<div id="outline-container-org01969a0" class="outline-2">
+<h2 id="org01969a0"><span class="section-number-2">10</span> Transposed convolution arithmetic</h2>
 <div class="outline-text-2" id="text-10">
 <p>
 &#x8F6C;&#x7F6E;&#x5377;&#x79EF;&#x4E00;&#x822C;&#x7528;&#x4E8E;&#x5E38;&#x89C4;&#x5377;&#x79EF;&#x7684;&#x53CD;&#x65B9;&#x5411;&#x64CD;&#x4F5C;&#xFF0C;&#x5C06;&#x5E38;&#x89C4;&#x5377;&#x79EF;&#x7684;&#x8F93;&#x51FA;&#x8F6C;&#x6362;&#x5230;&#x8F93;&#x5165;&#xFF0C;&#x540C;&#x65F6;&#x4FDD;&#x6301;&#x548C;&#x5E38;&#x89C4;&#x5377;&#x79EF;&#x7684;&#x517C;&#x5BB9;&#x6027;&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x53EF;&#x4EE5;&#x7528;&#x4E8E; autoencoder
@@ -981,8 +981,8 @@ patch &#x5185;&#x7684;&#x6700;&#x5927;&#x503C;&#xFF1B;&#x53E6;&#x5916;&#x8FD8;&#
 </div>
 
 
-<div id="outline-container-org4eed6d7" class="outline-3">
-<h3 id="org4eed6d7"><span class="section-number-3">10.1</span> &#x5377;&#x79EF;&#x89C6;&#x4E3A;&#x77E9;&#x9635;&#x64CD;&#x4F5C;</h3>
+<div id="outline-container-orgdb7cf30" class="outline-3">
+<h3 id="orgdb7cf30"><span class="section-number-3">10.1</span> &#x5377;&#x79EF;&#x89C6;&#x4E3A;&#x77E9;&#x9635;&#x64CD;&#x4F5C;</h3>
 <div class="outline-text-3" id="text-10-1">
 <p>
 &#x5F53; \(i = 4, k = 3, s = 1, p = 0\) &#x65F6;&#xFF0C;&#x5982;&#x679C;&#x5C06; input &#x548C; output &#x4ECE;&#x5DE6;&#x5230;&#x53F3;&#xFF0C;&#x7531;&#x4E0A;&#x5230;&#x4E0B;&#x5C55;&#x5F00;&#x6210;&#x5411;&#x91CF;&#xFF0C;&#x5377;&#x79EF;&#x53EF;&#x4EE5;&#x8868;&#x793A;&#x6210;&#x4E00;&#x4E2A;&#x7A00;&#x758F;&#x7684;&#x77E9;&#x9635;
@@ -1017,8 +1017,8 @@ w_{0,0} &amp; w_{0,1} &amp; w_{0,2} &amp; 0 &amp; w_{1,0} &amp; w_{1,1} &amp; w_
 
 
 
-<div id="outline-container-org880f7a6" class="outline-3">
-<h3 id="org880f7a6"><span class="section-number-3">10.2</span> &#x8F6C;&#x7F6E;&#x5377;&#x79EF;</h3>
+<div id="outline-container-org5fbb0ca" class="outline-3">
+<h3 id="org5fbb0ca"><span class="section-number-3">10.2</span> &#x8F6C;&#x7F6E;&#x5377;&#x79EF;</h3>
 <div class="outline-text-3" id="text-10-2">
 <p>
 &#x8F6C;&#x7F6E;&#x5377;&#x79EF; (transposed convolution) &#x4E5F;&#x53EB;&#x505A;&#x5C0F;&#x6570;&#x6B65;&#x957F;&#x5377;&#x79EF; (fractionally strided convolutions) &#x6216; deconvolutions [&#x5B66;&#x672F;&#x4E0A;&#x53EF;&#x80FD;&#x4F7F;
@@ -1037,8 +1037,8 @@ in practice.]
 </div>
 
 
-<div id="outline-container-org4e0fc09" class="outline-3">
-<h3 id="org4e0fc09"><span class="section-number-3">10.3</span> No zero padding, unit strides, transposed</h3>
+<div id="outline-container-orgd8e2ae8" class="outline-3">
+<h3 id="orgd8e2ae8"><span class="section-number-3">10.3</span> No zero padding, unit strides, transposed</h3>
 <div class="outline-text-3" id="text-10-3">
 <p>
 &#x601D;&#x8003;&#x8F6C;&#x7F6E;&#x5377;&#x79EF;&#x6700;&#x7B80;&#x5355;&#x7684;&#x65B9;&#x6CD5;&#x662F;&#xFF0C;&#x5C06;&#x8F93;&#x5165;&#x770B;&#x505A;&#x5E38;&#x89C4;&#x5377;&#x79EF;&#x7684;&#x67D0;&#x4E00;&#x5C42;&#x8F93;&#x51FA;&#x7684; feature map &#xFF0C;&#x901A;&#x8FC7;&#x8F6C;&#x7F6E;&#x5377;&#x79EF;&#x6765;&#x6062;&#x590D;&#x8BE5;&#x5C42;&#x7684;&#x8F93;&#x5165;&#xFF08;&#x7531;&#x4E8E;&#x8F6C;&#x7F6E;&#x5377;&#x79EF;&#x5E76;
@@ -1080,8 +1080,8 @@ padding &#x7684; 0 &#x503C;&#x76F8;&#x4E58;&#xFF09;&#xFF0C;&#x4E5F;&#x5C31;&#x66
 </div>
 
 
-<div id="outline-container-org4fa6c2a" class="outline-3">
-<h3 id="org4fa6c2a"><span class="section-number-3">10.4</span> Zero padding, unit strides, transposed</h3>
+<div id="outline-container-org2ea7677" class="outline-3">
+<h3 id="org2ea7677"><span class="section-number-3">10.4</span> Zero padding, unit strides, transposed</h3>
 <div class="outline-text-3" id="text-10-4">
 <p>
 &#x65E2;&#x7136;&#x77E5;&#x9053;&#x65E0; padding &#x7684;&#x5377;&#x79EF;&#x7684;&#x8F6C;&#x7F6E;&#x7B49;&#x6548;&#x4E8E;&#x8BA9; input &#x589E;&#x52A0; padding &#x7684;&#x5E38;&#x89C4;&#x5377;&#x79EF;&#xFF0C;&#x5F53; input &#x6709; padding &#x7684;&#x65F6;&#x5019;&#xFF0C;&#x7B49;&#x6548;&#x7684;&#x8F6C;&#x7F6E;&#x5377;&#x79EF;&#x8F93;&#x5165;&#x4F1A;&#x6709;&#x8F83;
@@ -1095,8 +1095,8 @@ padding &#x7684; 0 &#x503C;&#x76F8;&#x4E58;&#xFF09;&#xFF0C;&#x4E5F;&#x5C31;&#x66
 </div>
 
 
-<div id="outline-container-org87765f6" class="outline-4">
-<h4 id="org87765f6"><span class="section-number-4">10.4.1</span> Half(same) padding, transposed</h4>
+<div id="outline-container-org00be64d" class="outline-4">
+<h4 id="org00be64d"><span class="section-number-4">10.4.1</span> Half(same) padding, transposed</h4>
 <div class="outline-text-4" id="text-10-4-1">
 <p>
 &#x7531;&#x4E8E; same padding &#x7684;&#x5E38;&#x89C4;&#x5377;&#x79EF;&#xFF0C;&#x8F93;&#x51FA;&#x7684;&#x5927;&#x5C0F;&#x7B49;&#x4E8E;&#x8F93;&#x5165;&#x7684;&#x5927;&#x5C0F;&#xFF1B;&#x56E0;&#x6B64; same padding &#x5E38;&#x89C4;&#x5377;&#x79EF;&#x7684;&#x8F6C;&#x7F6E;&#x7684;&#x7B49;&#x6548;&#x5E38;&#x89C4;&#x5377;&#x79EF;&#x662F;&#x5176;&#x672C;&#x8EAB;&#xFF0C;&#x4E5F;&#x662F;
@@ -1117,8 +1117,8 @@ o&apos; &amp;= i&apos; + (k-1) -2p \\
 </div>
 
 
-<div id="outline-container-org75d21a0" class="outline-4">
-<h4 id="org75d21a0"><span class="section-number-4">10.4.2</span> Full padding, transposed</h4>
+<div id="outline-container-org374b1df" class="outline-4">
+<h4 id="org374b1df"><span class="section-number-4">10.4.2</span> Full padding, transposed</h4>
 <div class="outline-text-4" id="text-10-4-2">
 <p>
 non-padded &#x5377;&#x79EF;&#x7684;&#x8F6C;&#x7F6E;&#x7B49;&#x6548;&#x4E8E;&#x4E00;&#x4E2A; full padding &#x7684;&#x5377;&#x79EF;&#xFF0C;&#x7406;&#x6240;&#x5F53;&#x7136;&#xFF0C;&#x4E00;&#x4E2A; full padding &#x5377;&#x79EF;&#x7684;&#x8F6C;&#x7F6E;&#x7B49;&#x6548;&#x4E8E;&#x4E00;&#x4E2A; non-padded &#x5377;&#x79EF;&#x3002;
@@ -1142,8 +1142,8 @@ o&apos; &amp;= i&apos; + (k-1) -2p \\
 </div>
 
 
-<div id="outline-container-orgef27035" class="outline-3">
-<h3 id="orgef27035"><span class="section-number-3">10.5</span> No zero padding, non-unit strides, transposed</h3>
+<div id="outline-container-org24c33e3" class="outline-3">
+<h3 id="org24c33e3"><span class="section-number-3">10.5</span> No zero padding, non-unit strides, transposed</h3>
 <div class="outline-text-3" id="text-10-5">
 <p>
 &#x6B65;&#x957F; \(s &gt; 1\) &#x5377;&#x79EF;&#x7684;&#x8F6C;&#x7F6E;&#xFF0C;&#x7B49;&#x6548;&#x7684;&#x5377;&#x79EF;&#x6B65;&#x957F; \(s &lt; 1\) &#xFF0C;&#x8FD9;&#x4E5F;&#x662F;&#x8F6C;&#x7F6E;&#x5377;&#x79EF;&#x88AB;&#x79F0;&#x4E3A;&#x5C0F;&#x6570;&#x6B65;&#x957F;&#x5377;&#x79EF; fractionally strided convolutions
@@ -1163,8 +1163,8 @@ o&apos; &amp;= i&apos; + (k-1) -2p \\
 </div>
 
 
-<div id="outline-container-orga5d337a" class="outline-3">
-<h3 id="orga5d337a"><span class="section-number-3">10.6</span> Zero padding, non-unit strides, transposed</h3>
+<div id="outline-container-org0b80124" class="outline-3">
+<h3 id="org0b80124"><span class="section-number-3">10.6</span> Zero padding, non-unit strides, transposed</h3>
 <div class="outline-text-3" id="text-10-6">
 <p>
 \(k, s, p\) &#x4E14; \(i+2p-k\) &#x53EF;&#x4EE5;&#x6574;&#x9664; \(s\) &#x5377;&#x79EF;&#x7684;&#x8F6C;&#x7F6E;&#xFF0C;&#x7B49;&#x6548;&#x7684;&#x5377;&#x79EF;&#x4E3A; \(\tilde{i}&apos;, k&apos;=k, s&apos;=1, p&apos;=k-p-1\) &#xFF0C;&#x5176;&#x4E2D;
@@ -1189,8 +1189,8 @@ pixel &#x4E4B;&#x95F4;&#x63D2;&#x5165; \(s-1\) &#x4E2A; 0 &#x503C;&#xFF0C;\(a=(i
 </div>
 
 
-<div id="outline-container-org93fbcb4" class="outline-3">
-<h3 id="org93fbcb4"><span class="section-number-3">10.7</span> &#x8F6C;&#x7F6E;&#x5377;&#x79EF;&#x7B49;&#x6548;&#x5377;&#x79EF;&#x53C2;&#x6570;&#x7684;&#x901A;&#x7528;&#x89C4;&#x5219;</h3>
+<div id="outline-container-orge28ad7f" class="outline-3">
+<h3 id="orge28ad7f"><span class="section-number-3">10.7</span> &#x8F6C;&#x7F6E;&#x5377;&#x79EF;&#x7B49;&#x6548;&#x5377;&#x79EF;&#x53C2;&#x6570;&#x7684;&#x901A;&#x7528;&#x89C4;&#x5219;</h3>
 <div class="outline-text-3" id="text-10-7">
 \begin{align*}
 p&apos; &amp;= k -p -1 \\
@@ -1204,12 +1204,12 @@ k&apos; &amp;= k \\
 
 
 
-<div id="outline-container-org8763fb8" class="outline-2">
-<h2 id="org8763fb8"><span class="section-number-2">11</span> Miscellaneous convolutions</h2>
+<div id="outline-container-orgbedd768" class="outline-2">
+<h2 id="orgbedd768"><span class="section-number-2">11</span> Miscellaneous convolutions</h2>
 <div class="outline-text-2" id="text-11">
 </div>
-<div id="outline-container-org43204f6" class="outline-3">
-<h3 id="org43204f6"><span class="section-number-3">11.1</span> Dilated convolutions</h3>
+<div id="outline-container-orgd35dcac" class="outline-3">
+<h3 id="orgd35dcac"><span class="section-number-3">11.1</span> Dilated convolutions</h3>
 <div class="outline-text-3" id="text-11-1">
 <p>
 Dilated convolutions &#x901A;&#x8FC7;&#x5728; kernel &#x76F8;&#x90BB;&#x7684;&#x4E24;&#x4E2A;&#x5143;&#x7D20;&#x4E4B;&#x95F4;&#x63D2;&#x5165;&#x7A7A;&#x9699;&#x6765;&#x6269;&#x5145; kernel &#x3002;&#x6269;&#x5927;&#x6BD4;&#x4F8B;&#x7531;&#x8D85;&#x53C2; d &#x6765;&#x51B3;&#x5B9A;&#xFF0C;&#x5373;&#x5728; kernel &#x7684;&#x76F8;&#x90BB;
@@ -1241,8 +1241,8 @@ Dilated convolutions &#x662F;&#x4E0D;&#x589E;&#x5927;&#x5377;&#x79EF;&#x6838;&#x
 </div>
 
 
-<div id="outline-container-orgf49e96a" class="outline-2">
-<h2 id="orgf49e96a"><span class="section-number-2">12</span> &#x8BFB;&#x540E;&#x611F;</h2>
+<div id="outline-container-orgc9c1c45" class="outline-2">
+<h2 id="orgc9c1c45"><span class="section-number-2">12</span> &#x8BFB;&#x540E;&#x611F;</h2>
 <div class="outline-text-2" id="text-12">
 <ol class="org-ol">
 <li>&#x8BBA;&#x6587;&#x4E2D;&#x89E3;&#x91CA;&#x4E86;&#x4E00;&#x4E9B;&#x81EA;&#x5DF1;&#x539F;&#x6765;&#x4E0D;&#x6E05;&#x695A;&#x7684;&#x77E5;&#x8BC6;&#x70B9;&#xFF0C;&#x5982; full padding &#x7684;&#x542B;&#x4E49;&#x3001;</li>
@@ -1397,7 +1397,7 @@ Dilated convolutions &#x662F;&#x4E0D;&#x589E;&#x5927;&#x5377;&#x79EF;&#x6838;&#x
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">58</span>
+                    <span class="site-state-item-count">59</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -1523,7 +1523,9 @@ Dilated convolutions &#x662F;&#x4E0D;&#x589E;&#x5927;&#x5377;&#x79EF;&#x6838;&#x
                     
                       
                     
-                    <span class="site-state-item-count">35</span>
+                      
+                    
+                    <span class="site-state-item-count">36</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
@@ -1577,7 +1579,7 @@ Dilated convolutions &#x662F;&#x4E0D;&#x589E;&#x5927;&#x5377;&#x79EF;&#x6838;&#x
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org1b9c1d7"><span class="nav-text">1 cs231n</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf6296ec"><span class="nav-text">2 卷积</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orge6a247f"><span class="nav-text">2.1 卷积层特性：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org32ce2e7"><span class="nav-text">2.2 Converting FC layers to CONV layers</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#org1024063"><span class="nav-text">2.2.1 Padding</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org2b47dae"><span class="nav-text">2.3 使用矩阵乘法实现卷积</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4afae76"><span class="nav-text">3 Pooling Layer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8ab61ba"><span class="nav-text">4 Layer Patterns</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org57d86b9"><span class="nav-text">5 Layer Sizing Patterns</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf1b39ca"><span class="nav-text">6 &lt;A guide to convolution arithmetic for deep learning&gt;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org59a6a2a"><span class="nav-text">7 Introduction</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org5a1f002"><span class="nav-text">7.1 Discrete convolutions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org5b7074a"><span class="nav-text">7.2 pooling</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org626832b"><span class="nav-text">8 Convolution arithmetic</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org945d624"><span class="nav-text">8.1 Half (same) padding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org4cf1e81"><span class="nav-text">8.2 Full padding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org742f0c6"><span class="nav-text">8.3 Zero padding, non-unit strides</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf0db6fc"><span class="nav-text">9 Pooling arithmetic</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org6b29ef8"><span class="nav-text">10 Transposed convolution arithmetic</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org4eed6d7"><span class="nav-text">10.1 卷积视为矩阵操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org880f7a6"><span class="nav-text">10.2 转置卷积</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org4e0fc09"><span class="nav-text">10.3 No zero padding, unit strides, transposed</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org4fa6c2a"><span class="nav-text">10.4 Zero padding, unit strides, transposed</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#org87765f6"><span class="nav-text">10.4.1 Half(same) padding, transposed</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#org75d21a0"><span class="nav-text">10.4.2 Full padding, transposed</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgef27035"><span class="nav-text">10.5 No zero padding, non-unit strides, transposed</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orga5d337a"><span class="nav-text">10.6 Zero padding, non-unit strides, transposed</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org93fbcb4"><span class="nav-text">10.7 转置卷积等效卷积参数的通用规则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8763fb8"><span class="nav-text">11 Miscellaneous convolutions</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org43204f6"><span class="nav-text">11.1 Dilated convolutions</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgf49e96a"><span class="nav-text">12 读后感</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org3e93123"><span class="nav-text">1 cs231n</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org57d3cdc"><span class="nav-text">2 卷积</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org09bcafe"><span class="nav-text">2.1 卷积层特性：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgd373232"><span class="nav-text">2.2 Converting FC layers to CONV layers</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#org9667860"><span class="nav-text">2.2.1 Padding</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgf499a7c"><span class="nav-text">2.3 使用矩阵乘法实现卷积</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orga7b3f64"><span class="nav-text">3 Pooling Layer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgfad5aa9"><span class="nav-text">4 Layer Patterns</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4862984"><span class="nav-text">5 Layer Sizing Patterns</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4dc08b8"><span class="nav-text">6 &lt;A guide to convolution arithmetic for deep learning&gt;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org4fedd08"><span class="nav-text">7 Introduction</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgbe1bbf6"><span class="nav-text">7.1 Discrete convolutions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgfa7e379"><span class="nav-text">7.2 pooling</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc49d4a9"><span class="nav-text">8 Convolution arithmetic</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org4b5d2f7"><span class="nav-text">8.1 Half (same) padding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgaa39c34"><span class="nav-text">8.2 Full padding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgccbec95"><span class="nav-text">8.3 Zero padding, non-unit strides</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org3d7050c"><span class="nav-text">9 Pooling arithmetic</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org01969a0"><span class="nav-text">10 Transposed convolution arithmetic</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgdb7cf30"><span class="nav-text">10.1 卷积视为矩阵操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org5fbb0ca"><span class="nav-text">10.2 转置卷积</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orgd8e2ae8"><span class="nav-text">10.3 No zero padding, unit strides, transposed</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org2ea7677"><span class="nav-text">10.4 Zero padding, unit strides, transposed</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#org00be64d"><span class="nav-text">10.4.1 Half(same) padding, transposed</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#org374b1df"><span class="nav-text">10.4.2 Full padding, transposed</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org24c33e3"><span class="nav-text">10.5 No zero padding, non-unit strides, transposed</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#org0b80124"><span class="nav-text">10.6 Zero padding, non-unit strides, transposed</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#orge28ad7f"><span class="nav-text">10.7 转置卷积等效卷积参数的通用规则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgbedd768"><span class="nav-text">11 Miscellaneous convolutions</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgd35dcac"><span class="nav-text">11.1 Dilated convolutions</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgc9c1c45"><span class="nav-text">12 读后感</span></a></li></ol></div>
             
 
           </div>
@@ -1618,7 +1620,7 @@ Dilated convolutions &#x662F;&#x4E0D;&#x589E;&#x5927;&#x5377;&#x79EF;&#x6838;&#x
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="Reading time total">29:06</span>
+    <span title="Reading time total">29:17</span>
   
 </div>
 

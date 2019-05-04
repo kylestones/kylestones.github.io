@@ -490,8 +490,8 @@
         <div id="content">
 
 
-<div id="outline-container-org76bca31" class="outline-2">
-<h2 id="org76bca31"><span class="section-number-2">1</span> &#x67B6;&#x6784;</h2>
+<div id="outline-container-orga140b41" class="outline-2">
+<h2 id="orga140b41"><span class="section-number-2">1</span> &#x67B6;&#x6784;</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 &#x9605;&#x8BFB;&#x5927;&#x795E;&#x7684; <a href="https://github.com/horance-liu/tensorflow-internals" target="_blank" rel="noopener">&#x300A;TensorFlow &#x5185;&#x6838;&#x5256;&#x6790;&#x300B;</a> &#x5BF9; TensorFlow &#x7684;&#x6574;&#x4E2A;&#x4EE3;&#x7801;&#x6846;&#x67B6;&#x6709;&#x4E86;&#x4E00;&#x4E9B;&#x4E86;&#x89E3;&#xFF0C;&#x4EE5;&#x4E0B;&#x662F;&#x8BFB;&#x4E66;&#x7B14;&#x8BB0;&#x3002;
@@ -528,8 +528,8 @@ TensorFlow &#x8BA1;&#x7B97;&#x7684;&#x5355;&#x4F4D;&#x662F; OP&#xFF0C;&#x5B83;&#
 </p>
 </div>
 
-<div id="outline-container-org692c3cb" class="outline-3">
-<h3 id="org692c3cb"><span class="section-number-3">1.1</span> &#x67B6;&#x6784;&#x8BBE;&#x8BA1;</h3>
+<div id="outline-container-orgf4f5cac" class="outline-3">
+<h3 id="orgf4f5cac"><span class="section-number-3">1.1</span> &#x67B6;&#x6784;&#x8BBE;&#x8BA1;</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 TensorFlow &#x9075;&#x5FAA;&#x826F;&#x597D;&#x7684;&#x5206;&#x5C42;&#x67B6;&#x6784;&#xFF1A;
@@ -543,8 +543,8 @@ TensorFlow &#x9075;&#x5FAA;&#x826F;&#x597D;&#x7684;&#x5206;&#x5C42;&#x67B6;&#x67
 </ol>
 </div>
 
-<div id="outline-container-org236ffb5" class="outline-4">
-<h4 id="org236ffb5"><span class="section-number-4">1.1.1</span> &#x524D;&#x7AEF;&#x7CFB;&#x7EDF;</h4>
+<div id="outline-container-org0ade269" class="outline-4">
+<h4 id="org0ade269"><span class="section-number-4">1.1.1</span> &#x524D;&#x7AEF;&#x7CFB;&#x7EDF;</h4>
 <div class="outline-text-4" id="text-1-1-1">
 <p>
 Client &#x662F;&#x524D;&#x7AEF;&#x7CFB;&#x7EDF;&#x7684;&#x4E3B;&#x8981;&#x7EC4;&#x6210;&#x90E8;&#x5206;&#xFF0C;&#x5B83;&#x662F;&#x4E00;&#x4E2A;&#x652F;&#x6301;&#x591A;&#x8BED;&#x8A00;&#x7684;&#x7F16;&#x7A0B;&#x73AF;&#x5883;&#xFF0C;&#x4E14;&#x5BF9; Python &#x548C; C++ &#x7684;&#x652F;&#x6301;&#x6BD4;&#x8F83;&#x5B8C;&#x5584;&#x3002;&#x5B9E;&#x73B0;&#x65F6;&#x901A;&#x8FC7; Swig &#x5B8C;&#x6210;&#x5BF9;
@@ -559,12 +559,12 @@ Client &#x662F;&#x524D;&#x7AEF;&#x7CFB;&#x7EDF;&#x7684;&#x4E3B;&#x8981;&#x7EC4;&
 </div>
 
 
-<div id="outline-container-org091e818" class="outline-4">
-<h4 id="org091e818"><span class="section-number-4">1.1.2</span> runtime</h4>
+<div id="outline-container-org11f9bdf" class="outline-4">
+<h4 id="org11f9bdf"><span class="section-number-4">1.1.2</span> runtime</h4>
 <div class="outline-text-4" id="text-1-1-2">
 </div>
 <ol class="org-ol">
-<li><a id="org4b2b415"></a>master<br>
+<li><a id="org9ec1fbf"></a>master<br>
 <div class="outline-text-5" id="text-1-1-2-1">
 <p>
 &#x5728;&#x5206;&#x5E03;&#x5F0F;&#x7684;&#x8FD0;&#x884C;&#x65F6;&#x73AF;&#x5883;&#x4E2D;&#xFF0C;Client &#x6267;&#x884C; Session.run &#x65F6;&#xFF0C;&#x4F20;&#x9012;&#x6574;&#x4E2A;&#x8BA1;&#x7B97;&#x56FE;&#x7ED9;&#x540E;&#x7AEF;&#x7684; Master&#x3002;&#x6B64;&#x65F6;&#xFF0C;&#x8BA1;&#x7B97;&#x56FE;&#x662F;&#x5B8C;&#x6574;&#x7684;&#xFF0C;&#x5E38;&#x79F0;&#x4E3A; Full
@@ -586,7 +586,7 @@ Partition&#x3002;&#x6700;&#x540E;&#xFF0C;Master &#x5C06;&#x901A;&#x77E5;&#x6240;
 </li>
 
 
-<li><a id="org1da0723"></a>worker<br>
+<li><a id="org7eb39b8"></a>worker<br>
 <div class="outline-text-5" id="text-1-1-2-2">
 <p>
 &#x5BF9;&#x4E8E;&#x6BCF;&#x4E00;&#x4E2A;&#x4EFB;&#x52A1;&#xFF0C;TensorFlow &#x90FD;&#x5C06;&#x542F;&#x52A8;&#x4E00;&#x4E2A; Worker &#x5B9E;&#x4F8B;&#x3002;Worker &#x4E3B;&#x8981;&#x8D1F;&#x8D23;&#x5982;&#x4E0B; 4 &#x4E2A;&#x65B9;&#x9762;&#x7684;&#x804C;&#x8D23;:
@@ -606,8 +606,8 @@ Partition; &#x5728;&#x5206;&#x5E03;&#x5F0F;&#x8FD0;&#x884C;&#x65F6;&#xFF0C;&#x56
 </div>
 
 
-<div id="outline-container-orgd422a0b" class="outline-4">
-<h4 id="orgd422a0b"><span class="section-number-4">1.1.3</span> kernel</h4>
+<div id="outline-container-org3234484" class="outline-4">
+<h4 id="org3234484"><span class="section-number-4">1.1.3</span> kernel</h4>
 <div class="outline-text-4" id="text-1-1-3">
 <p>
 Kernel &#x662F; OP &#x5728; &#x67D0; &#x79CD; &#x786C; &#x4EF6; &#x8BBE; &#x5907; &#x7684; &#x7279; &#x5B9A; &#x5B9E; &#x73B0;&#xFF0C; &#x5B83; &#x8D1F; &#x8D23; &#x6267; &#x884C; OP &#x7684; &#x5177; &#x4F53; &#x8FD0; &#x7B97;&#x3002; &#x76EE; &#x524D;&#xFF0C; TensorFlow &#x7CFB;&#x7EDF;&#x4E2D;&#x5305;&#x542B; 200 &#x591A;
@@ -631,8 +631,8 @@ OP &#x9009;&#x62E9;&#x7279;&#x5B9A;&#x7684; Kernel &#x5B9E;&#x73B0;&#xFF0C;&#x5B
 </div>
 </div>
 
-<div id="outline-container-org0aac621" class="outline-4">
-<h4 id="org0aac621"><span class="section-number-4">1.1.4</span> session</h4>
+<div id="outline-container-org25f820b" class="outline-4">
+<h4 id="org25f820b"><span class="section-number-4">1.1.4</span> session</h4>
 <div class="outline-text-4" id="text-1-1-4">
 <p>
 &#x9996;&#x5148;&#xFF0C;Client &#x9996;&#x6B21;&#x6267;&#x884C; CreateSessionRequest tf.Session.run &#x65F6;&#xFF0C;&#x4F1A;&#x5C06;&#x6574;&#x4E2A;&#x56FE;&#x5E8F;&#x5217;&#x5316;&#x540E;&#xFF0C;&#x901A;&#x8FC7; gRPC &#x53D1;&#x9001;&#x6D88;&#x606F;&#xFF0C;&#x5C06;&#x56FE;&#x4F20;&#x9012;&#x7ED9; Master&#x3002;&#x968F;
@@ -681,8 +681,8 @@ Worker &#x6536;&#x5230; RunGraphRequest &#x6D88;&#x606F;&#x540E;&#xFF0C;Worker &
 </div>
 
 
-<div id="outline-container-orgec3e30a" class="outline-2">
-<h2 id="orgec3e30a"><span class="section-number-2">2</span> &#x4F7F;&#x7528;</h2>
+<div id="outline-container-org8c3915f" class="outline-2">
+<h2 id="org8c3915f"><span class="section-number-2">2</span> &#x4F7F;&#x7528;</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">x_train&#xFF0C; y_train = load_data()</span><br><span class="line">X = tf.placeholder(......) <span class="comment"># &#x5B9A;&#x4E49;&#x6570;&#x636E;&#x96C6;&#x5360;&#x4F4D;&#x7B26;</span></span><br><span class="line">Y = tf.placeholder(......)</span><br><span class="line"></span><br><span class="line">W = tf.Variable(......) <span class="comment"># &#x5B9A;&#x4E49;&#x53D8;&#x91CF;</span></span><br><span class="line">b = tf.Variable(......)</span><br><span class="line"></span><br><span class="line">init = tf.global_variables_initializer() <span class="comment"># &#x5B9A;&#x4E49;&#x521D;&#x59CB;&#x5316;&#x53D8;&#x91CF;&#x7684;&#x65B9;&#x5F0F;</span></span><br><span class="line"></span><br><span class="line">Z = tf.add(tf.matmul(W&#xFF0C; X)&#xFF0C; b) <span class="comment"># &#x5B9A;&#x4E49;&#x8BA1;&#x7B97;&#x56FE;</span></span><br><span class="line"></span><br><span class="line">loss = tf.losses...... <span class="comment"># &#x5B9A;&#x4E49;&#x635F;&#x5931;&#x51FD;&#x6570;&#xFF0C;Z&#x548C;Y&#x4F5C;&#x4E3A;&#x53C2;&#x6570;</span></span><br><span class="line"></span><br><span class="line">optimizer = tf.train.AdamOptimizer().minimize(loss) <span class="comment"># &#x5B9A;&#x4E49;&#x4F18;&#x5316;&#x5668;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> tf.Session <span class="keyword">as</span> sess:</span><br><span class="line">    sess.run(init) <span class="comment"># &#x5F00;&#x59CB;&#x6267;&#x884C;&#x53D8;&#x91CF;&#x521D;&#x59CB;&#x5316;</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> range(num_epochs): <span class="comment"># &#x5FAA;&#x73AF;&#x8BAD;&#x7EC3;&#x591A;&#x8F6E;</span></span><br><span class="line">	_ &#xFF0C; cost = sess.run([optimizer&#xFF0C; cost]&#xFF0C; feed_dict={X:x_train&#xFF0C; Y:y_train }) <span class="comment"># &#x6267;&#x884C;&#x8BAD;&#x7EC3;</span></span><br></pre></td></tr></table></figure>
@@ -842,7 +842,7 @@ Worker &#x6536;&#x5230; RunGraphRequest &#x6D88;&#x606F;&#x540E;&#xFF0C;Worker &
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">58</span>
+                    <span class="site-state-item-count">59</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -968,7 +968,9 @@ Worker &#x6536;&#x5230; RunGraphRequest &#x6D88;&#x606F;&#x540E;&#xFF0C;Worker &
                     
                       
                     
-                    <span class="site-state-item-count">35</span>
+                      
+                    
+                    <span class="site-state-item-count">36</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
@@ -1022,7 +1024,7 @@ Worker &#x6536;&#x5230; RunGraphRequest &#x6D88;&#x606F;&#x540E;&#xFF0C;Worker &
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#org76bca31"><span class="nav-text">1 架构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#org692c3cb"><span class="nav-text">1.1 架构设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#org236ffb5"><span class="nav-text">1.1.1 前端系统</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#org091e818"><span class="nav-text">1.1.2 runtime</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#orgd422a0b"><span class="nav-text">1.1.3 kernel</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#org0aac621"><span class="nav-text">1.1.4 session</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#orgec3e30a"><span class="nav-text">2 使用</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#orga140b41"><span class="nav-text">1 架构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#orgf4f5cac"><span class="nav-text">1.1 架构设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#org0ade269"><span class="nav-text">1.1.1 前端系统</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#org11f9bdf"><span class="nav-text">1.1.2 runtime</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#org3234484"><span class="nav-text">1.1.3 kernel</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#org25f820b"><span class="nav-text">1.1.4 session</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#org8c3915f"><span class="nav-text">2 使用</span></a></li></ol></div>
             
 
           </div>
@@ -1063,7 +1065,7 @@ Worker &#x6536;&#x5230; RunGraphRequest &#x6D88;&#x606F;&#x540E;&#xFF0C;Worker &
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="Reading time total">29:06</span>
+    <span title="Reading time total">29:17</span>
   
 </div>
 
