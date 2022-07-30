@@ -1,0 +1,381 @@
+#+TITLE:       GNU Project Debugger
+#+AUTHOR:      kyle Three Stone
+#+DATE:        <2018-05-24 Thu>
+#+EMAIL:       kyleemail@163.com
+#+OPTIONS:     H:3 num:t toc:t \n:nil @:t ::t |:t ^:t f:t TeX:t
+#+TAGS:        Linux, gdb
+#+CATEGORIES:  Linux
+
+
+GDB是GNU开源组织发布的一个强大的UNIX下的程序调试工具。
+
+GDB主要帮忙你完成下面四个方面的功能：
+
+1. 启动你的程序，可以按照你的自定义的要求随心所欲的运行程序。
+2. 可让被调试的程序在你所指定的调置的断点处停住。
+3. 当程序被停住时，可以检查此时你的程序中所发生的事。
+4. 动态的改变你程序的执行环境。
+
+预置条件：在编译连接的时候要指定 -g 选项，把调试信息加入到可执行文件。
+
+** 启动
+
+#+BEGIN_SRC shell
+$ gdb program
+$ gdb --args program arg1 arg2 ... # 带着执行参数挂载 gdb
+$ gdb # 先进入 gdb 界面
+(gdb) file program
+$ gdb program core # 
+$ gdb program PID # 程序运行之后再挂载
+$ gdb attach PID # attach
+#+END_SRC
+
+** 帮助
+
+#+BEGIN_SRC shell
+(gdb) help # 列出命令的所有种类
+(gdb) help <class> # 查看该类的所有命令
+(gdb) helo <command> # 查看该命令的帮助信息
+#+END_SRC
+
+在输入命令名称不完整的时候，gdb 可以自动配置命令，然后执行匹配到没有歧义的命令。若有歧义则提示用户输
+入更多信息来批备命令。直接回车将执行上一次执行的命令。
+
+** 查看源代码
+
+#+BEGIN_SRC shell
+(gdb) list # 查看程序代码，简写 l
+(gdb) l
+(gdb) list <first>, <last> # 显示从first行到last行之间的源代码
+(gdb) show listsize # 查看
+(gdb) set listsize 20 # 修改
+
+(gdb) forward-search <regexp> # 向前搜索源代码；regexp 是正则表达式
+(gdb) search <regexp>
+(gdb) reverse-search <regexp> # 向后搜索源代码
+
+(gdb) info line # 查看源代码在内存中的地址
+(gdb) disassemble func # 查看源程序的当前执行时的机器码，这个命令会把目前内存中的指令 dump 出来
+#+END_SRC
+
+** 程序运行上下文
+
+#+BEGIN_SRC shell
+(gdb) set args arg1 # 这里指可以设置运行参数，不能加程序名
+(gdb) show args
+(gdb) path <dir> # 设定程序运行路径
+(gdb) show path # 查看程序运行路径
+(gdb) cd /root # 
+(gdb) pwd
+(gdb) set environment USER=sanshi # 设置环境变量
+(gdb) show environment
+(gdb) info terminal # 显示程序用到的终端模式
+(gdb) run > outfile # 重定向程序输出
+(gdb) tty /dev/tty1 # 设置输入输出使用的终端设备
+
+(gdb) set logging on # 将命令的输出保存到默认的 gdb.txt 文件中
+(gdb) set logging file my_log.txt # 设置输出文件的路径
+#+END_SRC
+
+** 断点
+
+#+BEGIN_SRC shell
+(gdb) break 1221 # 设置行号为断点
+(gdb) b main.c
+(gdb) b +3 # 在当前行前面 3 行设置断点
+(gdb) b -2
+(gdb) b *0x7fffffffe600
+(gdb) b main.c:21
+(gdb) b namespace::class::function
+(gdb) b main.c:21 if i == 4
+(gdb) b add.c:1221 thread 25780 if num > 5 # 25780 是线程号，由 GDB 分配，使用 info thread 查看；在指定线程上设置断点
+(gdb) b main.cpp:255 if strcmp(strA.c_str(), strB.c_str()) == 0 # 条件断点里可以调用标准库的函数
+(gdb) b main.cpp:255 if strA.compare(strB) != 0 # 直接用 string 类的 compare 函数
+(gdb) info b
+(gdb) ignore 2 1 # ignore 断点号 count；忽略 count 次断点号
+(gdb) delete breakpoints 2-5 # 若不指定 2-5 的 range 则删除所有断点
+(gdb) delete 3 # 删除指定断点，可简写成 d
+(gdb) d 4
+(gdb) disable 5 # 禁止断点，简写成 dis
+(gdb) dis 5
+(gdb) enable 5
+(gdb) en 5
+(gdb) en once 4 # 使能断点 4 一次，然后便自动禁止
+(gdb) en delete 4 # 使能断点 4 一次，然后便自动删除
+(gdb) condition <bnum> <expression> # 断点停止条件维护
+(gdb) condition <bnum> # 清除断点的停止条件
+#+END_SRC
+
+** 观察点
+
+#+BEGIN_SRC shell
+(gdb) watch expr # 当表达式/变量的值变化时，程序暂停
+(gdb) rwatch len # 表达式被读取时，程序暂停
+(gdb) awatch num # 表达式的值被读/写时，程序暂停
+(gdb) info watchpoints
+# 使能、禁止、删除等维护命令同断点一样
+#+END_SRC
+
+** 设置捕捉点（CatchPoint）
+
+设置捕捉点来补捉程序运行时的一些事件。如：载入共享库（动态链接库）或是 C++ 的异常。设置捕捉点的格式为：
++ catch <event> # 当event发生时，停住程序。event可以是下面的内容：
+  1. throw 一个C++抛出的异常。（throw为关键字）
+  2. catch 一个C++捕捉到的异常。（catch为关键字）
+  3. exec 调用系统调用exec时。（exec为关键字，目前此功能只在 HP-UX 下有用）
+  4. fork 调用系统调用fork时。（fork为关键字，目前此功能只在 HP-UX 下有用）
+  5. vfork 调用系统调用vfork时。（vfork为关键字，目前此功能只在 HP-UX 下有用）
+  6. load 或 load <libname> 载入共享库（动态链接库）时。（load 为关键字，目前此功能只在 HP-UX 下有用）
+  7. unload 或 unload <libname> 卸载共享库（动态链接库）时。（unload 为关键字，目前此功能只在 HP-UX 下有用）
++ tcatch <event> # 只设置一次捕捉点，当程序停住以后，应点被自动删除。
++ throw 抛出一个 C++ 异常
+
+** 停止点设置运行命令
+
+GDB 提供的 command 命令来设置停止点的运行命令。当运行的程序在被停止住时，我们可以让其自动运行一些自
+定义的命令，这很有利行自动化调试。
+
+#+BEGIN_SRC shell
+(gdb) command [breaknum]
+(gdb) ...
+(gdb) command-list
+(gdb) ...
+(gdb) end
+(gdb) 
+(gdb) command [breaknum] # 清除 command 命令
+(gdb) end
+#+END_SRC
+
+** 调试代码
+
+#+BEGIN_SRC shell
+(gdb) run # 运行程序，简写 r
+(gdb) r 
+(gdb) next [count] # 单步跟踪，简写 n
+(gdb) n
+(gdb) nexti # 单步执行机器指令，简写 ni
+(gdb) ni
+(gdb) step [count] # 进入被调函数体，简写 s
+(gdb) s
+(gdb) stepi # 单步跟踪机器指令，简写 si
+(gdb) set step-mode on # 
+(gdb) set step-mode off
+(gdb) finish # 执行到本函数结束
+(gdb) until # 运行程序直到退出循环体，简写 u
+(gdb) continue [ignore-count] # 让程序继续运行，ignore-count 表示忽略其后的断点次数，简写 c
+(gdb) c
+(gdb) info program # 查看程序运行状态
+(gdb) shell # 进入 shell，使用 exit 退出
+
+# 有时候需要 gdb 执行若干条命令后就立即退出，而不是进入交互界面，这时可以使用 -batch 选项
+gdb -ex "set pagination 0" -ex "thread apply all bt" -batch -p $pid
+# 打印 $pid 进程所有线程的堆栈并退出
+
+#+END_SRC
+
+** 查看运行数据
+
+
+#+BEGIN_SRC shell
+(gdb) print expr # 查看表达式/变量的值，不能使用程序中的宏，简写 p
+(gdb) print /FMT <expr> # 按指定格式打印
+(gdb) p num # gdb 记录每一个 print 的信息
+(gdb) p *array@5 # 查看连续内存，首地址@长度
+(gdb) set print address on # GDB会显出函数的参数地址，系统默认为打开
+(gdb) set print address off
+(gdb) show print address
+(gdb) set print array on # 当数组显示时，每个元素占一行
+(gdb) set print array off # 每个元素则以逗号分隔
+(gdb) show print array
+(gdb) set print elements <number-of-elements> # 指定数组/字符串显示的最大长度，0 表示不限制
+(gdb) show print elements
+(gdb) set print null-stop on # 显示字符串时，遇到结束符则停止显示
+(gdb) set print null-stop off
+(gdb) set print pretty on # GDB显示结构体时会比较漂亮
+(gdb) set print pretty off
+(gdb) show print pretty
+(gdb) set print sevenbit-strings on
+(gdb) set print sevenbit-strings off
+(gdb) show print sevenbit-strings
+(gdb) set print union on # 显示结构体时，显式其内的联合体数据
+(gdb) set print union off # 显示结构体时，不显式其内的联合体数据
+(gdb) show print union
+(gdb) set print object <on/off> # C++中，如果一个对象指针指向其派生类，如果打开这个选项，GDB 会自动按照虚方法
+# 调用的规则显示输出，如果关闭这个选项的话，GDB就不管虚函数表了。项默认 off
+(gdb) set print static-members <on/off> # 显示一个 C++ 对象中的内容是，是否显示其中的静态数据成员；默认 on
+(gdb) set print vtbl <on/off> # GDB将用比较规整的格式来显示虚函数表时；默认关闭
+
+(gdb) show values # 查看 print 的历史
+(gdb) x /count[oxdutfaics][bhwg] address # 按照一定的格式打印内存地址处的数据
+(gdb) x /16xb pCount
+
+(gdb) display /FMT expr # 程序暂停时自动打印表达式的值
+(gdb) info display
+(gdb) undisplay 3
+(gdb) delete/enable/disable display dnums
+
+(gdb) whatis value # 识别数组或变量的类型
+(gdb) ptype value # 比whatis的功能更强，他可以提供一个结构的定义
+(gdb) info args # 打印当前函数的参数名及其值
+(gdb) info locals # 打印出当前函数中所有局部变量及其值
+(gdb) info catch # 打印出当前的函数中的异常处理信息
+
+(gdb) call expr # 表达式中可以一是函数，以此达到强制调用函数的目的
+(gdb) print expr # print 后面可以跟表达式，所以也可以用他来调用函数
+(gdb) print   find_entry(1,0)
+
+#+END_SRC
+
+
+** 查看栈信息
+
+当你的程序调用了一个函数，函数的地址，函数参数，函数内的局部变量都会被压入“栈”（Stack）中。你可以
+用GDB命令来查看当前的栈中的信息。
+
+#+BEGIN_SRC shell
+(gdb) backtrace [n] # 打印当前的函数调用栈的所有信息；加上数字表示只打印栈顶上 n 层
+(gdb) bt [-n] # -n 表示只打印栈底下 n 层
+(gdb) frame <n> # 切换当前栈；n 是一个从 0 开始的整数，是栈中的层编号
+(gdb) f <n>
+(gdb) up <n> # 表示向栈的上面移动n层
+(gdb) down <n> # 表示向栈的下面移动n层
+(gdb) frame # 打印当前栈的层编号，当前的函数名，函数参数值，函数所在文件及行号，函数执行到的语句
+(gdb) f
+(gdb) info frame # 打印出更为详细的当前栈层的信息
+(gdb) info f
+#+END_SRC
+
+** 信号（Signals）
+
+GDB有能力在你调试程序的时候处理任何一种信号，你可以告诉 GDB 需要处理哪一种信号，同时指定程序是否停止。
+
+#+BEGIN_SRC shell
+(gdb) handle <signal> <keywords...>
+(gdb) info signals
+(gdb) info handle
+#+END_SRC
+
+<keywords>可以是以下几种关键字的一个或多个。
+
++ nostop : 当被调试的程序收到信号时，GDB 不会停住程序的运行，但会打出消息告诉你收到这种信号。
++ stop : 当被调试的程序收到信号时，GDB 会停住你的程序。
++ print : 当被调试的程序收到信号时，GDB 会显示出一条信息。
++ noprint : 当被调试的程序收到信号时，GDB 不会告诉你收到信号的信息。
++ pass / noignore : 当被调试的程序收到信号时，GDB 不处理信号。这表示，GDB会把这个信号交给被调试程序会处理。
++ nopass / ignore : 当被调试的程序收到信号时，GDB 不会让被调试程序来处理这个信号。
+
+single 命令和 shell 的 kill 命令不同，系统的 kill 命令发信号给被调试程序时，是由 GDB 截获的，而 single 命令所发
+出一信号则是直接发给被调试程序的
+
+#+BEGIN_SRC shell
+(gdb)   handle   SIGPIPE   stop   print
+#+END_SRC
+
+** 线程
+
+#+BEGIN_SRC shell
+(gdb) info threads: 查看线程列表
+(gdb) thread 2: 切换到2号线程，线程编号可由 info threads 得知
+(gdb) thread apply all bt: 打印所有线程的堆栈
+(gdb) b add.c:1221 thread 25 if num > 5 # 25 是线程号，由 GDB 分配，使用 info thread 查看；在指定线程上设置断点
+#+END_SRC
+
+
+** 寄存器
+
+有一组专用的gdb变量可以用来检查和修改计算机的通用寄存器
+
+1. $pc： 程序计数器
+2. $fp： 帧指针（当前堆栈帧）
+3. $sp： 栈指针
+4. $ps： 处理器状态 
+
+#+BEGIN_SRC shell
+(gdb) info registers # 查看寄存器的情况，除了浮点寄存器
+(gdb) info all-registers # 查看所有寄存器的情况，包括浮点寄存器
+(gdb) info registers <regname ...> # 查看所指定的寄存器的情况
+(gdb) info registers pc
+(gdb) p $pc
+(gdb) set var $pc=0x4005a1 # 修改 pc 的值来改变程序执行位置
+#+END_SRC
+
+** 改变程序执行
+
+当程序运行起来后，可以根据自己的调试思路来动态地在 GDB 中更改当前被调试程序的运行线路或是其变量的值;
+比如，你可以在程序的一次运行中走遍程序的所有分支。
+
+#+BEGIN_SRC shell
+(gdb) set width=47 # 出现了“Invalid syntax in expression”的设置错误，此时，你可以使用 set var 命令
+# 来告诉 GDB，width 不是你 GDB 的参数，而是程序的变量名
+(gdb) set var width=47 # 改变程序变量取值时，最好都使用 set var 格式
+
+(gdb) jump <linespec> # GDB 提供了乱序执行的功能；指定下一条运行语句从哪里开始 ；file:line / +num / address 
+# jump命令不会改变当前的程序栈中的内容，所以，当你从一个函数跳到另一个函数时，当函数运行完返回
+# 时进行弹栈操作时必然会发生错误，可能结果还是非常奇怪的，甚至于产生程序 Core Dump。所以最好是同一个函
+# 数中进行跳转。
+# jump 命令就是改变了 pc 寄存器中的值；可以使用 “set $pc” 来更改跳转执行的地址
+
+(gdb) return # 强制函数立即退出
+(gdb) return expression # 带返回值强制立即退出
+
+#+END_SRC
+
+** 编译
+
+#+BEGIN_SRC shell
+(gdb) make # 重新编译；等价于 shell make
+#+END_SRC
+
+** 加载独立的调试信息
+
+#+BEGIN_SRC shell
+# 编译程序，带调试信息(-g)
+$ gcc -g -o test main.c
+# 拷贝调试信息到test.debug
+$ objcopy --only-keep-debug test test.debug
+# 移除test中的调试信息
+$ strip --strip-debug --strip-unneeded test
+# 然后启动gdb
+$ gdb -s test.debug -e test
+# 或这样启动gdb
+$ gdb
+(gdb) exec-file test
+(gdb) symbol-file test.debug
+
+# 分离出的调试信息test.debug还可以链接回可执行文件 test 中
+$ objcopy --add-gnu-debuglink test.debug test
+# 然后就可以正常用 addr2line 等需要读取调试信息的程序了
+$ addr2line -e test 0x401c23
+
+#+END_SRC
+
+** 执行 GDB 脚本
+
+#+BEGIN_SRC shell
+$ cat > gdbbp.txt # 将需要设备的断点等调试信息存储到一个文件
+b main.cpp:15
+b test.cpp:18
+Ctrl-D
+
+$ gdb -x /path/to/gdbbp.txt a.out # 启动 GDB 时倒入
+(gdb) source /path/to/gdbbp.txt # GDB 运行的时候导入
+
+# 每次gdb运行都要调用的脚本，比如设置字符集等，放在 ~/.gdbinit 初始文件里，每次 gdb 启动时都会自动调用
+#+END_SRC
+
+** 自定义命令
+
+#+BEGIN_SRC shell
+(gdb) define hello
+(gdb) print "welcome"
+(gdb) print "hello $arg0"
+(gdb) end
+# 然后如此调用
+(gdb) hello world
+# 即可输出
+(gdb) $1 = "welcome"
+(gdb) $2 = "hello world"
+
+#+END_SRC
+
+

@@ -1,0 +1,46 @@
+#+TITLE:       GNU Compiler Collection
+#+AUTHOR:      kyle Three Stone
+#+DATE:        <2018-05-24 Thu>
+#+EMAIL:       kyleemail@163.com
+#+OPTIONS:     H:3 num:t toc:t \n:nil @:t ::t |:t ^:t f:t TeX:t
+#+TAGS:        Linux, gcc
+#+CATEGORIES:  Linux
+
+
+
+
+
+GCC 由最初的 GNU C Compiler 逐渐演变为 GNU Compiler Collection ，支持 C, C++, Objective-C, Fortran,
+Ada, Go 语言的编译，当然也包含这些语言的库。不同的语言会有不同的版本， gcc 是 c 语言的编译器。
+
+* 编译
+
+编译过程通常包含 4 个步骤，可以指定选项来只完成某一步操作：
+1. 预处理或预编译 (Preprocessing)，进行宏替换、注释消除、找到库文件 : gcc -E test.c -o test.i
+2. 编译 (Compilation) ，编译成汇编代码 : gcc -S test.i -o test.s
+3. 汇编 (Assembly) ，生成机器代码（目标代码）: gcc -c test.s -o test.o
+4. 连接 (Linking) ，将目标文件和库文件连接起来，生成可执行文件 : gcc test.o -o test # 没有连接选项
+
+
+* 多文件编译
+
+#+BEGIN_SRC shell
+# 方法一
+gcc test1.c test2.c -o test
+
+# 方法二
+gcc test1.c -o test1.o
+gcc test2. -o test2.o
+gcc test1.o test2.o -o test
+# 工程较大的时候，推荐使用这种方法，可以增量编译
+#+END_SRC
+
+
+* 优化选项
+
+#+BEGIN_SRC shell
+gcc test.c -O1 -o test
+# -O 用于指定优化的级别，有 1~3 级，数字越大最终程序的执行速度越快，但编译时间越长
+# -o 用于指定输出文件的名字，不用混淆。不知道文件名字时默认使用 a.out
+
+#+END_SRC

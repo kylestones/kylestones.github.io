@@ -1,0 +1,227 @@
+#+TITLE:          Mask R-CNN
+#+AUTHOR:         Kyle Three Stones
+#+DATE:           <2018-11-27 Tue>
+#+EMAIL:          kyleemail@163.com
+#+OPTIONS:        H:3 num:t toc:nil \n:nil @:t ::t |:t ^:t f:t tex:t
+#+TAGS:           目标分割, 深度学习
+#+CATEGORIES:     深度学习
+
+
+
+** 训练 train
+
+
+*** 输入
+
+**** mini-batch
+
+论文指出每个 GPU 上面跑 2 张图片，共 8 个 GPU ，所以 batch-size = 16 TODO ；每张图片上 sample 256 个 anchor 用于训练。
+
+
+**** image spatial
+
+图片大小
+
+到底是用多大尺寸的图片训练网络的？ paper 中将图像的短边 resize 为 800 （测试的时候也会 resize 吗？）; 800*1024 ? 800*800 ? 1024*1024 ? 任意 size ? TODO
+
+
+**** anchor
+
+anchor 用于生产目标的最初候选区域
+
+生成 anchor 的方法
+1. anchor scale [32, 64, 128, 256, 512]
+1. anchor ratio [0.5, 1, 2]
+1. 在 RPN 网络最后一层的 feature map 上每个点生成一组 anchor （按照指定的 scale 和 ratio）
+
+
+判断为 positive anchor 的标准：
+1. anchor 和 gtbb IoU > 0.7 ；
+1. anchor 和 gtbb 有最大的 IoU ；
+
+判断为 negative anchor 的标准：
+1. anchor 和任意 gtbb IoU < 0.3
+
+Mask RCNN 需要 P N anchor 来训练 RPN ，每张图片上采集 256 个 anchor ，正负 anchor 的比例为 1:1 。
+
+| anchor num       | 256/per image |
+| P N anchor ratio |           1:1 |
+
+注意：
+1. 判断 PA ，一般第一种情况即可满足，少数情况下需要用到第二种判别方法
+1. 非 P 非 N anchor 不参与训练
+1. positive anchor 不足时，使用 negative anchor 补足
+1. Faster R-CNN 中训练时会忽略跨越图像边界的 anchor，否则训练不易收敛；但是 FPN 中训练时保留了与图像边界相交的 anchor ；
+   测试时保留，仅裁剪到图像的边界
+
+在 FPN 网络中，将不同大小的 anchor 分配到了网络的不同 level 上，靠近输入的网络层分配到较小的 anchor ，靠近输出的网络层分
+配到较大 anchor 。将 [32^2, 64^2, 128^2, 256^2, 512^2] 分别分配到了 [P2, P3, P4, P5, P6] 。
+
+
+**** region proposal
+
+anchor 经过 RPN 网络得到 region proposal ，会有该 anchor 中包含目标的概率 cls ，以及对 anchor 坐标的一个修正，以更好的框
+住目标。
+
+Faster RCNN
+1. 在 1000*600 的图片上，变换到 60*40 的 feature map ，每个点 9 个 anchor ，共有  60*40*9 大约 20000 个 anchor
+1. 去掉与图片边界相交的 anchor ，剩余大约 6000 个
+1. 依据 RPN 网络得到 anchor 的 cls ，使用 NMS ，阈值采用 0.7 ，最终得到大约 2000 个 region proposal
+
+
+**** RoIs for detection and segment
+
+RPN 生成的 region proposal 用于训练检测和分割网络
+
+| RoIs num       | 512/per image for FPN |
+| P N RoIs ratio |                   1:3 |
+
+从每张图片生成的 region proposal 中 sample N 个作为 RoIs(region of interest)，用于训练检测和分割网络。在 FPN 做 backbone
+的网络中，让 N=512 。且 positive 和 negative 的比例为 1:3 。为什么采用这个比例呢（这个是 RCNN paper 中提到的 25%-75%
+TODO）？可能 positive RoI 比较少
+
+detection positive RoIs 标准：
+1. RoI 与 gtbb IoU >= 0.5 即认为是 positive anchor
+2. 否则就认为是 negative anchor
+3. 上面是 Mask RCNN paper 中指出的，但是 RCNN 中还特意写了 IoU < 0.1 的情况 TODO
+
+然后将采样的 RoIs 经过 RoI Align 后用于检测和分割的网络。
+
+
+Mask R-CNN Implementation Details
+
+Training: 
+
+采用 image-centric 训练方法。
+
+RPN 和 Mask R-CNN 使用相同的 backbone ，且共享参数。
+
+mask branch 一个 box 会生成 k 个 masks ，但计算误差时，只使用 k-th mask ，这里的 k 表示这个 box 预测的类别。使用浮点数表
+示大小的 m*m mask resize 为 box 的 size ，且将其中的值以 0.5 为阈值进行二值化。mask loss 为类别 k 的的 box mask 和 gt
+mask 的 IoU 。计算时可以将两个 mask 都 resize 到整张图片的大小，然后计算两个 mask的内积就是 IoU 。
+
+训练时是将所有用于检测的 box 都用于训练 mask 了吗？
+
+Inference: 
+
+测试时，FPN 网络使用 region proposal 的个数为 1000 ，在这 1000 个 RoIs 上进行目标检测，然后使用检测分数最高的 100 个 box
+进行 mask 分割
+
+
+**** annotation
+
+
+
+
+
+*** 输出
+
+**** RPN
+Region Proposal Networks 是一个全卷积网络 a fully convolutional network 。
+
+在 RPN 和检测共享网络最后一层上使用 3*3 的滑动窗口扫描 feature maps ，为每个位置生成一个固定长度的特征，然后使用该特征利
+用全连接来提取 anchor 的分类和回归参数 a box-regression layer (reg) and a box-classification layer (cls)。具体可实现为先
+使用 3*3*512 卷积得到 channel 为 512 的特征，然后使用 1*1*2k 卷积得到分类概率，使用 1*1*4k 卷积得到 region proposal 的回
+归参数。由于这里是用不同的 channel 来表示不同的 anchor ，所以 k anchor 的 cls 和 reg 并不共享参数。
+
+1. 每个 feature map 上的一个点包含 2k 个 softmax 类别概率 scores ，其中 k 是 anchor 的个数，且使用二分类的 softmax 来表
+   示是否包含目标
+1. 每个 RoIs 包含 4k 个相对于 anchor 的坐标回归参数
+
+
+根据生成的 region 的区域大小，分给不同的 FPN 的不同 level \(P_k\) 。FPN 网络的不同 level 使用不同大小的 anchor 生成了一
+系列的 region proposal ，这些 region proposal 会对原始的 anchor box 进行修正，修正后的 region 会和原始的 anchor 大小不一
+致，此时需要根据修正后的 region proposal 的大小，将其重新分配给 FPN 的不同 level 。公式如下：
+
+\begin{equation}
+k = k_0 + \lfloor \log_2 (\sqrt{wh} / 224) \rfloor
+\end{equation}
+
+其中 224 是 imageset 中图像的尺寸； \(k_0\) 表示 \(w*h=224^2\) 的 RoI 应该映射的 level ，论文中设置 \(k_0=4\) ；
+
+RoI 尺寸比较小的会被分到较小的 level 上，否则会被分配到较大的 level 上。即在靠近输入的 feature map 上检测尺寸较小的目标，
+在远离输入的 feature map 上检测尺寸较大目标。
+
+当然不管分配到哪个 level 上，后续的检测分割 head 的参数都是共享。
+
+将采样的 RoIs 经过 RoI Align 后用于检测和分割的网络。
+
+
+**** object detection
+
+1. C+1 softmax
+1. 4C reg
+
+RoI Align -> 1024fc -> 1024fc -> class / box
+
+Mask R-CNN TF 中 fpn_classifier_graph()
+
+
+**** instance segmentation
+
+1. 28*28*C mask
+
+RoI Align -> 14*14*256 X4 -> 14*14*256 -> 28*28*256 -> 28*28*80 
+
+这里前四个 14*14*256 的卷积和随后的 14*14*256 的卷积有什么区别吗？ TODO
+
+
+
+** 测试 inference
+
+
+*** 输入
+
+
+**** region proposal
+
+1. 在 1000*600 的图片上，变换到 60*40 的 feature map ，每个点 9 个 anchor ，共有  60*40*9 大约 20000 个 anchor
+1. 将与图片边界相交的 anchor 裁剪到图像的边界
+1. 依据 RPN 网络得到 anchor 的 cls ，使用 NMS ，阈值采用 0.7
+1. 使用 Top N region 用于检测；Mask RCNN Tensorflow 代码中 N = 100
+
+
+Faster RCNN 文中验证，去掉提取 region proposal 的 RPN 网络，直接使用 anchor 来检测， mAP 会下降。准确的 region proposal
+对与检测结果很重要。
+
+On the other hand, when the reg layer is removed at test-time (so the proposals become anchor boxes), the mAP drops to
+52.1%. This suggests that the high-quality proposals are mainly due to the regressed box bounds. The anchor boxes,
+though having multiple scales and aspect ratios, are not sufficient for accurate detection.
+
+
+*** 输出
+
+
+** region proposal
+
+
+** RoI Pooling
+
+\(x_i\) 是 RoI Pooling 的第 i 个输入，\(y_{r_j}\) 是第 r 个 RoI 的第 j 个 sub-window 的输出。
+
+A single \(x_i\) may be assigned to several different output \(y_{r_j}\) 
+
+TODO
+
+\begin{equation}
+\frac{\partial L}{\partial x_i} = \sum_r \sum_j [i = i^*(r,j)] \frac{\partial L}{ \partial y_{r_j} }
+\end{equation}
+
+
+** 起因
+
+去北京周同科技面试的时候，两轮技术面，面试官都让我讲解一个算法，要求是讲清楚算法的输入、输出是什么？突然发现自己并没有好
+好去分析某个算法的具体输入输出，而仅仅看了一下算法改进的关键点。其实是对算法的整体流程并不清楚，故在此分析总结。
+
+YOLO 最终输出？ 是怎样和训练样本的标注数据比较得到误差的？
+
+去迈外迪面试的时候，面试官问我， VGG、GoogLeNet、ResNet、DenseNet 的作者是谁，我除了何凯明大神，其他的都不知道。面试官说，
+当然这些都不重要，但是可以反应出你对这个圈子是否熟悉。本来信心就不足，还答错了一个非常非常低级的错误卷积层参数的个数
+
+
+所有标有 TODO 的位置都表示未理解
+
+
+** 待参考
+
+1. [[https://blog.csdn.net/zziahgf/article/details/78730859]]

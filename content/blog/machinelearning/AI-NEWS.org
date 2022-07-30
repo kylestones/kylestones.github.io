@@ -1,0 +1,17 @@
+#+TITLE:          深度学习新闻跟踪
+#+AUTHOR:         Kyle Three Stones
+#+DATE:           <2020-03-07 Sat>
+#+EMAIL:          kyleemail@163.com
+#+OPTIONS:        H:3 num:t toc:nil \n:nil @:t ::t |:t ^:t f:t tex:t
+#+TAGS:           
+#+CATEGORIES:     深度学习
+
+
+** 摄像头是天生的神经网络
+
+还记得之前说冯诺依曼结构的计算机，将计算和存储分离，需要移动大量的数据，严重限制了计算的性能，忆阻器可以实现类神经元，同时完成计算和存储。今天看到一个有意思的研究，说摄像头直接完成神经网络的计算，摄像头 CMOS 有望成为新一代的 GPU 。维也纳大写的研究发表在 20200304 期 nature 上，运行速度非常快，运行速度受限于电路中电子的速度，真是不能再快了。
+
+https://www.nature.com/articles/s41586-020-2038-x
+
+
+** TOADD

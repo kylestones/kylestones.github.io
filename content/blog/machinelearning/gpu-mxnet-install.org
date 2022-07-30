@@ -1,0 +1,237 @@
+#+TITLE:          ubuntu18.04 install gpu mxnet
+#+AUTHOR:         Kyle Three Stones
+#+DATE:           <2018-12-14 Fri>
+#+EMAIL:          kyleemail@163.com
+#+OPTIONS:        H:3 num:t toc:nil \n:nil @:t ::t |:t ^:t f:t tex:t
+#+TAGS:           mxnet, ubuntu, 深度学习
+#+CATEGORIES:     深度学习
+
+
+** 安装 Ubuntu18.04
+
+1. 从 [[http://mirrors.ustc.edu.cn/][中科大源]] 下载系统镜像，并制作 u 盘启动盘
+
+#+BEGIN_SRC bash
+# 使用 wget 下载 Ubuntu18.04
+$ wget http://mirrors.aliyun.com/ubuntu-releases/bionic/ubuntu-18.04.1-desktop-amd64.iso
+
+# fdisk 查看 u 盘分区
+$ sudo fdisk -l
+
+# 使用 dd 命令制作 u 盘启动镜像
+$ dd if=ubuntu18.04.1-desktop-amd64.iso of=/dev/sdb
+#+END_SRC
+
+
+1. 启动电脑，修改为 U 盘启动
+1. 关闭 uefi 安全检查，有秘钥的通通删掉
+1. 使用 U 盘启动后，选择安装 Ubuntu
+1. 手动分区，建议只有两个分区，一个根分区，一个 home 分区；这样在需要重装系统的时候可以格式化根分区，同时保留 home 分区
+   的内容
+1. 安装完成后，修改 root 的密码，从而可以使用 root 登录系统
+
+
+** 安装 NVIDIA 驱动
+
+硬件配置 
+
+| GPU  | GTX2070           |
+
+1. 由于 GPU 较新，需要添加 PPA；如非必要可以直接使用 Ubuntu repository
+1. 查看驱动列表
+1. 安装驱动
+1. 重启使驱动生效
+
+
+#+BEGIN_SRC bash
+# Ubuntu repository 的驱动虽然比较旧，但是更加稳定，bug 较少；
+# 如果想要安装最先的版本，可以添加由 Ubuntu 团队维护的 PPA
+# PPA 仍然在测试，可能存在某些依赖问题
+# 不需要手动更新，Ubuntu18.04 会自动更新
+$ sudo add-apt-repository ppa:graphics-drivers/ppa
+
+# 查看驱动列表
+$ sudo ubuntu-drivers devices
+# == /sys/devices/pci0000:00/0000:00:01.0/0000:01:00.0 ==
+# modalias : pci:v000010DEd00001F07sv00001043sd00008670bc03sc00i00
+# vendor   : NVIDIA Corporation
+# driver   : nvidia-driver-415 - third-party free recommended
+# driver   : nvidia-driver-410 - third-party free
+# driver   : xserver-xorg-video-nouveau - distro free builtin
+
+# 安装驱动
+# Nvidia 维护了一个 Unix/Linux 平台的驱动版本 [https://www.nvidia.com/object/unix.html]
+# 单击某个版本，可以看到其支持的显卡型号
+# 可以看到 nvidia-driver-410 是一个稳定的版本，且支持自己的显卡 2070
+# 不要使用 $ sudo ubuntu-drivers autoinstall ；否则会安装 nvidia-driver-415 ，这个版本可能并不稳定
+$ sudo apt install nvidia-driver-410
+
+# 重启电脑，使得显卡驱动生效
+$ sudo shutdown -r now
+
+# 查看是否安装成功
+# 安装后显示为 "configuration: driver=nvidia latency=0" ，而安装前显示 "configuration: driver=nouveau latency=0"
+$ sudo lshw -c display
+# 大功告成，没有那些繁琐的步骤，就是这么简单，当然是在无数次重装之后发现的
+
+# 如果需要可以切换 NVIDIA 和 Intel 显卡，配置重启生效
+$ sudo prime-select intel
+$ sudo prime-select nvidia
+
+# 查看帮助
+$ dpkg -L nvidia-driver-410
+
+
+# 卸载驱动；不用轻易照着敲！！！这里是卸载
+$ sudo apt purge nvidia-*
+$ sudo apt autoremove
+$ sudo add-apt-repository --remove ppa:graphics-drivers/ppa
+#+END_SRC
+
+
+参考 [[https://www.linuxbabe.com/ubuntu/install-nvidia-driver-ubuntu-18-04][2 Ways to Install Nvidia Driver on Ubuntu 18.04 (GUI & Command Line)]]   
+
+
+** 安装 CUDA
+
+按照文件 <CUDA_ Installation_ Guide_ Linux.pdf> 说明一步步就可以正确安装，且推荐使用 deb 安装，非常简单，强烈不建议使用
+run 文件安装，有点复杂，而且我没有安装成功。不知道为什么网上的教程都是在使用 runfile 安装！@#￥%……&*
+
+1. 安装前检测，这个正常安装完 Ubuntu18.04 和显卡驱动，一般没有问题，但是确认一下也无妨
+1. 下载安装 cuda-repo-<distro>_<version>_<architecture>.deb
+1. 安装完成后，添加环境变量
+1. 安装例子，并测试
+
+#+BEGIN_SRC bash
+# 1. 安装前准备
+# 1.1 确认有支持 CUDA 的 GPU
+$ update-pciids
+$ lspci | grep -i nvidia
+
+# 1.2 确认 Linux 版本支持
+$ uname -m && cat /etc/*release
+
+# 1.3 确认 gcc 正确安装
+$ gcc --version
+
+# 1.4 确认已经安装了内核头文件，CUDA 驱动需要内核头文件
+$ apt-get install linux-headers-$(uname -r)
+
+# 1.5 下载 NVIDIA CUDA Toolkit. Ubuntu 严重推荐使用 deb 包安装，虽然 runfile packages 使用所有发布版本
+$ wget https://developer.nvidia.com/compute/cuda/10.0/Prod/local_installers/cuda-repo-ubuntu1804-10-0-local-10.0.130-410.48_1.0-1_amd64
+# 验证 md5
+$ md5sum cuda-repo-ubuntu1804-10-0-local-10.0.130-410.48_1.0-1_amd64 
+# 816f80220e13a77fb6bb05620114691d  cuda-repo-ubuntu1804-10-0-local-10.0.130-410.48_1.0-1_amd64
+# 文件没有带后缀，手动添加后缀
+$ mv cuda-repo-ubuntu1804-10-0-local-10.0.130-410.48_1.0-1_amd64 cuda-repo-ubuntu1804-10-0-local-10.0.130-410.48_1.0-1_amd64.deb
+
+# 1.6 验证显卡驱动版本和 CUDA 版本是否兼容，不兼容需要卸载，并重新安装
+
+# 2. 安装
+# 2.1 Install repository meta-data
+$ sudo dpkg -i cuda-repo-ubuntu1804-10-0-local-10.0.130-410.48_1.0-1_amd64.deb
+# 2.2 使用 local repo 安装，根据提示信息，需要添加 CUDA public GPG key 
+$ sudo apt-key add /var/cuda-repo-10-0-local-10.0.130-410.48/7fa2af80.pub
+# 2.3. Update the Apt repository cache
+$ sudo apt-get update
+# 2.4. Install CUDA
+$ sudo apt-get install cuda
+
+# 3. 安装善后。需要手动处理，分为必须、推荐和可选三种
+# 3.1. Mandatory Actions 必须设置才能使能 CUDA
+# 3.1.1. 添加环境变量，添加到 .bashrc 文件即可
+$ export PATH=/usr/local/cuda-10.0/bin${PATH:+:${PATH}}
+# 至此安装可以说已经大功告成
+
+# 3.2. Recommended Actions
+# Other actions are recommended to verify the integrity of the installation.
+# 3.2.1. Install Persistence Daemon 不是很理解，保持英文原文
+# NVIDIA is providing a user-space daemon on Linux to support persistence of driver
+# state across CUDA job runs. The daemon approach provides a more elegant and robust
+# solution to this problem than persistence mode. For more details on the NVIDIA
+# Persistence Daemon, see the documentation here.
+
+# The NVIDIA Persistence Daemon can be started as the root user by running:
+# This command should be run on boot. Consult your Linux distribution's init
+# documentation for details on how to automate this.
+# 使用 systemd 在 boot 时使能；具体操作我不会，需要自查
+# 没有设置，并不影响使用
+$ /usr/bin/nvidia-persistenced --verbose
+
+# 4. 安装测试 sample
+# 提供了安装脚本 cuda-install-samples-10 ，后面接安装路径
+$ cuda-install-samples-10.0.sh ~/cuda
+
+# 4.1. Verify the Driver Version 显卡驱动正确安装以后，可以如下进行查看
+$ cat /proc/driver/nvidia/version
+
+# 4.2. 编译 sample
+# 查看 CUDA Tookit 的版本
+$ nvcc -v
+# 编译 sample ，会调用 gcc 来编译 c 代码， NVIDIA PTX 编译器编译 CUDA 代码
+$ make
+# 编译结果放到了 ~/cuda/NVIDIA_CUDA-10.0_Samples/bin.
+
+# 4.3. 运行测试程序
+$ ./deviceQuery
+# 如果正确安装可以看到 "a device was found" 、 "the device matches the one on your system" 、"passed" 字样
+
+# 4.4. 运行 bandwidthTest 程序确保系统可以和显卡正常交互
+$ ./bandwidthTest
+#+END_SRC
+
+
+
+** 安装 cuDNN
+
+仍然建议使用 deb 文件安装，简单方便；手册 <cuDNN-Installation-Guide.pdf>
+
+#+BEGIN_SRC bash
+# 这个需要注册登录，无法使用 wget 下载，就只好使用浏览器下载了
+
+# 1. 进入下载包含 cuDNN deb 文件的路径下
+# 2. 安装 runtime library
+$ sudo dpkg -i libcudnn7_7.0.3.11-1+cuda9.0_amd64.deb
+# 3. 安装 developer library
+$ sudo dpkg -i libcudnn7-dev_7.0.3.11-1+cuda9.0_amd64.deb
+# 4. 安装测试代码和 cuDNN Library 用户手册
+$ sudo dpkg -i libcudnn7-doc_7.0.3.11-1+cuda9.0_amd64.deb
+
+# 验证安装是否成功
+# 5.1. 拷贝 cuDNN sample 到你希望的路径
+$ cp -r /usr/src/cudnn_samples_v7/ $HOME/cudnn
+# 5.2. 进入该目录
+$ cd $HOME/cudnn/cudnn_samples_v7/mnistCUDNN
+# 5.3. 编译
+$ make clean && make
+# 5.4. 运行测试，如果正确安装可以看到 Test passed! 字样
+$ ./mnistCUDNN
+
+
+# cuDNN v7 可以和其他版本的 cuDNN 共存, 例如 v5 或 v6.
+#+END_SRC
+
+
+
+** 安装 GPU mxnet
+
+已经可以使用 pip 安装，所以也是 so easy
+
+#+BEGIN_SRC bash
+$ pip install mxnet-cu100
+
+# 安装 gluoncv
+$ pip install gluoncv --upgrade
+
+# 下载一个简单的测试脚本测试安装是否正常
+$ wget https://gluon-cv.mxnet.io/_downloads/fa7519f2f9b82eccb4f618d8f7b8188e/train_cifar10.py
+$ python train_cifar10.py --num-epochs 10 --mode hybrid --num-gpus 1 -j 6 --batch-size 128 --wd 0.0001 --lr 0.1 --lr-decay 0.1 --lr-decay-epoch 80,160 --model cifar_resnet20_v1
+#+END_SRC
+
+
+** 后记
+
+1. 如果有安装手册，严格按照说明安装即可
+1. 如果必要，尽量使用 Google 查看他人的安装指导
+1. 牛 X 公司的软件也是有 bug 的，尤其是较新的版本；开始使用 ppa 安装显卡驱动的时候就没有成功
+1. 新组装的电脑，系统重装了 \(N^N\) 次，感觉都要把电脑整残废了，那些不靠谱的博客

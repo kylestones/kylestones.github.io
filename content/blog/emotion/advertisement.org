@@ -1,0 +1,13 @@
+#+TITLE: 广告
+#+AUTHOR: 三石
+#+DATE: <2022-06-03 Fri>
+#+EMAIL: kyleemail@163.com
+#+OPTIONS:     H:3 num:t toc:t \n:nil @:t ::t |:t ^:t f:t TeX:t
+#+DESCRIPTION: 
+#+TAGS:        
+#+CATEGORIES:  
+
+** LiveRe 广告
+
+   许久许久没有整博客，都不知道这两年是怎么虚度的。打开自己再 github 上的博客，突然发现有广告，在页面底部，来必力评论的下面。虽然来比力是可以免费使用的，对应公司需要钱来支持运营。但是看到广告还是感觉非常的不爽，
+   那就删掉评论的配置了，况且也不会有人来我这垃圾博客来评论。。。

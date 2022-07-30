@@ -1,0 +1,85 @@
+#+TITLE:          人脸识别
+#+AUTHOR:         Kyle Three Stones
+#+DATE:           <2018-08-17 Fri 07:19>
+#+EMAIL:          kyleemail@163.com
+#+OPTIONS:        H:3 num:t toc:nil \n:nil @:t ::t |:t ^:t f:t tex:t
+#+TAGS:           人脸识别, 深度学习
+#+CATEGORIES:     深度学习
+
+
+** FaceNet
+
+A Unified Embedding for Face Recognition and Clustering
+
+原来使用卷积神经网络来提取人脸的特征通常都是使用 softmax-loss 来训练网络，以期望网络的到的 embedding 足够好。本文作者直
+接使用 embedding 的误差来训练网络，然后通过计算 embedding 的欧式距离来实现人脸验证。
+
+*** triplet loss
+
+每次使用三张图像，一个是 anchor ，另外两张中一张图像与 anchor 是同一个人，另一张是不同的人。
+
+\begin{align*}
+L = \sum_i^N \left [||f(x_i^a) - f(x_i^p)||_2^2 - ||f(x_i^a) - f(x_i^n)||_2^2 + \alpha \right ]_+
+\end{align*}
+
+
+*** Triplet Selection
+
+为了较好的训练效果，挑选hard-positive 和 hard-negative 的人脸对，就是同一个人时选择两张差别最大的图像，不同人脸的时候，
+挑选差别最小的两张图像。其中 \(\alpha\) 是 margin 。当然所有这些选择都是在一个 mini-batch 中，而不是整个训练样本中。
+
+另外为了防止网络进入局部最优解或者训练崩溃（如 f(x) = 0），选择 semi-hard negative 样本，即满足 \[ ||f(x_i^a) -
+f(x_i^p)||_2^2 - ||f(x_i^a) - f(x_i^n)||_2^2 \]
+
+论文中有 online 和 offline 两种方式来选择。选择方法较麻烦
+
+
+** center loss
+
+A Discriminative Feature Learning Approach for Deep Face Recognition
+
+作者认为 Softmax 仅仅增加了类间离散度，并没有很好的减小类内离散度，所以作者对 softmaax-loss 进行了改造，增加了每一个样本
+到中心点距离的惩罚项，强制让学习到的同一个人的 embedding 都簇拥到一起。Penalizes the distances between the deep features
+and their corresponding class centers.
+
+\begin{align*}
+L & = L_s + \lambda L_c \\
+& = \sum_{i=1}^m - \log \left( \frac{ e^{W_{y_i}^T x_i + b_{y_i}} }{ \sum_j e^{W_j^T x_i + b_j} } \right) 
++ \frac{\lambda}{2} \sum_{i=1}^m ||x_i - C_{y_i}||_2^2 \\
+\end{align*}
+
+当然无法计算训练样本中所有同类样本的中心点，所以作者改用 mini-batch 中同一个人的中心点来代替各自的类别中心点；同时使用了
+一个更新速率来调节中心点的变化，来抑制噪声。
+
+同时去掉了最后一个 ReLU 激活函数使得 embedding 可以在更多的空间学习。
+
+
+** SphereFace
+
+作者认为 Softmax 学习到的是不同类别的角度间隔，类似 contrastive loss 、triplet loss 、center loss 使用欧式距离加上
+Softmax loss 并不合理。 Original softmax loss have an intrinsic angular distribution. So directly combining Euclidean
+margin constraints with softmax loss is not reasonable.
+
+作者现将 Softmax loss 表示成角度的形式
+
+\begin{align*}
+L & = \sum_i - \log \left( \frac{e^{f_{y_i}}}{\sum_j e^{f_j}} \right) \\
+& = \sum_i - \log \left( \frac{ e^{W_{y_i}^T x_i + b_{y_i}} }{ \sum_j e^{W_j^T x_i + b_j} } \right) \\
+& = \sum_i - \log \left( \frac{ e^{||W_{y_i}||||x_i||cos(\theta_{y_i,i})} }
+{ \sum_j e^{||W_j^T||||x_i||cos(\theta_{j,i})} } \right) \\
+& = \sum_i - \log \left( \frac{e^{||x_i||cos(\theta_{y_j,i})}}{\sum_j e^{||x_i||cos(\theta_{j,i})}} \right)
+\end{align*}
+
+然后增加角度 margin ，类似欧式距离的 margin，只是变成角度间隔。作者称这种损失函数为 A-softmax
+
+\begin{align*}
+L_{ang} = \sum_i - \log \left( \frac{ e^{ ||x_i||cos(m\theta_{y_j,i}) } }
+{ e^{ ||x_i||cos(m\theta_{y_j,i}) } + \sum_{j \neq y_i} e^{ ||x_i||cos(\theta_{j,i}) }} \right)
+\end{align*}
+
+此时若两个类别的权重 \(W_1\) 和 \(W_2\) 之间的夹角为 \(\theta_2^1\) ，则两个类别的角度间隔为 \(\frac{m-1}{m+1}
+\theta_2^1\) 。
+
+另外还去掉了最后一个全连接层的 ReLU 激活函数，因为使用 ReLU 之后，输出值被限制在 \([0, +\infty)\) 。去掉之后特征将有更大
+的可学习空间。
+

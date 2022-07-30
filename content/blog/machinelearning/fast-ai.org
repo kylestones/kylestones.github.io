@@ -1,0 +1,137 @@
+#+TITLE:          fast.ai
+#+AUTHOR:         Kyle Three Stones
+#+DATE:           <2019-03-24 Sun>
+#+EMAIL:          kyleemail@163.com
+#+OPTIONS:        H:3 num:t toc:nil \n:nil @:t ::t |:t ^:t f:t tex:t
+#+TAGS:           深度学习
+#+CATEGORIES:     深度学习
+
+
+** 调参
+
+*** 分阶段使用多个学习速率
+
+越接近输入的层，在 fine-tune 的时候，参数需要调节的越小，越靠近输出层，参数需要调节的越大。因此在 fine-tune 的时候，不同
+的层最好使用不同的学习速率。例如 1-2 层使用 0.001 ，3-4 层使用 0.01 ，5-6 层使用 0.1 等等，越远离输出层，逐渐让学习速率
+缩小 10 倍。[ Once the last layers are producing good results, we implement differential learning rates to alter the
+lower layers as well. The lower layers want to be altered less, so it is good practice to set each learning rate to be
+10 times lower than the last. ]
+
+
+*** 找到最优学习速率
+
+学习速率几乎是训练神经网络时的最重要的超参。可以通过让学习速率从一个很小的值开始，然后每个 mini-batch 都以指数级增长，同
+时记录每个学习速率所对应的 loss ，然后画出 loss 和学习速率的关系曲线图，找到学习速率最大，但 loss 仍然在下降的点，这个学
+习速率就是最好的学习速率。[ Do a trial run and train the neural network using a low learning rate, but increase it
+exponentially with each batch. Meanwhile, the loss is recorded for every value of the learning rate. We then plot loss
+against learning rate. The optimum learning rate is determined by finding the value where the learning rate is highest
+and the loss is still descending. ]
+
+
+*** cosine annealing
+
+使用 SGD 训练网络的时候，参数会逐渐接近全局最优解，当越来越接近最优解的时候，我们不希望以为学习速率过大，而导致跳过全局
+最优解。余弦退火使得学习速率曲线类似余弦函数，先缓慢减小，然后迅速减小，最后右变成缓慢减小（目的应该就是希望使用这里的缓
+慢减小）。[ With each batch of stochastic gradient descent (SGD), your network should be getting closer and closer to a
+global minimum value for the loss. As it gets closer to this minimum, it hence makes sense that the learning rate should
+get smaller so that your algorithm does not overshoot, and instead settles as close to this point as possible. Cosine
+annealing solves this problem by decreasing the learning rate following the cosine function. As we increase x the cosine
+value descends slowly at first, then more quickly and then slightly slower again. This mode of decreasing works well
+with the learning rate, yielding great results in a computationally efficient manner. ]
+
+
+*** 带重启的随机梯度下降法
+
+训练的时候很有可能陷入局部最优解，而非全局最优解。通过突然增大学习速率，可以跳出局部最优解，这种方法称为 SGDR。 [ During
+training it is possible for gradient descent to get stuck at local minima rather than the global minimum. By increasing
+the learning rate suddenly, gradient descent may “hop” out of the local minima and find its way toward the global
+minimum. Doing this is called stochastic gradient descent with restarts (SGDR). ]
+
+*带重启的随机梯度下降法结合余弦退火以及分阶段不同的学习速率是 fast.ai 取得良好的图像分类结果的关键。*
+
+fast.ai 库中有两个参数 cycle_mult 和 cycle_len 两个参数用于设置余弦退火周期的长度，以及之后周期长度需要乘以的倍数。（随
+着迭代次数的增加，周期会变得越来越长。
+
+
+*** 创造力是关键
+
+硅谷的大公司可能有成千上万的 GPU ，但是你可以利用自己的思考、直觉与创新打败他们。有时候因为有限制才有了更好的事物被创造
+出来。
+
+
+** 为什么深度网络难以训练
+
+When we look closely, we'll discover that the different layers in our deep network are learning at vastly different
+speeds. In particular, when later layers in the network are learning well, early layers often get stuck during training,
+learning almost nothing at all.
+
+As we delve into the problem more deeply, we'll learn that the opposite phenomenon can also occur: the early layers may
+be learning well, but later layers can become stuck.
+
+To generate these results, I used batch gradient descent with just 1,000 training images, trained over 500 epochs.
+Rather than using all images and mini-batch.
+
+The random initialization means the first layer throws away most information about the input image. Even if later layers
+have been extensively trained, they will still find it extremely difficult to identify the input image, simply because
+they don't have enough information.
+
+The unstable gradient problem: The fundamental problem here isn't so much the vanishing gradient problem or the
+exploding gradient problem. It's that the gradient in early layers is the product of terms from all the later layers.
+When there are many layers, that's an intrinsically unstable situation. The only way all layers can learn at close to
+the same speed is if all those products of terms come close to balancing out. Without some mechanism or underlying
+reason for that balancing to occur, it's highly unlikely to happen simply by chance. In short, the real problem here is
+that neural networks suffer from an unstable gradient problem. As a result, if we use standard gradient-based learning
+techniques, different layers in the network will tend to learn at wildly different speeds.
+
+
+
+** 下载自己的图片
+
+在谷歌浏览器查找自己感兴趣的图片，然后输入 Ctrl+shift+J 然后粘贴下面代码，并回车即可下载图片的 url
+
+#+BEGIN_SRC javascript
+urls = Array.from(document.querySelectorAll('.rg_di .rg_meta')).map(e1=>JSON.parse(e1.textContent).ou);
+window.open('data:text/csv;charset=utf-8,' + escape(urls.join('\n')));
+#+END_SRC
+
+
+** 模型压缩
+
+通常直接训练一个小型的网络，比训练一个大型的网络，然后压缩到同等规模的小网络，效果要差。所以一般都是先训练一个大型的网络，
+然后进行压缩。
+
+CNN 模型的大小，也就是网络的复杂度代表了其学习能力的容量。在没训练出模型之前，我们并不知道究竟多大的网络才适合我们给定的
+任务和数据集，我们并不知道多少的学习容量才是合适的。所以上面说的大小可能根本无法估计。
+
+普遍观念认为模型压缩通常能大幅减少参数数量，压缩空间，从而降低计算量。从而更好的部署到手机或者无人机上。
+
+在剪枝过程中，根据一定的标准，对冗余权重进行修剪并保留重要权重，以最大限度地保持精确性。
+
+步骤
+
+1. 首先训练一个大型模型
+1. 然后进行剪枝
+1. 最后微调
+
+方法
+
+1. pruning -- 剪枝
+1. quantization
+1. knowledge distillation -- 知识蒸馏
+1. low-rank decomposition
+1. compact architecture design
+
+文章 [[https://arxiv.org/pdf/1810.05270v2.pdf][Rethinking the Value of Network Pruning]] 指出，自动剪枝，选择的并不是重要的权重，而是在进行网络架构搜索 network
+architecture search
+
+记得微软有一篇文章提出更好的训练网络的方法：由于剪枝后的网络比同等规模的网络效果好，说明网络没有被很好的训练。
+
+参考
+
+1. [[https://www.zhihu.com/question/303922732][为什么要压缩模型，而不是直接训练一个小的CNN？]]
+
+
+** 参考
+
+1. [[https://blog.floydhub.com/ten-techniques-from-fast-ai/][Ten Techniques Learned From fast.ai]]
+1. [[https://neuralnetworksanddeeplearning.com/chap5.html][Why are deep neural networks hard to train?]]

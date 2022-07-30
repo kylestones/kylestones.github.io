@@ -1,0 +1,106 @@
+#+TITLE:       make
+#+AUTHOR:      kyle Three Stone
+#+DATE:        <2018-05-24 Thu>
+#+EMAIL:       kyleemail@163.com
+#+OPTIONS:     H:3 num:t toc:t \n:nil @:t ::t |:t ^:t f:t TeX:t
+#+TAGS:        Linux, make
+#+CATEGORIES:  Linux
+
+
+make 可以自行决定一个大型程序中的哪些源文件需要重新编译，并根据指定的命令对其进行重新编译。make 不仅
+可以用于 C 语言的编译，其可以用于任何可以使用 shell 命令进行编译的语言。而且 make 并不仅仅限于编译某
+种语言，也可以使用 make 工具来做一些其它的事。例如，有这样的需求：当我们修改了某个或者某些文件后，需
+要能够根据修改的文件来自动对相关文件进行重建或者更新。
+
+需要编写 makefile 文件来使用 make 这个工具。makefile 用于告诉 make 需要编译哪些文件，以及如何编译。
+makefile 文件中描述了文件之间的关系，并制定了一些命令用于编译更新。一般来说，一个可执行程序文件依赖
+一些目标文件，而这些目标文件有某些源文件编译得到。一旦完成了一个有效的 makefile 文件，每次只需要执行
+make 命令便可以完成增量编译。make 根据文件的最后修改时间来决定哪些文件需要被更新。
+
+
+#+BEGIN_SRC makefile
+edit : main.o kbd.o command.o display.o \
+       insert.o search.o files.o utils.o
+        cc -o edit main.o kbd.o command.o display.o \
+                   insert.o search.o files.o utils.o
+
+main.o : main.c defs.h
+        cc -c main.c
+kbd.o : kbd.c defs.h command.h
+        cc -c kbd.c
+command.o : command.c defs.h command.h
+        cc -c command.c
+display.o : display.c defs.h buffer.h
+        cc -c display.c
+insert.o : insert.c defs.h buffer.h
+        cc -c insert.c
+search.o : search.c defs.h buffer.h
+        cc -c search.c
+files.o : files.c defs.h buffer.h command.h
+        cc -c files.c
+utils.o : utils.c defs.h
+        cc -c utils.c
+clean :
+        rm edit main.o kbd.o command.o display.o \
+           insert.o search.o files.o utils.o
+#+END_SRC
+
+#+BEGIN_SRC makefile
+objects = main.o kbd.o command.o display.o \
+          insert.o search.o files.o utils.o
+
+edit : $(objects)
+        cc -o edit $(objects)
+main.o : main.c defs.h
+        cc -c main.c
+kbd.o : kbd.c defs.h command.h
+        cc -c kbd.c
+command.o : command.c defs.h command.h
+        cc -c command.c
+display.o : display.c defs.h buffer.h
+        cc -c display.c
+insert.o : insert.c defs.h buffer.h
+        cc -c insert.c
+search.o : search.c defs.h buffer.h
+        cc -c search.c
+files.o : files.c defs.h buffer.h command.h
+        cc -c files.c
+utils.o : utils.c defs.h
+        cc -c utils.c
+clean :
+        rm edit $(objects)
+#+END_SRC
+
+
+#+BEGIN_SRC makefile
+objects = main.o kbd.o command.o display.o \
+          insert.o search.o files.o utils.o
+
+edit : $(objects)
+        cc -o edit $(objects)
+
+main.o : defs.h
+kbd.o : defs.h command.h
+command.o : defs.h command.h
+display.o : defs.h buffer.h
+insert.o : defs.h buffer.h
+search.o : defs.h buffer.h
+files.o : defs.h buffer.h command.h
+utils.o : defs.h
+
+.PHONY : clean
+clean :
+        rm edit $(objects)
+#+END_SRC
+
+#+BEGIN_SRC makefile
+objects = main.o kbd.o command.o display.o \
+          insert.o search.o files.o utils.o
+
+edit : $(objects)
+        cc -o edit $(objects)
+
+$(objects) : defs.h
+kbd.o command.o files.o : command.h
+display.o insert.o search.o files.o : buffer.h
+#+END_SRC

@@ -1,0 +1,941 @@
+#+TITLE:       Org-mode笔记
+#+AUTHOR:      Kyle Three Stones
+#+DATE:        <2017-12-27 Wed 07:19>
+#+EMAIL:       kyleemail@163.com
+#+OPTIONS:     H:3 num:t toc:nil \n:nil @:t ::t |:t ^:t f:t TeX:t
+#+TAGS:        org-mode, emacs
+#+CATEGORIES:  org-mode
+
+
+* 概要
+
+  + 以 # 号后加一空格开始的行表示注释，文件导出时这些内容不被导出，上面第一行就是。
+  + 以 #+ 符号开始的行用于设置文档参数或内容属性，比如文档的标题、作者，org-mode打开时文档的呈现状态等。
+  + 用 [[]] 括起来的内容表示外部链接
+  + 用 <<>> 括起来的内容表示文档的内部链接
+  + 以 * 符号开始的行，表示该行为标题。
+  + 标题内容前的 TODO 标记是待办任务的标记符号。
+  + 标题行后面两个 : 符号间的内容表示标签（ TAG ）。
+  + 标题行如果标题文本前有 COMMENT 标记表示该标题下的所有内容为注释。
+  + 位于 #+BEGIN_XXX 和 #+END_XXX 之间的内容为特殊文档块，如代码块、例子、引用等。
+  + C-c C-x C-h查看按键的帮助信息
+
+* 元数据
+** 文档元数据
+#+BEGIN_EXAMPLE
+具体包括：
+
+    #+TITLE:       the title to be shown (default is the buffer name)
+    #+AUTHOR:      the author (default taken from user-full-name)
+    #+DATE:        a date, an Org timestamp1, or a format string for format-time-string
+    #+EMAIL:       his/her email address (default from user-mail-address)
+    #+DESCRIPTION: the page description, e.g. for the XHTML meta tag
+    #+KEYWORDS:    the page keywords, e.g. for the XHTML meta tag
+    #+LANGUAGE:    language for HTML, e.g. ‘en’ (org-export-default-language)
+    #+TEXT:        Some descriptive text to be inserted at the beginning.
+    #+TEXT:        Several lines may be given.
+    #+OPTIONS:     H:2 num:t toc:t \n:nil @:t ::t |:t ^:t f:t TeX:t ...
+    #+BIND:        lisp-var lisp-val, e.g.: org-export-latex-low-levels itemize
+                   You need to confirm using these, or configure org-export-allow-BIND
+    #+LINK_UP:     the ``up'' link of an exported page
+    #+LINK_HOME:   the ``home'' link of an exported page
+    #+LATEX_HEADER: extra line(s) for the LaTeX header, like \usepackage{xyz}
+    #+EXPORT_SELECT_TAGS:   Tags that select a tree for export
+    #+EXPORT_EXCLUDE_TAGS:  Tags that exclude a tree from export
+    #+XSLT:        the XSLT stylesheet used by DocBook exporter to generate FO file
+
+其中#+OPTIONS是复合的选项，包括：
+
+    H:         set the number of headline levels for export
+    num:       turn on/off section-numbers
+    toc:       turn on/off table of contents, or set level limit (integer)
+    \n:        turn on/off line-break-preservation (DOES NOT WORK)
+    @:         turn on/off quoted HTML tags
+    ::         turn on/off fixed-width sections
+    |:      turn on/off tables（因为使用|会出错）
+    ^:         turn on/off TeX-like syntax for sub- and superscripts.  If
+               you write "^:{}", a_{b} will be interpreted, but
+               the simple a_b will be left as it is.
+    -:         turn on/off conversion of special strings.
+    f:         turn on/off footnotes like this[1].
+    todo:      turn on/off inclusion of TODO keywords into exported text
+    tasks:     turn on/off inclusion of tasks (TODO items), can be nil to remove
+               all tasks, todo to remove DONE tasks, or list of kwds to keep
+    pri:       turn on/off priority cookies
+    tags:      turn on/off inclusion of tags, may also be not-in-toc
+    <:         turn on/off inclusion of any time/date stamps like DEADLINES
+    *:         turn on/off emphasized text (bold, italic, underlined)
+    TeX:       turn on/off simple TeX macros in plain text
+    LaTeX:     configure export of LaTeX fragments.  Default auto
+    skip:      turn on/off skipping the text before the first heading
+    author:    turn on/off inclusion of author name/email into exported file
+    email:     turn on/off inclusion of author email into exported file
+    creator:   turn on/off inclusion of creator info into exported file
+    timestamp: turn on/off inclusion creation time into exported file
+    d:         turn on/off inclusion of drawers
+
+这些元数据可以根据需要设置。建议放在文档的开头部分。如，本文采用的元数据如下：
+
+    #+TITLE: org-mode: 最好的文档编辑利器，没有之一
+    #+AUTHOR:sanshi Kong
+    #+EMAIL: kyleemail@163.com
+    #+KEYWORDS: emacs, org-mode
+    #+OPTIONS: H:4 toc:t 
+#+END_EXAMPLE
+** 内容元数据
+#+BEGIN_EXAMPLE
+通常在行首以“#+”开头，可以有多种用途。
+    分行区块
+    默认内容不换行，需要留出空行才能换行。定义了分行的区块可以实现普通换行：
+        #+BEGIN_VERSE
+         Great clouds overhead
+         Tiny black birds rise and fall
+         Snow covers Emacs
+             -- AlexSchroeder
+        #+END_VERSE
+    缩进区块
+    通常用于引用，与默认格式相比左右都会留出缩进：
+        #+BEGIN_QUOTE
+          缩进区块
+        #+END_QUOTE
+    居中区块
+        #+BEGIN_CENTER
+        Everything should be made as simple as possible, \\
+        but not any simpler
+        #+END_CENTER
+    代码区块
+        #+BEGIN_SRC ruby
+          require 'redcarpet'
+          md = Redcarpet.new("Hello, world.")
+          puts md.to_html
+        #+END_SRC
+    例子
+        : 单行的例子以冒号开
+        下面多行例子不得已前面都加上了:头
+        : #+BEGIN_EXAMPLE
+          多行的例子
+          使用区块
+        : #+END_EXAMPLE
+    注释
+    以‘#‘开头的行被看作注释，不会被导出
+    区块注释采用如下写法：
+        #+BEGIN_COMMENT
+          块注释
+          ...
+         #+END_COMMENT
+    表格与图片
+    对于表格和图片，可以在前面增加标题和标签的说明，以方便交叉引用。
+    比如在表格的前面添加：
+        #+CAPTION: This is the caption for the next table (or link)
+        #+LABEL: tbl:table1
+    则在需要的地方可以通过
+        \ref{table1}
+    来引用该表格。
+#+END_EXAMPLE
+    
+* Org标题
+** 标题语法
+#+BEGIN_SRC Emacs-lisp
+  STARS KEYWORD PRIORITY TITLE TAGS
+#+END_SRC
+其中：
++ STARS即星号，这是一个标题唯一必要的内容，其他（包括标题名称）都可以省略。
++ KEYRORD 为TODO关键词，大小写敏感。
++ PRIORITY 为优先级选项，为#号加一个字符并用方括号括起来，如 [#A]
++ TITLE 即为实际的标题文本
++ TAGS 为标签。
+例子：** TODO [#2] 优先级为2的待办事项 :@home：
+** 基于标题的文档编辑
+Org基于标题的文档编辑方式允许用户在非常简洁的显示模式下对某个或多个标题下的所有内容进行复制、
+粘贴、移动等操作，相当方便，真正实现了标题在文档管理中的组织者作用。
+Org大大简化了大纲模式的使用，把大纲模式的整个显示/隐藏功能整合到了一个命令中：org-cycle，并绑定在TAB键上。
+*** 视图循环
+| 按键            | 动作                                                        |
+|-----------------+-------------------------------------------------------------|
+| TAB             | 子树循环，需要插入点在标题上                                |
+| C-u TAB         | 子树视图在FOLDED->CHILDREN->SUBTREE                         |
+| S-TAB           | 全局循环，整个缓冲区在OVERVIEW->CONTENTS->SHOWALL状态中循环 |
+| C-u C-u C-u TAB | 显示全部，包括drawers                                       | 
+默认打开时是OVERVIEW状态。变量org-startup-folded可以定制，startup关键字也可以对单个文件生效。
+#+BEGIN_EXAMPLE
+#+STARTUP: content
+#+END_EXAMPLE
+:(setq org-startup-folded nil)
+** 术语约定
++ 标题：仅指标题定义行
++ 子标题：大标题下属的小标题 
++ 标题树：包括标题、子标题及其下属的所有文本
++ 大纲：或文档轮廓，即全部标题，是一种显示模式
++ 大纲折叠：隐藏子标题树     
++ 大纲展开：分级显示子标题树 
+** 在标题间移动光标
+| 按键    | 动作                  |
+|-----------+-------------------------|
+| C-c C-p/n | 移动到上/下一个标题 |
+| C-c C-b/f | 移动到同级别的上/下标题 |
+| C-c C-u   | 跳到上一级标题          |
+| C-c C-j   | 切换到大纲浏览模式      |
+** 大纲的折叠与展开
+| 按键 | 动作                                                 |
+|-------+--------------------------------------------------------|
+| TAB   | 局部命令，循环使用可以折叠、展开光标所在位置上的标题树 |
+| S+TAB | 全局命令，循环使用可以折叠、展开整个文档的标题树       |
+** 设定文档属性
++ #+STARTUP: overview
++ #+STARTUP: contant
++ #+STARTUP: showall
++ #+STARTUP: showeverything
+#+BEGIN_EXAMPLE
+# -*- Org -*-
+#+TITLE: Org-mode笔记
+#+AUTHOR: kyleemail@163.com
+#+STARTUP: content
+#+STARTUP: indent
+#+TODO: TODO STARTED | DONE
+#+TYP_TODO: 工作(w!) 学习(s!) 休闲(l!)
+#+SEQ_TODO: PENDING(p!) TODO(t!) | DONE(d!) ABORT(a@/!)
+#+END_EXAMPLE
+** 编辑标题
+| 按键           | 动作                                               |
+|----------------+----------------------------------------------------|
+| M-LEFT/RIGHT   | 升级/降级当前标题，不允许有子标题的存在            |
+| M-S-LEFT/RIGHT | 升级/降级当前标题，标题树内的各级标题相应升级/降级 |
+| M-UP/DOWN      | 在同级标题间上/下移动标题树，不能跨级别移动        |
+| M-RET          | 在当前标题后插入同级别标题符号                     |
+| C-RET          | 在当前标题树后插入同级标题符号                     |
+| M-S-RET        | 在当前标题后插入同级TODO标题                       |
+| C-S-RET        | 在当前标题树后插入同级TODO标题                     |
+| C-c *          | 把光标所在行转成标题                               |
+| C-c -          | 把光标所在行转化成列表                             |
+使用Tips:Org-mode很多编辑命令的使用与光标所处的位置有关，同一个键盘命令位于不同的文本环境有不同的作用，这些命令称为**局
+部命令**
+** 稀疏树
+Org模式有一个重要的功能是能根据大纲树中选择的信息构建处稀疏的树，这样文档就可以尽可能的折叠，
+只有选择的信息和它对应的标题会显示出来
+| C-c /   | 提示输入一个字符来选择稀疏树的创建命令                            |
+| C-c / r | 输入匹配字符串，将匹配的项显示成稀疏树，且高亮；按C-c C-c取消高亮 |
+* 表格
+Org 能够很容易地处理 ASCII 文本表格。任何以‘|’为首个非空字符的行都会被认为是表格的一部分。’|‘也是列分隔符。一个表格是下
+面的样子：
+    | Name  | Pone | Age |
+    |-------+------+-----|
+    | Peter | 1234 | 17  |
+    | Anna  | 4321 | 25  |
+你可能认为要录入这样的表格很繁琐，实际上你只需要输入表头“|Name|Pone|Age”之后，按C-c RET,就可以生成整个表格的结构。类似的
+快捷键还有很多：
+| 按键           | 动作                           |
+|----------------+--------------------------------|
+| C-c  竖线      | 创建或者转换成表格             |
+| C-c C-c        | 调整表格，但不移动光标         |
+| TAB            | 移动到一个区域，必要时新建一行 |
+| S-TAB          | 移动到上一区域                 |
+| RET            | 移动到下一行，必要是新建一行   |
+| M-LEFT/RIGHT   | 移动列                         |
+| M-UP/DOWN      | 移动行                         |
+| M-S-LEFT/RIGHT | 删除/创建列                    |
+| M-S-UP/DOWN    | 删除/创建行                    |
+| C-c -          | 添加水平分割线                 |
+| C-c RET        | 添加水平分割线并调到下一行     |
+| C-c ^          | 根据当前列选择排序方式         |
+* 文本列表
+Org能够识别有序列表、无序列表、描述列表
++ 无序列表以'-'、'+'、'*'开头
++ 有序列表以'1.'、'1)'开头
++ 描述列表用'::'将项和描述分开
+同一列表中项的第一行必须缩进相同的程度；下一行的缩进与列表开头的符号或者数字相同或者更小时，这一项就结束了。
+#+BEGIN_EXAMPLE
+   My favorite scenes are (in this order)
+   1. The attack of the Rohirrim
+   2. Eowyn's fight with the witch king
+       + this was already my favorite scene in the book
+       + I really like Miranda Otto.
+   Important actors in this film are:
+   - Elijah Wood :: He plays Frodo
+   - Sean Austin :: He plays Sam, Frodo's friend.
+#+END_EXAMPLE
+
+* 字体
+*粗体*
+/斜体/
++删除线+
+_下划线_
+下标： H_2 O(这里必须留一个空格要不然2和O都成为小标，目前还不知道怎么去掉空格)
+上标： E=mc^2
+等宽字：  ==git==
+* 段落
+对于单个回车换行的文本，任务其属于同一个段落。
+如果要新起一段，需要留出一个空行。
+* 脚注
+脚注就是以脚注定义符号开头的一段话，脚注定义符号是将脚注名称放在一个方括号里，需要脚注编号，要求放在第0列，不能有缩进。
+引用就是在正文中将脚注名称用方括号括起来。
+#+BEGIN_EXAMPLE
+The Org homepage [fn:1] now looks a lot better than it used to.
+....
+[fn:1] The link is:http://orgmode.org
+#+END_EXAMPLE
+| C-c C-c | 在脚注定义和引用之间跳转 |
+
+* 超链接
+Org能够识别URL格式的文本并将他们处理成可点击的链接；通常链接格式为
+: [[link][description]] 或者 [[link]]
+链接输入一旦完成，Org就会改变他的视图，如上的链接显示
+_description_ 和 _link_
+使用C-c C-l来编辑链接，插入点要在链接上。
+** 外部链接
+Org支持的链接格式包括文件、网页、新闻组、BBDB数据库项、IRC会话和记录。
+外部链接是URL格式的定位器，以识别符号开头（file、http、docview），后面跟着一个冒号，冒号后面不能有空格。
+#+BEGIN_EXAMPLE
+http://www.astro.uva.nl/~dominik            on the web
+file:/home/dominik/images/jupiter.jpg       file, absolute path
+/home/dominik/images/jupiter.jpg            same as above
+file:papers/last.pdf                        file, relative path
+file:projects.org                           another Org file
+docview:papers/last.pdf::NNN                open file in doc-view mode at page NNN
+id:B7423F4D-2E8A-471B-8810-C40F074717E9     Link to heading by ID
+news:comp.emacs                             Usenet link
+mailto:adent@galaxy.net                     Mail link
+vm:folder                                   VM folder link
+vm:folder#id                                VM message link
+wl:folder#id                                WANDERLUST message link
+mhe:folder#id                               MH-E message link
+rmail:folder#id                             RMAIL message link
+gnus:group#id                               Gnus article link
+bbdb:R.*Stallman                            BBDB link (with regexp)
+irc:/irc.com/#emacs/bob                     IRC link
+info:org:External%20links                   Info node link (with encoded space)
+#+END_EXAMPLE
+连接到图片的，如果有描述信息则会产生链接按钮，没有描述信息的在导出时会将图片嵌入到HTML中。
+** 内部链接
+如果一个链接地址不是URL形式，就会作为当前文件内部链接来处理
+: [[#my-custom-id]]
+会链接到CUSTOM_ID属性是"my-custom-id"的项
+: [[My Target][Find my target]]
+: 调到对应的目标<<My Target>>
+#+BEGIN_EXAMPLE
+<<目录>>
+[[www.gnu.org/software/emacs/][Downlad an install Emacs]]
+
+
+[[/home/kyle/code/emacsLearning/Org/learn.org][Org学习笔记]]
+;;显示内容为 Org学习笔记，跳转到相应的文件
+
+[[目录][返回目录]]  ;;此时显示内容为‘返回目录’，单击会跳转到 <<目录>> 的位置
+#+END_EXAMPLE
+** 目标链接
+文件链接可以包含一些额外的信息使得进入链接时可以到达特定的位置
+使用双冒号加上行号或者搜索选项来实现
+#+BEGIN_EXAMPLE
+file:~/code/main.c::255                     进入到 255 行
+file:~/xx.org::My Target                    找到目标‘<<My Target>>’
+file:~/xx.org/::#my-custom-id               查找自定义 id 的项
+#+END_EXAMPLE
+
+
+* 用Org作为GTD工具
+Org对日程的管理就是基于标题进行的。
+** 定制任务和状态
+*** 设置TODO关键字
+TODO关键字是用来表示任务状态或者类型的词语。Org默认的TODO关键字只有两个：TODO和DONE，可以自行定制。
+TODO关键字分为两类：*状态关键字*事件处理过程中其状态关键字从前往后转换，比如“等待”、“开始”、“完成”等；
+*类型关键字*按事件的轻重缓急分为“紧急”、“优先”、“普通”、等，这些类型不可以相互转换。
+**** 在org文件中定义TODO关键字
++ #+SEQ_TODO: 定义状态关键字
++ #+TYP_TODO: 定义类型关键字
+#+BEGIN_EXAMPLE
+#+TYP_TODO: 工作(w!) 学习(s!) 休闲(l!)
+#+SEQ_TODO: PENDING(p!) TODO(t!) | DONE(d!) ABORT(a@/!)
+#+END_EXAMPLE
++ “|”用来分隔“未完成”和“完成”两种状态的关键词，前面为未完成项，后面为完成项。如果没有“|”符号，最后一个关键词将被设为完成项，其余为未完成项。
++ 关键词后括号内的字母为快捷选择键，当使用 C-c C-t 设置或改变当前标题的TODO状态或类型时将出现选项菜单，此时可以用快捷键进行选择。
++ 括号内的“!”表示时间戳，设置或改变到该状态时（直接输入关键词不算）将同时插入当前时间
++ 括号内的“@”表示切换到该状态时需要输入文字说明，比如任务取消、流产或失败的原因。
++ 输入后将光标置于该行内使用 C-c C-c 命令可使该定义立刻生效。
+#+BEGIN_SRC Emacs-lisp
+#+TODO: TODO(t) | DONE(d)
+#+TODO: REPORT(r) BUG(b) KNOWNCAUSE(k) | FIXED(f)
+#+TODO: | CANCELED(c)
+#+END_SRC
+**** 在配置文件中定义
+通过设置变量org-todo-keywords来定制
+#+BEGIN_SRC Emacs-lisp
+(setq org-todo-keywords
+  '((type "工作(w!)" "学习(s!)" "休闲(l!)" "|")
+    (sequence "PENDING(p!)" "TODO(t!)"  "|" "DONE(d!)" "ABORT(a@/!)")))
+#+END_SRC
+#+BEGIN_SRC Emacs-lisp
+(setq org-todo-keywords
+      '((sequence "TODO" "FEEDBACK" "VERIFY" "|" "DONE" "DELEGATED")))
+#+END_SRC
+有时你可能希望同时使用几个不同的 TODO 状态集合。例如，你可能想要一个基本的 TODO/DONE，以及一个修改 bug 的工作流程和一个
+隔开的状态来表示取消的项目（既还是 DONE，也不需要进一步的动作），你可以这样设置： 
+#+BEGIN_SRC Emacs-lisp
+(setq org-todo-keywords
+      '((sequence "TODO(t)" "|" "DONE(d)")
+        (sequence "REPORT(r)" "BUG(b)" "KNOWNCAUSE(k)" "|" "FIXED(f)")
+        (sequence "|" "CANCELED(c)")))
+#+END_SRC
+**** 改变TODO关键词的外观
+通过设置org-todo-keyword-faces可以定制不同类型的关键字为不同的颜色
+#+BEGIN_SRC Emacs-lisp
+(setq org-todo-keyword-faces
+  '(("工作" .      (:background "red" :foreground "white" :weight bold))
+    ("学习" .      (:background "white" :foreground "red" :weight bold))
+    ("休闲" .      (:foreground "MediumBlue" :weight bold)) 
+    ("PENDING" .   (:background "LightGreen" :foreground "gray" :weight bold))
+    ("TODO" .      (:background "DarkOrange" :foreground "black" :weight bold))
+    ("DONE" .      (:background "azure" :foreground "Darkgreen" :weight bold)) 
+    ("ABORT" .     (:background "gray" :foreground "black"))))
+#+END_SRC
+*** 标题型任务和子任务
+Org通过标题TODO关键字对待办任务进行管理，由于标题是分级的，
+所以这种管理方式很自然的支持子任务：子标题即子任务。
++ 直接在标题中的KEYWORD位置输入TODO关键字
++ 使用C-c C-t快捷键呼出关键词选择单
++ 使用S-LEFT/RIGHT快捷键设置选择TODO关键字
++ 使用C-c / t 在稀疏树中显示TODO项
++ 使用C-c a t显示全局的TODO列表
++ 使用S-M-RET插入一个新的TODO项
+改变TODO状态会触发标签改变。org-todo-state-tags-triggers描述获得更多信息。
+
+*** 非标题型子任务
+Org的任务主要由标题定制，但也提供了非标题型子任务的设置。
+对于以“[]”开头的列表，Org把他们当做复选框，复选框选项的选择状态表示完成状态。
+复选框不会包含在全局TODO列表中，所以很适合将一个任务分成几个简单的步骤。
+复选框有三种状态：未完成"[ ]"、完成"[X](大写)"、中间状态"[-]"，可以使用快捷键C-c C-c
+复选框是分层工作的；Org自动将复选框列表的完成状态纳入上一级任务的监控
++ 研究内容[2/3]
+  + [X] 技术
+  + [X] 文化
+  + [-] 市场 [1/2]
+    + [X] 口碑
+    + [ ] 低价
+** 任务的优先级
+Org预定义了任务的三个优先级即[#A]、[#B]、[#C]，默认为B级
+不同优先级的任务在产生日程表时按优先级先后排列。
+在标题上使用S-UP/DOWN可以选择和改变任务的优先级
+可以在配置文件中对优先级的范围和外观进行自定义，例如：
+#+BEGIN_SRC Emacs-lisp
+;; 优先级范围和默认任务的优先级
+(setq org-highest-priority ?A)
+(setq org-lowest-priority  ?E)
+(setq org-default-priority ?E)
+;; 优先级醒目外观
+(setq org-priority-faces
+  '((?A . (:background "red" :foreground "white" :weight bold))
+    (?B . (:background "DarkOrange" :foreground "white" :weight bold))
+    (?C . (:background "yellow" :foreground "DarkGreen" :weight bold))
+    (?D . (:background "DodgerBlue" :foreground "black" :weight bold))
+    (?E . (:background "SkyBlue" :foreground "black" :weight bold))))
+#+END_SRC
+| C-c ,  | 设置标题的优先级，SPC删除标记 |
+| S-UP   | 增加优先级                    |
+| S-DOWN | 降低优先级               |
+** 任务标签
+为交叉相关的信息提供标签和上下文。
+标签就是GTD中讲述的在不同的场景中的待办事项，如电脑旁、公司、公交车上等
+标签默认是粗体，并和标题具有相同的颜色
+*** 标签的命名规则
++ 位置：标签只能在各级标题的行末尾定义，即只有标题文字可以拥有标签
++ 命令：标签名字可以包含@字符
++ 方式：包含在一对":"之间；一个标题可以定义多个标签如 :@home:@computer:
+*** 编辑标签
+Org支持基于标签列表来插入标签；默认这个列表是动态构建的，包含了当前缓冲区中使用过的所有标签。
+| C-c C-q | 为当前标题插入标签，Org即支持补全，也支持单键接口来设置标签；回车之后标签被插入，并放到org-tags-column列；加上前缀C-u会把缓冲区的所有标签都对齐到这一列。 |
+| C-c C-c | 光标在标题上时，同上一个命令                                                                                                                              |
+*** 预定义标签
+可以设置变量org-tags-alist在全局设定一个标签的硬列表(hard list)
+默认 Org 模式用一个迷你缓冲区补全设施来输入标签。另外，它也实现了一个更快速，称为 快速标签选择 （ fast tag selection ）
+的标签选择方法。这使得你只用按一次键就可以选择或者取消一个标签。为了使它能很好地工作，需要为常用的标签赋唯一的值。你可以
+在你的“.emacs”文件中通过设置变量 org-tag-alist 作全局设定。例如，如果你需要在不同的文件中经常要给条目添加标签“:@home:”，
+这时你就可以像这样设置： 
+: (setq org-tag-alist '(("@work" . ?w) ("@home" . ?h) ("@laptop" . ?l)))
+: #+TAGS: @work(w) @home(h) @laptop(l) @running(r)
+*** 标签的继承特性
+标签具有大纲树的继承结构；设置了标签的任务自动将所设置的标签传递给子任务
+可以设定一个标签让所有的标题继承，就好像标签包在包含整个文件的第0级标题中指定了一样。
+: #+FILETAGS: :Peter:Boss:Secret:
+*** 标签外观定制
+设置变量org-tag-faces来更改
+(setq org-tag-faces '(()))
+*** 标签的查找
+一单标签体系设置好，就可以用来收集相关联的信息到指定列表中。
+| C-c \   |                                                                              |
+| C-c / m | 用匹配标签搜索所有标题构造一个稀疏树；带前缀C-u时，忽略所有还是TODO行的标题  |
+| C-c a m | 用所有议程文件匹配的标签构造一个全局列表                                     |
+| C-c a M | 用所有议程文件匹配的标签构造一个全局列表，但只搜索TODO项，并强制所有多有子项 | 
+这些命令都会提示输入字符串，字符串支持基本的逻辑。像“+boss+urgent-project1”，是搜索所有的包含标签“boss”和“urgent”但
+不含“project1”的项；而 “Kathy|Sally”，搜索标签包含“Kathy”或者“Sally”和项。搜索字符串的语法很丰富，支持查找TODO关键字、条
+目级别和属性。  
+** 属性
+属性是一些与条目关联的键值对；
+他们位于一个名为PROPERTIES的特殊抽屉中；
+每一个属性都单独一行，键在前且被冒号包围，值在后
+#+BEGIN_EXAMPLE
+: * CD collection
+: ** Classic
+: *** Goldberg Variations
+      :PROPERTIES:
+      :Title:    Goldberg Variations
+      :Composer: J.S. Bach
+      :Publisher: Deutsche Grammophon
+      :NDisks:   1
+      :END:
+#+END_EXAMPLE
+
+
+通过设置属性 “:Xyz_ALL:” ，你可以为属性 “:Xyz:” 设置所有合法的值。这个特定的属性是有 继承性 的，即，如果你是在第 1 级别
+设置的，那么会被应用于整个树。当合法的值设定之后，设置对应的属性就很容易了，并且不容易出现打字错误。用CD唱片集为例，我们
+可以预定义发行商和盒中的光盘数目： 
+#+BEGIN_EXAMPLE
+: * CD collection
+  :PROPERTIES:
+  :NDisks_ALL: 1 2 3 4
+  :Publisher_ALL: "Deutsche Grammophon" Philips EMI
+  :END:
+#+END_EXAMPLE
+也可以在全局设置 org-global-properties ，或者在文件级别设置： 
+: #+PROPERTY: NDisk_ALL 1 2 3 4
+| C-c C-x p | 设置一个属性；会询问属性名和属性值 |
+| C-c C-c d | 删除一个属性                       | 
+要基于选择的属性创建稀疏树或者特殊列表，跟标签搜索的命令相同  
+** 任务间的依赖关系
+*** 任务属性
+属性定义以PROPERTIES开头，以END结束，每项内容均使用两个冒号括起来，如：
+#+BEGIN_SRC Emacs-lisp
+ ** TODO 今天事物
+   :PROPERTIES:
+   :ID: today-todos
+   :ORDERED: t
+   :COOKIE_DATA: todo recursive
+   :END:
+#+END_SRC
+*** 简单任务关系
+Org-mode实现了两种简单任务关系的设置：
++ 如果子任务没有全部完成，主任务将不能设置为DONE状态
+  + 通过变量来设置(setq org-enforce-todo-dependencies t)
++ 如果前面有其他任务没有完成，后面的任务将不能设置为DONE状态
+  + 通过在主任务下打开任务的ORDERED属性来使能
+#+BEGIN_SRC Emacs-lisp
+ * TODO 请客吃饭
+   :PROPERTIES:
+   :ORDERED: t
+   :END:
+ ** TODO 确定客人时间
+ ** TODO 订饭店
+ ** TODO 点菜
+ ** TODO 买单
+#+END_SRC
+*** 复杂依赖关系
+对于大型项目，各项任务间的关系错综复杂，org-depend.el程序
+**** 触发事件
++ 一个任务如果具有 TRIGGER 属性，而且属性值为 chain-siblings(KEYWORD) 字串，当该任务的状态转到 DONE 时将触发事件：该任务的下一个同级任务转为 KEYWORD 状态并获得相同的 TRIGGER 属性
++ 一个任务如果具有 TRIGGER 属性，而且属性值为 chain-siblings-schedualed 字串，当该任务的状态转到 DONE 时将触发事件：该任务的下一个同级任务获得相同的计划时间并获得相同的 TRIGGER 属性
++ 一个任务如果具有 TRIGGER 属性，而且属性值为 chain-find-next(KEYWORD[,OPTIONS]) 字串，当该任务的状态转到 DONE 时将触发以下事件：
+       + 收集所有同级任务到一个临时列表，然后按照 OPTIONS 进行过滤和排序
+       + 列表中第一个任务的状态转为 KEYWORD 状态并获得相同的 TRIGGER 属性
+       + OPTIONS 选项由逗号分隔，不能有空格，取值可以为： from-top, from-bottom, from-current, no-wrap, today-only, today-and-done-only, priority-up, priority-down, effort-up, effort-down
++ 如果 TRIGGER 属性包含任何其他的字符串，这些字符串都被当成id处理，例如： XYZ(KEYWORD) ，org-mode将查找ID属性为 XYZ 的任务并将其状态该为 KEYWORD 状态。
+
+**** 阻止事件
+
++ 如果一个任务具有 BLOCKER 属性，且属性值为 previous-sibling ，那么试图将该任务转到 DONE 状态时将检查上一个任务的状态。如果上一个任务的状态为 TODO ，当前任务的状态不能改变
++ 如果一个任务具有 BLOCKER 属性，且属性值包含其他的字符串，这些字符串将被当成任务的ID。试图改变当前任务状态为 DONE 时org-mode将查找相应ID的任务，如果这些任务中有任何一个还不是 DONE 状态，当前任务的状态将不能改变
++ 如果状态改变被阻止，该任务将被打上 :blocked: 标签，这样你可以使用 C-c & 找到阻止该事件的任务。
+
+*** 预约任务时间
+**** Emacs日历
+Emacs提供了桌面日历，不仅附带有公共事件日志（节假日等），还可以帮助你管理预约事件和跟踪项目时间。Emacs日历使用独立的缓冲区和主模式（Calendar模式），执行 M-x calendar 命令即可打开并显示3个月的日历，当前月份居中。如果要打开特定时间的日历，用 C-u M-x calendar ，在提示符下输入年（数字）和月（名称）即可。鼠标键在日历模式下具有特殊意义：左键（Mouse-1）选定某天，中键（如果有，Mouse-2）弹出适用于整个日历的命令菜单，右键（Mouse-3）弹出适用于鼠标所指日期的菜单。键盘输入 q 直接退出日历（关闭日历窗口）。
+下面只介绍和日程安排相关的日历操作，如果你觉得其他的一些用法如日出日落、月圆月缺、玛雅日历等也和你的日程安排有关，请查看 Emacs Manual 。
+***** 在日历中移动光标
+移动标准时间长度
+| 按键  | 命令                    | 动作         |
+|-------+-------------------------+--------------|
+| C-f   | calendar-forward-day    | 移动到后一天 |
+| C-b   | calendar-backward-day   | 移动到前一天 |
+| C-n   | calendar-forward-week   | 移动到后一周 |
+| C-p   | calendar-backward-week  | 移动到前一周 |
+| M-}   | calendar-forward-month  | 月           |
+| M-{   | calendar-backward-month | 月           |
+| C-x ] | calendar-forward-year   | 年           |
+| C-x [ | calendar-backward-year  | 年           | 
+跳到周、月、年的开始或结束的日期
+| 按键 | 命令                        | 动作     |
+|------+-----------------------------+----------|
+| C-a  | calendar-beginning-of-week  | 周的开始 |
+| C-e  | calendar-end-of-week        | 周的结束 |
+| M-a  | calendar-beginning-of-month | 月的开始 |
+| M-e  | calendar-end-of-month       | 月的结束 |
+| M-<  | calendar-beginning-of-year  | 年的开始 |
+| M->  | calendar-end-of-year        | 年的结束 | 
+跳转到指定的日期
+| 按键 | 命令                      | 动作           |
+|------+---------------------------+----------------|
+| g d  | calendar-goto-date        | 到指定的年月日 |
+| g D  | calendar-goto-day-of-year | 到某年的第几天 |
+| g w  | calendar-goto-week        | 到某年的第几周 |
+| o    | calendar-other-month      | 把某年某月居中 |
+| .    | calendar-goto-today       | 到今天         | 
+***** 卷动日历  
+| 按键 | 命令                               | 动作                   |
+|------+------------------------------------+------------------------|
+| >    | calendar-scroll-left               | 向左卷动一个月         |
+| <    | calendar-scroll-right              | 向右卷动一个月         |
+| C-v  | calendar-scroll-left-three-months  | 向左卷动三个月（一屏） |
+| M-v  | calendar-scroll-right-three-months | 向右卷动三个月         | 
+***** 使用农历
+使用cal-china-x可以显示农历
+#+BEGIN_SRC Emacs-lisp
+(add-to-list 'load-path "~/.emacs.d/addons")
+(require 'cal-china-x)
+#+END_SRC
+***** 节日和日志
+| 命令          | 动作                                               |
+|---------------+----------------------------------------------------|
+| x             | 在日历窗口标出有节日的日期                         |
+| u             | 取消节日标记                                       |
+| h             | 显示当前日期的节日                                 |
+| a             | 列出当前日历（三个月）的所有节日                   |
+| holidays      | 在另一个窗口列出近三个月（以今天为中心）的所有节日 |
+| list-holidays | 在另一个窗口列出设定年内的所有节日                 |
+Emacs日历默认不标记节日，可以设置mark-holidays-in-calendar来定制
+#+BEGIN_SRC Emacs-lisp
+(setq mark-holidays-in-calendar t)
+#+END_SRC
+公共节日很多，很多其实我们都不需要关心，可以定制只显示自己设定的日历时间，如下：
+#+BEGIN_SRC Emacs-lisp
+(setq my-holidays
+    '(;;公历节日
+      (holiday-fixed 2 14 "情人节")
+      (holiday-fixed 9 10 "教师节")
+      (holiday-float 6 0 3 "父亲节")
+      ;; 农历节日
+      (holiday-lunar 1 1 "春节" 0)
+      (holiday-lunar 1 15 "元宵节" 0)
+      (holiday-solar-term "清明" "清明节")
+      (holiday-lunar 5 5 "端午节" 0)
+      (holiday-lunar 7 7 "七夕情人节" 0)
+      (holiday-lunar 8 15 "中秋节" 0)
+      ;;纪念日
+      (holiday-fixed 1 1 "儿子生日")
+      (holiday-lunar 2 2 "老婆生日"  0)
+      (holiday-lunar 3 3 "我的生日" 0)))
+(setq calendar-holidays my-holidays)  ;只显示我定制的节假日
+#+END_SRC
+其中：
++ holiday-fixed设定公历节日
++ holiday-float设定浮动公历节日
++ holiday-lunar设定农历节日，参数意义参考diary-float
++ holiday-solar-term设定预定义但需要特殊计算的节日，比如农历的24节气
+Emacs可以使用日志（Diary）方式管理日程，通过设置diary-file。
+但Org-mode不需要这种方式
+**** Org-mode时间戳
+为了支持工程的计划，TODO 项可以标记上日期和/或时间。带有日期和时间信息的特定格式的字符串在 Org 模式中称为时间戳。
+时间戳可以出现在树条目的标题和正文的任何地方。它能使条目只在特定的日期才出现在议程列表中。
++ 普通时间戳；事件；约会
+  - 一个简单的时间戳只是给一个条目加上时间和日期。这跟在纸质的议程上写下约会和事件是一样的。 
+  - example :<2017-03-19 Sun>    <2017-03-19 Sun 09:30>   <2017-03-19 Sun 21:00-22:00>
++ 具有时间间隔的时间戳
+  - 一个时间戳可以包含一个时间间隔，表示事件不只在指定的时间发生，还在每隔一个特定的时间如 N 天（d）、周（w）、月（m）或
+    者年（y）之后重复发生。下面的事件每周二在议程中显示：
++ 日记样式的 sexp 条目 
+  - 为了能定义更复杂的时间，Org 模式支持 Emacs 日历/日记包（calendar/diary package）中的日记条目
+    : The nerd meeting on every 2nd Thursday of the month               <%%(diary-float t 4 2)>
++ 时间/日期段：两个时间戳用‘–’连接起来就定义了一个时间段： 
++ 非激活的时间戳：跟普通时间戳一样，但是这里是方括号而不是尖括号。这种时间戳是未激活的，它不会让一个条目显示在议程中。 
+时间戳由尖括号<>或方括号[]表示，前者为激活时间，后者为非激活时间（不加入日程表的时间）
+括号内可以包括一下内容(按照设置时的先后顺序)：
++ 日期，如2017-2-26
++ 时间或时间范围，如2:30pm或10:00-12:00
++ 表示周期重复的字符串，如+1w（每周重复）
++ 其他附加信息和特殊符号
+|  符号 | 意义                    |
+|-------+-------------------------|
+|    +0 | 今天                    |
+|     . | 今天                    |
+|   +4d | 今天算起，第四天        |
+|    +4 | 同上                    |
+|   +2w | 今天算起，第2周         |
+|   ++5 | 默认日期开始，5天后     |
+| +2tue | 今天算起，第二个Tuesday |
+注意：“今天”和“默认日期”所表示的意义是不同的，例如：
++ <2017-02-26 Sun .+1w>表示这是一个周期性的重复任务，每周日执行；但是如果某次任务的实际完成日期（DONE状态产生日期）是星期三，那么下一次任务就是一周后的星期三
++ <2017-02-26 Sun .++1w>表示这是一个周期性的重复任务，每周日执行；不管任务实际完成日期是星期几，下一次任务都固定是一周后的星期日
+由两个--连接起来的两个时间戳表示时间段，如：<2017-02-26 Sun>--<2017-02-26 Sun>
+不规则的时间戳使用Emacs日志风格的字符串表示，同样放在尖括号或者方括号中
++ 周年纪念，如毛泽东诞辰：%%(diary-anniverary 12 26 1893)
++ 周期重复，如从6月1日开始每隔10天重复：%%(diary-cyclic 10 6 1 2017)
++ 某些日期，用于组合不同的月、日、年，例如每年的3-5月的10号可以表示为（t表示所有数值，这里表示所有年度）：%%(diary-date '(3 4 5) 10 t)
++ 某月的第几个星期几，用浮动日期格式字符串%%(diary-float month dayname index)表示。其中dayname表示星期几（0为Sunday），index为正数表示从前往后数，负数则相反。如5月的第二个星期日：%%(diary-float 5 0 2)
+**** 产生时间戳
+最好使用快捷键产生时间戳
+| 按键                 | 动作                                                                                                                                                       |
+|----------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| C-c .                | 通过日历选择计划时间，在一个时间戳后面使用将产生一个时间段                                                                                                 |
+| C-c !                | 同上，但产生非激活日期                                                                                                                                     |
+| C-u C-c .            | 产生计划时间或时间段                                                                                                                                       |
+| C-u C-c !            | 同上，但产生非激活日期                                                                                                                                     |
+| C-c C-c              | 在时间戳上使用对时间戳进行格式补全和校对                                                                                                                   |
+| C-c <                | 插入Emacs日历中光标所在处的日期或当前日期作为时间戳                                                                                                        |
+| C-c >                | 访问Emacs日历上当前对额日期；如果光标处有时间戳则访问该时间                                                                                                |
+| C-c C-o              | 在日程表上访问光标时间表示的日期/时间                                                                                                                      |
+| S-UP/DOWN/LEFT/RIGHT | 前/后移日期或时间（小时/分钟），依据光标所在位置而定；如果修改时间段，修改第一个时间会同步修改第二个，保持时间间隔不变；若想修改时间长度需要修改第二个时间 |
+**** 预约任务时间
+时间戳前面可以加一些关键字来协助计划安排。
+***** 安排开始时间（SCHEDUALED）
+意义：计划在给定的那个日期开始进行该任务；使用关键字SCHEDULED定义。
+表示任务将在指定时间开启，使用C-c C-s键入：
+:  SCHEDULED: <2017-03-01 Wed>
+一个任务在计划时间到达时将在每天的日程表上出现，直到任务标记为DONE，
+也可以延迟计划任务在日程表上的显示时间，比如延迟2天：
+:  SCHEDULED: <2017-02-28 Tue -2d>
+注意这里的计划时间和通常所说的安排一个任务的时间不一样。
+如果要指定一个任务的确切的时间开始，直接输入时间戳就可以了。
+***** 设定截止时间
+任务应该完成的截止时间；使用关键字DEADLINE设置，通过C-c C-d命令输入。
+: DEADLINE: <2017-03-31 Fri -5d>
+日期后面的-5d表示截止时间前5天开始在today日程表上提醒，
+如果不设置提醒开始时间则按照org-deadline-warning-days的设置进行提醒，
+日程提醒将一直持续（即使过期），直到任务标记为DONE状态。
+如果一个任务既设置了开始时间又设置了截止时间，日程表上的提醒将有重复，
+可以设置忽略一个时间提醒：
+#+BEGIN_SRC Emacs-lisp
+(setq org-agenda-skip-deadline-prewarning-if-scheduled t)
+(setq org-agenda-skip-scheduled-delay-if-deadline t)
+#+END_SRC
+***** 安排周期重复任务的时间
+有些任务需要一再重复出现。Org模式在截止期限、计划安排和普通时间戳中用所谓的中继器来管理这种任务。
+和前面的重复任务时间戳没什么区别，只不过要注意表示重复和提醒安排的字符串的顺序，表示重复的在前，如：
+: DEADLINE: <2017-03-31 Fri +1m -3d>
++1m是中继器；上面的任务有一个截止期限~2017-03-31~并从这个日期开始每月重复出现。
+** 任务进程监控与记录
+*** 任务进度监控
+**** 显示进度
+在标题或复选框列表的任何位置输入[%]或[/]，
+使用C-c C-t或S-LEFT/RIGHT改变子任务状态时Org会自动计算完成的百分比或者分数。
+通过改变TODO关键字状态的方式不触发计算，但可以在进度状态的位置上执行C-c C-c命令更新状态。
+**** 设置统计方式
+默认情况下任务的进度监控仅计算到任务的下一级子任务，
+若要统计所有级别的子任务需要设置:COOKIE_DATA: todo recursive属性，即：
+#+BEGIN_SRC Emacs-lisp
+:PROPERTIES:
+:COOKIE_DATA: todo recursive
+:END:
+#+END_SRC
+如果尽快的是复选框任务，将todo改为checkbox
+*** 状态更改记录
+如果TODO关键词定义时设置了时间标签选项(!)，任务状态发生改变时将在该任务的下方记录下状态改变的时间。
+如果不想记录某任务及其子任务的状态更改，可以在任务下设置属性:LOGGING: nil 即：
+#+BEGIN_SRC Emacs-lisp
+:PROPERTIES:
+:LOGGING: nil
+:END:
+#+END_SRC
+*** 关闭任务记录
+如果认为通过设置TODO关键词方式记录的状态更改时间很烦人（每次修改都记录，即使误操作了也要手动删除），
+设置变量org-log-done来定制：
+#+BEGIN_SRC Emacs-lisp
+(setq org-log-done 'time)
+#+END_SRC
+设置后每次将任务改变为DONE状态时在任务下添加一行内容CLOSED: [2017-02-27 Mon]，
+再将DONE状态改为TODO时该行内容自动删除。
+如果项目结束是希望写点心得体会，可以设置变量org-log-done
+#+BEGIN_SRC Emacs-lisp
+(setq org-log-done 'note)
+#+END_SRC
+这样任务结束时Org会提示输入备注，并放到"Closing Note"标题下。
+*** 工作计时和癖好记录
+记录在每个标题下的时间
+可以利用这个来实现《奇特的一生》
+可以没有翻译，自己查看<The Org Manual>
+Org-mode可以很方便的进行时间统计：
+| C-c C-x C-i | 对一个条目开始计时(clock-in)；C-u前缀从当前已经计时的任务中选择                         |
+| C-c C-x C-i | 停止计时(clock-out)                                                                     |
+| C-c C-x C-e | 为当前的计时任务跟新进度                                                                |
+| C-c C-x C-x | 取消当前的计时                                                                          |
+| C-c C-x C-j | 挑战到包含当前正在运行的即使的任务条目；C-u前缀从当前计时的任务中选择                   |
+| C-c C-x C-r | 在当前文件插入一个包含Org表格一样的计时报告的动态块；当光标处在一个存在的块上时，更新他 |
+| C-c C-c     | 更新计时表格；更新动态块                                                                |
+I：对Agenda开始计时
+O：停止计时
+设置#+PROPERTY: CLOCK_INFO_DRAWER t使得时间记录放到一个名为LOGBOOK的抽屉中（drawer），平时不展开，不影响。
+*** 跟踪TODO状态变化
+可以只记录一个时间戳，也可以设置为带时间戳的记录。
+记录会被插入到标题之后形成列表；定制变量org-log-into-drawer可以将记录放到抽屉里。
+Org可以实现基于每一个状态关键字的设置；在每个括号中指定"!"记录时间戳、"@"输入note
+** 捕获-转发-存档
+任何组织系统都有一个重要的功能：捕获新的灵感或者任务，并将相关联的引用材料与之联系起来。
+Org提供了一个捕获过程来创建任务，将一个任务相关的文件都保存在一个特定的目录下。
+在系统中，任务和项目经常移动
+将整个项目树保存到一个归档文件中可以保持系统简洁快速。
+*** 捕获
+Org 的获取一个新条目的方法很大程序上受 John Wiegley 的 excellent remem-ber package 的影响。它使得你可以在工作流程中中断
+一小会儿来存贮一个简短的笔记。Org可以为新条目定义模板，并将它们与不同的目标文件关联起来以保存笔记。
+: (setq org-default-notes-file (concat org-directory "~/GTD/ideaCapture.org")) ---error---
+: (define-key global-map "\C-cc" 'org-capture)
+| C-c c   | 启动一个捕获过程，进入一个窄的间接缓冲区来编辑条目 |
+| C-c C-c | 捕获完成，返回之前点额窗口，继续中断的工作         |
+| C-c C-w | 将条目保存到一个接受地址                           |
+| C-c C-k | 取消捕获过程，返回之前的状态                       | 
+捕获模板
+可以用不同的模板来做不同的捕获笔记，并将他们保存到不同的地方。
+例如，你想将新任务保存到文件“TODO.org”的“Tasks”标题下，而将日记项目保存到“journal.org”中一个时间树中。你可以： 
+#+BEGIN_EXAMPLE
+(setq org-capture-templates
+      '(("t" "Todo" entry (file+headline "~/org/gtd.org" "Tasks")
+         "* TODO %?\n %i\n %a")
+        ("j" "Journal" entry (file+datetree "~/org/journal.org")
+         "* %?\nEntered on %U\n %i\n %a")))
+#+END_EXAMPLE
+当你调用 M-x org-capture 时，Org 提示输入一个键来选择模板（如果你有多个模板），然后就会给出像这样的内容： 
+: * TODO
+:  [[file:link to where you were when initiating capture]]
+在扩展模板时，可以用%转义符进行动态地插入内容。下面是一些可以使用的项，查看手册获得更多的选项
+| %a     | 注解，通常是由org-store-link创建的链接 |
+| %i     | 初始化内容，当记忆时区域被C-u调用      |
+| %t     | 时间戳，只是日期                       |
+| %T     | 带有日期和时间的时间戳                 |
+| %u，%U | 同上，但是时间戳不激活                 | 
+*** 转送笔记  
+当你回顾捕获的数据时，可以想把其中的一些条目转送到另一列表中，比如说到一工程项目。
+剪切，查找正确的地址，然后再粘贴笔记，这就似乎有些麻烦。
+为了简化这个过程，可以用专门的命令：
+| C-c C-w         | 转送光标处的条目或者区域。默认，当前缓冲区的一级标题会被作为转送的目标，详见变量org-refile-targets的描述 |
+| C-u C-c C-w     | 借助于转送功能的接口来跳转到一个标题                                                                     |
+| C-u C-u C-c C-w | 跳转到 org-refile 最后转送子树所到的地方                                                                 |
+*** 归档
+当一个用（子）树表示的工程完成后，你可能想把它移走，不让它再在议程里显示。归档能使你的工作文件变得简洁，并能使议程视图构
+造等全局搜索保持高效。最常用的归档命令是将工程树移到另一个文件——归档文件。
+| C-c C-x C-a | 用变量 orgarchive-default-command 指定的命令归档当前的项 |
+| C-c C-x C-s | 将光标处的子树归档至 org-archive-location 指定的位置     | 
+默认的归档位置是当前文件同目录下，名为当前文件名后加 “_archive” 的文件。例子和设置位置的方法见变量 org-archivelocation
+的帮助信息。下面是一个在缓冲区内设置该变量的方法： 
+: #+ARCHIVE: %s_done::  
+** 使用日程表管理任务
+*** 日程表视图(Agenda views)
+Org-mode不要求所有的待办任务都整齐排列到一个文件中，更没有设立专门的诸如.todo类型的文件，
+因为它的作者们认为我们平时要处理的事情多数都是在记笔记中产生的。
+任务可以随时随地定制，它们会散落到各个角落（即文件），
+因此必需使用某些方式把它们收集起来并进行排序和显示。
+Org能够使用一些标准选择任务并显示在一个专门的议程缓冲区，这个缓冲区是只读的；
+但是提供了一些命令可以访问原Org文件中对应的条目，并且可以远程地编辑这些文件。
+它提供了7种不同的显示模式：
++ 日程表：用类似于日历的方法显示特定日期的任务
++ 待办任务列表：列出所有未完成的任务
++ 匹配视图：通过标签、属性或TODO关键词选择并显示匹配的标题
++ 时间线视图：把所有任务放到一个Org文件中并按时间顺序排列
++ 文本搜索视图：从多个文件中搜索匹配特定关键词的任务
++ 静止项目视图：列出没有任何动静的项目（标题），即没有任何TODO关键词标记的标题
++ 用户定制视图：可以定制特殊搜索条件或组合不同的视图
+*** 日程表文件
+Org需要指定日程文件的搜索目录，利用变量org-agenda-files完成
+#+BEGIN_SRC Emacs-lisp
+(setq org-agenda-files (qoute ("/home/kyle/code/Org")))
+#+END_SRC
+会把该目录下（不包括子目录）所有org文件都加入日程表的搜索范围。
+单个文件添加或删除操作：
+| C-c [ | 把当前文件加到 agenda-files 列表的最前面；如果文件已经在 agenda-files 中，就把移到最列表最前面或最后面 |
+| C-c ] | 把当前文件从 agenda-files 列表移除                                                                     |
+| C-,   | 遍历议程文件列表，依次访问其中的每一个文件                                                             |
+*** 在日程表上查看任务
+**** org-agenda
+视图是通过议程调度器创建的,org-agenda可以查看日程表，会弹出选择窗口，每个选项都有说明。
+日程表默认列出7天内的任务，可以修改：
+#+BEGIN_SRC Emacs-lisp
+(setq org-agenda-ndays 30)
+(setq org-agenda-include-diary t)
+#+END_SRC
+**** 匹配标签和属性
+如果议程文件中的标题带有标签或者带有属性，就可以基于这些元数据筛选标题到议程缓冲区中。
+这里描述的匹配语法在用 C-c / m 创建稀疏树时也同样适用。
+#+BEGIN_EXAMPLE
+C-c a m  将匹配指定的标签集的所有标题生成一个列表。这个命令询问筛选规则，可以是标签的逻辑表达式，如 “+work+urgent-withboss” 或 “work|home” （见第 6 章）。如果你经常使用某个搜索，可以将它定义成一个命令。（见第 10.2 节）
+C-c a M  同 C-c a m，但只复选同时也是 TODO 项的标题。  
+#+END_EXAMPLE
+**** 匹配语法
+搜索字符串可以使用 ‘&’ 作与运算， ‘|’ 作或运算。‘&’ 的约束力比 ‘|’ 的强。括号功能现在还没实现。
+用以搜索的元素可以是标签、匹配标签的正则表达式、或者像 PROPERTY OPERATOR VALUE 这样带有比较操作符的用来比较属性值的表达式
+第一个元素前面加 ‘-’表示不选匹配的项，加 ‘+‘ 表示选择匹配的项。使用 ’+‘ 和 ’-“ 时，与操作符 ‘&’ 就是可选的了。
+这里有一些只使用标签的例子。 
+#+BEGIN_EXAMPLE
+”+work-boss“               选择标有”:work:“的标题，但去掉同时也标有”:boss:“的标题。。
+”work|laptop“              选择标有”:work:“或者”:laptop:“的行。
+”work|laptop+night“        跟前面相同，但要求标有”:laptop:“和行也要标有”:night:“。
+#+END_EXAMPLE
+匹配标签时你也可以尝试同时匹配属性
+**** 查找视图
+这个议程视图用来对 Org 模式下的条目进行普通的文本查找。对于查找笔记很有用。
+这个查找方式可以让你通过匹配子串或者用逻辑表达式指定关键字来选择条目。
+例如，查找字符串 ”computer equipment“ 将会查找包含子串 ”computer equipment“ 的条目。查找视图也可以用布尔逻辑查找条目中的
+关键字。查找字符串 ”+computer +wifi -ethernet-{8\.11[bg]}“ 将会搜索包含关键字 computer 和 wifi 但不含 ethernet ，并且不
+被正则表达式 8\.11[bg] （排除 8.11b 和 8.11g） 匹配的笔记条目。
+注意，除了议程文件，这条命令也会搜索 org-agenda-text-search-extra-files 中列出的文件。 
+**** 议程缓冲区文件
+议程缓冲区中的条目链接到了它们的源 Org 或者日记文件。
+有一些命令可以用来显示和跳转到条目的源位置，
+也可以从视图缓冲区中”远程“编辑源文件。
+下面只是所有命令的一个选集，浏览 Agenda 菜单和手册获得完整的列表。 
+***** 移动
+| n | 下一行、同DOWN、C-n |
+| p | 上一行、同UP、C-p   | 
+***** 查看/转到Org文件
+| mouse-3 |                                                                      |
+| SPC     | 在另一个窗口中显示条目的原位置；带前缀使得整个大纲可见，而不只是标题 |
+| TAB     | 在另一个窗口中显示条目的原位置，且光标移动到此该窗口                 |
+| RET     | 跳转到原位置并删除其他的窗口                                         | 
+***** 改变显示方式
+| o        | 删除其他的窗口                                                                                                                        |
+| d/w      | 切换到日/周视图                                                                                                                       |
+| f/b      | 时间前移或者后移来显示随后的org-agenda-current-span天；例如显示了一周的内容，切换到下/上一周                                          |
+| .        | 转到今天                                                                                                                              |
+| j        | 询问日期并转到那天                                                                                                                    |
+| v l或者l | 触发日志模式(Logbook mode)，在日志模式中，当记录功能打开（变量org-log-done)时标记为DONE的条目，以及在那天计时的条目，都会显示在议程中 |
+| r或者g   | 重新构造议程，以反应最新的状态                                                                                                        |
+| s        | 保存当前Emacs会话的所有Org缓冲区和ID地址                                                                                              | 
+***** 二级筛选和查询编辑
+| / | 根据标签过滤当前的缓冲区；提示你诗人一个字母选择一个标签，先按'-'排除一个标签 |
+| \ | 通过增加条件缩小当前议程的视图                                                | 
+***** 远程编辑
+| 0-9              | 数字参数                                                                              |
+| t                | 修改议程和org文件中额条目的TODO状态                                                   |
+| C-k              | 删除当前的议程条目以及源文件中它的整个子树                                            |
+| C-c C-w          | 传递当前的条目                                                                        |
+| C-c C-x C-a或者a | 用在org-archive-default-command中设置的默认归档命令，对当前条目所对应的整个树进行归档 |
+| C-c C-x C-s或者s | 归档当前标题所对应的树                                                                |
+| C-c C-s          | 规划(Schedule)一个条目，带有前缀参数时删除规划时间戳                                  |
+| C-c C-d          | 为条目设置截止期限，带有前缀时删除截止期限                                            |
+| S-RIGHT和S-LEFT  | 将与当前行相关的时间戳改变一天                                                        |
+| I                | 对当前条目开始计时                                                                    |
+| O/X              | 暂停/取消最近开始的计时                                                               |
+| J                | 在另一个窗口中跳转到正在进行的计时                                                    | 
+***** 定制议程视图
+自定义搜索的主要用途是对于频繁使用的搜索进行快捷键绑定，从而快捷地创建议程缓冲区或者稀疏树（当然后者只涵盖当前缓冲区的内
+容）。自定义的命令是用变量 org-agenda-custom-commands 来配置的。你可以用 C-c a C 来定制这个变量。也可以直接在 ”.emacs“
+中用 Emacs lisp 来设置。下面的例子包含了所有合法的搜索类型： 
+#+BEGIN_SRC Emacs-lisp
+(setq org-agenda-custom-commands
+      '(("w" todo "WAITING")
+        ("u" tags "+boss-urgent")
+        ("v" tags-todo "+boss-urgent")))
+#+END_SRC
+每个项的首字符串是使用调度器命令 C-c a 之后要给出的键以使用相应的命令。通常都是单个字符。第二个参数是搜索类型，接着是用
+来进行匹配的字符串或者正则表达式。上面的例子定义了： 
+| C-c a w | 对于包含关键字 ”“ 的 TODO 项的全局搜索                           |
+| C-c a u | 对于带有标签 ”:boss:“ 而不含标签 ”:urgent:“ 的标题的全局标签搜索 |
+| C-c a v | 同搜索 C-c a u，但搜索范围只限于同时也是 TODO 项的标题           |
+*** 用Org文件定制特殊日程表事件
+Emacs 包含了 Edward M. Reingold 的日历和日记功能。Org 模式能识别日记的语法并允许在 Org 文件中直接使用日记的 sexp 条目
+功能很fancy，类似与Emacs日历的日志文件管理方式，比如：
+#+BEGIN_SRC Emacs-lisp
+: * Birthdays and similar stuff
+ #+CATEGORY: Holiday
+  %%(org-calendar-holiday) ; special function for holiday names
+ #+CATEGORY: Ann
+  %%(org-anninversary 5 20 2020) 结婚 %d 周年纪念
+  %%(org-anninversary 10 5 2021) 女儿 %d 岁生日
+#+END_SRC
+保存为一个独立的org文件，然后加入日程表列表，产生日程表时会包含这些事件。
+Org 可以跟 Emacs 的约会提醒功能结合。想添加议程文件中的约会提醒，可以使用命令 org-agenda-to-appt。详见帮助文档
+* Org使用小技巧
+** 快速输入#+BEGIN_ SRC... #+END_ SRC
+org-mode已经内置了快速输入的方法: 输入 <s 再按TAB键 ，就会自动展开为 #+BEGIN_ SRC ... #+END_ SRC 。类似地，输入 <e 再按TAB
+键，就会自动展开为 #+BEGIN_ EXAMPLE ... #+END_ EXAMPLE 。

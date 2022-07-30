@@ -1,0 +1,130 @@
+#+TITLE:          损失函数
+#+AUTHOR:         Kyle Three Stones
+#+DATE:           <2018-08-17 Fri 07:19>
+#+EMAIL:          kyleemail@163.com
+#+OPTIONS:        H:3 num:t toc:nil \n:nil @:t ::t |:t ^:t f:t tex:t
+#+TAGS:           深度学习
+#+CATEGORIES:     深度学习
+
+
+为了度量算法关于某个数据集的性能，我们需要损失函数。当算法希望生成比真实值一个较小的数字，那么损失函数中应该体现出现，较
+大的输出比较小的输出有更大的惩罚。
+
++ Loss: Used to evaluate and diagnose model optimization only.
++ Metric: Used to evaluate and choose models in the context of the project.
+
+** Mean Squared Error
+
+MSE 是经常被使用的损失函数，易于理解，且表现很好。
+
+1. take the difference between your predictions and the ground truth
+1. square it
+1. average it out across the whole dataset
+
+#+BEGIN_SRC python
+def MSE(y_predicted, y):
+    squared_error = (y_predicted, y) ** 2
+    sum_squared_error = np.sum(squared_error)
+    mse = sum_squared_error / y.size
+    return mse
+#+END_SRC
+
+
+** Cross Entropy Loss (Log Loss)
+
+交叉熵损失经常用于分类问题。函数定义如下
+
+当只有两类时 BCE
+
+\begin{align*}
+L = -(y \log (p) + (1-y) \log (1-p))
+\end{align*}
+
+当类别数大于二的时候
+
+\begin{align*}
+L = - \sum_{c=1}^{M} y \log (p)
+\end{align*}
+
+The cool thing about the log loss loss function is that is has a kick: it penalizes heavily for being very confident and
+very wrong. Predicting high probabilities for the wrong class makes the function go crazy. (当分类错误，且输出概率较大的
+时候，交叉熵损失会变得很大。)
+
+
+参考：
+
+1. [[http://wiki.fast.ai/index.php/Log_Loss][fast.ai]]
+1. [[https://ml-cheatsheet.readthedocs.io/en/latest/loss_functions.html][ml-cheatsheet]]
+1. [[https://blog.algorithmia.com/introduction-to-loss-functions/][algorithmia]]
+
+
+** softmax loss
+
+使用 Softmax 激活函数，希望样本标记类别的输出概率越大越好，所以损失函数惩罚标记类别的输出概率值不够大的情况
+
+\begin{align*}
+L = \sum_{i=1}^m - \log \left( \frac{ e^{W_{y_i}^T x_i + b_{y_i}} }{ \sum_j e^{W_j^T x_i + b_j} } \right) 
+\end{align*}
+
+
+** contrastive loss
+
+在距离中增加了 margin ，使得不同的类别距离至少为 margin 
+
+\begin{align*}
+L = (1 - Y) \frac{1}{2} (D_W)^2 + (Y)\frac{1}{2} \{ \max(0,m-D_W) \}^2
+\end{align*}
+
+
+** triplet loss
+
+\begin{align*}
+L = \sum_i^N \left [||f(x_i^a) - f(x_i^p)||_2^2 - ||f(x_i^a) - f(x_i^n)||_2^2 + \alpha \right ]_+
+\end{align*}
+
+每次使用三张图像，一个是 anchor ，另外两张中一张图像与 anchor 是同一个人，另一张是不同的人。为了较好的训练效果，挑选
+hard-positive 和 hard-negative 的人脸对，就是同一个人时选择两张差别最大的图像，不同人脸的时候，挑选差别最小的两张图像。
+其中 \(\alpha\) 是 margin 。当然所有这些选择都是在一个 mini-batch 中，而不是整个训练样本中。论文中有 online 和 offline
+两种方式来选择。
+
+另外为了防止网络进入局部最优解或者训练崩溃（如 f(x) = 0），选择 semi-hard negative 样本，即满足 \[ ||f(x_i^a) -
+f(x_i^p)||_2^2 - ||f(x_i^a) - f(x_i^n)||_2^2 \]
+
+
+** centerloss
+
+作者认为 Softmax 只是增大了类间的离散度，并没有很好的控制类内离散度，所以在损失函数上增加了每个样本到类中心点的距离惩罚
+项。Good idea!
+
+\begin{align*}
+L & = L_s + \lambda L_c \\
+& = \sum_{i=1}^m - \log \left( \frac{ e^{W_{y_i}^T x_i + b_{y_i}} }{ \sum_j e^{W_j^T x_i + b_j} } \right) 
++ \frac{\lambda}{2} \sum_{i=1}^m ||x_i - C_{y_i}||_2^2 \\
+\end{align*}
+
+
+** A-softmax loss
+
+将 Softmax loss 表示成角度的形式
+
+\begin{align*}
+L & = \sum_i - \log \left( \frac{e^{f_{y_i}}}{\sum_j e^{f_j}} \right) \\
+& = \sum_i - \log \left( \frac{ e^{W_{y_i}^T x_i + b_{y_i}} }{ \sum_j e^{W_j^T x_i + b_j} } \right) \\
+& = \sum_i - \log \left( \frac{ e^{||W_{y_i}||||x_i||cos(\theta_{y_i,i})} }
+{ \sum_j e^{||W_j^T||||x_i||cos(\theta_{j,i})} } \right) \\
+& = \sum_i - \log \left( \frac{e^{||x_i||cos(\theta_{y_j,i})}}{\sum_j e^{||x_i||cos(\theta_{j,i})}} \right)
+\end{align*}
+
+增加角度 margin
+
+\begin{align*}
+L_{ang} = \sum_i - \log \left( \frac{ e^{ ||x_i||cos(m\theta_{y_j,i}) } }
+{ e^{ ||x_i||cos(m\theta_{y_j,i}) } + \sum_{j \neq y_i} e^{ ||x_i||cos(\theta_{j,i}) }} \right)
+\end{align*}
+
+此时若两个类别的权重 \(W_1\) 和 \(W_2\) 之间的夹角为 \(\theta_2^1\) ，则两个类别的角度间隔为 \(\frac{m-1}{m+1}
+\theta_2^1\) 。作者认为 Softmax 本来计算的就是角度距离，类似 contrastive loss 、triplet loss 、center loss 使用欧式距离
+加上Softmax loss 并不合理。
+
+另外还去掉了最后一个全连接层的 ReLU 激活函数，因为使用 ReLU 之后，输出值被限制在 \([0, +\infty)\) 。去掉之后特征将有更大
+的可学习空间。

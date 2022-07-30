@@ -1,0 +1,13 @@
+#+TITLE:       Get Things Done
+#+AUTHOR:      kyle Three Stone
+#+DATE:        <2018-05-24 Thu>
+#+EMAIL:       kyleemail@163.com
+#+OPTIONS:     H:3 num:t toc:t \n:nil @:t ::t |:t ^:t f:t TeX:t
+#+TAGS:        GTD, time
+#+CATEGORIES:  GTD
+
+
+*YOUR MIND IS FOR HAVING IDEAS, NOT HOLDING THEM. -- David Allen*
+
+时间管理的本质，是管理我们的心智和行动！
+

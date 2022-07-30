@@ -1,0 +1,163 @@
+#+TITLE:          卷积神经网络进化
+#+AUTHOR:         Kyle Three Stones
+#+DATE:           <2018-08-22 Wed 07:19>
+#+EMAIL:          kyleemail@163.com
+#+OPTIONS:        H:3 num:t toc:nil \n:nil @:t ::t |:t ^:t f:t tex:t
+#+TAGS:           深度学习
+#+CATEGORIES:     深度学习
+
+
+总体趋势：选取的函数越来越简单，手工设计的部分越来越少
+
+** CNN
+
+Yann Lecun 在 1998 的 LeNet 奠定了神经网络的基本架构 : CONV - POLING - FC 。
+
+
+** 激活函数
+
+在经典的神经网络以及 LeNet 中使用的激活函数都是 sigmoid 函数。sigmoid 函数是非线性函数，且在输入较大或者较小的时候斜率会
+变得很小，不利于参数的学习。
+
+从 AlexNet 开始，激活函数变成了 ReLU ，为分段线性，且 non-saturating，大大加快了网络的训练速度。同时为防止过拟合，提出了
+Dropout 方法， Dropout 随机的使网络中的一些节点失活，使得节点不能过度依赖某一个输入，从而权重得以分散开来，另外使用随机
+失活的网络，有预训练的效果，类似于先训练一个简单的网络，然后在没有失活的大型网络上 fine-tune 。虽然 AlexNet 网络与 LeNet
+的架构基本相同，但由于其 ReLU 和 Dropout 等方法的使用，网络使用了 120 万张训练图片，从数据中学到了更本质的特征，将
+cumulative match character (CMC) top5的正确率一下子提升了 10% ，成功掀起了深度学习的研究热潮。
+
+何凯明大神在一次报告中使用 RevoLUtion 来表示 ReLU 对深度学习的贡献，同时使用红色字体高亮了单词中的 ReLU ，非常形象。
+
+
+** Network in NetWork
+
+除了 mini-batch size 外，网络的一层的输入维度为 height * width * channels ，可以通过 polling 操作来减小 height 和 width
+，但是怎样减少 channel 的个数呢？ 1 * 1 卷积可以大显身手。当然，如果你愿意也可以用来增加 channel 的个数。
+
+
+** DepthWise convolution
+
+卷积时，并不再是同时对所有的通道进行卷积，而是分别对每个通道使用不同的滤波器进行卷积，得到同等数量的新的 feature maps，
+然后使用 1x1 的卷积宽通道进行卷积操作。
+
+不同的通道得到的是不同的特征，需要分别对每个通道进行单独的处理，所以使用 DW ，各个通道之间也可能有关联，所以最后进行 1x1
+卷积综合各个通道的特征。
+
+这样不仅大大减少了参数的个数，也加速了网络的计算速度。
+
+
+** 网络架构
+
++ AlexNet :: 有大量的超参需要手工调节。 需要仔细设计了什么时候使用卷积层、什么时候使用池化层以及卷积核的大小
+
++ VGG :: 没有太多的超参。虽然有 16 个权重层，但总体结构并不复杂。固定卷积核大小为 3 * 3、步长为 1、same padding，池化层
+         2 * 2、步长为 2 ；网络的结构很规整：总是几个卷积层后接一个池化层、滤波器的个数不断更新为原来的 2 倍， 从而图像
+         的宽和高每次池化后都缩减到一半、每组卷积的通道数都增加一倍。
+
++ GoogLeNet :: 采用模块化结构。将 1 * 1 卷积、3 * 3 卷积、5 * 5 卷积、max pooling （需要 same padding ，且步长改为 1 使
+               得图像的高和宽保持不变）全部在一个网络层中使用，将每一种操作得到的结果堆叠起来得到网络的输出，让网络自己
+               决定这一层网络到底需要什么操作，而不人工指定该层就是卷积层或者池化层或者全连接层。
+
+
+** 网络深度
+
+最初使用 BP 算法的神经网络只有两层；LeNet 进化成了 7 层；AlexNet 8 层；VGG 飞升到 19 层；GoogLeNet 22 层；而 ResNet 使用
+skip connection 直接进化到了 152 层，后来成功训练了 1000 层的网络。
+
+
+** Batch Normalization
+
+为了让模型更加容易训练，通常会先将样本进行预处理，其中一个关键的预处理方法就是将样本进行归一化处理。归一化之后样本在不同
+的维度分布更加合理，有利于加速模型训练。
+
+为了让后一层网络更容易训练，Batch Normalization 让网络的每一层输出都进行归一化，显著减小了多层之间协调更新的问题，输入的
+稳定使得网络的每一层可以单独训练。
+
+很好的正则化方法，何凯明大神说可以替代其他所有的正则化方法。
+
+Batch normalization 是优化深度神经网络中最激动人心的创新之一。另外并不希望所有网络层的输出都是0 均值、方差为 1 ，所以
+batch norm 为每个节点增加了均值和方差两个参数来调节归一化结果的分布，这两个参数由网络学习得到。又由于增加了均值这个参数
+使得节点原来的偏移参数 b 不再有意义，可以去掉。
+
+可以有两种不同的使用方法：在求取激活函数之前进行归一化，然后再利用激活函数得到该层网络的输出；也可以先计算激活函数的输出，
+然后再进行归一化。第一种方法较为常用。
+
+\begin{align*}
+\mu = \frac{1}{m} \sum_i Z^{[l](i)} \\
+\sigma^2 = \frac{1}{m} \sum_i (Z^{[l](i)} - \mu)^2 \\
+Z_{norm}^{[l](i)} = \frac{Z^{[l](i)} - \mu}{\sqrt{\sigma^2+\varepsilon}} \\
+{\widetilde{Z}}^{[l](i)} = \gamma Z_{norm}^{[l](i)} + \beta
+\end{align*}
+
+使用 mini-batch 前向传播的时候在计算激活函数之前先使用 batch norm ，然后计算激活函数，继续传播；反向传播时使用和求取权重
+参数 W 一样的方法来求取均值和方差参数 \(d\gamma, \ d\beta\) 。在卷积层之后使用需要计算所有 channel 的平均值。
+
+batch norm 使得网络每一层的输出值都得到归一化，归一化到某个分布。这将减小前面层网络参数的变化对后面层权重的影响，因为不
+论前面层如何变化，都始终服从某个固定的分布，当前面层的输入变化时，其输出变化不会很大，所以后面的网络层的输入不会变化很大，
+从而前面输入的变化对后面层网络权重参数的训练的影响减小，类似 *达到了让每层网络参数独立训练的效果* 。另外 batch norm 还有
+正则化的效果，由于使用 mini-batch 只是所有训练样本的一小部分，所以其均值和方法都含有一定的噪声，每次使用 mini-batch的样
+本去训练网络，并用含有噪声的均值和方法去归一化每一层的输出，就类似于 Dropout 随机丢弃网络中神经元节点一样，达到了的正则
+化的效果。
+
+测试时一般一次只输入一个样本，而不是像训练时那样，每次使用 mini-batch size 数量的样本。需要使用训练样本来估计网络每一层
+输出的均值和方差，并用于测试时使用。一般使用不同的 mini-batch 的各个层输出值的指数加权平均来估计
+
+\begin{align*}
+{\mu_{mean}}^{[l]} & = \beta {\mu_{mean}}^{[l]} + (1-\beta) {\mu}^{\{i\}[l]} \\
+{\sigma_{mean}}^{2[l]} & = \beta {\sigma_{mean}}^{2[l]} + (1-\beta) {\sigma}^{2\{i\}[l]} \\
+\end{align*}
+
+疑问：这里求取平均值只是穿越了不同的 mini-batch ，那么不用关系 epoch 吗？是不是取最后一个 epoch 的所有 mini-batch 的平均
+效果更好？感觉这个好像就是训练好网络之后，又重新将所有训练样本训练一般一样。吴恩达说两者的效果都不错。这里的平均值次数是
+不是应该选的比较大一点？0.9999
+
+
+** Loss Funtcion
+
+Learning 和 纯优化并不等价。机器学习问题中，我们关注某个性能度量 P ，但通常无法直接求取，只能间接的优化 P 。一般设置某个
+代价函数 J ，通过最小化 J 来提高 P 。因此需要思考 softmax-loss 是否能够较好的代表 P ？
+
++ FaceNet :: 使用 triplet loss 来减小类内离散度、增大类间离散度。需要挑选 hard positive 和 hard negative 人脸对。
++ contrastive loss :: 使用欧氏距离，但给不同的类别增加间隔 margin 。margin 肯定是从 SVM 中获取的灵感。
++ sphereface :: 将 Softmax-loss 表示成角度距离，且通过设置 m 增加不同类型的角度 margin 。
+
+
+** optimization
+
+由于高维空间中鞍点的个数远远多余局部最优解，而二阶方法，比如牛顿法会寻找梯度为零的点，因此会被吸引到鞍点。无法很好的移植
+到深度学习中。梯度下降法似乎是唯一的选择。
+
++ SGD :: 通常使用 mini-batch 梯度下降法。mini-batch 应该相互独立
++ SGDM :: SGD with Momentum 使用导数的指数加权移动平均值来更新参数
++ RMSProp :: 使用平方梯度的部分历史来控制学习率，使其抑制较大震荡而快速收敛
++ Adam :: 使用指数加权平均后的导致值来更新参数；其超参非常鲁棒，通常使用作者建议的值
+
+
+** Global Average Pooling 
+
+全连接层参数过多，容易过拟合，需要 Dropout 等方法来预防。而且这种将前面提取到的特征直接堆叠起来的方法有点不自然。所有作
+者提出让每一个 feature map 的全局平均值作为一个节点，有多少个类别就生成多少个 feature map ，然后将所有 feature map 的平
+均值输入到 Softmax 进行分类，这样每一个 feature map 代表一类，相比于全连接层，其意义更加明确。而且无需额外的参数，同时可
+以融合空间信息。
+
+Take the average of each feature map, and the resulting map is fed directly into the softmax layer.
+Generate one feature map for each corresponding category of the classification task.
+Feature map can be easily interpreted as categories confidence map.
+
+
+** deconvolution networks
+
+卷积操作可以展开称矩阵操作，以加速计算。在 caffe 中实现为 img2col 。 \(Y=WX\)
+
+反卷积就是转置卷积，为卷积的逆向操作，用于增大图像的分辨率。所以在 tensorflow 中表示为 conv_trans 。当卷积的步长大于 1
+的时候，反卷积的步长将变成小数，此时的反卷积称为小数步长卷积，需要在输入中间增加 s-1 个值为 0 的单元。
+
+\begin{gather*}
+Z = WA \\
+dW = dZA^T \\
+dA = W^T dZ
+\end{gather*}
+
+
+** 其他
+
+可参考知乎上大神的总结 [[https://zhuanlan.zhihu.com/p/28749411?from=singlemessage][卷积神经网络中十大拍案叫绝的操作]] 

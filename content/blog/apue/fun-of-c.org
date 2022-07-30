@@ -1,0 +1,150 @@
+#+TITLE:       Funny of C
+#+AUTHOR:      Kyle Three Stones
+#+DATE:        [2018-05-29 Tue]
+#+EMAIL:       kyleemail@163.com
+#+OPTIONS:     H:3 num:t toc:nil \n:nil @:t ::t |:t ^:t f:t tex:t
+#+TAGS:        C
+#+CATEGORIES:  language
+
+
+** 变量
+所谓变量，其实是内存地址的一个抽像名字罢了;;
+
+在静态编译的程序中，所有的变量名都会在编译时被转成内存地址。机器是不知道我们取的名字的，只知道地址。
+
+不管结构体的实例是什么--
+访问其成员其实就是加成员的偏移量。
+
+
+
+** 宏定义
+
+C 语言的宏实现对组成程序的字符进行变换的方式。宏既可以使一段看上去完全不合语法的代码成为一个有效的 C
+程序，也能使一段看上去无害的代码成为一个可怕的怪物。比如可以阅读陈皓的
+《[[https://coolshell.cn/articles/914.html][6 个变态的 C 语言 Hello World 程序]]》
+
+#+BEGIN_SRC C
+#define tString(x) #x      // 传入参数两侧加上双引号" 。如果入参是变量，其定义必须在宏定义之前
+#define toChar(x) #@x      // 将参数两侧加上单引号' ，
+#define conn(x,y) x##y     // 连接两个参数
+
+#+END_SRC
+
+
+** 字符串
+
+** 数组
+1. C 语言中只有一维数组，而且数组的大小必须在编译期就作为常数确定下来。但数组中的元素可以是任何类型
+   的对象，当然也就可以是另外一个数组
+2. 对一个数组只能做两件事：确定数组的大小；获得指向数组下标为 0 的元素的指针。
+
+任何一个数组下标运算都等同于一个对应的指针运算。
+
+对于数组 char s[10]来说，数组名 s 和 &s 都是一样的。
+
+#+BEGIN_SRC C
+int a[10];
+int i = 3;
+
+*a = 84;
+*(a+i) = 22;
+a[i] = 21;
+/* 表达式 *(a+i) 即数组 a 中下标为 i 的元素的引用；由于比较常用，所以被简记成 a[i] ；
+ * 又由于 a+i 与 i+a 含义相同，因此 *(a+i) 与 *(i+a) 含义相同，所以 a[i] 与 i[a] 含义相同 */
+i[a] = 12;
+//虽然如此，但强烈不建议这么写
+#+END_SRC
+
+数组的原地就是内容，长度为 0 的数组其并不占据内存。
+
+** 指针
+
+
+** 链表
+
+#+BEGIN_SRC C
+#include <stdlib.h>
+#include <stdio.h>
+
+typedef struct NODE {
+    struct NODE *link;
+    int value;
+} Node;
+
+//The key is to use the address of the pointer to the node 
+//which is the address of node->link
+int insert(Node **linkp, int value)
+{
+    Node *current;
+    Node *newNode;
+
+    while( ( current = *linkp ) != NULL 
+            &&  current->value < value )
+    {
+        linkp = &current->link;
+    }
+
+    newNode = (Node *)malloc(sizeof(Node));
+    if(NULL == newNode)
+    {
+        return -1;
+    }
+
+    newNode->value = value;
+
+    newNode->link = current;
+    *linkp = newNode;
+
+    return 1;
+
+}
+
+void printLink(Node **root)
+{
+    while(*root != NULL)
+    {
+        printf("%d ", (*root)->value);
+        *root = ((*root)->link);
+    }
+}
+
+int main()
+{
+    Node *proot = NULL;
+ 
+    insert(&proot, 5);
+    insert(&proot, 9);
+    insert(&proot, 1);
+    insert(&proot, 4);
+    insert(&proot, 3);
+    insert(&proot, 7);
+
+    printLink(&proot);
+
+    printf("\n");
+
+    return 0;
+}
+
+#+END_SRC
+
+
+** 速度
+
+#+BEGIN_EXAMPLE
+L1 cache reference ......................... 0.5 ns
+Branch mispredict ............................ 5 ns
+L2 cache reference ........................... 7 ns
+Mutex lock/unlock ........................... 25 ns
+Main memory reference ...................... 100 ns             
+Compress 1K bytes with Zippy ............. 3,000 ns  =   3 µs
+Send 2K bytes over 1 Gbps network ....... 20,000 ns  =  20 µs
+SSD random read ........................ 150,000 ns  = 150 µs
+Read 1 MB sequentially from memory ..... 250,000 ns  = 250 µs
+Round trip within same datacenter ...... 500,000 ns  = 0.5 ms
+Read 1 MB sequentially from SSD* ..... 1,000,000 ns  =   1 ms
+Disk seek ........................... 10,000,000 ns  =  10 ms
+Read 1 MB sequentially from disk .... 20,000,000 ns  =  20 ms
+Send packet CA->Netherlands->CA .... 150,000,000 ns  = 150 ms
+
+#+END_EXAMPLE

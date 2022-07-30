@@ -1,0 +1,701 @@
+#+TITLE:          mxnet
+#+AUTHOR:         Kyle Three Stones
+#+DATE:           <2018-10-31 Wed>
+#+EMAIL:          kyleemail@163.com
+#+OPTIONS:        H:3 num:t toc:nil \n:nil @:t ::t |:t ^:t f:t tex:t
+#+TAGS:           mxnet, 深度学习
+#+CATEGORIES:     深度学习
+
+
+** mxnet 常用包
+
+#+BEGIN_SRC python
+from mxnet import gluon # 提供简单易用的 mxnet 接口
+from mxnet import nd
+from mxnet import init # 用于权重参数初始化
+from mxnet import autograd # 自动求导
+from mxnet.gluon import nn # 用于构建网络结构
+from mxnet.gluon import data as gdata
+from mxnet.gluon.data.vision import transforms # 用于变换数据
+import sys
+import time
+#+END_SRC
+
+
+** 常用函数
+
++ transfroms.Compose :: 实现数据格式的转换，转换成 (height, width, channel) 格式，以及变成浮点数；这是 mxnet 要求的格式；
+     同时可以实现 argument
++ gluon.data.DataLoader :: 读取数据，可以实现随机读取随机的 batch ，指定 batch_size ，指定同时读取数据的线程数；返回值可
+     迭代的对象，分别为数据和标签对
++ gluon.loss :: 常用的标准损失函数
++ gluon.Trainer :: 设定学习算法（SGD、Adam 等），设置学习速率，等等训练参数
++ x.attach_grad :: attach_grad 申请存储梯度所需要的内存
++ with autograd.record :: 强制 mxnet 记录与梯度相关的计算；
++ net.backward :: 反向传播，计算梯度；这里只需要求解出所有的损失和，反向传播即可
++ trainer.step(batch_size) :: 更新模型
++ net.save_parameters :: 保存训练参数到硬盘
++ net.load_parameters :: 加载模型参数
+
+
+** 模型可视化
+
+[[https://github.com/lutzroeder/netron][netron]] 是一个适应多种框架的模型可视化工具，原来看论文，看代码，总是不容易整体把握框架的结构，通过 netron 可以很容易的观
+察到模型的整体和细节。为什么没有早点发现呢？？
+
+
+** 数值稳定性和模型初始化
+
+
+深度模型有关数值稳定性的典型问题是衰减(vanishing)和爆炸(explosion)。
+
+当神经网络的层数较多时,模型的数值稳定性容易变差。当层数较多时, 网络一层的输出容易出现衰减或爆照，梯度的计算也更容易出现
+衰减或爆炸。
+
+
+*** 随机初始化模型参数
+
+必须随机初始化模型来打破网络的对称性。
+
+MXNet 将使用默认的随机初始化方法:权重参数每个元素随机采样于 -0.07 到 0.07 之间的均匀分布,偏差参数全部清零。
+
+
+**** Xavier 随机初始化
+
+假设某全连接层的输入个数为a,输出个数为 b,Xavier 随机初始化将使得该层中权重参数的每个元素都随机采样于均匀分布它的设计主要
+考虑到,模型参数初始化后,每层输出的方差不该受该层输入个数影响,且每层梯度的方差也不该受该层输出个数影响。
+
+\[ U \left( -sqrt(\frac{6}{a+b}), sqrt(\frac{6}{a+b}) \right) \]
+
+
+** softmax
+
+Softmax 回归同线性回归一样,也是一个单层神经网络。由于每个输出 o1 , o2 , o3 的计算都要依赖于所有的输入 x1 , x2 , x3 , x4
+, softmax 回归的输出层也是一个全连接层。
+
+
+矩阵的 Frobenius 范数等价于将矩阵变平为向量后计算 L 2 范数。
+
+
+*** 交叉熵损失函数
+
+想要预测分类结果正确,我们其实并不需要预测概率完全等于标签概率。平方损失则过于严格例如 ŷ1 = ŷ2 = 0.2 比 ŷ1 = 0, ŷ2 = 0.4
+的损失要小很多,虽然两者都有同样正确的分类预测结果。改善上述问题的一个方法是使用更适合衡量两个概率分布差异的测量函数。其
+中,交叉熵(cross entropy)是一个常用的衡量方法。交叉熵只关心对正确类别的预测概率,因为只要其值足够大,我们就可以确保分类结果
+正确。最小化交叉熵损失函数等价于最大化训练数据集所有标签类别的联合预测概率。
+
+
+** 数据读取
+
+数据读取经常是训练的性能瓶颈,特别当模型较简单或者计算硬件性能较高时。 Gluon的 DataLoader 中一个很方便的功能是允许使用多
+进程来加速数据读取。
+
++ 我们通过参数 num_workers 来设置 4 个进程读取数据。
++ 通过 ToTensor 类将图像数据从 uint8 格式变换成 32 位浮点数格式, 并除以 255 使得所有像素的数值均在 0 到 1 之间。
++ ToTensor 类还将图像通道从最后一维移到最前一维来方便之后介绍的卷积神经网络计算。
+
+*** 使用 gluoncv 读取 COCO 
+
+#+BEGIN_SRC python
+from gluoncv import data as gdata, utils as gutils
+
+train_dataset = gdata.COCODetection(root='~/data/coco', splits=['instances_train2017'], transform=None)
+val_dataset = gdata.COCODetection(root='~/data/coco', splits=['instances_val2017'], transform=None)
+
+train_images, train_label = train_dataset[0]
+bounding_box = train_label[:, :4]
+class_ids = train_label[:, 4:5]
+
+gutils.viz.plot_bbox(train_image.asnumpy(), bounding_boxes, scores=None,
+                    labels=class_ids, class_names=train_dataset.classes)
+plt.show()
+#+END_SRC
+
+*** Data
+
+#+BEGIN_SRC python
+from mxnet.gluon import data as gdata
+#+END_SRC
+
+data 模块提供的 API：
+
+1. load and parse datasets
+1. transform data examples
+1. sample mini-batches for training program
+
+
+** Dataset
+
+随机打乱文本文件的所有行的 shell 命令
+
+#+BEGIN_SRC bash
+# 将文件 imagelabel 中所有行随机排序，结果保存到 imagelabelshuf 文件中
+shuf imagelabel -o imagelabelshuf 
+# 可以只随机指定的行，如 5 到 10 行
+shuf -i 5-10 imagelabelshuf
+#+END_SRC
+
+
+*** CIFAR
+
+#+BEGIN_SRC bash
+# md5sum --  c58f30108f718f92721af3b95e74349a
+$ wget http://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz
+
+# md5sum -- eb9058c3a382ffc7106e4002c42a8d85
+$ wget http://www.cs.toronto.edu/~kriz/cifar-100-python.tar.gz
+#+END_SRC
+
+CIFAR-10 共包含 6 万张 32x32 的彩色图像，共分成 10 类，每类有 6 千张图片；且其中 5 万张用于训练， 1 万张用于测试。
+
+数据集被分割成 5 个训练 batches 以及 1 个测试 batch ，每个 batch 都包含 1 万张图片； test batch 随机从每个类中选择了 1
+千张图片，剩下的图像以乱序组成训练集，一个 train batch 中某一类的图像数可能多余其他类的个数。
+
+文件 data_batch_1, data_batch_2, ..., data_batch_5, test_batch 都是一个 pickled 类，读取代码如下
+
+#+BEGIN_SRC python
+# python2
+def unpickle(file):
+    import cPickle
+    with open(file, 'rb') as fo:
+        dict = cPickle.load(fo)
+    return dict
+
+# python3
+def unpickle(file):
+    import pickle
+    with open(file, 'rb') as fo:
+        dict = pickle.load(fo, encoding='bytes')
+    return dict
+
+
+batch = unpickle("data_batch_1")
+
+for key in batch:
+    print(key)
+
+# b'batch_label' , b'labels' , b'data' , b'filenames'
+
+data_batch = batch[b'data']
+label_batch = batch[b'labels']
+
+#+END_SRC
+ 
+每个 batch 内 
+
++ data :: 每个 batch 都是一个 10000x3071 的 numpy array ； 每一行存储一张 32x32 的图像，前 1024 是红色通道的值，中间
+          1024 个值是绿色通道，最后 1024 个是蓝色通道； 而且每张图片以行为单位展开并拼接，即 batch 的前 32 个值是某张图
+          片红色通道的第一行
++ labels :: 10000 维的数组，每一位都是 0-9 中的某一个值；索引表示的第几张图片
+
+文件 batch.meta 保存了各个类别标签的具体含义，比如 label_name[0] = "aireplane"
+
+
+*** coco dataset
+
+参考
+
+1. [[https://blog.csdn.net/u014734886/article/details/78830713][MS COCO 官网数据集]]
+1. [[https://blog.csdn.net/wc781708249/article/details/79603522#t9][MS COCO 数据标注详解]]
+1. [[https://blog.csdn.net/u014734886/article/details/78830713][MS COCO 数据集目标检测评估]]
+
+#+BEGIN_SRC bash
+# 下载 coco 数据集
+wget http://images.cocodataset.org/zips/train2014.zip
+wget http://images.cocodataset.org/zips/val2014.zip
+wget http://images.cocodataset.org/zips/test2014.zip
+
+wget http://images.cocodataset.org/zips/test2015.zip
+
+wget http://images.cocodataset.org/zips/train2017.zip
+wget http://images.cocodataset.org/zips/test2017.zip
+wget http://images.cocodataset.org/zips/val2017.zip
+
+wget http://images.cocodataset.org/zips/unlabeled2017.zip
+
+wget http://images.cocodataset.org/annotations/annotations_trainval2014.zip
+wget http://images.cocodataset.org/annotations/image_info_test2014.zip
+
+wget http://images.cocodataset.org/annotations/image_info_test2015.zip
+
+wget http://images.cocodataset.org/annotations/annotations_trainval2017.zip
+wget http://images.cocodataset.org/annotations/stuff_annotations_trainval2017.zip
+wget http://images.cocodataset.org/annotations/image_info_test2017.zip
+
+wget http://images.cocodataset.org/annotations/image_info_unlabeled2017.zip
+#+END_SRC
+
+1. 下载 COCO API : git clone https://github.com/cocodataset/cocoapi.git
+1. 使用 Python 接口 : 进入 coco/PythonAPI 目录，运行 make 编译
+1. 下载 COCO images 和 annotations 
+1. 将图片放置到 coco/images 目录下；将 annotations 放置到 coco/annotations 目录下
+1. 愉快的使用数据集
+
+
+**** COCO API
+
+COCO API 用于辅助使用 annotations ，可以加载、解析、可视化 annotations 。接口中缩写含义 "ann"=annotation,
+"cat"=category, "img"=image 。
+
+# Help on each functions can be accessed by: "help COCO>function".
+
+接口简介：
+
+1. COCO       - COCO 接口类，用于加载 COCO annotation 文件以及 prepare data structures；入参是 annotations 文件名
+1. decodeMask - Decode binary mask M encoded via run-length encoding.
+1. encodeMask - Encode binary mask M using run-length encoding.
+1. getAnnIds  - Get ann ids that satisfy given filter conditions.
+1. getCatIds  - Get cat ids that satisfy given filter conditions.
+1. getImgIds  - Get img ids that satisfy given filter conditions.
+1. loadAnns   - Load anns with the specified ids.
+1. loadCats   - Load cats with the specified ids.
+1. loadImgs   - Load imgs with the specified ids.
+1. annToMask  - Convert segmentation in an annotation to binary mask.
+1. showAnns   - Display the specified annotations.
+1. loadRes    - Load algorithm results and create API for accessing them.
+1. download   - Download COCO images from mscoco.org server.
+
+
+**** Mask API
+
+COCO 为每个对象实例提供分割掩码。这带来了两个挑战：紧凑地存储掩码并有效地执行掩码计算。我们使用自定义运行长度编码（RLE，
+Run Length Encoding）方案来解决这两个挑战。RLE 用于存储二值掩码，就是记录向量中连续 0 值和 1 值的长度，且基数为始终记录
+0 值的长度（位数从 1 开始）。如 [0 0 1 1 1 0 1] 的 RLE 码为 [2 3 1 1] ，[1 1 1 1 1 1 0] RLE 码为 [0 6 1] ；RLE 是简单且
+有效的存储方式，大大减小了存储空间，也使得 area 和 IOU 的计算可以快速完成 O(sqrt(n)) ，其中 n 是物体的面积。
+
+接口简介
+
+1. encode         - Encode binary masks using RLE.
+1. decode         - Decode binary masks encoded via RLE.
+1. merge          - Compute union or intersection of encoded masks.
+1. iou            - Compute intersection over union between masks.
+1. area           - Compute area of encoded masks.
+1. toBbox         - Get bounding boxes surrounding encoded masks.
+1. frPyObjects    - Convert polygon, bbox, and uncompressed RLE to encoded RLE mask.
+
+
+**** Annotation format
+
+COCO目前有三种注解类型：对象实例，对象关键点和图像标题。 annotations 使用 JSON 文件格式存储。所有注释共享下面的基本数据
+结构：
+
+#+BEGIN_SRC json
+// 每个文件必定包含下面 4 部分；
+{
+    "info": info,
+    "images": [image], 
+    "annotations": [annotation],
+    "licenses": [license],
+}
+
+// 每一部分的具体格式
+info{
+    "year": int,
+    "version": str,
+    "description": str,
+    "contributor": str,
+    "url": str,
+    "date_created": datetime,
+}
+
+// 由于是多张图片，最外层是一个 list , list 里面存储了许多字典 image ，所以最终的格式为 [ {a:1, b:2, c:4}, {a:7, b:3, c:6}, ... ]
+image{
+    "id": int, // 图片的 ID 编号，每张图片 ID 唯一
+    "width": int,
+    "height": int,
+    "file_name": str,
+    "license": int,
+    "flickr_url": str,
+    "coco_url": str,
+    "date_captured": datetime,
+}
+
+license{
+    "id": int,
+    "name": str,
+    "url": str,
+}
+#+END_SRC
+
+
+下面介绍各种注释类型特有的数据结构。
+
+ 
+***** Object Instance Annotations
+
+每个实例注释包含一系列字段，包括对象的类别 ID 和分割掩码 segmentation mask 。
+
+分割格式取决于实例代表单个对象还是对象集合。单个对象时，iscrowd = 0，使用多边形 polygon 来表示对象的掩码，即对象所有外边
+缘点的坐标，[x1, y1, x2, y2, ... ] 。对象集合时， iscrowd = 1，使用 RLE 格式存储对象的掩码，比如一群人的情况。
+
+注意，单个对象 iscrowd = 0 可能需要多个多边形，例如，对象被遮挡的时候。
+
+此外，还为每个对象提供了一个封闭的边界框，框坐标是从左上角的图像角度测量的，并且是 0 索引的。这个边界框就是用于目标检测
+的 groundtruth bbox 。
+
+最后，注解结构的类别字段存储了类别 ID 到类别和超类别名称的映射。
+
+#+BEGIN_SRC json
+annotation{
+    // 因为每张图片可能有多个对象，所以需要给对象编号
+    "id": int, // 对象全局唯一 ID ；注意多处有 "id" 字段，各个字段含义需要具体查看
+    "image_id": int, // 图片的 id ，与 image 字段中的 "id" 相对应
+    "category_id": int,
+    "segmentation": RLE or [polygon],
+    "area": float, // 对象内像素点的个数
+    "bbox": [x,y,width,height],
+    "iscrowd": 0 or 1,
+}
+
+categories[{
+    "id": int, // 类别 id ，背景类别 id=0
+    "name": str,
+    "supercategory": str,
+}]
+#+END_SRC
+
+coco 类别：共有 80 个类别，
+
+#+BEGIN_SRC json
+coco 语义类别
+{
+    person  # 1
+    vehicle 交通工具 #8
+        {bicycle
+         car
+         motorcycle
+         airplane
+         bus
+         train
+         truck
+         boat}
+    outdoor  #5
+        {traffic light
+        fire hydrant
+        stop sign
+        parking meter
+        bench}
+    animal  #10
+        {bird
+        cat
+        dog
+        horse
+        sheep
+        cow
+        elephant
+        bear
+        zebra
+        giraffe}
+    accessory 饰品 #5
+        {backpack
+        umbrella 
+        handbag 
+        tie 
+        suitcase
+        }
+    sports  #10
+        {frisbee
+        skis
+        snowboard
+        sports ball
+        kite
+        baseball bat
+        baseball glove
+        skateboard
+        surfboard
+        tennis racket
+        }
+    kitchen  #7
+        {bottle
+        wine glass
+        cup
+        fork
+        knife
+        spoon
+        bowl
+        }
+    food  #10
+        {banana
+        apple
+        sandwich
+        orange
+        broccoli
+        carrot
+        hot dog
+        pizza
+        donut
+        cake
+        }
+    furniture 家具 #6
+        {chair
+        couch
+        potted plant
+        bed
+        dining table
+        toilet
+        }
+    electronic 电子产品 #6
+        {tv
+        laptop
+        mouse
+        remote
+        keyboard
+        cell phone
+        }
+    appliance 家用电器 #5
+        {microwave
+        oven
+        toaster
+        sink
+        refrigerator
+        }
+    indoor  #7
+        {book
+        clock
+        vase
+        scissors
+        teddy bear
+        hair drier
+        toothbrush
+        }
+}
+#+END_SRC
+
+
+***** Object Keypoint Annotations
+
+关键点注释包含对象注释的所有数据（包括id，bbox等）和两个附加字段。首先，“关键点”是长度为3k的数组，其中k是为该类别定义的
+关键点的总数。每个关键点有一个0索引的位置x，y和一个被定义为可见性标志。v = 0：没有标记（在这种情况下x = y = 0），v = 1：
+标记但不可见，v = 2：标记并可见。如果关键点位于对象段内部，则认为它是可见的。“num_keypoints”指示给定对象（许多对象，例如
+拥挤(即重叠）和小对象将具有num_keypoints = 0）的标记关键点的数量（v> 0）。最后，对于每个类别，类别struct还有两个附加字段：
+“keypoints”，它是关键点名称的长度为k的数组，以及“skeleton”，它通过关键点边缘对的列表定义连接，并用于可视化。目前，关键点
+仅标记为人物类别（对于大多数中/大型非人群人物实例）。See also the Keypoint Challenge.
+
+#+BEGIN_SRC json
+annotation{
+    "keypoints": [x1,y1,v1,...],
+    "num_keypoints": int,
+    "[cloned]": ...,
+}
+
+categories[{
+    "keypoints": [str],
+    "skeleton": [edge],
+    "[cloned]": ...,
+}]
+
+"[cloned]": 表示从4.1中定义的对象实例注释复制的字段。
+#+END_SRC
+
+ 
+***** Stuff Segmentation Annotations
+
+物体注释格式是完全相同和完全兼容上面的对象实例注释格式（除了iscrowd是不必要的，默认设置为0）。我们提供JSON和PNG格式的注
+释，以便于访问，以及两种格式之间的conversion scripts。在JSON格式中，图像中的每个类别都使用单个RLE注释进行编码（有关更多
+详细信息，请参阅上面的Mask API）。 category_id表示当前的东西类别的ID。有关东西类别和超类别的更多细节see thestuff
+evaluation page.
+
+
+***** Image Caption Annotations
+
+这些注释用于存储图像标题。每个标题描述指定的图像，每个图像至少有5个字幕（一些图像有更多）。See also theCaptioning
+Challenge.
+
+#+BEGIN_SRC json
+annotation{
+    "id": int,
+    "image_id": int,
+    "caption": str,
+}
+#+END_SRC
+
+
+
+*** PASCAL 
+
+PASCAL VOC 语义类别分为 20 类，有图像分类、检测、分割的标注信息。图像的大小不一致， 在 500*375 左右。
+
+#+BEGIN_SRC json
+{
+    aeroplane
+    bicycle
+    bird
+    boat
+    bottle
+    bus
+    car
+    cat
+    chair
+    cow
+    diningtable
+    dog
+    horse
+    motorbike
+    person
+    pottedplant
+    sheep
+    sofa
+    train
+    tvmonitor
+}
+#+END_SRC
+
+VOC2007 和 VOC2012 分别保存在了两个文件夹下面，两个文件夹目录结果相同。JPEGImages 文件夹下面存放的是训练图片，
+Annotations 文件夹下面存放每一张图片的位置标注信息，一张图片对应一个 xml 文件，图片和 xml 文件名相同。目标检测只使用这个
+标注信息即可。
+
+#+BEGIN_SRC xml
+<annotation>
+	<folder>VOC2007</folder>
+	<filename>000001.jpg</filename>
+	<source>
+		<database>The VOC2007 Database</database>
+		<annotation>PASCAL VOC2007</annotation>
+		<image>flickr</image>
+		<flickrid>341012865</flickrid>
+	</source>
+	<owner>
+		<flickrid>Fried Camels</flickrid>
+		<name>Jinky the Fruit Bat</name>
+	</owner>
+	<size>
+		<width>353</width>
+		<height>500</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>dog</name>
+		<pose>Left</pose>
+		<truncated>1</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>48</xmin>
+			<ymin>240</ymin>
+			<xmax>195</xmax>
+			<ymax>371</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>person</name>
+		<pose>Left</pose>
+		<truncated>1</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>8</xmin>
+			<ymin>12</ymin>
+			<xmax>352</xmax>
+			<ymax>498</ymax>
+		</bndbox>
+	</object>
+</annotation>
+#+END_SRC
+
+ImageSets 下面包含 4 个文件夹，分别对应不同的 challenge 。其中 Main 下面有 trainval.txt 和 test.txt 两个文件夹，存储了用
+于训练和验证的图像标号。 
+
+
+** image-augmentation
+
+大规模数据集是成功使用深度网络的前提。图像增广（image augmentation）技术通过对训练图像做一系列随机改变，来产生相似但又有
+不同的训练样本，从而扩大训练数据集规模。图像增广的另一种解释是，通过对训练样本做一些随机改变，可以降低模型对某些属性的依
+赖，从而提高模型的泛化能力。例如我们可以对图像进行不同的裁剪，使得感兴趣的物体出现在不同的位置，从而使得模型减小对物体出
+现位置的依赖性。我们也可以调整亮度色彩等因素来降低模型对色彩的敏感度。在 AlexNet 的成功中，图像增广技术功不可没。
+
+
+
+
+** other
+
+在反向传播中使用了正向传播中计算得到的中间变量来避免重复计算,那么这个重用也导致正向传播结束后不能立即释放中间变量内存。
+这也是训练要比预测占用更多内存的一个重要原因。另外需要指出的是,这些中间变量的个数跟网络层数线性相关,每个变量的大小跟批量
+大小和输入个数也是线性相关的,它们是导致较深的神经网络使用较大批量训练时更容易超内存的主要原因。
+
+
+*** hybridize
+
+符号式编程：
+
+使用 hybirdize 可以加速计算，会直接生成相应的 C++ 代码，不再调用 Python 的代码；同时方便移植。
+
+但是无法依据输入的不同来产生不同的代码。也不方便调试。
+
+
+命令式编程：
+
+不使用 hybirdize 方便 print 和 debug 。
+
+
+**** lazy-evaluation
+
+延迟计算，可以加速计算，但是会需要较大的内存；
+
+系统延迟计算，在知道整体的框架后，可以做一些优化。
+
+所以一般每个 mini-batch 等待一次，防止内存一下子爆了。
+
+
+**** auto-parallelism
+
+系统在判定一些运算没有相关性的情况下，会自动并行处理。
+
+CPU 和 GPU 通信和计算也是可以并行处理
+
+
+** 调参技巧
+
+
+*** learning rate
+
+One important idea in model training is to gradually decrease learning rate. This means the optimizer takes large steps
+at the beginning, but step size becomes smaller and smaller in time. 逐渐减小学习速率
+
+不建议过早降低 learning rate，这样很可能导致后期乏力，特别对于较深的网络。
+
+小的学习速率更容易收敛，如果收敛过早，可能靠近 loss 的层已经收敛，但是靠近 data 的层却没有收敛。前者的泛化性能不如后者，
+所以这个时候收敛的地方可能不是很好，大的学习速率有助于帮助跳过这些不好的点，所以即使看到 loss 没有降，也不要着急调小学习
+速率，这时候网络可能还在寻找好的点(fine-tune)。对于大的 bantch_size 更加明显，因为 batch_size 大，那么梯度的 varence
+（或者噪音）越小，这时候收敛更加容易，但后期越乏力。
+
+
+**** validation error
+
+validation error 如果与 train error 一直有较大的误差，那么可以考虑加大 data argument。
+
+
+*** fine-tune
+
+微调需要把前面几层的 lr 都设置的很小很小，然后主要训练最后一层的权重。
+
+
+** source code
+
+1. 大量用了 c 宏和 c++11
+1. 通过mshadow的模板化使得gpu和cpu代码只用写一份，分布式接口也很干净。
+1. MXNet 自 xgboost, cxxnet, minerva 以来集合 DMLC 几乎所有开发者力量的一个机器学习项目。MXNet 名字源于 "Mix and
+   Maximize" 。我们一直有一个目标，就是希望把 cxxnet 这样强调性能静态优化的 C++ 库和灵活的 NDArray 有机结合在一起。做包
+   含 cxxnet 的静态优化，却又可以像 minerva, theano, torch 那样进行灵活扩展的深度学习库。
+1. MXNet 由 dmlc/cxxnet, dmlc/minerva 和 Purine2 的作者发起，融合了 Minerva 的动态执行，cxxnet 的静态优化和 Purine2 的符
+   号计算等思想，直接支持基于 Python 的 parameter server 接口，使得代码可以很快向分布式进行迁移。每个模块都进行清晰设计，
+   使得每一部分本身都具有被直接利用的价值。
+1. mxnet 结合了符号语言和过程语言的编程模型，并试图最大化各自优势，利用统一的执行引擎进行自动多 GPU 并行调度优化。不同的
+   编程模型有各自的优势，以往的深度学习库往往着重于灵活性，或者性能。MXNet 通过融合的方式把各种编程模型整合在一起，并且
+   通过统一的轻量级运行引擎进行执行调度。使得用户可以直接复用稳定高效的神经网络模块，并且可以通过 Python 等高级语言进行
+   快速扩展。
+1. 代码更加简洁高效：大量使用 C++11 特性，使 MXNet 利用最少的代码实现尽可能最大的功能。用约 11k 行 C++ 代码 (加上注释 4k
+   行)实现了以上核心功能。
+1. 轻量级调度引擎。在数据流调度的基础上引入了读写操作调度，并且使得调度和调度对象无关，用以直接有机支持动态计算和静态计
+   算的统一多 GPU 多线程调度，使得上层实现更加简洁灵活。
+1. 符号计算支持。MXNet 支持基于静态计算流图符号计算。计算流图不仅使设计复杂网络更加简单快捷，而且基于计算流图，MXNet 可
+   以更加高效得利用内存。 同时进一步优化了静态执行的规划，内存需求比原本已经省的 cxxnet 还要少。
+1. 混合执行引擎。相比 cxxnet 的全静态执行，minerva 的全动态执行。MXNet 采用动态静态混合执行引擎，可以把 cxxnet 静态优化
+   的效率带和 ndarray 动态运行的灵活性结合起来。把高效的 c++ 库更加灵活地和 Python 等高级语言结合在一起。
+1. 更加灵活：在 MShadow C++ 表达式模板的基础上，符号计算和 ndarray 使在 Python 等高级语言内编写优化算法，损失函数和其他
+   深度学习组件并高效无缝支持 CPU/GPU 成为可能。用户无需关心底层实现，在符号和 NDArray 层面完成逻辑即可进行高效的模型训
+   练和预测。
+1. 开源用户和设计文档，mxnet 提供了非常详细的用户文档和设计文档以及样例。所有的代码都有详细的文档注释。并且会持续更新代
+   码和系统设计细节，希望对于广大深度学习系统开发和爱好者有所帮助。
+1. 对于云计算更加友好：所有数据模型可以从 S3/HDFS/Azure 上直接加载训练。
+1. ndarray 编程接口，类似 matlab/numpy.ndarray/torch.tensor。独有优势在于通过背后的 engine 可以在性能上和内存使用上更优
+1. symbolic 接口。这个可以使得快速构建一个神经网络，和自动求导。
+1. 更多 binding , 支持 python, julia, R

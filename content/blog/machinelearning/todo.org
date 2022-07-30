@@ -1,0 +1,24 @@
+#+TITLE:          TODO
+#+AUTHOR:         Kyle Three Stones
+#+DATE:           <2019-03-19 Tue>
+#+EMAIL:          kyleemail@163.com
+#+OPTIONS:        H:3 num:t toc:nil \n:nil @:t ::t |:t ^:t f:t tex:t
+#+TAGS:           
+#+CATEGORIES:     深度学习
+
+
+** paper 阅读
+
+基础论文：
+1. Visualizing and Understanding Convolutional Networks
+1. Spatial Transformer Networks
+
+目标检测：
+1. SSD
+1. RetinaNet
+1. Deformable Convolutional Networks
+1. cornernet
+
+
+AutoML:
+1. [[https://arxiv.org/pdf/1904.01569.pdf][Exploring Randomly Wired Neural Networks for Image Recognition]]

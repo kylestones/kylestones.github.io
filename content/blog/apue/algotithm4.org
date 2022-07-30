@@ -1,0 +1,51 @@
+#+TITLE:       Algorithm fourth-edition
+#+AUTHOR:      kyle Three Stone
+#+DATE:        <2020-04-04 Sat>
+#+EMAIL:       kyleemail@163.com
+#+OPTIONS:     H:3 num:t toc:t \n:nil @:t ::t |:t ^:t f:t TeX:t
+#+TAGS:        Algorithm
+#+CATEGORIES:  Algorithm
+
+
+
+** 算法
+
+
+
+*** 算数表达式求值
+
+E.W.Dijkstra's Two-Stack Algorithm for Expression Evaluation -- 1960s
+
+1. Push /operands/ onto the operand stack
+1. Push /operators/ onto the operator stack
+1. Ignore /left/ parenthesis
+1. On encountering a /right/ parenthesis, pop an operator, pop the requisite number of operands, and push onto the operand stack the result of applying that operator to those operands.
+
+After the final right parenthesis has been processed, there is one value on the stack, which is the value of the expression.
+
+
+
+** 附录
+
+*** 动态调整大小
+
+1. 当长度不够时，将长度变为原来的 *两倍*
+1. 当存储占用不够总长度的 *四分之一* 时，将长度减半
+
+
+*** 链表任意插入和删除
+
+实现任意插入和删除操作的标准解决方案是使用 *双向链表*
+
+
+*** 链表实现栈和队列
+
+1. 用链表的头节点作为栈顶，执行压栈和出站操作
+1. 链表的头结点作为队头，尾节点作为队尾。但是链表结构体中只需要有数据节点和 next 指针，额外的只需要一个队头和队尾指针，在队列为空的时候修改队头和队尾的指针的值。
+
+
+** 旧闻
+
+*** Lisp
+
+McCathy 在 1950S 发明 LISP 语言，链表是这种语言租住程序和数据的主要结构。

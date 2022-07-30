@@ -1,0 +1,33 @@
+#+TITLE:          Darknet
+#+AUTHOR:         Kyle Three Stones
+#+DATE:           <2018-12-07 Fri>
+#+EMAIL:          kyleemail@163.com
+#+OPTIONS:        H:3 num:t toc:nil \n:nil @:t ::t |:t ^:t f:t tex:t
+#+TAGS:           darknet, 深度学习
+#+CATEGORIES:     深度学习
+
+
+1. darknet 以 layer 为中心，通过构建不同的 layer 构成一个 net ；
+1. 所有的层保存在 net.layers 中 net->layers = calloc(net->n, sizeof(layer));
+1. darknet 需要一个“.txt”文件，每行表示一张图像的信息： <object-class> <x> <y> <width> <height>
+
+1. 每个单元格会预测B个边界框（bounding box）以及边界框的置信度（confidence score）。
+1. 所谓置信度其实包含两个方面，一是这个边界框含有目标的可能性大小，二是这个边界框的准确度。前者记为 Pr(object)，后者记为
+   预测框与实际框（ground truth）的 IOU 。很多人可能将 Yolo 的置信度看成边界框是否含有目标的概率，但是其实它是两个因子的
+   乘积，预测框的准确度也反映在里面。
+1. 中心坐标的预测值 (x,y) 是相对于每个单元格左上角坐标点的偏移值，并且单位是相对于单元格大小的。而边界框的 w 和 h 预测值
+   是相对于整个图片的宽与高的比例，这样理论上4个元素的大小应该在 [0,1] 范围。通过 sigmoid 函数保证 (x,y) 在 0-1 之间，
+   这样，每个边界框的预测值实际上包含5个元素：(x,y,w,h,c)，其中前4个表征边界框的大小与位置，而最后一个值是置信度。
+
+
+
+
+
+
+
+
+
+
+
+
+加速库： [[https://github.com/Maratyszcza/NNPACK][NNPACK]] 

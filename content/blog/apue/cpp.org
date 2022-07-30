@@ -1,0 +1,550 @@
+#+TITLE:          C++
+#+AUTHOR:         Kyle Three Stones
+#+DATE:           <2018-05-30 Wed 07:19>
+#+EMAIL:          kyleemail@163.com
+#+ATTR_HTML:      :width 100%
+#+OPTIONS:        H:3 num:t toc:nil \n:nil @:t ::t |:t ^:t f:t tex:t
+#+TAGS:           C++
+#+CATEGORIES:     language
+
+
+** 头文件
+
+#+BEGIN_SRC C++
+#include <cctype> // C++ 头文件，开头的 C 表明来自 C 语言，但更符合 C++ 规范
+#include <ctype.h> // C 语言头文件；不应该在 C++ 中使用
+// 为啥 C++ 的头文件名都没有 .h 后缀呀？
+
+// IO 库
+#include <iostream>
+
+// 容器
+#include <vector>
+#include <list>
+#include <deque>
+#include <bitset>
+#include <stack>
+#include <queue>
+#include <priority_queue>
+#+END_SRC
+
+
+** 命名空间
+
+#+BEGIN_SRC C++
+namespace kyle {
+    // 嵌套命名空间
+    namespace sanshi {
+    ...
+    }
+}
+
+// 命名空间重命名
+#+END_SRC
+
+
+** 作用域 scope
+
++ 全局作用域：定义在所有函数外部
++ 局部作用域：定义在函数内部
++ 语句作用域：for 循环中，C 语言中不可以在 for 循环语句中定义变量
+
+局部变量 hide 全局变量。
+
+
+** 变量
+
+变量都有特定的类型，在 C++ 中称变量为对象。
+
+变量名的标识符区分大小写。
+
+每个类定义一种类型，类型名与类名相同。class 的行为和内置数据类型一样，可以自然使用。
+
+把变量定义到第一次被使用的地方，尽量延迟变量的定义；而不是像 C 语言那样在函数的开头定义变量。
+
+变量都应该初始化。初始化并不是赋值，而是创建变量的同时赋值；
+
+函数体外的变量都初始化为 0，函数体外的变量不自动初始化；类通过默认构造函数初始化。
+
+左值 -- 右值
+
+C++ 是一门静态类型语言，编译时会做类型检查
+
+*volatile* ：告诉编译器不要优化，每次使用时都会重新读取其值
+
+链接指示来调用非 C++ 语言：
+
+#+BEGIN_SRC C++
+// "Ada" "FORTARN"
+extern "c" {
+...
+}
+#+END_SRC
+
+
+** new delete
+
+
+#+BEGIN_SRC C++
+int *pi = new int;
+int *pi = new int(12);
+delete pi;
+
+int *pi = 0;
+delete pi; // 合法，但没有意义
+
+int i(21);
+string s(10, 'a');
+#+END_SRC
+
+
+** 智能指针
+
+基本类型指针封装成类对象指针
+
+#+BEGIN_SRC C++
+// 不能用栈的内存来初始化（如变量的引用）
+std::shared_ptr<int> ps(new int);
+*ps = 3;
+
+// shared_ptr 采用引用计数，释放空间前会先检查
+// unique_ptr 
+// weak_ptr 
+
+#+END_SRC
+
+RTII 
+
+
+** 引用
+
+引用是对象的别名，一但初始化就不可更改；
+
+主要用于形参
+
+#+BEGIN_SRC C++
+int test(int &rhs) {
+    ....
+}
+#+END_SRC
+
+非引用传参或者返回值，会复制实参的值。
+
+
+** const
+
++ const 在 * 的 *右侧* ，修饰 *指针*
++ const 在 * 的 *左侧* ，修饰指向的 *内容*
+
+#+BEGIN_SRC C++
+char *const pConst;
+
+const char * pContentConst;
+char const * pContentConst;
+
+const int *pci = new const int(1024);
+#+END_SRC
+
+成员函数定义成 const 表明不改变成员函数的值。
+const 引用指向 const 对象；非 const 对象指向非 const 对象。
+
+
+** 类型转换
+
+*** 隐式类型转换
+
+
+*** 强制类型转换
+
+C 旧式
+
++ type(expr);
++ (type)expr;
+
+C++ 
+
++ static_cast
++ const_cast ： 去掉 const 属性
++ dynamic_cast
+
+#+BEGIN_SRC C++
+const char *pc_str;
+char *p_str = string_copy(const_cast<char *> (pc_str));
+#+END_SRC
+
+
+** 异常
+
+#+BEGIN_SRC C++
+try {
+    ....
+} catch( ) {
+    throw();
+} catch( ) {
+    ....
+}
+#+END_SRC
+
+
+** 重载
+
+重载函数：函数名相同，但形参表不同；和返回值没有关系
+
+函数名只是为了帮助编译器判断调用的是哪一个函数而已
+
+形参名只是帮助文档，并不影响形参表；
+
+默认实参并不会改变形参的个数；
+
+根据操作数的类型来区分不同的操作，是编译器的责任，而不是程序员的责任；
+
+编译器根据传递的实参类型来判定调用哪个函数；
+
+名字查找发生在类型检测之前；
+
+执行重载函数的指针必须与重载函数的一个版本精确匹配；
+
+main 函数不能重载
+
+
+** 容器
+
+C++ 标准化贡献：创建和扩展了标准库，容器和算法是标准库的基础。
+
+容器中所有对象都是同一种类型；添加到容器中的值都是副本，原值不会受影响。
+
+*** 顺序容器
+
++ vector 快速随机访问；连续内存
++ list 快速插入、删除；链表
++ deque 双端队列
+
+*通常 vector 是最优的选择* ，除非有明确的需求。因为 vector 分配内存的时候会 double ，所以一般可以保证效率。
+
+
+#+BEGIN_SRC C++
+#include <bitset>
+
+bitset<16> bitvec(0xffff);
+
+string strval("1100");
+bitset<32> bitvec2(strval); // 0011 低位在前
+
+stringstream ss;//类型转换
+
+// c 是容器
+c.begin()
+c.end()
+c.rbegin()
+c.rend()
+c.back()
+c.front()
+c.push_back()
+c.push_front()
+c.insert()
+c.erase()
+c.pop_back()
+c.pop_front()
+#+END_SRC
+
+
+*** 容器适配器
+
+使一事物的行为类似于另一个事物的行为的一种机制；容器适配器让一种已存在的容器类型采用另一种不同的抽象类型的工作方式实现。
+
+本质上就是使用上面的顺序容器封装成了栈、队列、优先级队列；其实根本不需要关心栈和队列是怎样实现的，就像不需要关系顺序容器
+是怎样实现的一样，直接拿来使用就可以。名字也不用叫容器适配器，只需要叫做栈容器、队列容器、优先级队列容器即可。
+
++ stack 栈，默认基于 deque 实现；可以基于 vector 、list 、deque 实现
++ queue 队列，默认基于 deque 实现；可以基于 list 、deque 实现，但不能基于 vector 实现，因为不能实现 push_front 
++ priority_queue 优先级队列，默认基于 vector 实现；不能基于 list 实现，因为不能实现随机访问
+
+#+BEGIN_SRC C++
+stack<string, vector<string>> str_stk; // 修改成基于 vector 实现
+
+// 栈
+s.empty()
+s.size()
+s.pop()
+s.top()
+s.push()
+
+// 队列
+q.empty()
+q.size()
+q.pop()
+q.front()
+q.back()
+q.top()
+q.push()
+#+END_SRC
+
+
+*** 关联容器
+
++ map key-value ，键类型唯一的约束：支持 < 操作符；下标运算时，若不存在，会插入一个元素
++ set key ，
++ multimap 重复 key
++ multiset 重复 key
+
+#+BEGIN_SRC C++
+#include <map>
+#include <utility>
+
+map<string, int> word_count;
+word_count["Anna"] = 1;
+word_count.insert(map<string,int>::value_type("Boble", 2));
+word_count.insert(make_pair("Cade", 3));
+
+pair<int,string> p1;
+#+END_SRC
+
+
+*** 迭代器
+
+所有标准库都定义了相应的迭代器类型，只有少数容器支持下标操作。
+
+#+BEGIN_SRC C++
+for(vector<int>::iterator iter = ivec.begin(); iter != ivec.end(); ++iter)
+{
+    // 上面在 for 循环中使用 != 而不是使用 ivec.size() 是因为容器的长度可能改变
+    // vector 长度改变后已存在的迭代器失效
+    // 感觉上面两句话矛盾呀？
+}
+
+const_iterator
+// 反向迭代器
+reverse_iterator
+// 插入迭代器
+back_insertor
+
+#+END_SRC
+
+
+
+*** 算法
+
+容器只定义了少量操作，大多数额外的操作由算法库提供。
+
+泛型算法：可用于不同的容器；容器可以是不同的元素。
+
+算法基于迭代器及其操作实现，并非基于容器实现。
+
+算法可以改变容器中元素的值或元素的顺序；但不会直接添加/删除元素（即不修改基础容器的大小），算法永不执行容器提供的操作；
+迭代器将算法和容器绑定起来。
+
+#+BEGIN_SRC C++
+#include <algorithm>
+
+accumulate(.,.,.)
+find_first_of(.,.,.,.)
+find(.,.,.)
+
+fill(rec.begin(), rec.end(), 0);
+fill_n(vec.begin(), 10, 0);
+
+copy()
+replace()
+replace_copy()
+
+sort()
+unique()
+stable_sort()
+count_if()
+
+#+END_SRC
+
+
+** 类
+
+允许程序员定义自己的类型，他们用起来和内置的类型一样容易和直观。类定义了一个新的类型和一个新的作用域。注意：类定义后面有
+分号 ";"
+
+class 和 struct 唯一的差别：class 默认为 private 、struct 默认为 public；public、protected、private 可以多次出现；
+
+只有类的成员函数及友元可以访问类的 private 成员；类及其子类可以访问类的 protected 成员； public 成员无限制。
+
+友元使用 friend 声明，允许一个类将非 public 成员授予指定函数/类；友元在类中定义，但不属于该类，不能继承。
+
+参数初始化列表：只指定成员变量初始化的值，并不指定顺序。
+
+#+BEGIN_SRC C++
+//初始化列表
+Sales_item() : units_add(0), revenue(0,0) {}
+#+END_SRC
+
+*构造函数* ：与类同名，且没有返回值，可重载；用于初始化其数据成员，保证每个对象的数据成员具有合适的初始值；必须在 public
+中，否则无法创建该类的对象，也不明声明为 const ；默认构造函数没有形参，不会初始化内置数据成员；只有一个类没有定义构造函
+数时，编译器才会自动生成一个默认构造函数；explicit 可以抑制构造函数的隐式转换；
+
+*复制构造函数* ：类引用作为形参的构造函数；可以声明为 private 来禁止复制。
+
+*析构函数* ：~Sales_item() {...} *析构函数不应该跑出异常*
+
+C++ 两种初始化：直接初始化 () ；复制初始化 = ；
+
+*操作符重载*
+
+#+BEGIN_SRC C++
+Sales_item operator=(const Sales_item &, const Sales_item &) {}
+Sales_item operator+(const Sales_item &) {}
+// 前置返回本身，所以返回引用
+Sales_item & operator++() {} 
+// 后缀式操作符，形参没有意义，只是为了让编译器识别为后缀式；后置返回副本，所以不用返回引用
+Sales_item operator--(int) {} 
+#+END_SRC
+
+非 static 成员函数都有一个额外的，隐含形参 *this* 指针。在调用成员函数时，形参 this 初始化为调用函数的对象的地址。在形参
+中显示指定 this 指针非法，但函数体内可以使用，通常用于返回该对象。
+
+在类内部定义的函数默认为 inline ；在类外定义成员函数，需指定类作用域
+
+#+BEGIN_SRC C++
+double Sales_item::avg_price() const {
+    ....
+}
+// 形参之后加 const ，表明函数不能修改操作对象的数据成员，const 必须同时出现在声明和定义中
+// mutable 可变数据成员，const 函数可修改其值
+#+END_SRC
+
+可以在类的内部用 typedef 定义类型来简化类的书写；
+
+*当类定义体完成后才能定义类，因此类不能具有自身类型的数据成员；只要类名一出现就可以认为该类已声明，因此类的数据成员可以
+是执行自身类型的指针或引用。（class Screen; 称为前向声明）*
+
+#+BEGIN_SRC C++
+Sales_item item1;
+class Sales_item item2;
+class Sales_item { ... } accum, trans; // 所以类定义后面必须有分号 ";" 
+
+Sales_item myobj(); // 错误，这是在声明一个函数，而不是定义类对象，不需要后面的括号
+#+END_SRC
+
+static 成员属于类，不属于对象；没有 this 指针。
+
+*封装-继承-多态* ：
+
+成员函数默认为非虚函数，对非虚函数的调用时在编译时确定；
+
+*虚函数* ，virtual 函数：基类期待派生类重新定义的函数，如果派生类没有重定义某个虚函数，则使用基类定义；基类希望派生类继
+承的函数不能定义成虚函数；
+
+*动态绑定* ：dynamic binding 基类的指针调用虚函数时，发生动态绑定。
+
+*纯虚函数* ：定义抽象基类，供其他类派生，不能创建对象。
+
+/引用和指针的静态类型和动态类型可以不同，这是 C++ 支持多态性的基石。/
+
+#+BEGIN_SRC C++
+class Bulk_item : public Item_base {
+    // 指定虚函数版本，如下指定使用基类的虚函数
+    double d = basp->Item_base::net_price(42);
+#+END_SRC
+
+继承：Is A ；组合：Has A
+
+*多重继承 -- 虚继承*
+
+#+BEGIN_SRC C++
+class Panda : public Bear, public Endangered { ... };
+// 派生类的构造函数初始化所有基类
+// 析构顺序与构造顺序相反
+
+// 虚继承：只继承一个共享基类对象
+#+END_SRC
+
+*嵌套类* ：在一个类内部定义一个类
+
+*局部类* ：在函数体内定义类
+
+
+** 模板
+
+*泛型编程* ：独立于任何特定类型的方式编写代码；依赖编译时的多态性，编译器承担了为我们使用每种类型而编写函数的单调工作；
+
+#+BEGIN_SRC C++
+
+// 有类模板和函数模板
+
+// 函数模板
+template <typename T> // 模板形参表，可以使用 typename 也可以用 class 
+int compare(const T &v1, const T &v2)
+{
+    if(v1 < v2) return -1;
+    if(v2 < v1) return 1;
+    return 0;
+}
+
+// 类模板
+template <class Type>
+class Queue {
+public:
+    Queue();
+    Type &front();
+    void push(const Type &);
+...
+}
+
+
+// 特化：如果有与实参更加匹配的特例化版本，编译器将会选择特例化版本
+// 特化分为全特化与偏特化
+// 全特化：全部形参指定类型
+// 偏特化：部分形参指定类型
+
+// 类模板：
+template<typename T1, typename T2>
+class Test
+{
+public:
+	Test(T1 i,T2 j) {cout << "模板类" << i << j << endl;}
+};
+
+template<>
+class Test<int , char>
+{
+public:
+	Test(int i, char j) {cout << "全特化" << i << j << endl;}
+};
+
+template <typename T2>
+class Test<char, T2>
+{
+public:
+	Test(char i, T2 j) {cout << "偏特化" << i << j << endl;}
+};
+
+// 类模板
+Test<double , double> t1(0.1,0.2);
+// 全特化
+Test<int , char> t2(1,'A');
+// 偏特化
+Test<char, bool> t3('A',true);
+
+// 函数模板，只有全特化，不能偏特化：偏特化的功能可以通过函数的重载完成
+// 模板函数
+template<typename T1, typename T2>
+void fun(T1 a , T2 b)
+{
+	cout<<"模板函数"<<endl;
+}
+
+//全特化
+template<>
+void fun<int ,char >(int a, char b)
+{
+	cout<<"全特化"<<endl;
+}
+
+//函数不存在偏特化：下面的代码是错误的
+/*
+template<typename T2>
+void fun<char,T2>(char a, T2 b)
+{
+	cout<<"偏特化"<<endl;
+}
+*/
+
+
+#+END_SRC
+
+

@@ -1,0 +1,274 @@
+#+TITLE:          python
+#+AUTHOR:         Kyle Three Stones
+#+DATE:           <2018-10-31 Wed>
+#+EMAIL:          kyleemail@163.com
+#+OPTIONS:        H:3 num:t toc:nil \n:nil @:t ::nil |:t ^:t f:t tex:t
+#+TAGS:           python
+#+CATEGORIES:     language
+
+
+Python 常识
+
+** 调试
+
+*** logging
+
+logging.debug ，不要再胡乱使用 print 了
+
+
+*** use pdb
+
++ 在Python 文件内 import pdb ，然后在需要调试的开始行添加 pdb.set_trace()
++ shell 中 python -m pdb test.py
++ pdb.run()
+
+使用 args 查看入参，没有查看局部变量的方法
+
+
+** axis
+
+axis = 0 表示第一维数据，axis = -1 表示最后一维数据；就是 np.array(.).shape 输出的顺序
+
+
+** 数组索引
+
++ Python 可以使用数组作为数组的索引
+
+#+BEGIN_SRC python
+# 生成数组
+# 切片可以指定 start:stop:step , a[::-1] 可以将数组逆序
+>>> import numpy as np
+>>> np.arange(5)
+array([0, 1, 2, 3, 4])
+
+# 增加一个维度
+>>> a
+array([[0, 1],
+       [0, 1]])
+# 将 -1 维度的每一个值都变成一个新的数组（每个数组中只包含一个值）
+>>> a[:,:,np.newaxis]
+array([[[0],
+        [1]],
+
+       [[0],
+        [1]]])
+>>> a.shape
+(2, 2)
+>>> a[:,:,np.newaxis].shape
+(2, 2, 1)
+#+END_SRC
+
+end
+
+
+** 列表字典前面加星号
+
+一个星号将列表拆分成独立的参数作为形参传入函数；两个星号将字典拆分成独立的形参传入函数
+
+#+BEGIN_SRC python
+def add(a, b):
+    return a + b
+
+data = [1, 2]
+add(*data) # 等同于 add(1, 2)
+
+data = {'a':3, 'b':4}
+add(**data) # 等同于 add(a=3,b=4)
+#+END_SRC
+
+end
+
+
+** zip
+
+将一个或者多个 tuple 作为可迭代对象返回
+
+#+BEGIN_SRC python
+a = [1, 2, 3]
+b = ['a', 'b', 'c']
+
+for i, j in zip(a,b):
+    print(i, j)
+
+'''打印结果
+1 a
+2 b
+3 c
+'''
+#+END_SRC
+
+end
+
+
+** enumerate
+
+生成增加索引的可迭代对象 (index, value) ，可以指定索引的起始值，默认为 0
+
+#+BEGIN_SRC python
+(0, seq[0]), (1, seq[1]), (2, seq[2]), ...
+#+END_SRC
+
+
+** yield
+
+用于生成迭代器，可以调用 next() 函数不断得到下一个值。每次调用都会在 yield 的地方返回，下次调用的时候，会接着上次返回地
+方的下一条语句继续执行，而不是从头开始执行。
+
+#+BEGIN_SRC python
+def xrange(n):
+    print("func xrange")
+    i = 0
+    while i<n:
+        yield i
+        i += 1
+
+for i in xrange(5):
+    print(i)
+
+'''
+func xrange
+0
+1
+2
+3
+4
+'''
+
+g = xrange(5)
+next(g) # 0
+next(g) # 1
+next(g) # 2
+next(g) # 3
+#+END_SRC
+
+** np.where
+
+根据对应位置的 True 和 False 来确定返回哪个变量中对应位置的值
+
+
+** 串接路径
+
+文件目录拼接
+
+#+BEGIN_SRC python
+import os
+
+imgpath = os.path.join('~', '.mxnet', 'dataset')
+#+END_SRC
+
+end
+
+
+** 装饰器
+
+修饰函数，动态更改函数的属性。
+
+#+BEGIN_SRC python
+@property 将方法转换成属性
+#+END_SRC
+
+end
+
+
+** np.newaxis
+
+在 np.newaxis 所在的位置增加一个维度
+
+#+BEGIN_SRC python
+>>> import numpy as np
+>>> a = np.array([1,2,3])
+>>> a.shape
+(3,)
+>>> b = a[:, np.newaxis]
+>>> b.shape
+(3, 1, 1)
+>>> b
+array([[1],
+       [2],
+       [3]])
+# 这里大致可以看到 ... 的作用，表示剩余的所有
+>>> c = a[np.newaxis, ..., np.newaxis, np.newaxis]
+>>> c.shape
+(1, 3, 1, 1)
+>>> c
+array([[[[1]],
+
+        [[2]],
+
+        [[3]]]])
+#+END_SRC
+
+end
+
+
+** 除法
+
+除法
+
+#+BEGIN_SRC python
+>>> a = 3
+>>> b = a / 2 # 结果保留为小数
+>>> b
+1.5
+>>> c = a // 2 # 结果近似取整
+>>> c
+1
+>>> d = 4
+>>> d / 2
+2.0
+#+END_SRC
+
+end
+
+
+** 模块导入限制
+
+允许导出指定模块
+
+#+BEGIN_SRC python
+__all__ = ['DarknetV3', 'get_darknet', 'darknet53']
+# 限制了可以从这个模块导入的属性和方法，没有在 all 中定义的无法导出使用
+#+END_SRC
+
+
+** np.repeat
+
+可以用于图像上采样
+
+#+BEGIN_SRC python
+repeat(a, repeats, axis=None)
+'''
+按照指定 axis 重复 repeats 次生成新的数组；
+不知道 axis 时，生成数组为 flat ，即 1 维；
+可以让不同的位置 repeats 不同的次数
+'''
+
+Examples
+--------
+>>> x = np.array([[1,2],[3,4]])
+>>> np.repeat(x, 2)
+array([1, 1, 2, 2, 3, 3, 4, 4])
+>>> np.repeat(x, 3, axis=1)
+array([[1, 1, 1, 2, 2, 2],
+       [3, 3, 3, 4, 4, 4]])
+>>> np.repeat(x, [1, 2], axis=0)
+array([[1, 2],
+       [3, 4],
+       [3, 4]])
+
+#+END_SRC
+
+
+结束
+
+
+** pythhon 包管理
+
+pip is the package installer for Python. You can use pip to install packages from the Python Package Index and other
+indexes.
+
+参考
+
+1. [[https://blog.zengrong.net/post/2169.html][Python 包管理工具解惑]]
+
+

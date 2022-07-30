@@ -1,0 +1,156 @@
+#+TITLE:          VGG GoogLeNet ResNet
+#+AUTHOR:         Kyle Three Stones
+#+DATE:           <2018-08-22 Wed 07:19>
+#+EMAIL:          kyleemail@163.com
+#+OPTIONS:        H:3 num:t toc:nil \n:nil @:t ::t |:t ^:t f:t tex:t
+#+TAGS:           深度学习
+#+CATEGORIES:     深度学习
+
+
+** VGG
+
+VERY DEEP CONVOLUTIONAL NETWORKS FOR LARGE-SCALE IMAGE RECOGNITION 
+
+1. 论文表明增加网络的深度可能提高网络的性能，论文成功将网络的深度推到 16-19 层
+2. 使用 small size (3x3) filter ：两层 3x3 的卷积与 5x5 的卷积等效，三层 3x3 的卷积与 7x7 的卷积等效；选用小尺寸的
+   filter 可以减小参数
+3. 第一层卷积的滤波器的个数是 64 ，之后每经过一个 max-pooling 层都将滤波器的个数乘 2，直到最大为 512 之后不再继续翻倍
+4. Not all the conv layer are followed by max-pooling.
+
+论文为了训练 19 层深层网络，先构建了一些浅层的网络，用于预训练，然后逐渐使用预训练好的浅层网络参数对深层的网络进行初始化。
+不过文章中作者也指出，写完 paper 后发现，使用随机初始化是不需要预训练的。看来大神们发 paper 也是历经坎坷呀。
+
+
+** GoogLeNet
+
+强调算法的重要性，比硬件、大的数据量更加重要。Most of the progress is not just the result of more powerful hardware,
+larger dataset and bigger models, but mainly a consequence of new ideas, algorithms and improved network architechtures.
+
+论文和 VGG 同样，希望建立一个 deeper network 。同样也引用了盗梦空间中的 meme : we need to go deeper. 表明作者搭建深度网
+络的决心。论文成功训练了一个 22 层的卷积神经网络。
+
+*最主要的思想就是 inception module* 。一个 inception module 集合了 1x1 、3x3、 5x5 、pooling 不同尺寸的 filter ，让网络
+自己学习，决定去使用多大尺寸 filter 可以更好的提取 feature 。当然这会大大增加网络参数的个数，为了减少参数，filter size越
+大，使用越少的 channel ，而且在 3x3 和 5x5 的 filter 之前先使用 1x1 CONV 来减少 channel 的个数。所有不同尺寸的卷积得到的
+feature map 按照不同的 channel 堆叠起来组成本层网络的输出。这就要求不同尺寸卷积操作都使用 same padding 确保执行卷积之后
+feature map 都相同，且 inception module 中的 max-pooling 也要求步长为 1 。
+
+构建好一个 inception module 后，只需要将他们堆叠起来就可以构成一个完整的卷积神经网络。在 GoogLeNet 中作者总共使用了 9 个
+inception module ，每个 inception module 包含两层（由于使用了 1x1 CONV），总共是 18 层。再加上最开始的 7x7、 1x1、 3x3
+三个卷积层以及最后的一个 FC 层，总共有 22 层。除了 inception module 中，网络共使用了 4 次 max-pooling ，在第一个
+inception module 之前使用了两次，第二个 inception module 之后和倒数第二个 inception module 之前分别使用了一次。
+
+而且由于 inception module 会大大增加参数的个数，所以作者只在 higher layer 使用 inception module ，在 lower layer 仍然使
+用 traditional convolution 。而且在有些 inception module 之后使用了 max-pooling 。
+
+论文在测试没有使用 10-crop （原图和水平翻转之后的图像都分别在左上角、右上角、左下角、右下角、中间分别进行 crop），而是进
+行了 144 次 crop ，好像有点太多了。。。
+
+其他的部分没有太看懂，比如作者说的稀疏 local sparse structure、Hebbian Principle、等都有点不知所云。
+
+Hebbian principle : neurons that fire together, wire together.
+
+
+** ResNet
+
+ResNet 更是专门为了训练 deeper network 而提出的，成功训练了一个 1202 层的网络（虽然效果并不如 110 层网络效果好）。
+
+由于什么未知的原因，直接堆叠卷积层，网络的深度到达一定的层数之后，训练误差会变大，而不是继续减小。并且这种现象无法通过增
+加迭代次数来改变。
+
+其实感觉作者的想法也很简单粗暴，网络比较层数比较深的时候，通过一个跨越中间卷积层的连接让网络变得不再那么深。当然这是我的
+理解。论文中介绍说源自于先构建一个 shallow 的网络，然后再添加一个额外的层组成更深的网络。由此作者将这些额外添加的层两端
+直接增加一个连接，类似电路上直接引用一条线，与其并行的线路直接短路。当然并不想让这些额外的层完全短路，否则这些额外层将毫
+无意义。但这条线将起主导作用，额外的网络层影响较小。
+
+作者称这条连接为 shortcut connection ，该 shortcut connection 传递 identity mapping ，起主导作用；而中间添加的额外的层传
+递的是residual mapping，只会传递一些剩余的残差，作者的实验也表明残差几乎总是接近 0 。
+
+文中 shortcut connect 中间只有两层或者三层卷积，作者指出更多层也可以，但是为什么没有使用呢？可能跨越太多层会使得网络变得
+太简单，而无法得到很好的训练效果，可能在 1202 层中使用了跨越很多层的连接，待考察。
+
+\begin{align*}
+\mathcal{H}(x) = \mathcal{F}(x) + x
+\end{align*}
+
+一个残差块称为 building block ，其中 x 是残差块的输入， \(\mathcal{H(x)}\) 是残差块的输出， \(\mathcal{F(x)}\) 是残差。
+shortcut connection 直接将 x 和 \(\mathcal{F(x)}\) 进行 element-wise 相加，然后再执行非线性激活函数。此时要保证两者的维
+数相同，若不相同需要进行线性投影。卷积层执行 element-wise add 的时候，让相对应的 channel 分别进行逐元素相加（The
+element-wise addition is performed on two feature maps, channel by channel.），相加后 channel 个数保持不变。filter size
+也保持不变。
+
+文中 building block 共有两种形式，一种是直接在两个串接的 3x3 的卷积层两端添加 shortcut connection ；另一种称为
+bottleneck building block，借鉴 NIN ，使用 1x1 卷积先减少 channel 的个数，执行 3x3 卷积，然后在使用 1x1 卷积增大channel
+的个数。通过这样的方法构建了三层网络但是参数的个数却很少。
+
+文中使用 bottleneck building block 构建了 152 层的残差网络。
+
+处理残差块的维数不一致的时候有三种方法：(A) 直接填充 0 ；(B) 使用一个矩阵进行线性投影 (C) 将所有的 shortcut connection
+都进行投影，维数一致的时候同样进行投影。文中的实验表明 (C) 比 (B) 效果稍微好一点， (B) 比 (A) 效果稍微好一点，但都很有限。
+所以此处的投影对于网络深度加深时正确率下降的影响很小，而 identity shortcut 是非常重要的。也就是采用那种方法都可以。论文
+中采用了 (B)。
+
+整个 152 层的网络也学习 VGG ，除了第一层卷积使用 7x7 filter 外，只使用 1x1 和 3x3 的 filter 。最后使用得到 2048 个
+feature map ，然后使用 global average pooling 得到 2048 个节点，然后经过一个 1000 个节点 FC 层经过 Softmax 输出 ImageNet
+不同类别的概率。
+
+
+** DenseNet
+
+文中最后指出表面上 DenseNet 和 ResNet 很相似，但实质上并不一样（ResNet 是 element-wise 相加，而 DenseNet 是将 feature
+maps 进行堆叠）。但是毕竟是受到 ResNet 的启发，并在其之上进行的改进。
+
+DenseNet 同样是先构建 dense block ，然后让 dense block 不断堆叠得到整个网络。每个 dense block 也比较简单，就是让该 dense
+block 内的每一个卷积层的输出与后面所有层都进行连接；或者说是每一层都与前面所有层的输出进行连接（Each layer takes all
+preceding feature-maps as input.），用公式可以表示为 \(X_l = H_l ( [ X_0,X_1,\ldots,X_{l-1} ] )\) 。另外与 ResNet 不同的
+是，ResNet 是将 skip connect 进行 element-wise 相加，而这里则是将前面层的 feature maps 与后面层的 feature maps 作为不同
+的 channel 进行堆叠，并不进行逐元素相加，作者认为逐元素相加无法很好的发挥跨连接的性能。因此作者设计的 dense block 内的所
+有卷积层的 feature maps 有相同的空间尺寸，即一个 dense block 没有下采样操作。
+
+Growth rate : 作者将每个 dense block 内，一个卷积层输出的 channel 的个数称为 growth rate。不像其他的网络架构使用很多滤波
+器如 512、1024 个 channel 来提取特征，dense block 中使用很少的 channel 来提取特征，作者取用了 k = 32 。
+
+l 表示一个 dense block 中卷积层的个数，作者取用了 l = 6, 12, 48, 32, 64 等值。最终组成了 121, 169, 201, 264 层 DenseNet
+网络。
+
+Composite function : H_l = BN + ReLU + 3x3 CONV。由于 dense block 进行了密集连接，所以 dense block 内后面的卷积层输入的
+channel 个数将会很大，所以作者在 3x3 卷积之前进行了 1x1 CONV 来压缩通道的个数。因此 H_l = BN + ReLU + 1x1 CONV + BN +
+ReLU + 3x3 CONV .称为 Bottleneck layers
+
+Pooling layers : BN + 1x1 CONV + 2x2 average pooling 。作者称 dense block 中间的连接为 transition layer。为了进一步压缩
+模型，这里的 1x1 卷积将用于减少 channel 的个数，将 channel 的个数由 m 减少到 \(\theta m, \ \theta < 1\) ，作者采用了
+\(\theta = 0.5\) 。同时采用 Bottleneck 和 Compression 的网络架构称为 DenseNet-BC.
+
+文中使用了 4 个 dense block ，前面两个 dense block 使用了相同的 L ，后面两个 dense block 的个数不同而形成了不同层数的网
+络。
+
+DenseNet 有更少的参数，更少的运算时间，却可以达到更好的效果。
+
+*猜想* ： 假如把 dense block 当做一种新形式的卷积层，然后按照相似的形式对多个 dense block 进行密集连接，组成更大形式的网
+ 络会怎样？
+
+
+** NIN
+
+*** 1x1 CONV 
+
+对不同的 channel 相同位置的节点进行卷积，来减少 channel 的个数。不仅可以融合不同 channel 的特征，也可以有效减少参数。
+
+
+*** Global Average Pooling 
+
+全连接层参数过多，容易过拟合，需要 Dropout 等方法来预防。而且这种将前面提取到的特征直接堆叠起来的方法有点不自然。所有作
+者提出让每一个 feature map 的全局平均值作为一个节点，有多少个类别就生成多少个 feature map ，然后将所有 feature map 的平
+均值输入到 Softmax 进行分类，这样每一个 feature map 代表一类，相比于全连接层，其意义更加明确。而且无需额外的参数，同时可
+以融合空间信息。
+
+Take the average of each feature map, and the resulting map is fed directly into the softmax layer.
+Generate one feature map for each corresponding category of the classification task.
+Feature map can be easily interpreted as categories confidence map.
+
+
+** FCN
+
+Fully Convolutional Networks for Semantic Segmentation
+
+将卷积神经网络中的全连接层变成卷积层，让整个网络全部由卷积操作组成，故称为全卷积网络。

@@ -1,0 +1,11 @@
+#+TITLE:          发现
+#+AUTHOR:         Kyle Three Stones
+#+DATE:           <2018-03-24 Sat>
+#+EMAIL:          kyleemail@163.com
+#+OPTIONS:        H:3 num:t toc:nil \n:nil @:t ::t |:t ^:t f:t tex:t
+#+TAGS:           
+#+CATEGORIES:     待挖掘资源
+
+
+1. [[https://36kr.com/p/5042735]]
+1. Conway's law

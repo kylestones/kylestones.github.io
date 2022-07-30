@@ -1,0 +1,329 @@
+#+TITLE:          Faster R-CNN
+#+AUTHOR:         Kyle Three Stones
+#+DATE:           <2019-02-28 Thu>
+#+EMAIL:          kyleemail@163.com
+#+OPTIONS:        H:3 num:t toc:nil \n:nil @:t ::t |:t ^:t f:t tex:t
+#+TAGS:           目标检测, 深度学习
+#+CATEGORIES:     深度学习
+
+
+** 预处理
+
+1. 减去 RGB 像素的均值（无论训练还是测试统一使用训练样本集的均值）
+1. Rescale 在图像的长边不超过阈值的情况下，将短边 resize 到指定值
+
+#+BEGIN_SRC python
+def img_rescale(img, targetSize=600, maxSize=1000):
+    w = img.width
+    h = img.height
+    minDim = min(w,h)
+    maxDim = max(w,h)
+    scale = targetSize / minDim
+    if scale * maxDim >  maxSize:
+        scale = maxSize / maxDim
+    img = rescale(img, scale)
+    return img
+#+END_SRC
+
+为什么要这样 rescale 呢？这样仅仅只能让多数的图像的短边统一长度，长边的长度可能各不相同；另外一些图像长边都是最大值，但
+是短边各不相同。这样做有什么意义呢？保持图像的横纵比？但是图像大小不一样，要怎样去训练呢？
+
+
+** RoI Pooling
+
+RPN 生成的 RoI 由 (r,c,h,w) 表示，其中 (r,c) 是左上角的坐标，(h,w) 是高和宽。
+
+RoI max pooling works by dividing the h*w RoI window into an H*W grid of sub-windows of approximate size h/H * w/W and
+then max-pooling the values in each sub-window into the corresponding output grid cell. Pooling is applied independently
+to each feature map channel, as in standard max pooling.
+
+
+** 主网络
+
+faster r-cnn 主网络使用 resnet50 ，resnet 共有 4 个残差块。
+
+
+*** bottleneck
+
+1x1+3x3+1x1 共 3 层卷积组成一个基本的残差单元。多个相同的残差单元组成一个残差块。第一个 1x1 卷积和 3x3 卷积的通道数相同，
+后一个 1x1 卷积的通道数是前两者的一个倍数，论文中是 expansion=4 。且每个残差块的第一个残差单元会另外有一个 1x1 卷积，因
+为后三个残差块的第一个残差单元的3x3 卷积的步长为 2 ，执行下采样，为了让 feature maps 的大小保持一致，这个额外的 1x1 卷积
+的步长会与 3x3 卷积的步长保持一致，这样才可以执行相加操作。
+
+#+BEGIN_SRC python
+# 为了便于参数导入，变量名最好和 gluoncv 的变量名相同
+class BottleneckV1b(gluon.HybridBlock):
+    """res 基本模块"""
+    def __init__(self, channels, strides, isdownsample=False, **kwargs):
+        super(BottleneckV1b, self).__init__(**kwargs)
+        # 一个 bottleneck 内， 1*1 卷积 channel 扩大的倍数
+        self.expansion = 4
+        self.isdownsample = isdownsample
+        self.strides = strides
+
+        
+        # bottletneck 内总是 1*1 conv -- 3*3 conv -- 1*1 conv
+        self.conv1 = nn.Conv2D(channels=channels, kernel_size=(1,1), strides=(1,1),
+                               padding=(0,0), groups=1, use_bias=False)
+        self.bn1   = nn.BatchNorm() # use_global_stats=True 默认为 False
+        self.relu  = nn.Activation('relu')
+        
+        self.conv2 = nn.Conv2D(channels=channels, kernel_size=3, strides=self.strides,
+                               padding=(1,1), groups=1, use_bias=False)
+        self.bn2   = nn.BatchNorm()
+        
+        self.conv3 = nn.Conv2D(channels=channels * self.expansion, kernel_size=(1,1), strides=(1,1),
+                               padding=(0,0), groups=1, use_bias=False)
+        self.bn3   = nn.BatchNorm()
+        
+        if self.isdownsample:
+            self.downsample = nn.HybridSequential()
+            self.downsample.add(nn.Conv2D(channels=channels * self.expansion, kernel_size=(1,1), strides=self.strides,
+                                         padding=(0,0), groups=1, use_bias=False),
+                                nn.BatchNorm())
+
+
+    def hybrid_forward(self, F, x):
+        residual = self.relu(self.bn1(self.conv1(x)))
+        residual = self.relu(self.bn2(self.conv2(residual)))
+        residual = self.bn3(self.conv3(residual))
+
+        if self.isdownsample:
+            x = self.downsample(x)
+
+        x = x + residual
+        out = self.relu(x)
+
+        return out
+#+END_SRC
+
+
+*** ResNet 网络
+
+有了基本的残差单元就可以很容易的生成 resnet 网络。网络最开始有一个 7x7 的卷积（ stride=2 ），后接一个 max pool
+(stride=2) 层。之后就是四个残差块，接着是 average pool ，1000 维的全连接层以及 softmax 。
+
+#+BEGIN_SRC python
+# 每个残差块内残差单元重复的次数
+res18_blk_num  = [2, 2, 2,  2] # 不是 bottleneck
+res50_blk_num  = [3, 4, 6,  3]
+res101_blk_num = [3, 4, 23, 3]
+res152_blk_num = [3, 8, 36, 3]
+
+# 残差块内残差单元的通道数
+channels = [64, 128, 256, 512]
+# 残差单元中 3x3 卷积的 stride
+strides = [(1,1), (2,2), (2,2), (2,2)]
+class ResNet(gluon.HybridBlock):
+    """ 
+    Parameters
+    ----------
+    block_nums : list of int
+        ResNet 每个 block 重复的次数
+    channels : list of int
+        每个 block 内卷积的 channel
+    strides : list
+        每个 block 的残差结构中 3*3 卷积的滑动步长 stride
+    classes : int, default 1000
+        目标类别的个数
+    """
+    # pylint: disable=unused-variable
+    def __init__(self, block_nums, channels, strides, classes=1000, **kwargs):
+        super(ResNet, self).__init__(**kwargs)
+
+        self.features = nn.HybridSequential()
+        self.features.add(nn.Conv2D(channels=64, kernel_size=(7,7), strides=(2,2),
+                                    padding=(3,3), groups=1, use_bias=False))
+        self.features.add(nn.BatchNorm())
+        self.features.add(nn.Activation('relu'))
+        self.features.add(nn.MaxPool2D(pool_size=(3,3), strides=(2,2), padding=(1,1)))
+        
+        # block_nums = [3, 4, 6, 3]
+        # channels = [64, 128, 256, 512]
+        # strides = [(1,1), (2,2), (2,2), (2,2)]
+        for i in range(len(block_nums)):
+            blk = nn.HybridSequential()
+            for num in range(block_nums[i]) :
+                if num == 0:
+                    bottleneck = BottleneckV1b(channels[i], strides[i], isdownsample=True)
+                else:
+                    bottleneck = BottleneckV1b(channels[i], (1,1), isdownsample=False)
+                blk.add(bottleneck)
+            self.features.add(blk)
+
+        self.avgpool = nn.GlobalAvgPool2D()
+        self.out = nn.Dense(classes)
+
+    def hybrid_forward(self, F, x):
+        feature = self.features(x)
+        out = self.avgpool(feature)
+        out = self.out(out)
+        return out
+#+END_SRC
+
+
+** RPN
+
+region proposal net 使用 3x3 滤波器扫描 feature maps ，然后使用全连接生成建议的区域以及相应的概率。而这个可以通过一个
+3x3 的卷积后面接着两个 1x1 的卷积实现，一个 1x1 卷积用于计算概率，另一个用于计算 bbox 。
+
+计算得到的 bbox 并不能直接用于得到 ROI ，因为其只是相对于 anchor 的偏移坐标。转换公式如下，其中 \(t_x,t_y,t_w,t_h\) 是网
+络的输出值，\(x_a,y_a,w_a,h_a\) 是 anchor 的大小。
+
+
+\beign{align*}
+x &= t_x w_a + x_a \\
+y &= t_y h_a + y_a \\
+w &= w_a e^{t_w} \\
+h &= h_a e^{t_h}
+\end{align*}
+
+#+BEGIN_SRC python
+class RPN(gluon.HybridBlock):
+    """region proposal"""
+    def __init__(self, class_num=80, **kwargs):
+        super(RPN, self).__init__(**kwargs)
+        self.anchor_depth = 15 # gluoncv 使用了 15 个 anchor
+        # RPN 网络
+        self.rpn = nn.HybridSequential()
+        self.rpn.add(nn.Conv2D(self.rpn_channels, 3, 1, 1))
+        self.rpn.add(nn.Activation('relu'))
+        # 使用了 sigmoid 而不是 softmax，减少通道的个数
+        self.rpn_score = nn.Conv2D(self.anchor_depth, 1, 1, 0)
+        self.rpn_loc = nn.Conv2D(self.anchor_depth * 4, 1, 1, 0)
+
+    def hybrid_forward(self, F, x):
+        # x 是 feature maps
+        rpn = self.rpn(x)
+        print("rpn conv3*3 shape", rpn.shape)
+        # 由 BCWH --> BWHC
+        raw_rpn_score = self.rpn_score(rpn).transpose(axes=(0, 2, 3, 1)).reshape((0, -1, 1))
+        rpn_score = nd.sigmoid(raw_rpn_score)
+        # rpn_box_pred -- (x,y,w,h)
+        rpn_box_pred = self.rpn_loc(rpn).transpose(axes=(0, 2, 3, 1)).reshape((0, -1, 4))
+        return rpn_score, rpn_box_pred
+#+END_SRC
+
+另外需要利用 anchor 计算 ROI 的大小，当然首先需要生成 anchor 。
+
+#+BEGIN_SRC python
+ratios = [0.5, 1, 2]
+scales = [32, 64, 128, 256, 512]
+def anchor_gen(ratios, scales, width, height, stride):
+    """生成 anchor ： 
+    首先生成一组 anchor
+    然后生成 feature maps 点坐标，乘以 stride 得到在 image 上的坐标
+    由于 anchor 的中心点应该是 feature maps 上对应到 image 上的点，所以需要将上面得到的中心点向右下移动 stride/2
+    最后将两者相加即可
+    
+    return (x, y, w, h)"""
+    anchor = []
+    for s in scales:
+        for r in ratios:
+            # 使用 ROIAlign 不必在取整数
+            w = s / np.sqrt(r)
+            w = (w * 0.5)
+            h = s * np.sqrt(r)
+            h = (h * 0.5)
+            anchor.append([-w, -h, w, h])
+            
+    anchor = np.array(anchor)
+
+    x = range(width)
+    y = range(height)
+    x, y = np.meshgrid(x, y)
+    
+    offsets = np.concatenate((x[:,:,np.newaxis], y[:,:,np.newaxis], x[:,:,np.newaxis], y[:,:,np.newaxis]), axis = -1)
+    offsets *= stride
+    offsets = offsets.astype(np.float64)
+    # 中心点需要向右下角偏移 stride // 2
+    offsets += stride / 2
+    
+    anchor = anchor.reshape(1, -1, 4) + offsets.reshape(-1,1,4)
+    anchor = anchor.reshape(-1, 4)
+    
+    anchor = bbox_clip_by_img(anchor, (width*stride, height*stride))
+    anchor = corner2center(anchor)
+    return anchor
+#+END_SRC
+
+
+
+** ROIAlign
+
+将 RPN 网络生成的 ROI 作为 ROIPool 的输入，输入 ROI 个数固定，如 post_num=300 ，得到固定大小（宽和高）的输出。
+
+ROIAlign 和 ROIPool 最大不同就是不对坐标取整，使用最近邻差值得到输出。另外感觉 ROIPooling 使用 max pooling 求得每个输出
+值，而 ROIAlign 使用近邻插值，这个应该类似是 mean pooling 呀？
+
+RPN 网络得到的 ROI 经过 ROIPooling 之后，feature maps 会变成正方形，也就是 ROI 进行了一次放射变换。但是回归系数（即网络
+输出 Bbox 的值）并不会受到仿射变换的影响。
+
+论文中提到的转换公式，其中 \(t_x,t_y,t_w,t_h\) 是回归系数，\(x_a,y_a,w_a,h_a\) 是 anchor 的坐标值，\(x,y,w,h\) 是需要得
+到的 Bbox 的值。
+
+\begin{align*}
+t_x &= \frac{x - x_a}{w_a} \\
+t_y &= \frac{y - y_a}{h_a} \\
+t_w &= log(\frac{w}{w_a}) \\
+t_h &= log(\frac{h}{h_a})
+\end{align*}
+
+仿射变换矩阵
+
+\begin{align*}
+\left [  
+\begin{matrix}
+s_x & 0 & dx \\
+0 & s_y & dy
+\end{matrix}
+\right ]
+\end{align*}
+
+将 feature maps 进行仿射变换后，预测的 Bbox 以及 anchor 都会进行放射变换，而此时仿射变换前后的回归系数是一样的。
+
+\begin{align*}
+t_x &= \frac{s_x((x+dx) - (x_a+dx))}{s_x w_h} \\
+t_y &= \frac{s_y((y+dy) - (y_a+dy))}{s_y w_h} \\
+t_w &= log(\frac{s_x w}{s_x w_a}) \\
+t_h &= log(\frac{s_y h}{s_y w_h})
+\end{align*}
+
+#+BEGIN_SRC python
+# 这里的反向传播好像比较难以处理，直接使用 mxnet 提供的接口
+# 注意入参
+pooled_feat = nd.contrib.ROIAlign(feat, rpn_roi, self.roi_size, 1. / self.stride)
+#+END_SRC
+
+
+** 预测网络
+
+ROIAlign 之后得到的 feature maps 会继续经过 resnet 的第 4 个残差块处理，然后经过 global average pooling 以及全连接层用于
+输出预测的 Bbox 以及概率。
+
+#+BEGIN_SRC python
+class Prediction(gluon.HybridBlock):
+    def __init__(self, class_num=80, **kwargs):
+        # 输出预测网络
+        self.global_avg_pool = nn.GlobalAvgPool2D()
+        self.class_predictor = nn.Dense(self.class_num + 1)
+        self.box_predictor = nn.Dense(self.class_num * 4)
+    def hybrid_forward(self, F, x):
+        # RCNN prediction
+        top_feat = self.top_features(pooled_feat)
+        avg_feat = self.global_avg_pool(top_feat)
+        cls_pred = self.class_predictor(avg_feat)
+        box_pred = self.box_predictor(avg_feat)
+#+END_SRC
+
+输出经过提出概率小于阈值的输出以及分类别的 NMS 得到最终输出
+
+
+** 参考
+
+1. [[http://www.telesens.co/2018/03/11/object-detection-and-classification-using-r-cnns/][Object Detection and Classification using R-CNNs]]
+
+
+** 待参考
+
+1. [[https://www.analyticsvidhya.com/blog/2018/10/a-step-by-step-introduction-to-the-basic-object-detection-algorithms-part-1/][Introduction to the Basic Object Detection Algorithms]]

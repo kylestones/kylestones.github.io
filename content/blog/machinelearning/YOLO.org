@@ -1,0 +1,721 @@
+#+TITLE:          YOLO 实现细节
+#+AUTHOR:         Kyle Three Stones
+#+DATE:           <2019-01-01 Tue>
+#+EMAIL:          kyleemail@163.com
+#+ATTR_HTML:      :width 100%
+#+OPTIONS:        H:3 num:t toc:nil \n:nil @:t ::t |:t ^:t f:t tex:t
+#+TAGS:           目标检测, 深度学习
+#+CATEGORIES:     深度学习
+
+
+
+之前写的乱七八糟，现在开始重构，主要针对 YOLOv3。真的是得亲自动手实现，才能真正了解一个算法。The best way to go about
+learning object detection is to implement the algorithms by yourself, from scratch. -- [[https://www.linkedin.com/in/ayoosh-kathuria-44a319132/][Ayoosh Kathuria]]
+
+
+** 主网络
+
+主网络采用 Darknet53 ，网络为全卷积网络 FCN(Fully Convolutional Networks)，之前一直以为全卷积网络就是不包含全连接的网络，
+现在才知道，全卷积网络连 Pooling 层都没有，Pooling 层使用步长为 2 的卷积代替，防止由于 Pooling 导致 low-level features
+的丢失；分类之前使用 Global Average Pooling 。[Darknet53 中有全连接层呀，上面写错了]
+
+
+*** 卷积层
+
+Darknet 的每个卷积层都是由 Conv-BN-LReLU 组成，是网络的最小重复单元。
+
+#+BEGIN_SRC python
+def cbl_gen(channels, kernel_size, strides, padding):
+    '''conv-BN-LeakyReLU cell'''
+    cbl_unit = nn.HybridSequential()
+    # 所有卷积后面都有 BN ，所以 bias 始终为 False
+    cbl_unit.add(
+        nn.Conv2D(channels, kernel_size=kernel_size, strides=strides, padding=padding, groups=1, use_bias=False),
+        nn.BatchNorm(),
+        nn.LeakyReLU(0.1)
+    )
+    
+    return cbl_unit
+#+END_SRC
+
+
+*** 残差单元
+
+Darknet53 使用了残差结构，不过作者对残差单元进行了改良，与 resnet 论文中两种残差单元 (3x3 + 3x3 or 1x1 + 3x3 + 1x1) 都不
+太一样。每个基本的残差单元都由一个 1x1 + 3x3 卷积实现，且 3x3 卷积 channel 的个数固定是 1x1 卷积 channel 个数的两倍。
+
+#+BEGIN_SRC python
+# 残差网络需要重新定义前向传播的方式，必须自己定义网络层类
+class DarknetBasicBlockV3(gluon.HybridBlock):
+    '''darknetV3 basic block'''
+    
+    def __init__(self, channels, **kwargs):        
+        super(DarknetBasicBlockV3, self).__init__(**kwargs)        
+        self.body = nn.HybridSequential()
+        self.body.add(
+            # 1x1 conv
+            cbl_gen(channels, (1,1), (1,1), (0,0)),
+            # 3x3 conv
+            cbl_gen(channels*2, (3,3), (1,1), (1,1))
+        )
+    # 需要在 hybrid_forward 函数中添加额外的输入F。由于 MXNet 既有基于命令式编程的 NDArray 类，
+    # 又有基于符号式编程的 Symbol 类。由于这两个类的函数基本一致，MXNet会根据输入来决定 F 使用 NDArray 或 Symbol。    
+    def hybrid_forward(self, F, x):
+        return x + self.body(x)
+#+END_SRC
+
+
+*** Darknet53
+
+Darknet53 共由 5 个残差块组成，每个残差块重复的次数分别是 1,2,8,8,4 ，相应的通道数分别为 32,64,128,256,512 。且每个残差
+块之前都有一个步长为 2 的卷积实现下采样操作。
+
+由于每个残差单元由两层卷积实现，那么所有残差块共包含网络的层数为(1+2+8+8+4)*2=46 层，再加上每个残差块前面的一个下采样层，
+也就是残差块的个数 5 ，这样就有了 46+5=51 层。最后加上最开始的一个卷积层，以及全连接层，总共有 53 层，也就是网络称为
+Darknet53 的原因。
+
+#+BEGIN_SRC python
+# 残差块的个数
+residual_block_num = [1, 2, 8, 8, 4] 
+# 对应残差块 1x1 卷积输出 channel 个数，3x3 卷积输出 channel 个数翻倍
+darknet_channels = [32, [32, 64, 128, 256, 512]] 
+class_num_imagenet = 1000 # for imagenet
+
+class Darknet53(gluon.HybridBlock):
+    '''darknet53'''
+    
+    def __init__(self, residual_block_num, channels, class_num=1000, **kwargs):
+        super(Darknet53, self).__init__(**kwargs)
+        self.features = nn.HybridSequential()
+        
+        # 网络最开始有一个卷积操作
+        self.features.add(cbl_gen(channels[0], (3,3), (1,1), (1,1)))
+        
+        # 重复的残差块
+        for residual_block, channel in zip(residual_block_num, channels[1]):
+            # 使用步长为 2 的卷积实现下采样，在每一个残差块的开始都有一个下采样层
+            self.features.add(cbl_gen(channel*2, (3,3), (2,2), (1,1)))
+            # 一个残差块
+            for _ in range(residual_block):
+                self.features.add(DarknetBasicBlockV3(channel))
+        
+        # global average pooling
+        self.pooling = nn.GlobalAvgPool2D()
+        
+        # 全连接的输出层
+        self.output = nn.Dense(class_num)
+        
+    def hybrid_forward(self, F, x):
+        x = self.features(x)
+        x = self.pooling(x)
+        return self.output(x)
+#+END_SRC
+
+
+
+** 检测网络
+
+*** predictions across scales
+
+Fine-Grained Feature
+
+1. 将靠近输出的检测层的 feature maps upsample 2X ，然后与网络前面层中相同大小的 feature maps 串接（作为不同的 channel 组
+   合），作为中间检测层的输入；将中间检测层同样操作作为靠近输入层检测层的输入。
+1. 本层 feature maps 有较好的语义信息，前面层 feature maps 有较好的位置信息，这里将两者进行了结合。
+1. 提升检测小物体效果明显
+
+YOLOv3 在主网络的不同 stage 共使用三个检测网络，除了通道个数不同外，每个检测网络的结构都是相同的。每个检测网络都是由一个
+1x1+3x3 卷积重复 3 次构成，且 3x3 卷积的通道数是 1x1 卷积通道数的 2 倍。所以每个检测网络都是 6 层卷积，加上最后一个输出
+层卷积构成。
+
+效仿 FPN(Feature Pyramid Net) ，靠近输出层的检测网络输出会同时作为前面监测网络的输入（ 6 个卷积层中倒数第二个卷积层的输
+出作为前面一个 stage 的检测网络的输入），所有检测网络不能使用一个 3 次循环实现，必须分开。
+
+#+BEGIN_SRC python
+# 三个输出分别使用的检测通道数
+det_channels = [512, 256, 128]
+
+class Detection(gluon.HybridBlock):
+    '''
+    检测网络，三个检测网络的结构相同，只是 filter 个数不同，完全可以使用一个 for 循环实现，
+    但是需要在倒数第二层引出分支，和前面层的特征合并后，用于前面的检测网络，所以只能分开写
+
+    越靠近输入层， feature maps 越大，所以检测网络使用的 channel 相应的较少，防止较大运算量
+    '''
+    def __init__(self, channels, classes_num=80, anchors_num=3, **kwargs):
+        super(Detection, self).__init__(**kwargs)
+        self.channels=channels
+        self.anchors_num=anchors_num
+        self.pred_num=1+4+classes_num
+        self.body=nn.HybridSequential(prefix='')
+        self.tip=nn.HybridSequential(prefix='')
+
+        for i in range(2):
+            self.body.add(cbl_gen(channels, (1,1), (1,1), (0,0)))
+            self.body.add(cbl_gen(channels*2, (3,3), (1,1), (1,1)))
+            
+        self.body.add(cbl_gen(channels, (1,1), (1,1), (0,0)))        
+        self.tip.add(cbl_gen(channels*2, (3,3), (1,1), (1,1)))        
+
+        
+    def hybrid_forward(self, F, x):
+        x = self.body(x)
+        return self.tip(x)
+#+END_SRC
+
+
+*** 串接层
+
+将靠近输出的检测网络结果输入到前面的检测网络时，会先经过一个 1x1 卷积，同时由于 feature maps size 不同，所以会进行上采样，
+之后才会和主网络的输出作为不同的通道堆叠后作为检测网络的输入。
+
+#+BEGIN_SRC python
+class Concates(gluon.HybridBlock):
+    """不同 stage 的 feature maps 串接的时候，先经过了一个 1x1 卷积和一个上采样
+    """
+    def __init__(self, channels, **kwargs):
+        super(Concates, self).__init__(*kwargs)
+        self.concate = nn.HybridSequential(prefix='')
+        self.concate.add(cbl_gen(channels, (1,1), (1,1), (0,0)))
+        
+    def upsample_rept(self, x, stride):
+        '''
+        不同的检测层输入堆叠的时候需要上采样，上采样的方式也很简单，
+        只是将 feature maps 沿着水平和垂直方向 repeat 指定的倍数。
+        '''
+        assert type(x) == mx.ndarray.ndarray.NDArray or type(x) == np.ndarray
+        return x.repeat(axis=-1, repeats=stride).repeat(axis=-2, repeats=stride)    
+    
+    def hybrid_forward(self, F, x):
+        x = self.concate(x)
+        x = self.upsample_rept(x, 2)
+        return x
+#+END_SRC
+
+
+** 输出层
+
+1. YOLO 的输出是 feature maps ，使用 1x1 卷积得到最终的输出；每一个节点都输出固定数量的 Bbox
+
+每个检测网络的输出都是用 3 个 anchor ，每个 anchor 包含 1 个 obj 表示是否包含目标，4 个坐标值，以及 class 类别（使用
+coco 就是 80 个类别，使用 VOC 就是 20 个类别），这里以 coco 为例。所以输出的通道数为 3*(1+4+80)=255 。通道的排序顺序可以
+按照你的喜好随意排序，不过一般都是 3 个 anchor 依序排列，每个 anchor 内分别是 box-center,box-scale,objness,class ，class
+采用 one-hot 形式，就是 [{x,y,w,h,obj,class-one-hot},{x,y,w,h,obj,class-one-hot},{x,y,w,h,obj,class-one-hot}] 。
+
+感觉输出层其实很简单，只有一层卷积，但是由于 anchor 以及网络输出与真实值之间需要转换，同时训练和预测时输出的不一致，
+output 整的很麻烦。
+
+*** 输出坐标
+
+直接训练网络预测物体的宽和高，会使得网络不稳定。因此检测算法会使用对数空间或者预测 Bbox 相对于 anchor 的 offset 。YOLOv3
+feature maps 的每个节点都使用 3 个不同大小的 anchor ，每个 anchor 都可能预测不同的物体。
+
+\begin{align*}
+b_x &= \sigma(t_x) + c_x \\
+b_y &= \sigma(t_y) + c_y \\
+b_w &= p_w e^{t_w} \\
+b_h &= p_h e^{t_h}
+\end{align*}
+
+其中 \(b_x,b_y,b_w,b_h\) 分别是预测的物体的实际中心点坐标，以及宽和高。 \(t_x,t_y,t_w,t_h\) 是网络的输出值。 \(c_x,c_y\)
+是该 grid cell 左上角坐标， \(p_w,p_h\) 是 anchor 的宽和高。
+
+1. 通过 sigmoid 函数确保中心点的相对坐标值在 0-1 之间，相对于该 grid cell 左上角。使用指数函数确保宽和高非负。
+1. \(b_w,b_h\) 用图片的宽和高进行了归一化，且使用对数空间计算。即物体实际的大小应该是 \(b_w,b_h\) 分别乘以图像的宽度和高
+   度
+
+#+BEGIN_SRC c
+# darknet 源码中对 VOC 标签做转换
+def convert(size, box):
+    // 中心点、宽、高等都是将图片转换成 1x1 后的相对坐标
+    dw = 1./(size[0])
+    dh = 1./(size[1])
+    // 开始一直不明白为什么最后要减 1 ；
+    // 其实就是将从 1 开始计数转换成从 0 开始；笨呐
+    x = (box[0] + box[1])/2.0 - 1
+    y = (box[2] + box[3])/2.0 - 1
+    w = box[1] - box[0]
+    h = box[3] - box[2]
+    x = x*dw
+    w = w*dw
+    y = y*dh
+    h = h*dh
+    return (x,y,w,h)
+#+END_SRC
+
+
+*** class prediction
+
+1. 作者使用相互独立的 logistic classifier 
+1. 训练时使用 binary cross-entropy loss
+1. 并不一定要使用 softmax 分类才能达到较好的效果
+1. softmax 假定各个类别相互独立，不利于扩展到有重叠的类别
+1. 最终输出的预测概率是 objness*class
+
+
+*** 输出层代码
+
+#+BEGIN_SRC python
+class Output(gluon.HybridBlock):
+    """YOLOv3 输出
+    """
+    def __init__(self, anchors, stride, classes_num=80, **kwargs):
+        super(Output, self).__init__(**kwargs)
+        self.stride = stride
+        self.anchors_num = len(anchors) // 2
+        self.classes_num = classes_num
+        self.pred_num = 1+4+classes_num
+        anchors = nd.array(anchors).astype('float32')
+        self.anchors = anchors.reshape(1, 1, -1, 2)
+
+        self.output = nn.HybridSequential(prefix='')
+        # 这里是线性激活函数，默认 nn.Conv2D 的 activation=None，两者等效
+        # 输出 channel 的个数 (4+1+classes)*anchors
+        self.output.add(nn.Conv2D(self.pred_num*self.anchors_num, (1,1), (1,1), (0,0), groups=1, use_bias=True))        
+
+        # offsets will be added to predictions
+        grid_x = np.arange(128)
+        grid_y = np.arange(128)
+        grid_x, grid_y = np.meshgrid(grid_x, grid_y)
+        # stack to (n, n, 2)
+        offsets = np.concatenate((grid_x[:, :, np.newaxis], grid_y[:, :, np.newaxis]), axis=-1)
+        # expand dims to (1, 1, n, n, 2) so it's easier for broadcasting
+        offsets = np.expand_dims(np.expand_dims(offsets, axis=0), axis=0)
+        self.offsets = nd.array(offsets)#self.params.get_constant('offset_%d'%(index), offsets)
+        
+        
+    def hybrid_forward(self, F, x):
+        pred = self.output(x)
+
+        # prediction flat to (batch, pred per pixel, height * width)
+        pred = pred.reshape((0, self.anchors_num * self.pred_num, -1))
+        # transpose to (batch, height * width, num_anchor, num_pred)
+        pred = pred.transpose(axes=(0, 2, 1)).reshape((0, -1, self.anchors_num, self.pred_num))
+        # components
+        raw_box_centers = pred.slice_axis(axis=-1, begin=0, end=2)
+        raw_box_scales = pred.slice_axis(axis=-1, begin=2, end=4)
+        objness = pred.slice_axis(axis=-1, begin=4, end=5)
+        class_pred = pred.slice_axis(axis=-1, begin=5, end=None)
+
+        # valid offsets, (1, 1, height, width, 2)
+        offsets = nd.slice_like(self.offsets, x * 0, axes=(2, 3))
+        # reshape to (1, height*width, 1, 2)
+        offsets = offsets.reshape((1, -1, 1, 2))
+
+        box_centers = nd.broadcast_add(nd.sigmoid(raw_box_centers), offsets) * self.stride
+        box_scales = nd.broadcast_mul(nd.exp(raw_box_scales), self.anchors)
+        confidence = nd.sigmoid(objness)
+        class_score = nd.broadcast_mul(nd.sigmoid(class_pred), confidence)
+        wh = box_scales / 2.0
+        # `corner`: [xmin, ymin, xmax, ymax]
+        # `center`: [x, y, width, height]
+        # center to corner
+        bbox = nd.concat(box_centers - wh, box_centers + wh, dim=-1)
+
+        if autograd.is_training():
+            # during training, we don't need to convert whole bunch of info to detection results
+            return (bbox.reshape((0, -1, 4)), raw_box_centers, raw_box_scales,
+                    objness, class_pred, self.anchors, offsets)
+
+        # prediction per class
+        bboxes = nd.tile(bbox, reps=(self.classes_num, 1, 1, 1, 1))
+        scores = nd.transpose(class_score, axes=(3, 0, 1, 2)).expand_dims(axis=-1)
+        ids = nd.broadcast_add(scores * 0, F.arange(0, self.classes_num).reshape((0, 1, 1, 1, 1)))
+        detections = nd.concat(ids, scores, bboxes, dim=-1)
+        # reshape to (B, xx, 6)
+        detections = nd.reshape(detections.transpose(axes=(1, 0, 2, 3, 4)), (0, -1, 6))
+        return detections
+#+END_SRC
+
+
+** YOLOv3
+
+将主网络与检测网络以及输出拼装起来，就组成了 YOLOv3 。最开始看到 YOLOv3 网络的时候，感觉很网络很复杂，感觉无从下手来写网
+络结构。可是将主网络和检测网络拆分开，忽然又变得很容易。
+
+#+BEGIN_SRC python
+# 这里都进行了反序
+strides = [32, 16, 8]
+anchors = [[116, 90, 156, 198, 373, 326], [30, 61, 62, 45, 59, 119], [10, 13, 16, 30, 33, 23]]
+
+class YOLOv3(gluon.HybridBlock):
+    """生成 YOLOv3 网络，只适用于 Darknet53 ，
+    """
+    def __init__(self, **kwargs):
+        super(YOLOv3, self).__init__(**kwargs)
+
+        # 基本网络框架
+        darknet53 = Darknet53(residual_block_num, darknet_channels)
+        # residual_block_num = [1, 2, 8, 8, 4] , 每一个残差块的开始都有一个下采样层
+        feature1_layer = 1 + (1+1) + (1+2) + (1+8)
+        feature2_layer = feature1_layer + (1+8)
+        feature3_layer = feature2_layer + (1+4) # 可以直接到末尾，
+
+        self.features = nn.HybridSequential(prefix='')
+        self.features.add(darknet53.features[:feature1_layer])
+        self.features.add(darknet53.features[feature1_layer:feature2_layer])
+        self.features.add(darknet53.features[feature2_layer:feature3_layer])
+
+        # 从基本网络框架引出的检测网络层，包含输出
+        self.detection_net = nn.HybridSequential(prefix='')
+        for det_channel in det_channels:
+            self.detection_net.add(Detection(det_channel))
+
+        # 串接不同 stage 
+        self.concates = nn.HybridSequential(prefix='')
+        for det_channel in det_channels[1:]:
+            self.concates.add(Concates(det_channel))
+ 
+        # 输出
+        self.output = nn.HybridSequential(prefix='')
+        for anchor, stride in zip(anchors, strides):
+            self.output.add(Output(anchor, stride))
+
+
+    def hybrid_forward(self, F, x):
+
+        # 先计算出所有 stage 的 features
+        featuremaps = []
+        for net in self.features:
+            x = net(x)
+            featuremaps.append(x)
+
+        # 反序
+        featuremaps = featuremaps[::-1]
+
+        output = []
+        det = nd.array([])
+        for i in range(len(featuremaps)):
+            if i == 0:
+                det = featuremaps[i]
+            else:
+                det = self.concates[i-1](det)
+                det = nd.concat(det, featuremaps[i], dim=1)
+
+            det = self.detection_net[i].body(det)   
+            out = self.detection_net[i].tip(det)
+            out = self.output[i](out)
+            output.append(out)
+
+        return output
+#+END_SRC
+
+
+** anchor
+
+目标应该对应哪个 anchor ？首先要将训练和预测区分开来。
+
+一个 anchor 就是规定了一个 Bbox 的宽和高，需要使用两个整数表示，anchor 可以放在图像的任意位置。YOLOv3 共使用了 9 个
+anchor (anchors = [[116, 90, 156, 198, 373, 326], [30, 61, 62, 45, 59, 119], [10, 13, 16, 30, 33, 23]]) ，分别用在 3 个
+检测网络中，也就是每个检测网络使用 3 个 anchor ，面积小的 anchor 会被分配到靠近输入的检测网络，因为这时候目标的位置信息
+会相对准确，面积大的 anchor 被分配到靠近输出的网络（也就是哪个 anchor 在哪个检测网络是确定的）。三个检测网络分别在主网络
+中不同大小的 feature maps 上面检测，也就意味着三个检测网络是在进行重复检测。
+
+1. v3 共使用了 3 个 scale ，每个 scale 使用 3 个 anchor ，不同 scale 的 anchor 大小不同，共使用了 9 个 anchor 
+1. YOLOv3 每级使用了 3 个 anchor 输出，输出大小 {N*N*[3*(4+1+80)]}
+1. 越靠近输入层使用 anchor 的尺寸越小
+1. *训练时与物体 groundtruth Bbox IoU 最大的 anchor 用于预测该物体*
+1. 如果一个 grid 内有多余 anchor 个数的物体，无法同时检测
+1. 如果两个或以上物体在同一个 grid 内且与同一个 anchor 有较大 IoU ，同样无法检测
+
+
+*** 怎样将输出与样本的标签对应
+
+**** training
+
+每个目标只需要一个 anchor 来检测，其余 8 个 anchor 都不会计算由于检测这个目标不准确而产生的误差。那么应该将这个目标分配
+给哪一个 anchor 呢？计算目标和所有 9 个 anchor 的 IOU ，将目标分配给 IOU 最大的那个 anchor 。只有这个 anchor 的输出用于
+计算目标的位置和类别误差。
+
+
+**** prediction
+
+预测的时候，所有的 anchor 统一对待，过滤掉预测概率低于一定阈值的输出，然后分类别进行 NMS 即可。
+
+
+*** 使用 anchor 后效果
+
+1. YOLOv2 使用 anchor 之后，准确率下降了，因为不使用 anchor 时，仅输出 98 个 Bbox ，但是使用 anchor 之后输出了 1000 多个
+   Bbox ，分母变得太大了，所以 accuracy 下降了一些，伴随着 mAP 也下降了 69.5->69.2。但是 recall 从 81% 上升到 88% ，因为
+   输出的个数增多，所以检测出来的目标也增多了；原来一直没有搞懂原因
+
+
+** Loss
+
+损失总共包括四部分，box-center, box-scale, objness, class 。分别将四者的预测值和真实值用于计算即可。好像有不同的权重。
+
+YOLOv3 loss 除了 box 的宽和高使用 L1-loss 以外， objectness 、box 中心点坐标、class 误差均使用
+SigmoidBinaryCrossEntropyLoss 求解。只有包含目标的 anchor 才会计算所有误差，不包含目标的 anchor 只计算 objness 误差
+（不过 anchor 和 gtbbox 超过一定阈值的会被忽略，也就是这些节点不会有任何误差用于更新权重）。
+
+注意，只有被分配了目标的 anchor 才需要计算位置和类别误差，否则只计算 obj-loss
+
++ obj-loss :: sum of objectness logistic loss
++ center-loss :: sum of box center logistic regression loss
++ scale-loss :: sum of box scale l1 loss
++ cls-loss :: sum of per class logistic loss
+
+#+BEGIN_SRC python
+#sigmoid_ce = gluon.loss.SigmoidBinaryCrossEntropyLoss(from_sigmoid=False)
+#l1_loss = gluon.loss.L1Loss()
+def sigmoid_ce(pred, label):
+    loss = nd.relu(pred) - pred * label + nd.Activation(-nd.abs(pred), act_type='softrelu')
+    return nd.mean(loss, axis=0, exclude=True)
+
+def l1_loss(pred, label):
+    loss = nd.abs(pred - label)
+    return nd.mean(loss, axis=0, exclude=True)
+
+#+END_SRC
+
+
+*** loss 未删
+
+YOLOv1 中由于 sum-squared error (SSE) 容易优化，作者选用其作为损失函数，又由于希望小物体相比大物体有较好的精度，作者将
+Bbox 的宽和高进行了开方 [[https://stats.stackexchange.com/questions/287486/yolo-loss-function-explanation][（回答者电话咨询过作者）]] ，paper 上也有一些描述。 YOLOv3 中并没有对宽和高进行开方，YOLOv2 不清楚。
+lambda is highest for coordinates in order to focus more on detection
+
+1. objectness score -- 表示 Bbox 中含有目标的概率。YOLOv1 和 YOLOv2 设置一致，但 YOLOv3 中做了修改 ；
+1. 每个 anchor 输出一个 objectness/confidence ，用于表明这个 anchor 中有物体的概率及预测的 Bbox 的准确度，使用公式
+   \(Pr(Object)*IOU_{pred}^{truth}\) 。但是在 YOLOv3 中， confidence score 等于 1 ，当 gtbox 和 anchor 有最大的 IOU 的时
+   候，否则为 0 ，网络的输出是 sigmoid(t_o) 。
+1. 同时每个 anchor 输出该 anchor 中有物体的条件下，其类别的条件概率 \(Pr(Class_i|Object)\) 
+1. 测试的时候，将 confidence 和条件类别概率相乘作为每个类别的 confidence score \(Pr(Class_i|Object) * Pr(Object) *
+   IOU_{pred}^{truth} = Pr(Class_i) * IOU_{pred}^{truth}\)
+1. 由于 grid 中背景数目较多，所以降低不包含物体的误差权重，否则会 overwhelming 权重
+1. YOLOv3 使用 logistic regression 预测每个 Bbox 的 objectness score ；YOLOv3 计算使用了 sigmoid 函数确保输出的概率值在
+   0-1 之间；每个物体只分配给一个 Bbox prior ；当一个 Bbox prior [anchor] 和物体的 groundtruth有最大的 IOU 的时候值为 1
+   ；当 Bbox prior 没有对应物体时，只产生 objectness loss 没有 coordinate 和 class prediction loss ；当 Bbox prior 和
+   groundtruth 的 IOU 大于一定阈值（作者采用 0.5） ，但却并不是最大的 IOU 的时候，忽略其预测，参考 [[https://stats.stackexchange.com/questions/373266/yolo-v3-loss-function][Ci 定义探讨]] ，猜测：
+   这里是为了防止 objectness 难以训练，因为只给 IOU 最大的Bbox prior 设置值为 1， 其他的 Bbox prior 同样和物体的
+   groundtruth IOU 很大，却被赋值为 0 ，若这些 Bbox prior 的objectness score 作用于 loss ，可能导致 objectness score 难
+   以收敛；正如在 YOLOv1 和 YOLOv2 中，objectness score 被定义为 \(Pr(Object)*IOU_{pred}^{truth}\) ，作者应该就是想通过
+   IOU 来降低未被赋予物体的 Bbox 的损失比重，同时还乘以了一个小于 1 的系数。
+
+
+参考：
+
+1. [[https://stats.stackexchange.com/questions/287486/yolo-loss-function-explanation][YOLOv2 loss - stackexchange]]
+1. [[https://stats.stackexchange.com/questions/373266/yolo-v3-loss-function][YOLOv3 confidence-scores]]
+1. [[https://stats.stackexchange.com/questions/380012/yolov3-loss-function][YOLOv3 not best Iou but over some threshold]]
+
+
+
+** 输入图片没有 resize 到统一的大小？ 
+
+1. v1 中有全连接层，输入可定是固定大小的：使用 imagenet 预训练使用 224*224 ，去掉全连接层然后使用 448*448 训练检测分类网
+   络；所以最终需要的输入应该也是 448*448
+1. YOLOv3 是一个 FCN ，对输入的大小不敏感
+1. 训练好像都只是在 resize short size
+
+
+** Dimension Clusters
+
+1. YOLOv2 使用 k-means 算法，先找到目标 Bbox 的合理先验，然后用这些更合理的 anchor 作为先验，使得模型更容易学习
+1. 但是 Faster R-CNN 文中却指出，只使用 1:1,1:2,2:1 三种比例的 anchor 作为先验，并不去适应某一个具体的数据集，使得算法的
+   泛化能力更好。
+1. 最初感觉 YOLO 为了更好的拟合 VOC 或者 COCO ，可能最终测试泛化效果并不好。但是实际使用中，应该会针对某一类具体的目标，
+   使用这类目标的更合理的先验，从而可以提高准确率呀！
+1. 另外， YOLOv2 中画出了 VOC 和 COCO 聚类 Bbox 的形状，两者都是瘦高的矩形占多数。而这些数据集都是生活中的真实图片，所以
+   实际使用时，对于一般目标，其泛化能力不一定不好。
+
+#+BEGIN_SRC python
+# https://github.com/AlexeyAB/darknet/blob/master/scripts/gen_anchors.py
+'''
+Created on Feb 20, 2017
+
+@author: jumabek
+'''
+from os import listdir
+from os.path import isfile, join
+import argparse
+#import cv2
+import numpy as np
+import sys
+import os
+import shutil
+import random 
+import math
+
+width_in_cfg_file = 416.
+height_in_cfg_file = 416.
+
+def IOU(x,centroids):
+    similarities = []
+    k = len(centroids)
+    for centroid in centroids:
+        c_w,c_h = centroid
+        w,h = x
+        if c_w>=w and c_h>=h:
+            similarity = w*h/(c_w*c_h)
+        elif c_w>=w and c_h<=h:
+            similarity = w*c_h/(w*h + (c_w-w)*c_h)
+        elif c_w<=w and c_h>=h:
+            similarity = c_w*h/(w*h + c_w*(c_h-h))
+        else: #means both w,h are bigger than c_w and c_h respectively
+            similarity = (c_w*c_h)/(w*h)
+        similarities.append(similarity) # will become (k,) shape
+    return np.array(similarities) 
+
+def avg_IOU(X,centroids):
+    n,d = X.shape
+    sum = 0.
+    for i in range(X.shape[0]):
+        #note IOU() will return array which contains IoU for each centroid and X[i] // slightly ineffective, but I am too lazy
+        sum+= max(IOU(X[i],centroids)) 
+    return sum/n
+
+def write_anchors_to_file(centroids,X,anchor_file):
+    f = open(anchor_file,'w')
+    
+    anchors = centroids.copy()
+    print(anchors.shape)
+
+    for i in range(anchors.shape[0]):
+        anchors[i][0]*=width_in_cfg_file/32.
+        anchors[i][1]*=height_in_cfg_file/32.
+         
+
+    widths = anchors[:,0]
+    sorted_indices = np.argsort(widths)
+
+    print('Anchors = ', anchors[sorted_indices])
+        
+    for i in sorted_indices[:-1]:
+        f.write('%0.2f,%0.2f, '%(anchors[i,0],anchors[i,1]))
+
+    #there should not be comma after last anchor, that's why
+    f.write('%0.2f,%0.2f\n'%(anchors[sorted_indices[-1:],0],anchors[sorted_indices[-1:],1]))
+    
+    f.write('%f\n'%(avg_IOU(X,centroids)))
+    print()
+
+def kmeans(X,centroids,eps,anchor_file):
+    
+    N = X.shape[0]
+    iterations = 0
+    k,dim = centroids.shape
+    prev_assignments = np.ones(N)*(-1)    
+    iter = 0
+    old_D = np.zeros((N,k))
+
+    while True:
+        D = [] 
+        iter+=1           
+        for i in range(N):
+            d = 1 - IOU(X[i],centroids)
+            D.append(d)
+        D = np.array(D) # D.shape = (N,k)
+        
+        print("iter {}: dists = {}".format(iter,np.sum(np.abs(old_D-D))))
+            
+        #assign samples to centroids 
+        assignments = np.argmin(D,axis=1)
+        
+        if (assignments == prev_assignments).all() :
+            print("Centroids = ",centroids)
+            write_anchors_to_file(centroids,X,anchor_file)
+            return
+
+        #calculate new centroids
+        centroid_sums=np.zeros((k,dim),np.float)
+        for i in range(N):
+            centroid_sums[assignments[i]]+=X[i]        
+        for j in range(k):            
+            centroids[j] = centroid_sums[j]/(np.sum(assignments==j))
+        
+        prev_assignments = assignments.copy()     
+        old_D = D.copy()  
+
+def main(argv):
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-filelist', default = '\\path\\to\\voc\\filelist\\train.txt', 
+                        help='path to filelist\n' )
+    parser.add_argument('-output_dir', default = 'generated_anchors/anchors', type = str, 
+                        help='Output anchor directory\n' )  
+    parser.add_argument('-num_clusters', default = 0, type = int, 
+                        help='number of clusters\n' )  
+
+   
+    args = parser.parse_args()
+    
+    if not os.path.exists(args.output_dir):
+        os.mkdir(args.output_dir)
+
+    f = open(args.filelist)
+  
+    lines = [line.rstrip('\n') for line in f.readlines()]
+    
+    annotation_dims = []
+
+    size = np.zeros((1,1,3))
+    for line in lines:
+                    
+        #line = line.replace('images','labels')
+        #line = line.replace('img1','labels')
+        line = line.replace('JPEGImages','labels')        
+        
+
+        line = line.replace('.jpg','.txt')
+        line = line.replace('.png','.txt')
+        print(line)
+        f2 = open(line)
+        for line in f2.readlines():
+            line = line.rstrip('\n')
+            w,h = line.split(' ')[3:]            
+            #print(w,h)
+            annotation_dims.append(tuple(map(float,(w,h))))
+    annotation_dims = np.array(annotation_dims)
+  
+    eps = 0.005
+    
+    if args.num_clusters == 0:
+        for num_clusters in range(1,11): #we make 1 through 10 clusters 
+            anchor_file = join( args.output_dir,'anchors%d.txt'%(num_clusters))
+
+            indices = [ random.randrange(annotation_dims.shape[0]) for i in range(num_clusters)]
+            centroids = annotation_dims[indices]
+            kmeans(annotation_dims,centroids,eps,anchor_file)
+            print('centroids.shape', centroids.shape)
+    else:
+        anchor_file = join( args.output_dir,'anchors%d.txt'%(args.num_clusters))
+        indices = [ random.randrange(annotation_dims.shape[0]) for i in range(args.num_clusters)]
+        centroids = annotation_dims[indices]
+        kmeans(annotation_dims,centroids,eps,anchor_file)
+        print('centroids.shape', centroids.shape)
+
+if __name__=="__main__":
+    main(sys.argv)
+#+END_SRC
+
+
+
+** YOLO9000
+
+YOLO9000 和 MaskXRcnn 一样，利用类别较多的简单标注数据集，扩展类别较少的复杂标注训练数据集，
+
+使用 focalloss 外加 YOLO9000 感觉都完美了，one-stage 有速度也有精度，还有众众多类别。然而 YOLOv3 上面作者明确表示尝试了
+focalloss 但 dono't work 。
+
+
+** 高层思考
+
+Yolo 采用一个 CNN 网络来实现检测，是 one-stage 策略，其训练与预测都是 end-to-end，所以 Yolo 算法比较简洁且速度快。第二点
+由于Yolo 是对整张图片做卷积，所以其在检测目标有更大的视野，它不容易对背景误判。
+
+缺点：
+1. YOLOv3 在 mAP0.5 及小目标 APS 上具有不错的结果,但随着 IOU 的增大,性能下降,说明 YOLOv3 不能很好地与 ground truth 切合 [[https://www.cnblogs.com/makefile/p/YOLOv3.html][康行天下]]
+1. 召回率低
+
+
+** 参考
+
+1. [[https://github.com/kylestones/yolo-mxnet][mxnet 代码实现]]
+1. [[https://blog.csdn.net/leviopku/article/details/82660381][yolo系列之yolo v3]] 【网络可视化对于网络结构理解的重要性】
+1. [[https://blog.paperspace.com/how-to-implement-a-yolo-object-detector-in-pytorch/][How to implement a YOLOv3]] 【实现算法是理解算法的最好方法】
+1. [[https://www.cnblogs.com/makefile/p/YOLOv3.html][目标检测网络之 YOLOv3]] 
+
+未参考
+
+1. [[https://blog.csdn.net/yudiemiaomiao/article/details/72636776][YOLO v1,YOLO v2,YOLO9000算法总结与源码解析]]
+1. [[https://blog.csdn.net/u014380165/article/details/79367541][YOLO v2的算法细节——以李沐的Gluon代码为例]]

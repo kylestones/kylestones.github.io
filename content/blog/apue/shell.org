@@ -1,0 +1,564 @@
+#+TITLE:       shell
+#+AUTHOR:      Kyle Three Stones
+#+DATE:        <2019-01-31 Thu>
+#+EMAIL:       kyleemail@163.com
+#+OPTIONS:     H:3 num:t toc:nil \n:nil @:t ::t |:t ^:t f:t tex:t
+#+TAGS:        shell
+#+CATEGORIES:  language
+
+
+
+
+** ssh
+
+
+*** 隧道
+
+
+** top
+
+** vmstat
+
+** iostat
+
+** ps
+
+
+** tar
+
+
+** grep
+
+
+** sort
+
+#+BEGIN_SRC bash
+# -u 重复关键字只保留第一个
+# -k 知道排序字段（开始,结束）和类型，可通过 info sort 具体查看
+# 2n,2 表示安装第二个字段，以数字顺序排序。默认安装字段顺序
+# 1rn,1 表示按照数字逆序排序
+sort -u -k 2n,2 file | sort  -k 1rn,1 -k 3,3
+#+END_SRC
+
+
+** sed
+
+sed 全名叫 stream editor，流编辑器（非交互）。sed 基本上就是玩正则模式
+匹配。sed 比 awk 大 2-3 岁。
+
+
+*** 基本语法
+
+#+BEGIN_SRC bash
+$ sed options file
+
+# 并不修改文件，只将处理的结果打印出来
+$ sed -e 's/hello/Hello/g' filename
+
+# 使用 -i 将直接修改文件
+$ sed -i 's/^/# /g' filename
+
+# 同时处理多条语句
+$ sed -e '2,5s/hello/Hello/; s/world/(&)/g' filename
+$ sed -e '1,3s/hello/Hello/3' -e '3,$s/world/World/3g' filename
+
+# 读取 sed 脚本处理文件
+$ more rep.sed
+s/hello/Hello/
+s/world/World/
+$ sed -f rep.sed filename
+
+# 打印行号
+$ sed '=' filename
+#+END_SRC
+
+
+*** 匹配
+
+可以将被匹配的值，作为变量使用
+
+#+BEGIN_SRC bash
+# & 表示被匹配的值。实现在被匹配的值两侧加上 [ ]
+$ sed 's/hello/[&]/g' filename
+
+# 使用圆括号(需要转义)括起来的正则表达式所匹配的字符串可以当成变量来使用
+# \1, \2, ... 分别表示第一个、第二个变量
+$ sed 's/hello \([a-z]*\>\) .* \([^,&>]*\)/\1,\2/g' filename
+#+END_SRC
+
+
+*** 多行处理
+
+#+BEGIN_SRC bash
+# N 把下一行内容放入缓冲区
+# 相当于把连续两行拼接成一行，来执行命令
+$ sed 'N;s/hello/Hello/' filename
+
+# [起始地址[,结束地址]]{命令}
+# 地址可以使用行号，字符串匹配，相对地址
+$ sed '1,3s/^/# /' filename
+$ sed '/function/s/$/:/' filename
+$ sed '/define/,+3s/^/# /' filename
+$ sed '/boo/,/foo/s/^/# /' filename
+$ sed '3,/foo/s/^/# /' filename
+#+END_SRC
+
+
+*** 字符替换 y
+
+#+BEGIN_SRC bash
+# 替换 1 -> 4, 2 -> 5, 3 -> 6
+$ sed 'y/123/456/' filename
+#+END_SRC
+
+
+*** 字符串替换 s
+
+#+BEGIN_SRC bash
+# 将每一行的第 1 个 hello 替换成 Hello
+$ sed -e 's/hello/Hello/' filename
+# 将每一行的第 2 个 hello 替换成 Hello
+$ sed -e 's/hello/Hello/2' filename
+# ERROR ：将每一行的第 2-5 个 hello 替换成 Hello
+# 可以使用两次到最后的替换来代替，先 2g 替换，然后 5g 替换回来
+# sed -e 's/hello/Hello/2,5' filename
+# 将一行中所有的 hello 都替换成 Hello
+$ sed -e 's/hello/Hello/g' filename
+# 将每一行的第 2 个之后的 hello 替换成 Hello
+$ sed -e 's/hello/Hello/2g' filename
+
+# 只处理第 2 行
+$ sed -e '2s/hello/Hello/' filename
+# 只处理第 2 行到第 5 行
+$ sed -e '2,5s/hello/Hello/' filename
+# 只处理第 2 行之后的
+$ sed -e '2,$s/hello/Hello/; s/world/World/g' filename
+
+# 使用 -i 将直接修改文件
+# 每一行前面加上 # 
+$ sed -i 's/^/#/g' filename
+# 每一行行尾加上 ;
+$ sed -i 's/$/;/g' filename
+#+END_SRC
+
+
+*** 插入行 i
+
+在匹配的行前面插入一行 insert
+
+#+BEGIN_SRC bash
+$ sed '3 i insert new line' filename
+$ sed '/funtion/i a new function' filename
+#+END_SRC
+
+
+*** 追加行 a
+
+在匹配行后面添加一行 append
+
+#+BEGIN_SRC bash
+$ sed '3 a append a new line' filename
+$ sed '/function/a the content of the function' filename
+#+END_SRC
+
+
+*** 替换行 c
+
+替换匹配行的内容 change 
+
+#+BEGIN_SRC bash
+$ sed '3 c the content been changed' filename
+$ sed '/foo/c new life' filename
+#+END_SRC
+
+
+*** 删除行 d
+
+删除匹配行 delete
+
+#+BEGIN_SRC bash
+$ sed '/foo/d' filename
+$ sed '3,5d' filename
+$ sed '1d' filename
+$ sed -i '1,$d' filename
+#+END_SRC
+
+
+*** 打印 p
+
+打印匹配的行 print
+
+#+BEGIN_SRC bash
+# sed 会把所有处理的内容输出，使用 n 将只打印匹配的行
+$ sed -n '/foo/p' filename
+# 和 grep 功能一致
+#+END_SRC
+
+
+*** 命令规范
+
+绝大多数命令都符合
+
+#+BEGIN_SRC bash
+# 规范 [address[,address]][!]{cmd}
+
+# address 可以是行号，也可以是一个模式
+# 使用逗号分隔两个 address ，表示一个区间
+# 加上 ! 表示匹配后不执行命令
+$ sed '1!d' filename
+$ sed '1,3d' filename
+$ sed '1,/foo/d' filename
+$ sed '/foo/,5d' filename
+$ sed '/foo/,/boo/d' filename
+$ sed '3,+5d' filename
+$ sed '/foo/,+3!d' filename
+
+# cmd 可以是多个，使用分号分开
+# 可以使用大括号扩起来作为嵌套命令
+# 3-5 行执行 /foo/d 命令
+$ sed '3,5 {/foo/d}' filename 
+# 删除匹配 foo 的行，去掉行尾空格
+$ sed '1,$ {/foo/d; s/$ *//g}' filename
+# 3-5 行，匹配 foo ，然后匹配 bar ，完全匹配再执行 delete 命令
+$ sed '3,5 {/foo/{/bar/d}}' filename 
+#+END_SRC
+
+
+*** patten space - hold space
+
+pattern space 就是模式空间，处理每一行开始之前， sed 都会把该行的内容
+放入 pattern space 。同时处理完成后，把结果放入 pattern space 。也就是
+说所有命令 s,i,a,d, 都是在操作 pattern space 。
+
+hold space 就是可以保留一些内容的空间，可以通过一些操作将 pattern
+space 和 hold space 的内容相互追加、替换、交换。
+
+sed 处理过程的伪代码
+
+#+BEGIN_SRC bash
+foreach line in file {
+    //放入把行Pattern_Space
+    Pattern_Space <= line;
+ 
+    // 对每个pattern space执行sed命令
+    Pattern_Space <= EXEC(sed_cmd, Pattern_Space);
+ 
+    // 如果没有指定 -n 则输出处理后的Pattern_Space
+    if (sed option hasn't "-n")  {
+       print Pattern_Space
+ 
+   }
+}
+#+END_SRC
+
++ g :: 将 hold space 中的内容拷贝到 pattern space 中，原来 pattern
+       space 里的内容清除
++ G :: 将 hold space 中的内容 append 到 pattern space\n 后
++ h :: 将 pattern space 中的内容拷贝到 hold space 中，原来的 hold
+       space 里的内容被清除
++ H :: 将 pattern space 中的内容 append 到 hold space\n 后
++ x :: 交换 pattern space 和 hold space 的内容
+
+#+BEGIN_SRC bash
+$ more num
+1
+2
+3
+$ sed "H;g" num
+
+1
+
+1
+2
+
+1
+2
+3
+$ sed -n "H;g" num
+# 上面命令没有任何输出
+
+# 把文件逆序输出
+$ sed '1!G;h;$!d' num
+# 1!G 除第一行外执行 G 命令
+# h 所有行执行 h 命令
+# $!d 除最后一行外执行 d 命令
+#+END_SRC
+
+
+*** 参考
+1. [[https://coolshell.cn/articles/9104.html][sed 简明教程]]
+1. [[https://likegeeks.com/sed-linux/][31+ Examples for sed Linux Command in Text Manipulation]]
+
+
+** awk
+
+AWK 是贝尔实验室 1977 年搞出来的文本处理神器，其名字取了三位创始人
+Alfred Aho，Peter Weinberger, 和 Brian Kernighan 的 Family Name 的首字
+符。《The AWK Programming Language》 是介绍 AWK 的一本相当经典的书。
+
+感觉： *始终记住 AWK 的语法和 C 语言很像很像。*
+
+
+*** 基本语法
+
+#+BEGIN_SRC bash
+$ awk options file
+# option 表示操作字段，file 表示待处理的文件，可以同时接多个文件，缺省使用标准输入
+# 类似 sed ， awk 一次处理一行数据
+#+END_SRC
+
+options 选项
+
+1. -F fs 指定文件分隔符
+1. -f file 指定包含 awk 脚本的文件
+1. -v var=value 声明一个变量
+
+
+*** 打印输出
+
+#+BEGIN_SRC bash
+# 处理标准输入，无论输入什么，都会打印 Welcome to awk world!
+# 使用 C-d 结束
+$ awk '{print "Welcome to awk world!"}' 
+
+# 打印双引号需要使用斜杠转义，
+# 打印单引号除了要转义，还需要在外面额外增加一对单引号
+$ awk '{print "Hello World! \" '\''"}'
+
+$ awk '{print $1}' file # 默认使用空白字符作为分隔符
+$ awk -F: '{print $1}' /etc/passwd # 指定 : 作为分隔符
+
+# 将打印 Hello kyle ；多条语句的使用使用分号分割
+$ echo "Hello Adam" | awk '{$2="kyle"; print $0}'
+
+# 格式化输出
+$ awk '{printf "%c %d %8e %-8f %-22o %-15s\n",$1,$2,$3,$4,$5,$6}' filename
+# e 将数字以科学计数法输出
+#+END_SRC
+
+
+*** 内建变量
+
+| $0          | 当前记录 record （整行）                                         |
+| $n          | 当前记录的第 n 个字段 (n != 0)                                   |
+| FS          | 记录中不同字段的分隔符；默认空格或 Tab                           |
+| OFS         | 输出字段分隔符，默认空格                                         |
+| NF          | 当前记录中字段的总个数，列数                                     |
+| RS          | record 的分割符，默认换行符                                      |
+| ORS         | 输出记录的分隔符，默认换行符                                     |
+| NR          | 已经读出的 record 的个数，即行数；多个文件的时候，这个值不断累加 |
+| FNR         | 当前文件已经读出的 record 个数，多个文件时，相互独立计数         |
+| FILENAME    | 当前输入文件的名字                                               |
+| ARGC        | 接收到参数的个数                                                 |
+| ARGV        | 参数                                                             |
+| ENVIRON     | 环境变量数组                                                     |
+| IGNORECASE  | 忽略大小写                                                       |
+| FIELDWIDTHS | 指定 filed 的宽度，代替分隔符；BEGIN{FIELDWIDTHS="4 4 10"}       |
+| length      | 记录的长度，可以找到文件长度大于某一值得记录                     |
+
+
+#+BEGIN_SRC bash
+# 可以直接重定向到变量名，将生成变量名对应的文件
+$ awk 'NR!=1{print $4,$5 > $6}' filename
+
+# 分隔符默认为空白字符，可以使用 FS 修改
+$ awk  -F: '{print $1,$3,$NF}' /etc/passwd
+$ awk  'BEGIN{FS=":"} {print $1,$3,$NR,$FNR}' /etc/passwd
+# 同时指定多个分隔符
+$ awk  -F '[:;,]' '{print $1,$3,$6}' /etc/passwd
+$ awk  'BEGIN{FS="[:;,]"} {print $1,$3,$6}' /etc/passwd
+
+$ awk 'BEGIN{FS=":"; OFS="-"} {print $1,$6,$7}' /etc/passwd
+
+# filed 分隔符设置成换行符；RS="" 将 record 分隔符设置成空行
+$ awk 'BEGIN{FS="\n"; RS=""} {print $1,$3}' addresses
+
+# 指定 filed 的宽度来分割，不需要分隔符
+$ awk 'BEGIN{FIELDWIDTHS="3 4 3"}{print $1,$2,$3}' filename
+
+# 可以看到 FNR 一个文件内处理的行数； NR 表示处理所有文件的总行数
+$ awk '{print $1,"FNR="FNR,"NR="NR} END{print "Total",NR,"processed lines"}' filename filename
+
+$ awk 'BEGIN{print ARGC,ARGV[1],ENVIRON["PATH"]}' myfile
+
+# 输出长度大于 80 的行
+$ awk 'length>80' file
+#+END_SRC
+
+
+*** 自定义变量
+
+#+BEGIN_SRC bash
+# home 变量取值的时候不能写成 $home TODO
+$ awk -v home=$HOME '{print "home is" home}' file
+$ awk 'BEGIN{test="Hello World"} {print test}' file
+
+$ awk '{sum+=$5} END {print sum}' filename
+
+# 除了第一行，以 $6 作为字典的索引，值为自加的次数
+$ awk 'NR!=1{a[$6]++;} END {for (i in a) print i ", " a[i];}' file
+
+# 查看每个用户的主流内存
+ps aux | awk 'NR!=1{a[$1]+=$6;} END { for(i in a) print i ", " a[i]/1024"M";}'
+#+END_SRC
+
+
+*** 正则表达式匹配
+
+awk 可以依据指定的字符串，只处理需要的行
+
+#+BEGIN_SRC bash
+# 其中 ~ 表示模式开始， / /中间是模式。
+$ awk '$6 ~ /hello/ || NR==1 {print NR,$4,$6}' OFS="\t" filename
+# 使用 “/cat|dog/” 来匹配 FIN 或者 TIME 
+$ awk '$6 ~ /cat|dog/ || NR==1 {print NR,$4,$6}' OFS="\t" filename
+# awk 可以像 grep 一样的去匹配某一行
+$ awk '/LISTEN/' filename
+# 模式取反
+$ awk '$6 !~ /cat/ || NR==1 {print NR,$4,$6}' OFS="\t" filename
+$ awk '!/cat/' filename
+#+END_SRC
+
+
+*** 运算符
+
+#+BEGIN_SRC bash
+# 比较运算符支持 >, <, ==, >=, <=, !=
+# 这些比较运算可以直接与字符串进行比较
+$ awk '$1=="book" && $3>100' filename
+# 逻辑运算符 &&, ||, !
+# 保留表头，这里的比较逻辑顺序？TODO
+$ awk '$1=="cat" && $3<1000 || NR==1 {printf "%-10s %5d", $1,$3' filename
+#+END_SRC
+
+
+*** awk 脚本
+
+可以将 awk 脚本写入一个文件，然后执行这个文件
+
+#+BEGIN_SRC bash
+$ cat awkfile.awk
+#!/bin/awk -f
+{
+text = $1 "home at " $6
+print text
+}
+
+$ awk -F: -f awkfile.awk /etc/passwd
+# 添加可执行权限，可以如下允许，当然这里没有处理分隔符
+./awkfile.awk /etc/passwd
+#+END_SRC
+
+
+*** BEGIN-END
+
+希望在执行脚本处理之前或者之后进行一些特殊处理，BEGIN 和 END 可以满足
+需求
+
+1. BEGIN{处理文本前执行的语句}
+1. {处理每一行的语句}
+1. END{处理完成后执行的语句}
+
+#+BEGIN_SRC bash
+# 可以在 BEGIN 中修改分隔符、增加表头
+$ awk 'BEGIN {FS=":"; print "It is passwd file"} 
+{print $0} 
+END {print "The End"}' /etc/passwd
+
+# 还可以在处理完脚本之后，进行一些统计处理
+$ awk '{sum+=$1} END {printf "sum=%d, avg=%f", sum, sum/NR}' filename
+#+END_SRC
+
+
+*** 控制-循环语句
+
+格式和 C 语言完全一样
+
+#+BEGIN_SRC bash
+# if
+$ awk '{if ($1 > 10) print $1}' filename
+
+# if - else if - else
+# 一行中有多个语句的时候，使用分号分开
+$ awk '{
+if ($1 > 10)
+{
+x = $1 * 9
+print x
+}
+else if ($1 > 5)
+{
+x = $1 *3
+print x
+}
+else
+{
+x = $1 / 2
+print x
+}
+}' filename
+
+# for loop
+$ awk '{
+total=0
+for (i=0; i<3; i++)
+{
+total += i
+}
+
+avg=total/3
+printf "Avg: %f", avg
+}' filename
+
+# while loop
+$ awk '{
+total=0
+i=0
+while (i < 5)
+{
+total += i
+if (i == 3)
+break
+i++
+}
+printf "total=%d\n", total
+}' filename
+#+END_SRC
+
+
+*** 内建函数
+
+可以通过 man 查看
+
+| 数学函数   | sin(x), cos(x), exp(x), log(x), sqrt(x), rand()       |
+| 字符串函数 | toupper(), asort, gensub, index, length, match, split |
+
+
+*** 自定义函数
+
+使用关键字 function 自定义函数
+
+#+BEGIN_SRC bash
+$ awk '
+function myfun()
+{
+printf "user %s in home %s\n", $1,$6
+}
+BEGIN{FS=":"}
+{
+myfun()
+}' /etc/passwd
+#+END_SRC
+
+
+*** 参考
+
+1. [[https://coolshell.cn/articles/9070.html][AWK 简明教程]]
+1. [[https://likegeeks.com/awk-command/][30 Examples for Awk Command in Text Processing]]
+
+
+** strace
+
+** pstack
+
+** perf
