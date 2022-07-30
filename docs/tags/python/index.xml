@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>python on Org Mode</title>
+    <link>https://kylestones.github.io/hugo-blog/tags/python/</link>
+    <description>Recent content in python on Org Mode</description>
+    <image>
+      <url>https://kylestones.github.io/hugo-blog/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://kylestones.github.io/hugo-blog/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language><atom:link href="https://kylestones.github.io/hugo-blog/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>python</title>
+      <link>https://kylestones.github.io/hugo-blog/blog/machinelearning/python/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/hugo-blog/blog/machinelearning/python/</guid>
+      <description>Python 常识 调试  logging   logging.debug ，不要再胡乱使用 print 了 use pdb     在Python 文件内 import pdb ，然后在需要调试的开始行添加 pdb.set_trace()    shell 中 python -m pdb test.py    pdb.run()    使用 args 查看入参，没有查看局部变量的方法 axis   axis = 0 表示第一维数据，axis = -1 表示最后一维数据；就是 np.array(.).shape 输出的顺序 数组索引     Python 可以使用数组作为数组的索引   # 生成数组 # 切片可以指定 start:stop:step , a[::-1] 可以将数组逆序 &amp;gt;&amp;gt;&amp;gt; import numpy as np &amp;gt;&amp;gt;&amp;gt; np.</description>
+    </item>
+    
+  </channel>
+</rss>

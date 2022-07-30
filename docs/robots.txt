@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://kylestones.github.io/hugo-blog/sitemap.xml

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>人脸识别, on Org Mode</title>
+    <link>https://kylestones.github.io/hugo-blog/tags/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB/</link>
+    <description>Recent content in 人脸识别, on Org Mode</description>
+    <image>
+      <url>https://kylestones.github.io/hugo-blog/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://kylestones.github.io/hugo-blog/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language><atom:link href="https://kylestones.github.io/hugo-blog/tags/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>人脸识别</title>
+      <link>https://kylestones.github.io/hugo-blog/blog/machinelearning/facerecognition/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/hugo-blog/blog/machinelearning/facerecognition/</guid>
+      <description>FaceNet   A Unified Embedding for Face Recognition and Clustering  原来使用卷积神经网络来提取人脸的特征通常都是使用 softmax-loss 来训练网络，以期望网络的到的 embedding 足够好。本文作者直 接使用 embedding 的误差来训练网络，然后通过计算 embedding 的欧式距离来实现人脸验证。 triplet loss   每次使用三张图像，一个是 anchor ，另外两张中一张图像与 anchor 是同一个人，另一张是不同的人。  \begin{align*} L = ∑_i^N ≤ft [||f(x_i^a) - f(x_i^p)||_2^2 - ||f(x_i^a) - f(x_i^n)||_2^2 + α \right ]_+ \end{align*} Triplet Selection   为了较好的训练效果，挑选hard-positive 和 hard-negative 的人脸对，就是同一个人时选择两张差别最大的图像，不同人脸的时候， 挑选差别最小的两张图像。其中 \(\alpha\) 是 margin 。当然所有这些选择都是在一个 mini-batch 中，而不是整个训练样本中。  另外为了防止网络进入局部最优解或者训练崩溃（如 f(x) = 0），选择 semi-hard negative 样本，即满足 \[ ||f(x_i^a) - f(x_i^p)||_2^2 - ||f(x_i^a) - f(x_i^n)||_2^2 \]  论文中有 online 和 offline 两种方式来选择。选择方法较麻烦 center loss   A Discriminative Feature Learning Approach for Deep Face Recognition  作者认为 Softmax 仅仅增加了类间离散度，并没有很好的减小类内离散度，所以作者对 softmaax-loss 进行了改造，增加了每一个样本 到中心点距离的惩罚项，强制让学习到的同一个人的 embedding 都簇拥到一起。Penalizes the distances between the deep features and their corresponding class centers.</description>
+    </item>
+    
+  </channel>
+</rss>

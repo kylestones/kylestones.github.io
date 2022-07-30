@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>目标检测, on Org Mode</title>
+    <link>https://kylestones.github.io/hugo-blog/tags/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/</link>
+    <description>Recent content in 目标检测, on Org Mode</description>
+    <image>
+      <url>https://kylestones.github.io/hugo-blog/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://kylestones.github.io/hugo-blog/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language><atom:link href="https://kylestones.github.io/hugo-blog/tags/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Faster R-CNN</title>
+      <link>https://kylestones.github.io/hugo-blog/blog/machinelearning/r-cnn/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/hugo-blog/blog/machinelearning/r-cnn/</guid>
+      <description>预处理     减去 RGB 像素的均值（无论训练还是测试统一使用训练样本集的均值）    Rescale 在图像的长边不超过阈值的情况下，将短边 resize 到指定值   def img_rescale(img, targetSize=600, maxSize=1000): w = img.width h = img.height minDim = min(w,h) maxDim = max(w,h) scale = targetSize / minDim if scale * maxDim &amp;gt; maxSize: scale = maxSize / maxDim img = rescale(img, scale) return img   为什么要这样 rescale 呢？这样仅仅只能让多数的图像的短边统一长度，长边的长度可能各不相同；另外一些图像长边都是最大值，但 是短边各不相同。这样做有什么意义呢？保持图像的横纵比？但是图像大小不一样，要怎样去训练呢？ RoI Pooling   RPN 生成的 RoI 由 (r,c,h,w) 表示，其中 (r,c) 是左上角的坐标，(h,w) 是高和宽。  RoI max pooling works by dividing the h*w RoI window into an H*W grid of sub-windows of approximate size h/H * w/W and then max-pooling the values in each sub-window into the corresponding output grid cell.</description>
+    </item>
+    
+    <item>
+      <title>YOLO 实现细节</title>
+      <link>https://kylestones.github.io/hugo-blog/blog/machinelearning/yolo/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/hugo-blog/blog/machinelearning/yolo/</guid>
+      <description>之前写的乱七八糟，现在开始重构，主要针对 YOLOv3。真的是得亲自动手实现，才能真正了解一个算法。The best way to go about learning object detection is to implement the algorithms by yourself, from scratch. – Ayoosh Kathuria 主网络   主网络采用 Darknet53 ，网络为全卷积网络 FCN(Fully Convolutional Networks)，之前一直以为全卷积网络就是不包含全连接的网络， 现在才知道，全卷积网络连 Pooling 层都没有，Pooling 层使用步长为 2 的卷积代替，防止由于 Pooling 导致 low-level features 的丢失；分类之前使用 Global Average Pooling 。[Darknet53 中有全连接层呀，上面写错了] 卷积层   Darknet 的每个卷积层都是由 Conv-BN-LReLU 组成，是网络的最小重复单元。 def cbl_gen(channels, kernel_size, strides, padding): &amp;#39;&amp;#39;&amp;#39;conv-BN-LeakyReLU cell&amp;#39;&amp;#39;&amp;#39; cbl_unit = nn.HybridSequential() # 所有卷积后面都有 BN ，所以 bias 始终为 False cbl_unit.</description>
+    </item>
+    
+    <item>
+      <title>目标检测</title>
+      <link>https://kylestones.github.io/hugo-blog/blog/machinelearning/objectdetection/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/hugo-blog/blog/machinelearning/objectdetection/</guid>
+      <description>YOLO   非常敬佩作者 Joseph Redmon ，没有使用开源框架，而是自己使用 C 和 cuda 另外写了一套框架 DarkNet ，并且将其开源。而且 license 写的非常有意思，有点狂放不羁，可能这就是大牛该有的样子    Darknet is public domain.    Do whatever you want with it.    Stop emailing me about it!    YOLO 是 You Only Look Once 的简写。当然 YOLO 很可能让人想起另一句话 You only live once, but if you do it right, once is enough. – Mae West ，个人感觉作者可能有点故意让两者混淆。  区别于 RNN 系列的文章，需要先查找 region proposals ，然后在之上进行目标检测。YOLO 只需要运行一遍卷积神经网络就可以完成目 标检测，所以其最主要的优点就是 速度 。而且 mAP (mean Average Precision) 随着算法的改进也表现的相当不错。  而且此时是 R-CNN two-stage 方法盛行的时候，先找到一些候选区域（代替窗口扫描），然后只在这些候选区域上进行检测。多么好的 主意。一般人肯定都会在思考怎样更加快速有效的提取这些候选区域（Faster R-CNN），或者加快提取特征的速度（Fast R-CNN）。作者 居然可以完全另辟蹊径，直接进行检测输出 one-stage 完成，根本无需候选区域，的确大牛。由此也可以看到有些时候一些非常好的思 想同样会束缚住我们。  先放三张 YOLOv3 的检测结果：    算法   首先将图像分成 s*s grid cells ，在每个 grid cell 上都输出 B 个 bouding box ，每个 bouding box 都包含 5 个值 (tx,ty,tw,th,to) ，其中 (tx,ty) 表示目标的中心点，(tw,th) 表示宽度和高度，(to) 表示 bouding box 中有 object 的概率。另外 每个 grid cell 会输出 C 个不同类别的使用 Softmax 求解到的概率。这样每个 grid cell 输出向量的维数是 (B*5 + C) ，网络总的 输出向量维数是 (s*s * (B*5 +c)) 。目标的中心点落在哪个 grid cell 中，则由这个 grid cell 进行检测。  其中 (tx,ty) 是相对于 grid cell 左上角 (cx,cy) 的偏移 offset ，通过 sigmoid 函数使得 offset 在 0~1 之间（认为每个 grid cell 的宽度和高度都是 1 ）。而 (tw,th) 利用与 Anchor Boxes 的宽和高的相对关系来求取。当然 YOLOv1 中并没有使用 Anchor box， 这是在 YOLOv2 中的改进。相比于直接使用坐标，使用 offset 或者相对关系可以是模型更加稳定。因为通过随机初始化，网络需要很长 的训练时间才能找到目标的位置，而找到相对偏移量则会容易很多。  由于 sum-squared error 比较容易优化，作者使用均方误差计算检测误差。即计算 grid cell 的四个坐标值与 ground truth 值差值的 平方和。  另外由于大多数的 grid cell 中没有 object ，只有少数的 grid cell 中会有目标，所以作者为这两种不同的误差赋予了不同的权重， 以阻止预测值趋向于 0 。具体 \(\lambda_{coord}=5, \ \lambda_{noobj}=0.</description>
+    </item>
+    
+  </channel>
+</rss>

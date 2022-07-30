@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>mxnet, on Org Mode</title>
+    <link>https://kylestones.github.io/hugo-blog/tags/mxnet/</link>
+    <description>Recent content in mxnet, on Org Mode</description>
+    <image>
+      <url>https://kylestones.github.io/hugo-blog/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://kylestones.github.io/hugo-blog/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language><atom:link href="https://kylestones.github.io/hugo-blog/tags/mxnet/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>mxnet</title>
+      <link>https://kylestones.github.io/hugo-blog/blog/machinelearning/gluon/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/hugo-blog/blog/machinelearning/gluon/</guid>
+      <description>mxnet 常用包  from mxnet import gluon # 提供简单易用的 mxnet 接口 from mxnet import nd from mxnet import init # 用于权重参数初始化 from mxnet import autograd # 自动求导 from mxnet.gluon import nn # 用于构建网络结构 from mxnet.gluon import data as gdata from mxnet.gluon.data.vision import transforms # 用于变换数据 import sys import time  常用函数    transfroms.Compose    实现数据格式的转换，转换成 (height, width, channel) 格式，以及变成浮点数；这是 mxnet 要求的格式； 同时可以实现 argument   gluon.</description>
+    </item>
+    
+    <item>
+      <title>ubuntu18.04 install gpu mxnet</title>
+      <link>https://kylestones.github.io/hugo-blog/blog/machinelearning/gpu-mxnet-install/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/hugo-blog/blog/machinelearning/gpu-mxnet-install/</guid>
+      <description>安装 Ubuntu18.04     从 中科大源 下载系统镜像，并制作 u 盘启动盘   # 使用 wget 下载 Ubuntu18.04 $ wget http://mirrors.aliyun.com/ubuntu-releases/bionic/ubuntu-18.04.1-desktop-amd64.iso # fdisk 查看 u 盘分区 $ sudo fdisk -l # 使用 dd 命令制作 u 盘启动镜像 $ dd if=ubuntu18.04.1-desktop-amd64.iso of=/dev/sdb     启动电脑，修改为 U 盘启动    关闭 uefi 安全检查，有秘钥的通通删掉    使用 U 盘启动后，选择安装 Ubuntu    手动分区，建议只有两个分区，一个根分区，一个 home 分区；这样在需要重装系统的时候可以格式化根分区，同时保留 home 分区 的内容    安装完成后，修改 root 的密码，从而可以使用 root 登录系统   安装 NVIDIA 驱动   硬件配置    GPU GTX2070       由于 GPU 较新，需要添加 PPA；如非必要可以直接使用 Ubuntu repository    查看驱动列表    安装驱动    重启使驱动生效   # Ubuntu repository 的驱动虽然比较旧，但是更加稳定，bug 较少； # 如果想要安装最先的版本，可以添加由 Ubuntu 团队维护的 PPA # PPA 仍然在测试，可能存在某些依赖问题 # 不需要手动更新，Ubuntu18.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>shell on Org Mode</title>
+    <link>https://kylestones.github.io/hugo-blog/tags/shell/</link>
+    <description>Recent content in shell on Org Mode</description>
+    <image>
+      <url>https://kylestones.github.io/hugo-blog/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://kylestones.github.io/hugo-blog/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language><atom:link href="https://kylestones.github.io/hugo-blog/tags/shell/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>shell</title>
+      <link>https://kylestones.github.io/hugo-blog/blog/apue/shell/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/hugo-blog/blog/apue/shell/</guid>
+      <description>ssh  隧道  top  vmstat  iostat  ps  tar  grep  sort  # -u 重复关键字只保留第一个 # -k 知道排序字段（开始,结束）和类型，可通过 info sort 具体查看 # 2n,2 表示安装第二个字段，以数字顺序排序。默认安装字段顺序 # 1rn,1 表示按照数字逆序排序 sort -u -k 2n,2 file | sort -k 1rn,1 -k 3,3  sed   sed 全名叫 stream editor，流编辑器（非交互）。sed 基本上就是玩正则模式 匹配。sed 比 awk 大 2-3 岁。 基本语法  $ sed options file # 并不修改文件，只将处理的结果打印出来 $ sed -e &amp;#39;s/hello/Hello/g&amp;#39; filename # 使用 -i 将直接修改文件 $ sed -i &amp;#39;s/^/# /g&amp;#39; filename # 同时处理多条语句 $ sed -e &amp;#39;2,5s/hello/Hello/; s/world/(&amp;amp;)/g&amp;#39; filename $ sed -e &amp;#39;1,3s/hello/Hello/3&amp;#39; -e &amp;#39;3,$s/world/World/3g&amp;#39; filename # 读取 sed 脚本处理文件 $ more rep.</description>
+    </item>
+    
+  </channel>
+</rss>

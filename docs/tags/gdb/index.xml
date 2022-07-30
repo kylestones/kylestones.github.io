@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>gdb on Org Mode</title>
+    <link>https://kylestones.github.io/hugo-blog/tags/gdb/</link>
+    <description>Recent content in gdb on Org Mode</description>
+    <image>
+      <url>https://kylestones.github.io/hugo-blog/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://kylestones.github.io/hugo-blog/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language><atom:link href="https://kylestones.github.io/hugo-blog/tags/gdb/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>GNU Project Debugger</title>
+      <link>https://kylestones.github.io/hugo-blog/blog/tools/gdb/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/hugo-blog/blog/tools/gdb/</guid>
+      <description>GDB是GNU开源组织发布的一个强大的UNIX下的程序调试工具。  GDB主要帮忙你完成下面四个方面的功能：    启动你的程序，可以按照你的自定义的要求随心所欲的运行程序。    可让被调试的程序在你所指定的调置的断点处停住。    当程序被停住时，可以检查此时你的程序中所发生的事。    动态的改变你程序的执行环境。    预置条件：在编译连接的时候要指定 -g 选项，把调试信息加入到可执行文件。 启动  $ gdb program $ gdb --args program arg1 arg2 ... # 带着执行参数挂载 gdb $ gdb # 先进入 gdb 界面 (gdb) file program $ gdb program core # $ gdb program PID # 程序运行之后再挂载 $ gdb attach PID # attach  帮助  (gdb) help # 列出命令的所有种类 (gdb) help &amp;lt;class&amp;gt; # 查看该类的所有命令 (gdb) helo &amp;lt;command&amp;gt; # 查看该命令的帮助信息   在输入命令名称不完整的时候，gdb 可以自动配置命令，然后执行匹配到没有歧义的命令。若有歧义则提示用户输 入更多信息来批备命令。直接回车将执行上一次执行的命令。 查看源代码  (gdb) list # 查看程序代码，简写 l (gdb) l (gdb) list &amp;lt;first&amp;gt;, &amp;lt;last&amp;gt; # 显示从first行到last行之间的源代码 (gdb) show listsize # 查看 (gdb) set listsize 20 # 修改 (gdb) forward-search &amp;lt;regexp&amp;gt; # 向前搜索源代码；regexp 是正则表达式 (gdb) search &amp;lt;regexp&amp;gt; (gdb) reverse-search &amp;lt;regexp&amp;gt; # 向后搜索源代码 (gdb) info line # 查看源代码在内存中的地址 (gdb) disassemble func # 查看源程序的当前执行时的机器码，这个命令会把目前内存中的指令 dump 出来  程序运行上下文  (gdb) set args arg1 # 这里指可以设置运行参数，不能加程序名 (gdb) show args (gdb) path &amp;lt;dir&amp;gt; # 设定程序运行路径 (gdb) show path # 查看程序运行路径 (gdb) cd /root # (gdb) pwd (gdb) set environment USER=sanshi # 设置环境变量 (gdb) show environment (gdb) info terminal # 显示程序用到的终端模式 (gdb) run &amp;gt; outfile # 重定向程序输出 (gdb) tty /dev/tty1 # 设置输入输出使用的终端设备 (gdb) set logging on # 将命令的输出保存到默认的 gdb.</description>
+    </item>
+    
+  </channel>
+</rss>

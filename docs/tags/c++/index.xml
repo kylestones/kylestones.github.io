@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>C&#43;&#43; on Org Mode</title>
+    <link>https://kylestones.github.io/hugo-blog/tags/c&#43;&#43;/</link>
+    <description>Recent content in C&#43;&#43; on Org Mode</description>
+    <image>
+      <url>https://kylestones.github.io/hugo-blog/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://kylestones.github.io/hugo-blog/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language><atom:link href="https://kylestones.github.io/hugo-blog/tags/c++/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>C&#43;&#43;</title>
+      <link>https://kylestones.github.io/hugo-blog/blog/apue/cpp/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/hugo-blog/blog/apue/cpp/</guid>
+      <description>头文件  #include &amp;lt;cctype&amp;gt; // C++ 头文件，开头的 C 表明来自 C 语言，但更符合 C++ 规范#include &amp;lt;ctype.h&amp;gt; // C 语言头文件；不应该在 C++ 中使用// 为啥 C++ 的头文件名都没有 .h 后缀呀？  // IO 库 #include &amp;lt;iostream&amp;gt; // 容器 #include &amp;lt;vector&amp;gt;#include &amp;lt;list&amp;gt;#include &amp;lt;deque&amp;gt;#include &amp;lt;bitset&amp;gt;#include &amp;lt;stack&amp;gt;#include &amp;lt;queue&amp;gt;#include &amp;lt;priority_queue&amp;gt;  命名空间  namespace kyle { // 嵌套命名空间  namespace sanshi { ... } } // 命名空间重命名   作用域 scope     全局作用域：定义在所有函数外部    局部作用域：定义在函数内部    语句作用域：for 循环中，C 语言中不可以在 for 循环语句中定义变量    局部变量 hide 全局变量。 变量   变量都有特定的类型，在 C++ 中称变量为对象。  变量名的标识符区分大小写。  每个类定义一种类型，类型名与类名相同。class 的行为和内置数据类型一样，可以自然使用。  把变量定义到第一次被使用的地方，尽量延迟变量的定义；而不是像 C 语言那样在函数的开头定义变量。  变量都应该初始化。初始化并不是赋值，而是创建变量的同时赋值；  函数体外的变量都初始化为 0，函数体外的变量不自动初始化；类通过默认构造函数初始化。  左值 – 右值  C++ 是一门静态类型语言，编译时会做类型检查  volatile ：告诉编译器不要优化，每次使用时都会重新读取其值  链接指示来调用非 C++ 语言： // &amp;#34;Ada&amp;#34; &amp;#34;FORTARN&amp;#34; extern &amp;#34;c&amp;#34; { .</description>
+    </item>
+    
+  </channel>
+</rss>

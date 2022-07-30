@@ -1,0 +1,364 @@
+<!doctype html><html lang=en dir=auto><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>mxnet | Org Mode</title><meta name=keywords content="mxnet,,深度学习"><meta name=description content="mxnet 常用包  from mxnet import gluon # 提供简单易用的 mxnet 接口 from mxnet import nd from mxnet import init # 用于权重参数初始化 from mxnet import autograd # 自动求导 from mxnet.gluon import nn # 用于构建网络结构 from mxnet.gluon import data as gdata from mxnet.gluon.data.vision import transforms # 用于变换数据 import sys import time  常用函数    transfroms.Compose    实现数据格式的转换，转换成 (height, width, channel) 格式，以及变成浮点数；这是 mxnet 要求的格式； 同时可以实现 argument   gluon."><meta name=author content="Kyle Three Stones"><link rel=canonical href=https://kylestones.github.io/hugo-blog/blog/machinelearning/gluon/><meta name=google-site-verification content="XYZabc"><meta name=yandex-verification content="XYZabc"><meta name=msvalidate.01 content="XYZabc"><link crossorigin=anonymous href=/hugo-blog/assets/css/stylesheet.abc7c82c3d415a6df50430738d1cbcc4c76fea558bc5a0c830d3babf78167a35.css integrity="sha256-q8fILD1BWm31BDBzjRy8xMdv6lWLxaDIMNO6v3gWejU=" rel="preload stylesheet" as=style><script defer crossorigin=anonymous src=/hugo-blog/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG+9vmJ0cTS+ovo0FeA=" onload=hljs.initHighlightingOnLoad();></script><link rel=icon href=https://kylestones.github.io/hugo-blog/%3Clink%20/%20abs%20url%3E><link rel=icon type=image/png sizes=16x16 href=https://kylestones.github.io/hugo-blog/%3Clink%20/%20abs%20url%3E><link rel=icon type=image/png sizes=32x32 href=https://kylestones.github.io/hugo-blog/%3Clink%20/%20abs%20url%3E><link rel=apple-touch-icon href=https://kylestones.github.io/hugo-blog/%3Clink%20/%20abs%20url%3E><link rel=mask-icon href=https://kylestones.github.io/hugo-blog/%3Clink%20/%20abs%20url%3E><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme: rgb(29, 30, 32);--entry: rgb(46, 46, 51);--primary: rgb(218, 218, 219);--secondary: rgb(155, 156, 157);--tertiary: rgb(65, 66, 68);--content: rgb(196, 196, 197);--hljs-bg: rgb(46, 46, 51);--code-bg: rgb(55, 56, 62);--border: rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-123-45','auto');ga('send','pageview');}</script><meta property="og:title" content="mxnet"><meta property="og:description" content="mxnet 常用包  from mxnet import gluon # 提供简单易用的 mxnet 接口 from mxnet import nd from mxnet import init # 用于权重参数初始化 from mxnet import autograd # 自动求导 from mxnet.gluon import nn # 用于构建网络结构 from mxnet.gluon import data as gdata from mxnet.gluon.data.vision import transforms # 用于变换数据 import sys import time  常用函数    transfroms.Compose    实现数据格式的转换，转换成 (height, width, channel) 格式，以及变成浮点数；这是 mxnet 要求的格式； 同时可以实现 argument   gluon."><meta property="og:type" content="article"><meta property="og:url" content="https://kylestones.github.io/hugo-blog/blog/machinelearning/gluon/"><meta property="og:image" content="https://kylestones.github.io/hugo-blog/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"><meta property="article:section" content="blog"><meta property="og:site_name" content="ExampleSite"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://kylestones.github.io/hugo-blog/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"><meta name=twitter:title content="mxnet"><meta name=twitter:description content="mxnet 常用包  from mxnet import gluon # 提供简单易用的 mxnet 接口 from mxnet import nd from mxnet import init # 用于权重参数初始化 from mxnet import autograd # 自动求导 from mxnet.gluon import nn # 用于构建网络结构 from mxnet.gluon import data as gdata from mxnet.gluon.data.vision import transforms # 用于变换数据 import sys import time  常用函数    transfroms.Compose    实现数据格式的转换，转换成 (height, width, channel) 格式，以及变成浮点数；这是 mxnet 要求的格式； 同时可以实现 argument   gluon."><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":3,"name":"mxnet","item":"https://kylestones.github.io/hugo-blog/blog/machinelearning/gluon/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"mxnet","name":"mxnet","description":"mxnet 常用包  from mxnet import gluon # 提供简单易用的 mxnet 接口 from mxnet import nd from mxnet import init # 用于权重参数初始化 from mxnet import autograd # 自动求导 from mxnet.gluon import nn # 用于构建网络结构 from mxnet.gluon import data as gdata from mxnet.gluon.data.vision import transforms # 用于变换数据 import sys import time  常用函数    transfroms.Compose    实现数据格式的转换，转换成 (height, width, channel) 格式，以及变成浮点数；这是 mxnet 要求的格式； 同时可以实现 argument   gluon.","keywords":["mxnet,","深度学习"],"articleBody":" mxnet 常用包  from mxnet import gluon # 提供简单易用的 mxnet 接口 from mxnet import nd from mxnet import init # 用于权重参数初始化 from mxnet import autograd # 自动求导 from mxnet.gluon import nn # 用于构建网络结构 from mxnet.gluon import data as gdata from mxnet.gluon.data.vision import transforms # 用于变换数据 import sys import time  常用函数    transfroms.Compose    实现数据格式的转换，转换成 (height, width, channel) 格式，以及变成浮点数；这是 mxnet 要求的格式； 同时可以实现 argument   gluon.data.DataLoader    读取数据，可以实现随机读取随机的 batch ，指定 batch_size ，指定同时读取数据的线程数；返回值可 迭代的对象，分别为数据和标签对   gluon.loss    常用的标准损失函数   gluon.Trainer    设定学习算法（SGD、Adam 等），设置学习速率，等等训练参数   x.attach_grad    attach_grad 申请存储梯度所需要的内存   with autograd.record    强制 mxnet 记录与梯度相关的计算；   net.backward    反向传播，计算梯度；这里只需要求解出所有的损失和，反向传播即可   trainer.step(batch_size)    更新模型   net.save_parameters    保存训练参数到硬盘   net.load_parameters    加载模型参数   模型可视化   netron 是一个适应多种框架的模型可视化工具，原来看论文，看代码，总是不容易整体把握框架的结构，通过 netron 可以很容易的观 察到模型的整体和细节。为什么没有早点发现呢？？ 数值稳定性和模型初始化   深度模型有关数值稳定性的典型问题是衰减(vanishing)和爆炸(explosion)。  当神经网络的层数较多时,模型的数值稳定性容易变差。当层数较多时, 网络一层的输出容易出现衰减或爆照，梯度的计算也更容易出现 衰减或爆炸。 随机初始化模型参数   必须随机初始化模型来打破网络的对称性。  MXNet 将使用默认的随机初始化方法:权重参数每个元素随机采样于 -0.07 到 0.07 之间的均匀分布,偏差参数全部清零。 Xavier 随机初始化   假设某全连接层的输入个数为a,输出个数为 b,Xavier 随机初始化将使得该层中权重参数的每个元素都随机采样于均匀分布它的设计主要 考虑到,模型参数初始化后,每层输出的方差不该受该层输入个数影响,且每层梯度的方差也不该受该层输出个数影响。  \\[ U \\left( -sqrt(\\frac{6}{a+b}), sqrt(\\frac{6}{a+b}) \\right) \\] softmax   Softmax 回归同线性回归一样,也是一个单层神经网络。由于每个输出 o1 , o2 , o3 的计算都要依赖于所有的输入 x1 , x2 , x3 , x4 , softmax 回归的输出层也是一个全连接层。  矩阵的 Frobenius 范数等价于将矩阵变平为向量后计算 L 2 范数。 交叉熵损失函数   想要预测分类结果正确,我们其实并不需要预测概率完全等于标签概率。平方损失则过于严格例如 ŷ1 = ŷ2 = 0.2 比 ŷ1 = 0, ŷ2 = 0.4 的损失要小很多,虽然两者都有同样正确的分类预测结果。改善上述问题的一个方法是使用更适合衡量两个概率分布差异的测量函数。其 中,交叉熵(cross entropy)是一个常用的衡量方法。交叉熵只关心对正确类别的预测概率,因为只要其值足够大,我们就可以确保分类结果 正确。最小化交叉熵损失函数等价于最大化训练数据集所有标签类别的联合预测概率。 数据读取   数据读取经常是训练的性能瓶颈,特别当模型较简单或者计算硬件性能较高时。 Gluon的 DataLoader 中一个很方便的功能是允许使用多 进程来加速数据读取。    我们通过参数 num_workers 来设置 4 个进程读取数据。    通过 ToTensor 类将图像数据从 uint8 格式变换成 32 位浮点数格式, 并除以 255 使得所有像素的数值均在 0 到 1 之间。    ToTensor 类还将图像通道从最后一维移到最前一维来方便之后介绍的卷积神经网络计算。 使用 gluoncv 读取 COCO    from gluoncv import data as gdata, utils as gutils train_dataset = gdata.COCODetection(root='~/data/coco', splits=['instances_train2017'], transform=None) val_dataset = gdata.COCODetection(root='~/data/coco', splits=['instances_val2017'], transform=None) train_images, train_label = train_dataset[0] bounding_box = train_label[:, :4] class_ids = train_label[:, 4:5] gutils.viz.plot_bbox(train_image.asnumpy(), bounding_boxes, scores=None, labels=class_ids, class_names=train_dataset.classes) plt.show()  Data  from mxnet.gluon import data as gdata   data 模块提供的 API：    load and parse datasets    transform data examples    sample mini-batches for training program   Dataset   随机打乱文本文件的所有行的 shell 命令 # 将文件 imagelabel 中所有行随机排序，结果保存到 imagelabelshuf 文件中 shuf imagelabel -o imagelabelshuf # 可以只随机指定的行，如 5 到 10 行 shuf -i 5-10 imagelabelshuf  CIFAR  # md5sum -- c58f30108f718f92721af3b95e74349a $ wget http://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz # md5sum -- eb9058c3a382ffc7106e4002c42a8d85 $ wget http://www.cs.toronto.edu/~kriz/cifar-100-python.tar.gz   CIFAR-10 共包含 6 万张 32x32 的彩色图像，共分成 10 类，每类有 6 千张图片；且其中 5 万张用于训练， 1 万张用于测试。  数据集被分割成 5 个训练 batches 以及 1 个测试 batch ，每个 batch 都包含 1 万张图片； test batch 随机从每个类中选择了 1 千张图片，剩下的图像以乱序组成训练集，一个 train batch 中某一类的图像数可能多余其他类的个数。  文件 data_batch_1, data_batch_2, …, data_batch_5, test_batch 都是一个 pickled 类，读取代码如下 # python2 def unpickle(file): import cPickle with open(file, 'rb') as fo: dict = cPickle.load(fo) return dict # python3 def unpickle(file): import pickle with open(file, 'rb') as fo: dict = pickle.load(fo, encoding='bytes') return dict batch = unpickle(\"data_batch_1\") for key in batch: print(key) # b'batch_label' , b'labels' , b'data' , b'filenames' data_batch = batch[b'data'] label_batch = batch[b'labels']   每个 batch 内   data    每个 batch 都是一个 10000x3071 的 numpy array ； 每一行存储一张 32x32 的图像，前 1024 是红色通道的值，中间 1024 个值是绿色通道，最后 1024 个是蓝色通道； 而且每张图片以行为单位展开并拼接，即 batch 的前 32 个值是某张图 片红色通道的第一行   labels    10000 维的数组，每一位都是 0-9 中的某一个值；索引表示的第几张图片    文件 batch.meta 保存了各个类别标签的具体含义，比如 label_name[0] = \"aireplane\" coco dataset   参考    MS COCO 官网数据集    MS COCO 数据标注详解    MS COCO 数据集目标检测评估   # 下载 coco 数据集 wget http://images.cocodataset.org/zips/train2014.zip wget http://images.cocodataset.org/zips/val2014.zip wget http://images.cocodataset.org/zips/test2014.zip wget http://images.cocodataset.org/zips/test2015.zip wget http://images.cocodataset.org/zips/train2017.zip wget http://images.cocodataset.org/zips/test2017.zip wget http://images.cocodataset.org/zips/val2017.zip wget http://images.cocodataset.org/zips/unlabeled2017.zip wget http://images.cocodataset.org/annotations/annotations_trainval2014.zip wget http://images.cocodataset.org/annotations/image_info_test2014.zip wget http://images.cocodataset.org/annotations/image_info_test2015.zip wget http://images.cocodataset.org/annotations/annotations_trainval2017.zip wget http://images.cocodataset.org/annotations/stuff_annotations_trainval2017.zip wget http://images.cocodataset.org/annotations/image_info_test2017.zip wget http://images.cocodataset.org/annotations/image_info_unlabeled2017.zip     下载 COCO API : git clone https://github.com/cocodataset/cocoapi.git    使用 Python 接口 : 进入 coco/PythonAPI 目录，运行 make 编译    下载 COCO images 和 annotations    将图片放置到 coco/images 目录下；将 annotations 放置到 coco/annotations 目录下    愉快的使用数据集   COCO API   COCO API 用于辅助使用 annotations ，可以加载、解析、可视化 annotations 。接口中缩写含义 \"ann\"=annotation, \"cat\"=category, \"img\"=image 。  接口简介：    COCO - COCO 接口类，用于加载 COCO annotation 文件以及 prepare data structures；入参是 annotations 文件名    decodeMask - Decode binary mask M encoded via run-length encoding.    encodeMask - Encode binary mask M using run-length encoding.    getAnnIds - Get ann ids that satisfy given filter conditions.    getCatIds - Get cat ids that satisfy given filter conditions.    getImgIds - Get img ids that satisfy given filter conditions.    loadAnns - Load anns with the specified ids.    loadCats - Load cats with the specified ids.    loadImgs - Load imgs with the specified ids.    annToMask - Convert segmentation in an annotation to binary mask.    showAnns - Display the specified annotations.    loadRes - Load algorithm results and create API for accessing them.    download - Download COCO images from mscoco.org server.   Mask API   COCO 为每个对象实例提供分割掩码。这带来了两个挑战：紧凑地存储掩码并有效地执行掩码计算。我们使用自定义运行长度编码（RLE， Run Length Encoding）方案来解决这两个挑战。RLE 用于存储二值掩码，就是记录向量中连续 0 值和 1 值的长度，且基数为始终记录 0 值的长度（位数从 1 开始）。如 [0 0 1 1 1 0 1] 的 RLE 码为 [2 3 1 1] ，[1 1 1 1 1 1 0] RLE 码为 [0 6 1] ；RLE 是简单且 有效的存储方式，大大减小了存储空间，也使得 area 和 IOU 的计算可以快速完成 O(sqrt(n)) ，其中 n 是物体的面积。  接口简介    encode - Encode binary masks using RLE.    decode - Decode binary masks encoded via RLE.    merge - Compute union or intersection of encoded masks.    iou - Compute intersection over union between masks.    area - Compute area of encoded masks.    toBbox - Get bounding boxes surrounding encoded masks.    frPyObjects - Convert polygon, bbox, and uncompressed RLE to encoded RLE mask.   Annotation format   COCO目前有三种注解类型：对象实例，对象关键点和图像标题。 annotations 使用 JSON 文件格式存储。所有注释共享下面的基本数据 结构： // 每个文件必定包含下面 4 部分； { \"info\": info, \"images\": [image], \"annotations\": [annotation], \"licenses\": [license], } // 每一部分的具体格式 info{ \"year\": int, \"version\": str, \"description\": str, \"contributor\": str, \"url\": str, \"date_created\": datetime, } // 由于是多张图片，最外层是一个 list , list 里面存储了许多字典 image ，所以最终的格式为 [ {a:1, b:2, c:4}, {a:7, b:3, c:6}, ... ] image{ \"id\": int, // 图片的 ID 编号，每张图片 ID 唯一 \"width\": int, \"height\": int, \"file_name\": str, \"license\": int, \"flickr_url\": str, \"coco_url\": str, \"date_captured\": datetime, } license{ \"id\": int, \"name\": str, \"url\": str, }   下面介绍各种注释类型特有的数据结构。 Object Instance Annotations   每个实例注释包含一系列字段，包括对象的类别 ID 和分割掩码 segmentation mask 。  分割格式取决于实例代表单个对象还是对象集合。单个对象时，iscrowd = 0，使用多边形 polygon 来表示对象的掩码，即对象所有外边 缘点的坐标，[x1, y1, x2, y2, … ] 。对象集合时， iscrowd = 1，使用 RLE 格式存储对象的掩码，比如一群人的情况。  注意，单个对象 iscrowd = 0 可能需要多个多边形，例如，对象被遮挡的时候。  此外，还为每个对象提供了一个封闭的边界框，框坐标是从左上角的图像角度测量的，并且是 0 索引的。这个边界框就是用于目标检测 的 groundtruth bbox 。  最后，注解结构的类别字段存储了类别 ID 到类别和超类别名称的映射。 annotation{ // 因为每张图片可能有多个对象，所以需要给对象编号 \"id\": int, // 对象全局唯一 ID ；注意多处有 \"id\" 字段，各个字段含义需要具体查看 \"image_id\": int, // 图片的 id ，与 image 字段中的 \"id\" 相对应 \"category_id\": int, \"segmentation\": RLE or [polygon], \"area\": float, // 对象内像素点的个数 \"bbox\": [x,y,width,height], \"iscrowd\": 0 or 1, } categories[{ \"id\": int, // 类别 id ，背景类别 id=0 \"name\": str, \"supercategory\": str, }]   coco 类别：共有 80 个类别， coco 语义类别 { person # 1 vehicle 交通工具 #8 {bicycle car motorcycle airplane bus train truck boat} outdoor #5 {traffic light fire hydrant stop sign parking meter bench} animal #10 {bird cat dog horse sheep cow elephant bear zebra giraffe} accessory 饰品 #5 {backpack umbrella handbag tie suitcase } sports #10 {frisbee skis snowboard sports ball kite baseball bat baseball glove skateboard surfboard tennis racket } kitchen #7 {bottle wine glass cup fork knife spoon bowl } food #10 {banana apple sandwich orange broccoli carrot hot dog pizza donut cake } furniture 家具 #6 {chair couch potted plant bed dining table toilet } electronic 电子产品 #6 {tv laptop mouse remote keyboard cell phone } appliance 家用电器 #5 {microwave oven toaster sink refrigerator } indoor #7 {book clock vase scissors teddy bear hair drier toothbrush } }  Object Keypoint Annotations   关键点注释包含对象注释的所有数据（包括id，bbox等）和两个附加字段。首先，“关键点”是长度为3k的数组，其中k是为该类别定义的 关键点的总数。每个关键点有一个0索引的位置x，y和一个被定义为可见性标志。v = 0：没有标记（在这种情况下x = y = 0），v = 1： 标记但不可见，v = 2：标记并可见。如果关键点位于对象段内部，则认为它是可见的。“num_keypoints”指示给定对象（许多对象，例如 拥挤(即重叠）和小对象将具有num_keypoints = 0）的标记关键点的数量（v 0）。最后，对于每个类别，类别struct还有两个附加字段： “keypoints”，它是关键点名称的长度为k的数组，以及“skeleton”，它通过关键点边缘对的列表定义连接，并用于可视化。目前，关键点 仅标记为人物类别（对于大多数中/大型非人群人物实例）。See also the Keypoint Challenge. annotation{ \"keypoints\": [x1,y1,v1,...], \"num_keypoints\": int, \"[cloned]\": ..., } categories[{ \"keypoints\": [str], \"skeleton\": [edge], \"[cloned]\": ..., }] \"[cloned]\": 表示从4.1中定义的对象实例注释复制的字段。  Stuff Segmentation Annotations   物体注释格式是完全相同和完全兼容上面的对象实例注释格式（除了iscrowd是不必要的，默认设置为0）。我们提供JSON和PNG格式的注 释，以便于访问，以及两种格式之间的conversion scripts。在JSON格式中，图像中的每个类别都使用单个RLE注释进行编码（有关更多 详细信息，请参阅上面的Mask API）。 category_id表示当前的东西类别的ID。有关东西类别和超类别的更多细节see thestuff evaluation page. Image Caption Annotations   这些注释用于存储图像标题。每个标题描述指定的图像，每个图像至少有5个字幕（一些图像有更多）。See also theCaptioning Challenge. annotation{ \"id\": int, \"image_id\": int, \"caption\": str, }  PASCAL   PASCAL VOC 语义类别分为 20 类，有图像分类、检测、分割的标注信息。图像的大小不一致， 在 500*375 左右。 { aeroplane bicycle bird boat bottle bus car cat chair cow diningtable dog horse motorbike person pottedplant sheep sofa train tvmonitor }   VOC2007 和 VOC2012 分别保存在了两个文件夹下面，两个文件夹目录结果相同。JPEGImages 文件夹下面存放的是训练图片， Annotations 文件夹下面存放每一张图片的位置标注信息，一张图片对应一个 xml 文件，图片和 xml 文件名相同。目标检测只使用这个 标注信息即可。  VOC2007 000001.jpg  The VOC2007 Database PASCAL VOC2007 flickr 341012865   Fried Camels Jinky the Fruit Bat   353 500 3  0  dog Left 1 0  48 240 195 371    person Left 1 0  8 12 352 498      ImageSets 下面包含 4 个文件夹，分别对应不同的 challenge 。其中 Main 下面有 trainval.txt 和 test.txt 两个文件夹，存储了用 于训练和验证的图像标号。 image-augmentation   大规模数据集是成功使用深度网络的前提。图像增广（image augmentation）技术通过对训练图像做一系列随机改变，来产生相似但又有 不同的训练样本，从而扩大训练数据集规模。图像增广的另一种解释是，通过对训练样本做一些随机改变，可以降低模型对某些属性的依 赖，从而提高模型的泛化能力。例如我们可以对图像进行不同的裁剪，使得感兴趣的物体出现在不同的位置，从而使得模型减小对物体出 现位置的依赖性。我们也可以调整亮度色彩等因素来降低模型对色彩的敏感度。在 AlexNet 的成功中，图像增广技术功不可没。 other   在反向传播中使用了正向传播中计算得到的中间变量来避免重复计算,那么这个重用也导致正向传播结束后不能立即释放中间变量内存。 这也是训练要比预测占用更多内存的一个重要原因。另外需要指出的是,这些中间变量的个数跟网络层数线性相关,每个变量的大小跟批量 大小和输入个数也是线性相关的,它们是导致较深的神经网络使用较大批量训练时更容易超内存的主要原因。 hybridize   符号式编程：  使用 hybirdize 可以加速计算，会直接生成相应的 C++ 代码，不再调用 Python 的代码；同时方便移植。  但是无法依据输入的不同来产生不同的代码。也不方便调试。  命令式编程：  不使用 hybirdize 方便 print 和 debug 。 lazy-evaluation   延迟计算，可以加速计算，但是会需要较大的内存；  系统延迟计算，在知道整体的框架后，可以做一些优化。  所以一般每个 mini-batch 等待一次，防止内存一下子爆了。 auto-parallelism   系统在判定一些运算没有相关性的情况下，会自动并行处理。  CPU 和 GPU 通信和计算也是可以并行处理 调参技巧  learning rate   One important idea in model training is to gradually decrease learning rate. This means the optimizer takes large steps at the beginning, but step size becomes smaller and smaller in time. 逐渐减小学习速率  不建议过早降低 learning rate，这样很可能导致后期乏力，特别对于较深的网络。  小的学习速率更容易收敛，如果收敛过早，可能靠近 loss 的层已经收敛，但是靠近 data 的层却没有收敛。前者的泛化性能不如后者， 所以这个时候收敛的地方可能不是很好，大的学习速率有助于帮助跳过这些不好的点，所以即使看到 loss 没有降，也不要着急调小学习 速率，这时候网络可能还在寻找好的点(fine-tune)。对于大的 bantch_size 更加明显，因为 batch_size 大，那么梯度的 varence （或者噪音）越小，这时候收敛更加容易，但后期越乏力。 validation error   validation error 如果与 train error 一直有较大的误差，那么可以考虑加大 data argument。 fine-tune   微调需要把前面几层的 lr 都设置的很小很小，然后主要训练最后一层的权重。 source code     大量用了 c 宏和 c++11    通过mshadow的模板化使得gpu和cpu代码只用写一份，分布式接口也很干净。    MXNet 自 xgboost, cxxnet, minerva 以来集合 DMLC 几乎所有开发者力量的一个机器学习项目。MXNet 名字源于 \"Mix and Maximize\" 。我们一直有一个目标，就是希望把 cxxnet 这样强调性能静态优化的 C++ 库和灵活的 NDArray 有机结合在一起。做包 含 cxxnet 的静态优化，却又可以像 minerva, theano, torch 那样进行灵活扩展的深度学习库。    MXNet 由 dmlc/cxxnet, dmlc/minerva 和 Purine2 的作者发起，融合了 Minerva 的动态执行，cxxnet 的静态优化和 Purine2 的符 号计算等思想，直接支持基于 Python 的 parameter server 接口，使得代码可以很快向分布式进行迁移。每个模块都进行清晰设计， 使得每一部分本身都具有被直接利用的价值。    mxnet 结合了符号语言和过程语言的编程模型，并试图最大化各自优势，利用统一的执行引擎进行自动多 GPU 并行调度优化。不同的 编程模型有各自的优势，以往的深度学习库往往着重于灵活性，或者性能。MXNet 通过融合的方式把各种编程模型整合在一起，并且 通过统一的轻量级运行引擎进行执行调度。使得用户可以直接复用稳定高效的神经网络模块，并且可以通过 Python 等高级语言进行 快速扩展。    代码更加简洁高效：大量使用 C++11 特性，使 MXNet 利用最少的代码实现尽可能最大的功能。用约 11k 行 C++ 代码 (加上注释 4k 行)实现了以上核心功能。    轻量级调度引擎。在数据流调度的基础上引入了读写操作调度，并且使得调度和调度对象无关，用以直接有机支持动态计算和静态计 算的统一多 GPU 多线程调度，使得上层实现更加简洁灵活。    符号计算支持。MXNet 支持基于静态计算流图符号计算。计算流图不仅使设计复杂网络更加简单快捷，而且基于计算流图，MXNet 可 以更加高效得利用内存。 同时进一步优化了静态执行的规划，内存需求比原本已经省的 cxxnet 还要少。    混合执行引擎。相比 cxxnet 的全静态执行，minerva 的全动态执行。MXNet 采用动态静态混合执行引擎，可以把 cxxnet 静态优化 的效率带和 ndarray 动态运行的灵活性结合起来。把高效的 c++ 库更加灵活地和 Python 等高级语言结合在一起。    更加灵活：在 MShadow C++ 表达式模板的基础上，符号计算和 ndarray 使在 Python 等高级语言内编写优化算法，损失函数和其他 深度学习组件并高效无缝支持 CPU/GPU 成为可能。用户无需关心底层实现，在符号和 NDArray 层面完成逻辑即可进行高效的模型训 练和预测。    开源用户和设计文档，mxnet 提供了非常详细的用户文档和设计文档以及样例。所有的代码都有详细的文档注释。并且会持续更新代 码和系统设计细节，希望对于广大深度学习系统开发和爱好者有所帮助。    对于云计算更加友好：所有数据模型可以从 S3/HDFS/Azure 上直接加载训练。    ndarray 编程接口，类似 matlab/numpy.ndarray/torch.tensor。独有优势在于通过背后的 engine 可以在性能上和内存使用上更优    symbolic 接口。这个可以使得快速构建一个神经网络，和自动求导。    更多 binding , 支持 python, julia, R   ","wordCount":"1490","inLanguage":"en","datePublished":"0001-01-01T00:00:00Z","dateModified":"0001-01-01T00:00:00Z","author":{"@type":"Person","name":"Kyle Three Stones"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://kylestones.github.io/hugo-blog/blog/machinelearning/gluon/"},"publisher":{"@type":"Organization","name":"Org Mode","logo":{"@type":"ImageObject","url":"https://kylestones.github.io/hugo-blog/%3Clink%20/%20abs%20url%3E"}}}</script></head><body id=top><script>if(localStorage.getItem("pref-theme")==="dark"){document.body.classList.add('dark');}else if(localStorage.getItem("pref-theme")==="light"){document.body.classList.remove('dark')}else if(window.matchMedia('(prefers-color-scheme: dark)').matches){document.body.classList.add('dark');}</script><header class=header><nav class=nav><div class=logo><a href=https://kylestones.github.io/hugo-blog accesskey=h title="Home (Alt + H)"><img src=https://kylestones.github.io/apple-touch-icon.png alt aria-label=logo height=35>Home</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu><li><a href=https://kylestones.github.io/hugo-blog/categories/ title=categories><span>categories</span></a></li><li><a href=https://kylestones.github.io/hugo-blog/tags/ title=tags><span>tags</span></a></li><li><a href=https://example.org title=example.org><span>example.org</span>&nbsp;<svg fill="none" shape-rendering="geometricPrecision" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><div class=breadcrumbs><a href=https://kylestones.github.io/hugo-blog>Home</a></div><h1 class=post-title>mxnet</h1><div class=post-meta>7 min&nbsp;·&nbsp;1490 words&nbsp;·&nbsp;Kyle Three Stones&nbsp;|&nbsp;<a href=https://github.com/%3cpath_to_repo%3e/content/blog/machinelearning/gluon.org rel="noopener noreferrer" target=_blank>Suggest Changes</a></div></header><div class=post-content><h3 id=headline-1>mxnet 常用包</h3><div class="src src-python"><div class=highlight><pre class=chroma><code class=language-python data-lang=python><span class=kn>from</span> <span class=nn>mxnet</span> <span class=kn>import</span> <span class=n>gluon</span> <span class=c1># 提供简单易用的 mxnet 接口</span>
+<span class=kn>from</span> <span class=nn>mxnet</span> <span class=kn>import</span> <span class=n>nd</span>
+<span class=kn>from</span> <span class=nn>mxnet</span> <span class=kn>import</span> <span class=n>init</span> <span class=c1># 用于权重参数初始化</span>
+<span class=kn>from</span> <span class=nn>mxnet</span> <span class=kn>import</span> <span class=n>autograd</span> <span class=c1># 自动求导</span>
+<span class=kn>from</span> <span class=nn>mxnet.gluon</span> <span class=kn>import</span> <span class=n>nn</span> <span class=c1># 用于构建网络结构</span>
+<span class=kn>from</span> <span class=nn>mxnet.gluon</span> <span class=kn>import</span> <span class=n>data</span> <span class=k>as</span> <span class=n>gdata</span>
+<span class=kn>from</span> <span class=nn>mxnet.gluon.data.vision</span> <span class=kn>import</span> <span class=n>transforms</span> <span class=c1># 用于变换数据</span>
+<span class=kn>import</span> <span class=nn>sys</span>
+<span class=kn>import</span> <span class=nn>time</span></code></pre></div></div><h3 id=headline-2>常用函数</h3><dl><dt>transfroms.Compose</dt><dd><p>实现数据格式的转换，转换成 (height, width, channel) 格式，以及变成浮点数；这是 mxnet 要求的格式；
+同时可以实现 argument</p></dd><dt>gluon.data.DataLoader</dt><dd><p>读取数据，可以实现随机读取随机的 batch ，指定 batch_size ，指定同时读取数据的线程数；返回值可
+迭代的对象，分别为数据和标签对</p></dd><dt>gluon.loss</dt><dd><p>常用的标准损失函数</p></dd><dt>gluon.Trainer</dt><dd><p>设定学习算法（SGD、Adam 等），设置学习速率，等等训练参数</p></dd><dt>x.attach_grad</dt><dd><p>attach_grad 申请存储梯度所需要的内存</p></dd><dt>with autograd.record</dt><dd><p>强制 mxnet 记录与梯度相关的计算；</p></dd><dt>net.backward</dt><dd><p>反向传播，计算梯度；这里只需要求解出所有的损失和，反向传播即可</p></dd><dt>trainer.step(batch_size)</dt><dd><p>更新模型</p></dd><dt>net.save_parameters</dt><dd><p>保存训练参数到硬盘</p></dd><dt>net.load_parameters</dt><dd><p>加载模型参数</p></dd></dl><h3 id=headline-3>模型可视化</h3><p><a href=https://github.com/lutzroeder/netron>netron</a> 是一个适应多种框架的模型可视化工具，原来看论文，看代码，总是不容易整体把握框架的结构，通过 netron 可以很容易的观
+察到模型的整体和细节。为什么没有早点发现呢？？</p><h3 id=headline-4>数值稳定性和模型初始化</h3><p>深度模型有关数值稳定性的典型问题是衰减(vanishing)和爆炸(explosion)。</p><p>当神经网络的层数较多时,模型的数值稳定性容易变差。当层数较多时, 网络一层的输出容易出现衰减或爆照，梯度的计算也更容易出现
+衰减或爆炸。</p><h4 id=headline-5>随机初始化模型参数</h4><p>必须随机初始化模型来打破网络的对称性。</p><p>MXNet 将使用默认的随机初始化方法:权重参数每个元素随机采样于 -0.07 到 0.07 之间的均匀分布,偏差参数全部清零。</p><h5 id=headline-6>Xavier 随机初始化</h5><p>假设某全连接层的输入个数为a,输出个数为 b,Xavier 随机初始化将使得该层中权重参数的每个元素都随机采样于均匀分布它的设计主要
+考虑到,模型参数初始化后,每层输出的方差不该受该层输入个数影响,且每层梯度的方差也不该受该层输出个数影响。</p><p>\[ U \left( -sqrt(\frac{6}{a+b}), sqrt(\frac{6}{a+b}) \right) \]</p><h3 id=headline-7>softmax</h3><p>Softmax 回归同线性回归一样,也是一个单层神经网络。由于每个输出 o1 , o2 , o3 的计算都要依赖于所有的输入 x1 , x2 , x3 , x4
+, softmax 回归的输出层也是一个全连接层。</p><p>矩阵的 Frobenius 范数等价于将矩阵变平为向量后计算 L 2 范数。</p><h4 id=headline-8>交叉熵损失函数</h4><p>想要预测分类结果正确,我们其实并不需要预测概率完全等于标签概率。平方损失则过于严格例如 ŷ1 = ŷ2 = 0.2 比 ŷ1 = 0, ŷ2 = 0.4
+的损失要小很多,虽然两者都有同样正确的分类预测结果。改善上述问题的一个方法是使用更适合衡量两个概率分布差异的测量函数。其
+中,交叉熵(cross entropy)是一个常用的衡量方法。交叉熵只关心对正确类别的预测概率,因为只要其值足够大,我们就可以确保分类结果
+正确。最小化交叉熵损失函数等价于最大化训练数据集所有标签类别的联合预测概率。</p><h3 id=headline-9>数据读取</h3><p>数据读取经常是训练的性能瓶颈,特别当模型较简单或者计算硬件性能较高时。 Gluon的 DataLoader 中一个很方便的功能是允许使用多
+进程来加速数据读取。</p><ul><li><p>我们通过参数 num_workers 来设置 4 个进程读取数据。</p></li><li><p>通过 ToTensor 类将图像数据从 uint8 格式变换成 32 位浮点数格式, 并除以 255 使得所有像素的数值均在 0 到 1 之间。</p></li><li><p>ToTensor 类还将图像通道从最后一维移到最前一维来方便之后介绍的卷积神经网络计算。</p><h4 id=headline-10>使用 gluoncv 读取 COCO</h4></li></ul><div class="src src-python"><div class=highlight><pre class=chroma><code class=language-python data-lang=python><span class=kn>from</span> <span class=nn>gluoncv</span> <span class=kn>import</span> <span class=n>data</span> <span class=k>as</span> <span class=n>gdata</span><span class=p>,</span> <span class=n>utils</span> <span class=k>as</span> <span class=n>gutils</span>
+
+<span class=n>train_dataset</span> <span class=o>=</span> <span class=n>gdata</span><span class=o>.</span><span class=n>COCODetection</span><span class=p>(</span><span class=n>root</span><span class=o>=</span><span class=s1>&#39;~/data/coco&#39;</span><span class=p>,</span> <span class=n>splits</span><span class=o>=</span><span class=p>[</span><span class=s1>&#39;instances_train2017&#39;</span><span class=p>],</span> <span class=n>transform</span><span class=o>=</span><span class=bp>None</span><span class=p>)</span>
+<span class=n>val_dataset</span> <span class=o>=</span> <span class=n>gdata</span><span class=o>.</span><span class=n>COCODetection</span><span class=p>(</span><span class=n>root</span><span class=o>=</span><span class=s1>&#39;~/data/coco&#39;</span><span class=p>,</span> <span class=n>splits</span><span class=o>=</span><span class=p>[</span><span class=s1>&#39;instances_val2017&#39;</span><span class=p>],</span> <span class=n>transform</span><span class=o>=</span><span class=bp>None</span><span class=p>)</span>
+
+<span class=n>train_images</span><span class=p>,</span> <span class=n>train_label</span> <span class=o>=</span> <span class=n>train_dataset</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span>
+<span class=n>bounding_box</span> <span class=o>=</span> <span class=n>train_label</span><span class=p>[:,</span> <span class=p>:</span><span class=mi>4</span><span class=p>]</span>
+<span class=n>class_ids</span> <span class=o>=</span> <span class=n>train_label</span><span class=p>[:,</span> <span class=mi>4</span><span class=p>:</span><span class=mi>5</span><span class=p>]</span>
+
+<span class=n>gutils</span><span class=o>.</span><span class=n>viz</span><span class=o>.</span><span class=n>plot_bbox</span><span class=p>(</span><span class=n>train_image</span><span class=o>.</span><span class=n>asnumpy</span><span class=p>(),</span> <span class=n>bounding_boxes</span><span class=p>,</span> <span class=n>scores</span><span class=o>=</span><span class=bp>None</span><span class=p>,</span>
+                    <span class=n>labels</span><span class=o>=</span><span class=n>class_ids</span><span class=p>,</span> <span class=n>class_names</span><span class=o>=</span><span class=n>train_dataset</span><span class=o>.</span><span class=n>classes</span><span class=p>)</span>
+<span class=n>plt</span><span class=o>.</span><span class=n>show</span><span class=p>()</span></code></pre></div></div><h4 id=headline-11>Data</h4><div class="src src-python"><div class=highlight><pre class=chroma><code class=language-python data-lang=python><span class=kn>from</span> <span class=nn>mxnet.gluon</span> <span class=kn>import</span> <span class=n>data</span> <span class=k>as</span> <span class=n>gdata</span></code></pre></div></div><p>data 模块提供的 API：</p><ol><li><p>load and parse datasets</p></li><li><p>transform data examples</p></li><li><p>sample mini-batches for training program</p></li></ol><h3 id=headline-12>Dataset</h3><p>随机打乱文本文件的所有行的 shell 命令</p><div class="src src-bash"><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash><span class=c1># 将文件 imagelabel 中所有行随机排序，结果保存到 imagelabelshuf 文件中</span>
+shuf imagelabel -o imagelabelshuf 
+<span class=c1># 可以只随机指定的行，如 5 到 10 行</span>
+shuf -i 5-10 imagelabelshuf</code></pre></div></div><h4 id=headline-13>CIFAR</h4><div class="src src-bash"><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash><span class=c1># md5sum --  c58f30108f718f92721af3b95e74349a</span>
+$ wget http://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz
+
+<span class=c1># md5sum -- eb9058c3a382ffc7106e4002c42a8d85</span>
+$ wget http://www.cs.toronto.edu/~kriz/cifar-100-python.tar.gz</code></pre></div></div><p>CIFAR-10 共包含 6 万张 32x32 的彩色图像，共分成 10 类，每类有 6 千张图片；且其中 5 万张用于训练， 1 万张用于测试。</p><p>数据集被分割成 5 个训练 batches 以及 1 个测试 batch ，每个 batch 都包含 1 万张图片； test batch 随机从每个类中选择了 1
+千张图片，剩下的图像以乱序组成训练集，一个 train batch 中某一类的图像数可能多余其他类的个数。</p><p>文件 data_batch_1, data_batch_2, …, data_batch_5, test_batch 都是一个 pickled 类，读取代码如下</p><div class="src src-python"><div class=highlight><pre class=chroma><code class=language-python data-lang=python><span class=c1># python2</span>
+<span class=k>def</span> <span class=nf>unpickle</span><span class=p>(</span><span class=nb>file</span><span class=p>):</span>
+    <span class=kn>import</span> <span class=nn>cPickle</span>
+    <span class=k>with</span> <span class=nb>open</span><span class=p>(</span><span class=nb>file</span><span class=p>,</span> <span class=s1>&#39;rb&#39;</span><span class=p>)</span> <span class=k>as</span> <span class=n>fo</span><span class=p>:</span>
+        <span class=nb>dict</span> <span class=o>=</span> <span class=n>cPickle</span><span class=o>.</span><span class=n>load</span><span class=p>(</span><span class=n>fo</span><span class=p>)</span>
+    <span class=k>return</span> <span class=nb>dict</span>
+
+<span class=c1># python3</span>
+<span class=k>def</span> <span class=nf>unpickle</span><span class=p>(</span><span class=nb>file</span><span class=p>):</span>
+    <span class=kn>import</span> <span class=nn>pickle</span>
+    <span class=k>with</span> <span class=nb>open</span><span class=p>(</span><span class=nb>file</span><span class=p>,</span> <span class=s1>&#39;rb&#39;</span><span class=p>)</span> <span class=k>as</span> <span class=n>fo</span><span class=p>:</span>
+        <span class=nb>dict</span> <span class=o>=</span> <span class=n>pickle</span><span class=o>.</span><span class=n>load</span><span class=p>(</span><span class=n>fo</span><span class=p>,</span> <span class=n>encoding</span><span class=o>=</span><span class=s1>&#39;bytes&#39;</span><span class=p>)</span>
+    <span class=k>return</span> <span class=nb>dict</span>
+
+
+<span class=n>batch</span> <span class=o>=</span> <span class=n>unpickle</span><span class=p>(</span><span class=s2>&#34;data_batch_1&#34;</span><span class=p>)</span>
+
+<span class=k>for</span> <span class=n>key</span> <span class=ow>in</span> <span class=n>batch</span><span class=p>:</span>
+    <span class=k>print</span><span class=p>(</span><span class=n>key</span><span class=p>)</span>
+
+<span class=c1># b&#39;batch_label&#39; , b&#39;labels&#39; , b&#39;data&#39; , b&#39;filenames&#39;</span>
+
+<span class=n>data_batch</span> <span class=o>=</span> <span class=n>batch</span><span class=p>[</span><span class=sa>b</span><span class=s1>&#39;data&#39;</span><span class=p>]</span>
+<span class=n>label_batch</span> <span class=o>=</span> <span class=n>batch</span><span class=p>[</span><span class=sa>b</span><span class=s1>&#39;labels&#39;</span><span class=p>]</span></code></pre></div></div><p>每个 batch 内</p><dl><dt>data</dt><dd><p>每个 batch 都是一个 10000x3071 的 numpy array ； 每一行存储一张 32x32 的图像，前 1024 是红色通道的值，中间
+1024 个值是绿色通道，最后 1024 个是蓝色通道； 而且每张图片以行为单位展开并拼接，即 batch 的前 32 个值是某张图
+片红色通道的第一行</p></dd><dt>labels</dt><dd><p>10000 维的数组，每一位都是 0-9 中的某一个值；索引表示的第几张图片</p></dd></dl><p>文件 batch.meta 保存了各个类别标签的具体含义，比如 label_name[0] = "aireplane"</p><h4 id=headline-14>coco dataset</h4><p>参考</p><ol><li><p><a href=https://blog.csdn.net/u014734886/article/details/78830713>MS COCO 官网数据集</a></p></li><li><p><a href=https://blog.csdn.net/wc781708249/article/details/79603522#t9>MS COCO 数据标注详解</a></p></li><li><p><a href=https://blog.csdn.net/u014734886/article/details/78830713>MS COCO 数据集目标检测评估</a></p></li></ol><div class="src src-bash"><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash><span class=c1># 下载 coco 数据集</span>
+wget http://images.cocodataset.org/zips/train2014.zip
+wget http://images.cocodataset.org/zips/val2014.zip
+wget http://images.cocodataset.org/zips/test2014.zip
+
+wget http://images.cocodataset.org/zips/test2015.zip
+
+wget http://images.cocodataset.org/zips/train2017.zip
+wget http://images.cocodataset.org/zips/test2017.zip
+wget http://images.cocodataset.org/zips/val2017.zip
+
+wget http://images.cocodataset.org/zips/unlabeled2017.zip
+
+wget http://images.cocodataset.org/annotations/annotations_trainval2014.zip
+wget http://images.cocodataset.org/annotations/image_info_test2014.zip
+
+wget http://images.cocodataset.org/annotations/image_info_test2015.zip
+
+wget http://images.cocodataset.org/annotations/annotations_trainval2017.zip
+wget http://images.cocodataset.org/annotations/stuff_annotations_trainval2017.zip
+wget http://images.cocodataset.org/annotations/image_info_test2017.zip
+
+wget http://images.cocodataset.org/annotations/image_info_unlabeled2017.zip</code></pre></div></div><ol><li><p>下载 COCO API : git clone <a href=https://github.com/cocodataset/cocoapi.git>https://github.com/cocodataset/cocoapi.git</a></p></li><li><p>使用 Python 接口 : 进入 coco/PythonAPI 目录，运行 make 编译</p></li><li><p>下载 COCO images 和 annotations</p></li><li><p>将图片放置到 coco/images 目录下；将 annotations 放置到 coco/annotations 目录下</p></li><li><p>愉快的使用数据集</p></li></ol><h5 id=headline-15>COCO API</h5><p>COCO API 用于辅助使用 annotations ，可以加载、解析、可视化 annotations 。接口中缩写含义 "ann"=annotation,
+"cat"=category, "img"=image 。</p><p>接口简介：</p><ol><li><p>COCO - COCO 接口类，用于加载 COCO annotation 文件以及 prepare data structures；入参是 annotations 文件名</p></li><li><p>decodeMask - Decode binary mask M encoded via run-length encoding.</p></li><li><p>encodeMask - Encode binary mask M using run-length encoding.</p></li><li><p>getAnnIds - Get ann ids that satisfy given filter conditions.</p></li><li><p>getCatIds - Get cat ids that satisfy given filter conditions.</p></li><li><p>getImgIds - Get img ids that satisfy given filter conditions.</p></li><li><p>loadAnns - Load anns with the specified ids.</p></li><li><p>loadCats - Load cats with the specified ids.</p></li><li><p>loadImgs - Load imgs with the specified ids.</p></li><li><p>annToMask - Convert segmentation in an annotation to binary mask.</p></li><li><p>showAnns - Display the specified annotations.</p></li><li><p>loadRes - Load algorithm results and create API for accessing them.</p></li><li><p>download - Download COCO images from mscoco.org server.</p></li></ol><h5 id=headline-16>Mask API</h5><p>COCO 为每个对象实例提供分割掩码。这带来了两个挑战：紧凑地存储掩码并有效地执行掩码计算。我们使用自定义运行长度编码（RLE，
+Run Length Encoding）方案来解决这两个挑战。RLE 用于存储二值掩码，就是记录向量中连续 0 值和 1 值的长度，且基数为始终记录
+0 值的长度（位数从 1 开始）。如 [0 0 1 1 1 0 1] 的 RLE 码为 [2 3 1 1] ，[1 1 1 1 1 1 0] RLE 码为 [0 6 1] ；RLE 是简单且
+有效的存储方式，大大减小了存储空间，也使得 area 和 IOU 的计算可以快速完成 O(sqrt(n)) ，其中 n 是物体的面积。</p><p>接口简介</p><ol><li><p>encode - Encode binary masks using RLE.</p></li><li><p>decode - Decode binary masks encoded via RLE.</p></li><li><p>merge - Compute union or intersection of encoded masks.</p></li><li><p>iou - Compute intersection over union between masks.</p></li><li><p>area - Compute area of encoded masks.</p></li><li><p>toBbox - Get bounding boxes surrounding encoded masks.</p></li><li><p>frPyObjects - Convert polygon, bbox, and uncompressed RLE to encoded RLE mask.</p></li></ol><h5 id=headline-17>Annotation format</h5><p>COCO目前有三种注解类型：对象实例，对象关键点和图像标题。 annotations 使用 JSON 文件格式存储。所有注释共享下面的基本数据
+结构：</p><div class="src src-json"><div class=highlight><pre class=chroma><code class=language-json data-lang=json><span class=err>//</span> <span class=err>每个文件必定包含下面</span> <span class=mi>4</span> <span class=err>部分；</span>
+<span class=p>{</span>
+    <span class=nt>&#34;info&#34;</span><span class=p>:</span> <span class=err>info</span><span class=p>,</span>
+    <span class=nt>&#34;images&#34;</span><span class=p>:</span> <span class=p>[</span><span class=err>image</span><span class=p>],</span> 
+    <span class=nt>&#34;annotations&#34;</span><span class=p>:</span> <span class=p>[</span><span class=err>annotation</span><span class=p>],</span>
+    <span class=nt>&#34;licenses&#34;</span><span class=p>:</span> <span class=p>[</span><span class=err>license</span><span class=p>],</span>
+<span class=p>}</span>
+
+<span class=err>//</span> <span class=err>每一部分的具体格式</span>
+<span class=err>info</span><span class=p>{</span>
+    <span class=nt>&#34;year&#34;</span><span class=p>:</span> <span class=err>int</span><span class=p>,</span>
+    <span class=nt>&#34;version&#34;</span><span class=p>:</span> <span class=err>str</span><span class=p>,</span>
+    <span class=nt>&#34;description&#34;</span><span class=p>:</span> <span class=err>str</span><span class=p>,</span>
+    <span class=nt>&#34;contributor&#34;</span><span class=p>:</span> <span class=err>str</span><span class=p>,</span>
+    <span class=nt>&#34;url&#34;</span><span class=p>:</span> <span class=err>str</span><span class=p>,</span>
+    <span class=nt>&#34;date_created&#34;</span><span class=p>:</span> <span class=err>datetime</span><span class=p>,</span>
+<span class=p>}</span>
+
+<span class=err>//</span> <span class=err>由于是多张图片，最外层是一个</span> <span class=err>list</span> <span class=err>,</span> <span class=err>list</span> <span class=err>里面存储了许多字典</span> <span class=err>image</span> <span class=err>，所以最终的格式为</span> <span class=p>[</span> <span class=p>{</span><span class=err>a:1,</span> <span class=err>b:2,</span> <span class=err>c:4</span><span class=p>},</span> <span class=p>{</span><span class=err>a:7,</span> <span class=err>b:3,</span> <span class=err>c:6</span><span class=p>},</span> <span class=err>...</span> <span class=p>]</span>
+<span class=err>image</span><span class=p>{</span>
+    <span class=nt>&#34;id&#34;</span><span class=p>:</span> <span class=err>int</span><span class=p>,</span> <span class=err>//</span> <span class=err>图片的</span> <span class=err>ID</span> <span class=err>编号，每张图片</span> <span class=err>ID</span> <span class=err>唯一</span>
+    <span class=nt>&#34;width&#34;</span><span class=p>:</span> <span class=err>int</span><span class=p>,</span>
+    <span class=nt>&#34;height&#34;</span><span class=p>:</span> <span class=err>int</span><span class=p>,</span>
+    <span class=nt>&#34;file_name&#34;</span><span class=p>:</span> <span class=err>str</span><span class=p>,</span>
+    <span class=nt>&#34;license&#34;</span><span class=p>:</span> <span class=err>int</span><span class=p>,</span>
+    <span class=nt>&#34;flickr_url&#34;</span><span class=p>:</span> <span class=err>str</span><span class=p>,</span>
+    <span class=nt>&#34;coco_url&#34;</span><span class=p>:</span> <span class=err>str</span><span class=p>,</span>
+    <span class=nt>&#34;date_captured&#34;</span><span class=p>:</span> <span class=err>datetime</span><span class=p>,</span>
+<span class=p>}</span>
+
+<span class=err>license</span><span class=p>{</span>
+    <span class=nt>&#34;id&#34;</span><span class=p>:</span> <span class=err>int</span><span class=p>,</span>
+    <span class=nt>&#34;name&#34;</span><span class=p>:</span> <span class=err>str</span><span class=p>,</span>
+    <span class=nt>&#34;url&#34;</span><span class=p>:</span> <span class=err>str</span><span class=p>,</span>
+<span class=p>}</span></code></pre></div></div><p>下面介绍各种注释类型特有的数据结构。</p><h6 id=headline-18>Object Instance Annotations</h6><p>每个实例注释包含一系列字段，包括对象的类别 ID 和分割掩码 segmentation mask 。</p><p>分割格式取决于实例代表单个对象还是对象集合。单个对象时，iscrowd = 0，使用多边形 polygon 来表示对象的掩码，即对象所有外边
+缘点的坐标，[x1, y1, x2, y2, … ] 。对象集合时， iscrowd = 1，使用 RLE 格式存储对象的掩码，比如一群人的情况。</p><p>注意，单个对象 iscrowd = 0 可能需要多个多边形，例如，对象被遮挡的时候。</p><p>此外，还为每个对象提供了一个封闭的边界框，框坐标是从左上角的图像角度测量的，并且是 0 索引的。这个边界框就是用于目标检测
+的 groundtruth bbox 。</p><p>最后，注解结构的类别字段存储了类别 ID 到类别和超类别名称的映射。</p><div class="src src-json"><div class=highlight><pre class=chroma><code class=language-json data-lang=json><span class=err>annotation</span><span class=p>{</span>
+    <span class=err>//</span> <span class=err>因为每张图片可能有多个对象，所以需要给对象编号</span>
+    <span class=nt>&#34;id&#34;</span><span class=p>:</span> <span class=err>int</span><span class=p>,</span> <span class=err>//</span> <span class=err>对象全局唯一</span> <span class=err>ID</span> <span class=err>；注意多处有</span> <span class=nt>&#34;id&#34;</span> <span class=err>字段，各个字段含义需要具体查看</span>
+    <span class=s2>&#34;image_id&#34;</span><span class=p>:</span> <span class=err>int</span><span class=p>,</span> <span class=err>//</span> <span class=err>图片的</span> <span class=err>id</span> <span class=err>，与</span> <span class=err>image</span> <span class=err>字段中的</span> <span class=nt>&#34;id&#34;</span> <span class=err>相对应</span>
+    <span class=s2>&#34;category_id&#34;</span><span class=p>:</span> <span class=err>int</span><span class=p>,</span>
+    <span class=nt>&#34;segmentation&#34;</span><span class=p>:</span> <span class=err>RLE</span> <span class=err>or</span> <span class=p>[</span><span class=err>polygon</span><span class=p>],</span>
+    <span class=nt>&#34;area&#34;</span><span class=p>:</span> <span class=err>float</span><span class=p>,</span> <span class=err>//</span> <span class=err>对象内像素点的个数</span>
+    <span class=nt>&#34;bbox&#34;</span><span class=p>:</span> <span class=p>[</span><span class=err>x</span><span class=p>,</span><span class=err>y</span><span class=p>,</span><span class=err>width</span><span class=p>,</span><span class=err>height</span><span class=p>],</span>
+    <span class=nt>&#34;iscrowd&#34;</span><span class=p>:</span> <span class=mi>0</span> <span class=err>or</span> <span class=mi>1</span><span class=p>,</span>
+<span class=p>}</span>
+
+<span class=err>categories</span><span class=p>[{</span>
+    <span class=nt>&#34;id&#34;</span><span class=p>:</span> <span class=err>int</span><span class=p>,</span> <span class=err>//</span> <span class=err>类别</span> <span class=err>id</span> <span class=err>，背景类别</span> <span class=err>id=0</span>
+    <span class=nt>&#34;name&#34;</span><span class=p>:</span> <span class=err>str</span><span class=p>,</span>
+    <span class=nt>&#34;supercategory&#34;</span><span class=p>:</span> <span class=err>str</span><span class=p>,</span>
+<span class=p>}]</span></code></pre></div></div><p>coco 类别：共有 80 个类别，</p><div class="src src-json"><div class=highlight><pre class=chroma><code class=language-json data-lang=json><span class=err>coco</span> <span class=err>语义类别</span>
+<span class=p>{</span>
+    <span class=err>person</span>  <span class=err>#</span> <span class=err>1</span>
+    <span class=err>vehicle</span> <span class=err>交通工具</span> <span class=err>#8</span>
+        <span class=err>{bicycle</span>
+         <span class=err>car</span>
+         <span class=err>motorcycle</span>
+         <span class=err>airplane</span>
+         <span class=err>bus</span>
+         <span class=err>train</span>
+         <span class=err>truck</span>
+         <span class=err>boat</span><span class=p>}</span>
+    <span class=err>outdoor</span>  <span class=err>#</span><span class=mi>5</span>
+        <span class=p>{</span><span class=err>traffic</span> <span class=err>light</span>
+        <span class=err>fire</span> <span class=err>hydrant</span>
+        <span class=err>stop</span> <span class=err>sign</span>
+        <span class=err>parking</span> <span class=err>meter</span>
+        <span class=err>bench</span><span class=p>}</span>
+    <span class=err>animal</span>  <span class=err>#</span><span class=mi>10</span>
+        <span class=p>{</span><span class=err>bird</span>
+        <span class=err>cat</span>
+        <span class=err>dog</span>
+        <span class=err>horse</span>
+        <span class=err>sheep</span>
+        <span class=err>cow</span>
+        <span class=err>elephant</span>
+        <span class=err>bear</span>
+        <span class=err>zebra</span>
+        <span class=err>giraffe</span><span class=p>}</span>
+    <span class=err>accessory</span> <span class=err>饰品</span> <span class=err>#</span><span class=mi>5</span>
+        <span class=p>{</span><span class=err>backpack</span>
+        <span class=err>umbrella</span> 
+        <span class=err>handbag</span> 
+        <span class=err>tie</span> 
+        <span class=err>suitcase</span>
+        <span class=p>}</span>
+    <span class=err>sports</span>  <span class=err>#</span><span class=mi>10</span>
+        <span class=p>{</span><span class=err>frisbee</span>
+        <span class=err>skis</span>
+        <span class=err>snowboard</span>
+        <span class=err>sports</span> <span class=err>ball</span>
+        <span class=err>kite</span>
+        <span class=err>baseball</span> <span class=err>bat</span>
+        <span class=err>baseball</span> <span class=err>glove</span>
+        <span class=err>skateboard</span>
+        <span class=err>surfboard</span>
+        <span class=err>tennis</span> <span class=err>racket</span>
+        <span class=p>}</span>
+    <span class=err>kitchen</span>  <span class=err>#</span><span class=mi>7</span>
+        <span class=p>{</span><span class=err>bottle</span>
+        <span class=err>wine</span> <span class=err>glass</span>
+        <span class=err>cup</span>
+        <span class=err>fork</span>
+        <span class=err>knife</span>
+        <span class=err>spoon</span>
+        <span class=err>bowl</span>
+        <span class=p>}</span>
+    <span class=err>food</span>  <span class=err>#</span><span class=mi>10</span>
+        <span class=p>{</span><span class=err>banana</span>
+        <span class=err>apple</span>
+        <span class=err>sandwich</span>
+        <span class=err>orange</span>
+        <span class=err>broccoli</span>
+        <span class=err>carrot</span>
+        <span class=err>hot</span> <span class=err>dog</span>
+        <span class=err>pizza</span>
+        <span class=err>donut</span>
+        <span class=err>cake</span>
+        <span class=p>}</span>
+    <span class=err>furniture</span> <span class=err>家具</span> <span class=err>#</span><span class=mi>6</span>
+        <span class=p>{</span><span class=err>chair</span>
+        <span class=err>couch</span>
+        <span class=err>potted</span> <span class=err>plant</span>
+        <span class=err>bed</span>
+        <span class=err>dining</span> <span class=err>table</span>
+        <span class=err>toilet</span>
+        <span class=p>}</span>
+    <span class=err>electronic</span> <span class=err>电子产品</span> <span class=err>#</span><span class=mi>6</span>
+        <span class=p>{</span><span class=err>tv</span>
+        <span class=err>laptop</span>
+        <span class=err>mouse</span>
+        <span class=err>remote</span>
+        <span class=err>keyboard</span>
+        <span class=err>cell</span> <span class=err>phone</span>
+        <span class=p>}</span>
+    <span class=err>appliance</span> <span class=err>家用电器</span> <span class=err>#</span><span class=mi>5</span>
+        <span class=p>{</span><span class=err>microwave</span>
+        <span class=err>oven</span>
+        <span class=err>toaster</span>
+        <span class=err>sink</span>
+        <span class=err>refrigerator</span>
+        <span class=p>}</span>
+    <span class=err>indoor</span>  <span class=err>#</span><span class=mi>7</span>
+        <span class=p>{</span><span class=err>book</span>
+        <span class=err>clock</span>
+        <span class=err>vase</span>
+        <span class=err>scissors</span>
+        <span class=err>teddy</span> <span class=err>bear</span>
+        <span class=err>hair</span> <span class=err>drier</span>
+        <span class=err>toothbrush</span>
+        <span class=p>}</span>
+<span class=err>}</span></code></pre></div></div><h6 id=headline-19>Object Keypoint Annotations</h6><p>关键点注释包含对象注释的所有数据（包括id，bbox等）和两个附加字段。首先，“关键点”是长度为3k的数组，其中k是为该类别定义的
+关键点的总数。每个关键点有一个0索引的位置x，y和一个被定义为可见性标志。v = 0：没有标记（在这种情况下x = y = 0），v = 1：
+标记但不可见，v = 2：标记并可见。如果关键点位于对象段内部，则认为它是可见的。“num_keypoints”指示给定对象（许多对象，例如
+拥挤(即重叠）和小对象将具有num_keypoints = 0）的标记关键点的数量（v> 0）。最后，对于每个类别，类别struct还有两个附加字段：
+“keypoints”，它是关键点名称的长度为k的数组，以及“skeleton”，它通过关键点边缘对的列表定义连接，并用于可视化。目前，关键点
+仅标记为人物类别（对于大多数中/大型非人群人物实例）。See also the Keypoint Challenge.</p><div class="src src-json"><div class=highlight><pre class=chroma><code class=language-json data-lang=json><span class=err>annotation</span><span class=p>{</span>
+    <span class=nt>&#34;keypoints&#34;</span><span class=p>:</span> <span class=p>[</span><span class=err>x</span><span class=mi>1</span><span class=p>,</span><span class=err>y</span><span class=mi>1</span><span class=p>,</span><span class=err>v</span><span class=mi>1</span><span class=p>,</span><span class=err>...</span><span class=p>],</span>
+    <span class=nt>&#34;num_keypoints&#34;</span><span class=p>:</span> <span class=err>int</span><span class=p>,</span>
+    <span class=nt>&#34;[cloned]&#34;</span><span class=p>:</span> <span class=err>...</span><span class=p>,</span>
+<span class=p>}</span>
+
+<span class=err>categories</span><span class=p>[{</span>
+    <span class=nt>&#34;keypoints&#34;</span><span class=p>:</span> <span class=p>[</span><span class=err>str</span><span class=p>],</span>
+    <span class=nt>&#34;skeleton&#34;</span><span class=p>:</span> <span class=p>[</span><span class=err>edge</span><span class=p>],</span>
+    <span class=nt>&#34;[cloned]&#34;</span><span class=p>:</span> <span class=err>...</span><span class=p>,</span>
+<span class=p>}]</span>
+
+<span class=s2>&#34;[cloned]&#34;</span><span class=err>:</span> <span class=err>表示从</span><span class=mf>4.1</span><span class=err>中定义的对象实例注释复制的字段。</span></code></pre></div></div><h6 id=headline-20>Stuff Segmentation Annotations</h6><p>物体注释格式是完全相同和完全兼容上面的对象实例注释格式（除了iscrowd是不必要的，默认设置为0）。我们提供JSON和PNG格式的注
+释，以便于访问，以及两种格式之间的conversion scripts。在JSON格式中，图像中的每个类别都使用单个RLE注释进行编码（有关更多
+详细信息，请参阅上面的Mask API）。 category_id表示当前的东西类别的ID。有关东西类别和超类别的更多细节see thestuff
+evaluation page.</p><h6 id=headline-21>Image Caption Annotations</h6><p>这些注释用于存储图像标题。每个标题描述指定的图像，每个图像至少有5个字幕（一些图像有更多）。See also theCaptioning
+Challenge.</p><div class="src src-json"><div class=highlight><pre class=chroma><code class=language-json data-lang=json><span class=err>annotation</span><span class=p>{</span>
+    <span class=nt>&#34;id&#34;</span><span class=p>:</span> <span class=err>int</span><span class=p>,</span>
+    <span class=nt>&#34;image_id&#34;</span><span class=p>:</span> <span class=err>int</span><span class=p>,</span>
+    <span class=nt>&#34;caption&#34;</span><span class=p>:</span> <span class=err>str</span><span class=p>,</span>
+<span class=p>}</span></code></pre></div></div><h4 id=headline-22>PASCAL</h4><p>PASCAL VOC 语义类别分为 20 类，有图像分类、检测、分割的标注信息。图像的大小不一致， 在 500*375 左右。</p><div class="src src-json"><div class=highlight><pre class=chroma><code class=language-json data-lang=json><span class=p>{</span>
+    <span class=err>aeroplane</span>
+    <span class=err>bicycle</span>
+    <span class=err>bird</span>
+    <span class=err>boat</span>
+    <span class=err>bottle</span>
+    <span class=err>bus</span>
+    <span class=err>car</span>
+    <span class=err>cat</span>
+    <span class=err>chair</span>
+    <span class=err>cow</span>
+    <span class=err>diningtable</span>
+    <span class=err>dog</span>
+    <span class=err>horse</span>
+    <span class=err>motorbike</span>
+    <span class=err>person</span>
+    <span class=err>pottedplant</span>
+    <span class=err>sheep</span>
+    <span class=err>sofa</span>
+    <span class=err>train</span>
+    <span class=err>tvmonitor</span>
+<span class=p>}</span></code></pre></div></div><p>VOC2007 和 VOC2012 分别保存在了两个文件夹下面，两个文件夹目录结果相同。JPEGImages 文件夹下面存放的是训练图片，
+Annotations 文件夹下面存放每一张图片的位置标注信息，一张图片对应一个 xml 文件，图片和 xml 文件名相同。目标检测只使用这个
+标注信息即可。</p><div class="src src-xml"><div class=highlight><pre class=chroma><code class=language-xml data-lang=xml><span class=nt>&lt;annotation&gt;</span>
+	<span class=nt>&lt;folder&gt;</span>VOC2007<span class=nt>&lt;/folder&gt;</span>
+	<span class=nt>&lt;filename&gt;</span>000001.jpg<span class=nt>&lt;/filename&gt;</span>
+	<span class=nt>&lt;source&gt;</span>
+		<span class=nt>&lt;database&gt;</span>The VOC2007 Database<span class=nt>&lt;/database&gt;</span>
+		<span class=nt>&lt;annotation&gt;</span>PASCAL VOC2007<span class=nt>&lt;/annotation&gt;</span>
+		<span class=nt>&lt;image&gt;</span>flickr<span class=nt>&lt;/image&gt;</span>
+		<span class=nt>&lt;flickrid&gt;</span>341012865<span class=nt>&lt;/flickrid&gt;</span>
+	<span class=nt>&lt;/source&gt;</span>
+	<span class=nt>&lt;owner&gt;</span>
+		<span class=nt>&lt;flickrid&gt;</span>Fried Camels<span class=nt>&lt;/flickrid&gt;</span>
+		<span class=nt>&lt;name&gt;</span>Jinky the Fruit Bat<span class=nt>&lt;/name&gt;</span>
+	<span class=nt>&lt;/owner&gt;</span>
+	<span class=nt>&lt;size&gt;</span>
+		<span class=nt>&lt;width&gt;</span>353<span class=nt>&lt;/width&gt;</span>
+		<span class=nt>&lt;height&gt;</span>500<span class=nt>&lt;/height&gt;</span>
+		<span class=nt>&lt;depth&gt;</span>3<span class=nt>&lt;/depth&gt;</span>
+	<span class=nt>&lt;/size&gt;</span>
+	<span class=nt>&lt;segmented&gt;</span>0<span class=nt>&lt;/segmented&gt;</span>
+	<span class=nt>&lt;object&gt;</span>
+		<span class=nt>&lt;name&gt;</span>dog<span class=nt>&lt;/name&gt;</span>
+		<span class=nt>&lt;pose&gt;</span>Left<span class=nt>&lt;/pose&gt;</span>
+		<span class=nt>&lt;truncated&gt;</span>1<span class=nt>&lt;/truncated&gt;</span>
+		<span class=nt>&lt;difficult&gt;</span>0<span class=nt>&lt;/difficult&gt;</span>
+		<span class=nt>&lt;bndbox&gt;</span>
+			<span class=nt>&lt;xmin&gt;</span>48<span class=nt>&lt;/xmin&gt;</span>
+			<span class=nt>&lt;ymin&gt;</span>240<span class=nt>&lt;/ymin&gt;</span>
+			<span class=nt>&lt;xmax&gt;</span>195<span class=nt>&lt;/xmax&gt;</span>
+			<span class=nt>&lt;ymax&gt;</span>371<span class=nt>&lt;/ymax&gt;</span>
+		<span class=nt>&lt;/bndbox&gt;</span>
+	<span class=nt>&lt;/object&gt;</span>
+	<span class=nt>&lt;object&gt;</span>
+		<span class=nt>&lt;name&gt;</span>person<span class=nt>&lt;/name&gt;</span>
+		<span class=nt>&lt;pose&gt;</span>Left<span class=nt>&lt;/pose&gt;</span>
+		<span class=nt>&lt;truncated&gt;</span>1<span class=nt>&lt;/truncated&gt;</span>
+		<span class=nt>&lt;difficult&gt;</span>0<span class=nt>&lt;/difficult&gt;</span>
+		<span class=nt>&lt;bndbox&gt;</span>
+			<span class=nt>&lt;xmin&gt;</span>8<span class=nt>&lt;/xmin&gt;</span>
+			<span class=nt>&lt;ymin&gt;</span>12<span class=nt>&lt;/ymin&gt;</span>
+			<span class=nt>&lt;xmax&gt;</span>352<span class=nt>&lt;/xmax&gt;</span>
+			<span class=nt>&lt;ymax&gt;</span>498<span class=nt>&lt;/ymax&gt;</span>
+		<span class=nt>&lt;/bndbox&gt;</span>
+	<span class=nt>&lt;/object&gt;</span>
+<span class=nt>&lt;/annotation&gt;</span></code></pre></div></div><p>ImageSets 下面包含 4 个文件夹，分别对应不同的 challenge 。其中 Main 下面有 trainval.txt 和 test.txt 两个文件夹，存储了用
+于训练和验证的图像标号。</p><h3 id=headline-23>image-augmentation</h3><p>大规模数据集是成功使用深度网络的前提。图像增广（image augmentation）技术通过对训练图像做一系列随机改变，来产生相似但又有
+不同的训练样本，从而扩大训练数据集规模。图像增广的另一种解释是，通过对训练样本做一些随机改变，可以降低模型对某些属性的依
+赖，从而提高模型的泛化能力。例如我们可以对图像进行不同的裁剪，使得感兴趣的物体出现在不同的位置，从而使得模型减小对物体出
+现位置的依赖性。我们也可以调整亮度色彩等因素来降低模型对色彩的敏感度。在 AlexNet 的成功中，图像增广技术功不可没。</p><h3 id=headline-24>other</h3><p>在反向传播中使用了正向传播中计算得到的中间变量来避免重复计算,那么这个重用也导致正向传播结束后不能立即释放中间变量内存。
+这也是训练要比预测占用更多内存的一个重要原因。另外需要指出的是,这些中间变量的个数跟网络层数线性相关,每个变量的大小跟批量
+大小和输入个数也是线性相关的,它们是导致较深的神经网络使用较大批量训练时更容易超内存的主要原因。</p><h4 id=headline-25>hybridize</h4><p>符号式编程：</p><p>使用 hybirdize 可以加速计算，会直接生成相应的 C++ 代码，不再调用 Python 的代码；同时方便移植。</p><p>但是无法依据输入的不同来产生不同的代码。也不方便调试。</p><p>命令式编程：</p><p>不使用 hybirdize 方便 print 和 debug 。</p><h5 id=headline-26>lazy-evaluation</h5><p>延迟计算，可以加速计算，但是会需要较大的内存；</p><p>系统延迟计算，在知道整体的框架后，可以做一些优化。</p><p>所以一般每个 mini-batch 等待一次，防止内存一下子爆了。</p><h5 id=headline-27>auto-parallelism</h5><p>系统在判定一些运算没有相关性的情况下，会自动并行处理。</p><p>CPU 和 GPU 通信和计算也是可以并行处理</p><h3 id=headline-28>调参技巧</h3><h4 id=headline-29>learning rate</h4><p>One important idea in model training is to gradually decrease learning rate. This means the optimizer takes large steps
+at the beginning, but step size becomes smaller and smaller in time. 逐渐减小学习速率</p><p>不建议过早降低 learning rate，这样很可能导致后期乏力，特别对于较深的网络。</p><p>小的学习速率更容易收敛，如果收敛过早，可能靠近 loss 的层已经收敛，但是靠近 data 的层却没有收敛。前者的泛化性能不如后者，
+所以这个时候收敛的地方可能不是很好，大的学习速率有助于帮助跳过这些不好的点，所以即使看到 loss 没有降，也不要着急调小学习
+速率，这时候网络可能还在寻找好的点(fine-tune)。对于大的 bantch_size 更加明显，因为 batch_size 大，那么梯度的 varence
+（或者噪音）越小，这时候收敛更加容易，但后期越乏力。</p><h5 id=headline-30>validation error</h5><p>validation error 如果与 train error 一直有较大的误差，那么可以考虑加大 data argument。</p><h4 id=headline-31>fine-tune</h4><p>微调需要把前面几层的 lr 都设置的很小很小，然后主要训练最后一层的权重。</p><h3 id=headline-32>source code</h3><ol><li><p>大量用了 c 宏和 c++11</p></li><li><p>通过mshadow的模板化使得gpu和cpu代码只用写一份，分布式接口也很干净。</p></li><li><p>MXNet 自 xgboost, cxxnet, minerva 以来集合 DMLC 几乎所有开发者力量的一个机器学习项目。MXNet 名字源于 "Mix and
+Maximize" 。我们一直有一个目标，就是希望把 cxxnet 这样强调性能静态优化的 C++ 库和灵活的 NDArray 有机结合在一起。做包
+含 cxxnet 的静态优化，却又可以像 minerva, theano, torch 那样进行灵活扩展的深度学习库。</p></li><li><p>MXNet 由 dmlc/cxxnet, dmlc/minerva 和 Purine2 的作者发起，融合了 Minerva 的动态执行，cxxnet 的静态优化和 Purine2 的符
+号计算等思想，直接支持基于 Python 的 parameter server 接口，使得代码可以很快向分布式进行迁移。每个模块都进行清晰设计，
+使得每一部分本身都具有被直接利用的价值。</p></li><li><p>mxnet 结合了符号语言和过程语言的编程模型，并试图最大化各自优势，利用统一的执行引擎进行自动多 GPU 并行调度优化。不同的
+编程模型有各自的优势，以往的深度学习库往往着重于灵活性，或者性能。MXNet 通过融合的方式把各种编程模型整合在一起，并且
+通过统一的轻量级运行引擎进行执行调度。使得用户可以直接复用稳定高效的神经网络模块，并且可以通过 Python 等高级语言进行
+快速扩展。</p></li><li><p>代码更加简洁高效：大量使用 C++11 特性，使 MXNet 利用最少的代码实现尽可能最大的功能。用约 11k 行 C++ 代码 (加上注释 4k
+行)实现了以上核心功能。</p></li><li><p>轻量级调度引擎。在数据流调度的基础上引入了读写操作调度，并且使得调度和调度对象无关，用以直接有机支持动态计算和静态计
+算的统一多 GPU 多线程调度，使得上层实现更加简洁灵活。</p></li><li><p>符号计算支持。MXNet 支持基于静态计算流图符号计算。计算流图不仅使设计复杂网络更加简单快捷，而且基于计算流图，MXNet 可
+以更加高效得利用内存。 同时进一步优化了静态执行的规划，内存需求比原本已经省的 cxxnet 还要少。</p></li><li><p>混合执行引擎。相比 cxxnet 的全静态执行，minerva 的全动态执行。MXNet 采用动态静态混合执行引擎，可以把 cxxnet 静态优化
+的效率带和 ndarray 动态运行的灵活性结合起来。把高效的 c++ 库更加灵活地和 Python 等高级语言结合在一起。</p></li><li><p>更加灵活：在 MShadow C++ 表达式模板的基础上，符号计算和 ndarray 使在 Python 等高级语言内编写优化算法，损失函数和其他
+深度学习组件并高效无缝支持 CPU/GPU 成为可能。用户无需关心底层实现，在符号和 NDArray 层面完成逻辑即可进行高效的模型训
+练和预测。</p></li><li><p>开源用户和设计文档，mxnet 提供了非常详细的用户文档和设计文档以及样例。所有的代码都有详细的文档注释。并且会持续更新代
+码和系统设计细节，希望对于广大深度学习系统开发和爱好者有所帮助。</p></li><li><p>对于云计算更加友好：所有数据模型可以从 S3/HDFS/Azure 上直接加载训练。</p></li><li><p>ndarray 编程接口，类似 matlab/numpy.ndarray/torch.tensor。独有优势在于通过背后的 engine 可以在性能上和内存使用上更优</p></li><li><p>symbolic 接口。这个可以使得快速构建一个神经网络，和自动求导。</p></li><li><p>更多 binding , 支持 python, julia, R</p></li></ol></div><footer class=post-footer><ul class=post-tags><li><a href=https://kylestones.github.io/hugo-blog/tags/mxnet/>mxnet,</a></li><li><a href=https://kylestones.github.io/hugo-blog/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/>深度学习</a></li></ul><nav class=paginav><a class=prev href=https://kylestones.github.io/hugo-blog/blog/tools/mplayer/><span class=title>« Prev</span><br><span>mpayer</span></a>
+<a class=next href=https://kylestones.github.io/hugo-blog/blog/tools/org-mode/><span class=title>Next »</span><br><span>Org-mode笔记</span></a></nav><div class=share-buttons><a target=_blank rel="noopener noreferrer" aria-label="share mxnet on twitter" href="https://twitter.com/intent/tweet/?text=mxnet&url=https%3a%2f%2fkylestones.github.io%2fhugo-blog%2fblog%2fmachinelearning%2fgluon%2f&hashtags=mxnet%2c%2c%e6%b7%b1%e5%ba%a6%e5%ad%a6%e4%b9%a0"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512h-386.892c-34.524.0-62.554-28.03-62.554-62.554v-386.892c0-34.524 28.029-62.554 62.554-62.554h386.892zm-253.927 424.544c135.939.0 210.268-112.643 210.268-210.268.0-3.218.0-6.437-.153-9.502 14.406-10.421 26.973-23.448 36.935-38.314-13.18 5.824-27.433 9.809-42.452 11.648 15.326-9.196 26.973-23.602 32.49-40.92-14.252 8.429-30.038 14.56-46.896 17.931-13.487-14.406-32.644-23.295-53.946-23.295-40.767.0-73.87 33.104-73.87 73.87.0 5.824.613 11.494 1.992 16.858-61.456-3.065-115.862-32.49-152.337-77.241-6.284 10.881-9.962 23.601-9.962 37.088.0 25.594 13.027 48.276 32.95 61.456-12.107-.307-23.448-3.678-33.41-9.196v.92c0 35.862 25.441 65.594 59.311 72.49-6.13 1.686-12.72 2.606-19.464 2.606-4.751.0-9.348-.46-13.946-1.38 9.349 29.426 36.628 50.728 68.965 51.341-25.287 19.771-57.164 31.571-91.8 31.571-5.977.0-11.801-.306-17.625-1.073 32.337 21.15 71.264 33.41 112.95 33.41z" /></svg></a><a target=_blank rel="noopener noreferrer" aria-label="share mxnet on linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fkylestones.github.io%2fhugo-blog%2fblog%2fmachinelearning%2fgluon%2f&title=mxnet&summary=mxnet&source=https%3a%2f%2fkylestones.github.io%2fhugo-blog%2fblog%2fmachinelearning%2fgluon%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512h-386.892c-34.524.0-62.554-28.03-62.554-62.554v-386.892c0-34.524 28.029-62.554 62.554-62.554h386.892zM160.461 423.278V197.561h-75.04v225.717h75.04zm270.539.0v-129.439c0-69.333-37.018-101.586-86.381-101.586-39.804.0-57.634 21.891-67.617 37.266v-31.958h-75.021c.995 21.181.0 225.717.0 225.717h75.02v-126.056c0-6.748.486-13.492 2.474-18.315 5.414-13.475 17.767-27.434 38.494-27.434 27.135.0 38.007 20.707 38.007 51.037v120.768h75.024zm-307.552-334.556c-25.674.0-42.448 16.879-42.448 39.002.0 21.658 16.264 39.002 41.455 39.002h.484c26.165.0 42.452-17.344 42.452-39.002-.485-22.092-16.241-38.954-41.943-39.002z" /></svg></a><a target=_blank rel="noopener noreferrer" aria-label="share mxnet on reddit" href="https://reddit.com/submit?url=https%3a%2f%2fkylestones.github.io%2fhugo-blog%2fblog%2fmachinelearning%2fgluon%2f&title=mxnet"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512h-386.892c-34.524.0-62.554-28.03-62.554-62.554v-386.892c0-34.524 28.029-62.554 62.554-62.554h386.892zM446 265.638c0-22.964-18.616-41.58-41.58-41.58-11.211.0-21.361 4.457-28.841 11.666-28.424-20.508-67.586-33.757-111.204-35.278l18.941-89.121 61.884 13.157c.756 15.734 13.642 28.29 29.56 28.29 16.407.0 29.706-13.299 29.706-29.701.0-16.403-13.299-29.702-29.706-29.702-11.666.0-21.657 6.792-26.515 16.578l-69.105-14.69c-1.922-.418-3.939-.042-5.585 1.036-1.658 1.073-2.811 2.761-3.224 4.686l-21.152 99.438c-44.258 1.228-84.046 14.494-112.837 35.232-7.468-7.164-17.589-11.591-28.757-11.591-22.965.0-41.585 18.616-41.585 41.58.0 16.896 10.095 31.41 24.568 37.918-.639 4.135-.99 8.328-.99 12.576.0 63.977 74.469 115.836 166.33 115.836s166.334-51.859 166.334-115.836c0-4.218-.347-8.387-.977-12.493 14.564-6.47 24.735-21.034 24.735-38.001zm-119.474 108.193c-20.27 20.241-59.115 21.816-70.534 21.816-11.428.0-50.277-1.575-70.522-21.82-3.007-3.008-3.007-7.882.0-10.889 3.003-2.999 7.882-3.003 10.885.0 12.777 12.781 40.11 17.317 59.637 17.317 19.522.0 46.86-4.536 59.657-17.321 3.016-2.999 7.886-2.995 10.885.008 3.008 3.011 3.003 7.882-.008 10.889zm-5.23-48.781c-16.373.0-29.701-13.324-29.701-29.698.0-16.381 13.328-29.714 29.701-29.714 16.378.0 29.706 13.333 29.706 29.714.0 16.374-13.328 29.698-29.706 29.698zm-160.386-29.702c0-16.381 13.328-29.71 29.714-29.71 16.369.0 29.689 13.329 29.689 29.71.0 16.373-13.32 29.693-29.689 29.693-16.386.0-29.714-13.32-29.714-29.693z" /></svg></a><a target=_blank rel="noopener noreferrer" aria-label="share mxnet on facebook" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fkylestones.github.io%2fhugo-blog%2fblog%2fmachinelearning%2fgluon%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H342.978v-192.915h66.6l12.672-82.621h-79.272v-53.617c0-22.603 11.073-44.636 46.58-44.636H425.6v-70.34s-32.71-5.582-63.982-5.582c-65.288.0-107.96 39.569-107.96 111.204v62.971h-72.573v82.621h72.573V512h-191.104c-34.524.0-62.554-28.03-62.554-62.554v-386.892c0-34.524 28.029-62.554 62.554-62.554h386.892z" /></svg></a><a target=_blank rel="noopener noreferrer" aria-label="share mxnet on whatsapp" href="https://api.whatsapp.com/send?text=mxnet%20-%20https%3a%2f%2fkylestones.github.io%2fhugo-blog%2fblog%2fmachinelearning%2fgluon%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512h-386.892c-34.524.0-62.554-28.03-62.554-62.554v-386.892c0-34.524 28.029-62.554 62.554-62.554h386.892zm-58.673 127.703c-33.842-33.881-78.847-52.548-126.798-52.568-98.799.0-179.21 80.405-179.249 179.234-.013 31.593 8.241 62.428 23.927 89.612l-25.429 92.884 95.021-24.925c26.181 14.28 55.659 21.807 85.658 21.816h.074c98.789.0 179.206-80.413 179.247-179.243.018-47.895-18.61-92.93-52.451-126.81zM263.976 403.485h-.06c-26.734-.01-52.954-7.193-75.828-20.767l-5.441-3.229-56.386 14.792 15.05-54.977-3.542-5.637c-14.913-23.72-22.791-51.136-22.779-79.287.033-82.142 66.867-148.971 149.046-148.971 39.793.014 77.199 15.531 105.329 43.692 28.128 28.16 43.609 65.592 43.594 105.4-.034 82.149-66.866 148.983-148.983 148.984zm81.721-111.581c-4.479-2.242-26.499-13.075-30.604-14.571-4.105-1.495-7.091-2.241-10.077 2.241-2.986 4.483-11.569 14.572-14.182 17.562-2.612 2.988-5.225 3.364-9.703 1.12-4.479-2.241-18.91-6.97-36.017-22.23-13.314-11.876-22.304-26.542-24.916-31.026s-.279-6.908 1.963-9.14c2.016-2.007 4.48-5.232 6.719-7.847 2.24-2.615 2.986-4.484 4.479-7.472 1.493-2.99.747-5.604-.374-7.846-1.119-2.241-10.077-24.288-13.809-33.256-3.635-8.733-7.327-7.55-10.077-7.688-2.609-.13-5.598-.158-8.583-.158-2.986.0-7.839 1.121-11.944 5.604-4.105 4.484-15.675 15.32-15.675 37.364.0 22.046 16.048 43.342 18.287 46.332 2.24 2.99 31.582 48.227 76.511 67.627 10.685 4.615 19.028 7.371 25.533 9.434 10.728 3.41 20.492 2.929 28.209 1.775 8.605-1.285 26.499-10.833 30.231-21.295 3.732-10.464 3.732-19.431 2.612-21.298-1.119-1.869-4.105-2.99-8.583-5.232z" /></svg></a><a target=_blank rel="noopener noreferrer" aria-label="share mxnet on telegram" href="https://telegram.me/share/url?text=mxnet&url=https%3a%2f%2fkylestones.github.io%2fhugo-blog%2fblog%2fmachinelearning%2fgluon%2f"><svg viewBox="2 2 28 28" height="30" width="30" fill="currentcolor"><path d="M26.49 29.86H5.5a3.37 3.37.0 01-2.47-1 3.35 3.35.0 01-1-2.47V5.48A3.36 3.36.0 013 3 3.37 3.37.0 015.5 2h21A3.38 3.38.0 0129 3a3.36 3.36.0 011 2.46V26.37a3.35 3.35.0 01-1 2.47A3.38 3.38.0 0126.49 29.86zm-5.38-6.71a.79.79.0 00.85-.66L24.73 9.24a.55.55.0 00-.18-.46.62.62.0 00-.41-.17q-.08.0-16.53 6.11a.59.59.0 00-.41.59.57.57.0 00.43.52l4 1.24 1.61 4.83a.62.62.0 00.63.43.56.56.0 00.4-.17L16.54 20l4.09 3A.9.9.0 0021.11 23.15zM13.8 20.71l-1.21-4q8.72-5.55 8.78-5.55c.15.0.23.0.23.16a.18.18.0 010 .06s-2.51 2.3-7.52 6.8z" /></svg></a></div></footer></article></main><footer class=footer><span>&copy; 2022 <a href=https://kylestones.github.io/hugo-blog>Org Mode</a></span>
+<span>Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z" /></svg></a><script>let menu=document.getElementById('menu')
+if(menu){menu.scrollLeft=localStorage.getItem("menu-scroll-position");menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft);}}
+document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener("click",function(e){e.preventDefault();var id=this.getAttribute("href").substr(1);if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({behavior:"smooth"});}else{document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();}
+if(id==="top"){history.replaceState(null,null," ");}else{history.pushState(null,null,`#${id}`);}});});</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){if(document.body.scrollTop>800||document.documentElement.scrollTop>800){mybutton.style.visibility="visible";mybutton.style.opacity="1";}else{mybutton.style.visibility="hidden";mybutton.style.opacity="0";}};</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{if(document.body.className.includes("dark")){document.body.classList.remove('dark');localStorage.setItem("pref-theme",'light');}else{document.body.classList.add('dark');localStorage.setItem("pref-theme",'dark');}})</script></body></html>

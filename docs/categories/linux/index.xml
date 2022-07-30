@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Linux on Org Mode</title>
+    <link>https://kylestones.github.io/hugo-blog/categories/linux/</link>
+    <description>Recent content in Linux on Org Mode</description>
+    <image>
+      <url>https://kylestones.github.io/hugo-blog/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://kylestones.github.io/hugo-blog/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language><atom:link href="https://kylestones.github.io/hugo-blog/categories/linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Advanced Programming in the UNIX Environment</title>
+      <link>https://kylestones.github.io/hugo-blog/blog/apue/apue/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/hugo-blog/blog/apue/apue/</guid>
+      <description>I/O  文件 I/O   通过文件描述符标识。对于内核而言，所有打开文件都通过文件描述符引用。 其也是有缓冲的，只是其缓冲区在内核空间，不再用户空间。体现在延迟写，只在适当的时候才调用写文件操作， 减少不必要的写操作，增加性能。 函数 open() 打开文件时，指定模式必须有且仅有 O _RDONLY / O _WRONLY / O _RDWR 三者中的一个。 选项 O _APPEND 指定为追加。原来的 UNIX 系统不支持追加，只能先使用 lseek() 先设置文件的偏移量到文件的 结尾，然后再写。但是这在多个进程同时写的时候会出问题，因为调用了两个函数来追加，所以不是一个原子操作。 而追加选项确保设置偏移和写操作为原子操作。 管道读写   写管道的时候不用使用追加选项，内核会自动按写的顺序写入管道。读取后自动将相应的内容从管道清除。 读取一个写端关闭的管道，在读取完全部数据后，read 函数返回 0 ； 写一个读端关闭的管道，产生 SIGPIPE 信号，设置该信号处理函数或者忽略该信号，write 返回 -1，且 errno 设置为 EPIPE。 读管道，如果管道为空，调用线程阻塞，同进程内的其他线程不受影响。 套接字描述符   虽然套接字描述符本质上是一个文件描述符，但不是所有参数为文件描述符的函数都可以接受套接字描述符。 套接字不支持文件偏移量概念，不能使用 lseek 函数，也不可以使用 mmap 函数，不可调用 fchdir 函数。  shutdown 函数可以直接关闭一个套接字的读端或者写端，不管该套接字描述符复制了多少分； close 函数只有在关闭最后一个套接字的时候才会释放该套接字。 改变文件偏移量   lseek 标准库 I/O   标准 I/O 库的操作围绕流(stream)进行。利用指向 FILE 对象维护，该结构体包含了标准 I/O 库为了维护该流所 需要的信息：文件描述符，指向缓冲区的指针，缓冲区的长度，缓冲区中当前的字符数，出错标志等。不需要关心 FILE 结构的具体形式。 相对于文件 I/O，标准库的 I/O 都是带缓冲的，标准库维护了一个缓冲区，在适当的时候才调用 read、write 函 数，从而减少系统调用的开销。 定位流   ftell、fseek、ftello、fseek、fgetpos、fsetpos IPC   IPC 传统上是 UNIX 中一个杂乱不堪的领域，虽然有了各种各样的解决办法，但没有一个是完美的。可分为四个主 要领域：    消息传递 : 管道、FIFO、消息队列    同步 : 互斥锁、条件变量、读写锁、信号量    共享内存区 : 匿名共享内存区、命令共享内存区    过程调用 : Solaris 门、Sun RPC    包括单个进程内多个线程的 IPC 和多个进程间的 IPC 。 消息边界  无边界   管道和 FIFO 是字节流，没有消息边界； TCP 没有记录边界的字节流； 有边界   POSIX 消息和 System V 消息有从发送者向接收者维护的边界； UDP 提供具有边界记录的消息； 窥探能力  可以窥探   socket recv、recvfrom 函数可以使用标志 MSG _PEEK 从接收队列读取数据，且系统不在读取之后丢弃这些数据； 不可窥探   管道、FIFO、POSIX 消息、System V 消息 只有一个副本递交到一个线程，且消息不能广播或多播到多个接收者（UDP 广播、多播） 读取顺序  先进先出   管道、FIFO 优先级最高的最早消息   POSIX 消息 指定优先级的消息   System V 消息 对象持续性  随进程持续 process-persistent   IPC 对象一直存在到打开着该对象的最后一个进程关闭该对象为止。没有 unlink 函数。 管道、FIFO、POSIX 互斥锁、POSIX 条件变量、POSIX 读写锁、POSIX 基于内存的信号量、fcntl 记录锁、TCP 套 接字、UDP 套接字、Unix 域套接字 随内核持续 kernel-persistent   一直存在到内核重新自举或显示删除该 IPC 对象。存在对应的 unlink 函数。 POSIX 消息队列、POSIX 有名信号量、POSIX 共享内存区、System V 消息队列、System V 信号量、System V 共 享内存 随文件系统持续 filesystem-persistent   一直存在到显示删除该 IPC 对象为止。 IPC 的一个基本设计目标是高性能，而具备随文件系统的持续性可能会使其性能降级，而且进程不可能跨越自举继 续存活。 名字空间 – name space   一种给定的 IPC 类型，其可能名字的集合称为名字空间。名字空间非常重要，因为名字是客户与服务器彼此连接 以交换消息的手段。    IPC 类型 打开或创建 IPC 的名字空间 IPC 打开后的标识     管道 NA 描述符   FIFO 路径名 描述符   POSIX 互斥锁 NA pthread _mutex _t 指针   POSIX 条件变量 NA pthread _cond _t 指针   POSIX 读写锁 NA pthread _rwlock _t 指针   fcntl 记录上锁 路径名 描述符   POSIX 消息队列 POSIX IPC 名字 mqd _t 值   POSIX 命名信号量 POSIX IPC 名字 sem _t 指针   POSIX 共享内存 POSIX IPC 名字 描述符   POSIX 基于内存的信号量 NA sem _t 指针   TCP 套接字 IP 地址与 TCP 端口 描述符   UDP 套接字 IP 地址与 UDP 端口 描述符   Unix 域套接字 路径名 描述符   Sun RPC 程序/版本 RPC 句柄   门 路径名 描述符   System V 消息队列 key _t 键 System V IPC 标识符   System V 信号量 key _t 键 System V IPC 标识符   System V 共享内存 key _t 键 System V IPC 标识符    打开 IPC 名字空间  无名 IPC   管道、POSIX 互斥锁、POSIX 条件变量、POSIX 读写锁、POSIX 基于内存的信号量； 无名 IPC 也可为进程所共享   互斥锁、条件变量、读写锁、POSIX 无名信号量都是无名的，也就是说他们是基于内存的。他们很容易为单个进程 内的不同线程所共享；当他们存放在不同进程间所共享的内存区中时，同时设置其进程共享属性，也可以为这些进 程所共享。 打开路径名 (path) 来打开 IPC   FIFO、fcntl、Unix 域套接字、门； 打开 POSIX IPC 名字来打开 IPC   POSIX 消息队列、POSIX 命令信号量、POSIX 共享内存； 基于 IP 地址和端口号来打开 IPC   TCP 套接字、UDP 套接字； 基于 key _t 键打开 IPC   System V 消息队列、System V 信号量、System V 共享内存； 打开 IPC 后的标识  描述符   管道、FIFO、fcntl、POSIX 共享内存、TCP 套接字、UDP 套接字、Unix 虞域套接字、门 相应形式的指针     POSIX 互斥锁    POSIX 条件变量    POSIX 读写锁    POSIX 命名信号量    POSIX 基于内存的信号量   值     POSIX 消息队列   System V IPC 标识符     System V 消息队列    System V 信号量    System V 共享内存   RPC 句柄   Sun RPC 需要定义结构体变量–指针   除了 Posix 信号量需要定义成指针，其他的都需要定义成变量。 结构体   互斥锁、条件变量、读写锁、Posix 无名信号量、Posix 消息队列、 描述符、Posix 共享内存、 指针   Posix 命名信号量、mmap、 fork、exec、exit 对 IPC 的影响     无名同步变量（互斥锁、条件变量、读写锁、基于内存的信号量），从一个具有多线程的进程中调用 fork 将变得 混乱不堪；如果这些变量驻留在共享内存区中，而且创建时设置了进程共享属性，那么对于能访问该共享内存区的 任意进程来说，其任意线程能继续访问这些变量。    System V IPC 的三种形式没有打开或关闭的说法，只需知道其标识符即可访问。      IPC 类型 fork exec _exit     管道、FIFO 子进程取得父进程的所有打开着的文件描述符的副本 所有打开着的文件描述符继续打开，除非设置了 FD _CLOEXEC 位 关闭所有打开着的描述符，最后一个关闭时删除管道或 FIFO 中残留的数据   POSIX 消息队列 子进程取得父进程的所有打开着的消息队列描述符的副本 关闭所有打开着消息队列描述符 关闭所有打开着的消息队列描述符   System V 消息队列 – – –   POSIX 互斥锁和条件变量 若驻留在共享内存区中而且具有进程间共享属性，则共享 除非在继续打开着的共享内存区中而且具有进程间共享属性，否则消失 除非在继续打开着的共享内存区中而且具有进程间共享属性，否则消失   POSIX 读写锁 若驻留在共享内存区中而且具有进程间共享属性，则共享 除非在继续打开着的共享内存区中而且具有进程间共享属性，否则消失 除非在继续打开着的共享内存区中而且具有进程间共享属性，否则消失   POSIX 基于内存的信号量 若驻留在共享内存区中而且具有进程间共享属性，则共享 除非在继续打开着的共享内存区中而且具有进程间共享属性，否则消失 除非在继续打开着的共享内存区中而且具有进程间共享属性，否则消失   POSIX 命名信号量 父进程中所有打开着的命名信号量在子进程中继续打开着 关闭所有打开着的命名信号量 关闭所有打开着的命名信号量   fcntl 记录锁 子进程不继承父进程持有的锁 只要描述符继续打开着，锁就不变 解开由进程持有的所有未处理的锁   System V 信号量 子进程中所有 semadj 值都置位 0 所有 semadj 值都携入新进程 所有 semadj 值都加到相应的信号量值上   mmap 内存映射 父进程的内存映射存留到子进程中 去除内存映射 去除内存映射   POSIX 共享内存区 父进程中内存映射存留到子进程中 去除内存映射 去除内存映射   System V 共享内存区 附接着的共享内存区在子进程中继续附接着 断开所有附接着的共享内存区 断开所有附接着的共享内存区   门 子进程取得父进程的所有打开着的描述符，但是客户在门描述符上激活其过程时，只有父进程是服务器 所有门描述符都应关闭，因为它们创建时设置了 FD _CLOEXEC 位 关闭所有打开着的描述符    锁释放  内核自动释放   持有某个锁的进程没有释放就终止，内核自动释放该锁； fcntl 记录锁、System V 信号量（可选项） 无法释放锁   互斥锁、条件变量、读写锁、POSIX 信号量 进程、线程与共享信息   没有任何东西限制任何 IPC 技术只适用于两个进程。    两个进程共享存留于文件系统中某个文件上的某些信息。为了访问这些信息，每个进程都得穿越内核（例如 read、write、lssk 等）；需要某种形式的同步，如记录锁。    两个进程共享驻留于内核的某些信息，访问共享信息的每次操作都涉及对内核的一次系统调用。管道、 System V 消息队列、System V 信号量均是；    两个进程有一个双方都能访问的共享存储区，需要某种形式的同步（信号量等）。每个进程一旦设置好该共享 内存区，就能根本不涉及内核而访问其中的数据。   进程 – 线程  设计线程的原因：     fork 的开销很大。内存映射要从父进程复制到子进程，所有描述符要在子进程复制一份。尽管存在写时复制 (copy-on-write) 的技术，fork 的开销仍然很大。    fork 子进程后，需要使用 IPC 在父子进程之间传递信息。   线程共享全局内存空间   一个进程内的所有线程共享同一个全局内存空间。使得线程间很容易共享信息，但这种易用性也带来了同步 (synchronization) 问题。 线程共享的资源     全局内存空间    进程指令    打开的文件    信号处理程序和信号处置    当前工作目录    用户 ID 和 组 ID   线程私有资源     线程 ID    寄存器集合，包括程序计数器和栈指针    栈，存放局部变量和返回地址    errno    信号掩码    优先级   系统开销     执行一般命令 1ns = 1/1,000,000,000s   从 L1 级缓存读 0.</description>
+    </item>
+    
+    <item>
+      <title>GNU Compiler Collection</title>
+      <link>https://kylestones.github.io/hugo-blog/blog/tools/gcc/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/hugo-blog/blog/tools/gcc/</guid>
+      <description>GCC 由最初的 GNU C Compiler 逐渐演变为 GNU Compiler Collection ，支持 C, C++, Objective-C, Fortran, Ada, Go 语言的编译，当然也包含这些语言的库。不同的语言会有不同的版本， gcc 是 c 语言的编译器。 编译   编译过程通常包含 4 个步骤，可以指定选项来只完成某一步操作：    预处理或预编译 (Preprocessing)，进行宏替换、注释消除、找到库文件 : gcc -E test.c -o test.i    编译 (Compilation) ，编译成汇编代码 : gcc -S test.i -o test.s    汇编 (Assembly) ，生成机器代码（目标代码）: gcc -c test.s -o test.o    连接 (Linking) ，将目标文件和库文件连接起来，生成可执行文件 : gcc test.</description>
+    </item>
+    
+    <item>
+      <title>GNU Project Debugger</title>
+      <link>https://kylestones.github.io/hugo-blog/blog/tools/gdb/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/hugo-blog/blog/tools/gdb/</guid>
+      <description>GDB是GNU开源组织发布的一个强大的UNIX下的程序调试工具。  GDB主要帮忙你完成下面四个方面的功能：    启动你的程序，可以按照你的自定义的要求随心所欲的运行程序。    可让被调试的程序在你所指定的调置的断点处停住。    当程序被停住时，可以检查此时你的程序中所发生的事。    动态的改变你程序的执行环境。    预置条件：在编译连接的时候要指定 -g 选项，把调试信息加入到可执行文件。 启动  $ gdb program $ gdb --args program arg1 arg2 ... # 带着执行参数挂载 gdb $ gdb # 先进入 gdb 界面 (gdb) file program $ gdb program core # $ gdb program PID # 程序运行之后再挂载 $ gdb attach PID # attach  帮助  (gdb) help # 列出命令的所有种类 (gdb) help &amp;lt;class&amp;gt; # 查看该类的所有命令 (gdb) helo &amp;lt;command&amp;gt; # 查看该命令的帮助信息   在输入命令名称不完整的时候，gdb 可以自动配置命令，然后执行匹配到没有歧义的命令。若有歧义则提示用户输 入更多信息来批备命令。直接回车将执行上一次执行的命令。 查看源代码  (gdb) list # 查看程序代码，简写 l (gdb) l (gdb) list &amp;lt;first&amp;gt;, &amp;lt;last&amp;gt; # 显示从first行到last行之间的源代码 (gdb) show listsize # 查看 (gdb) set listsize 20 # 修改 (gdb) forward-search &amp;lt;regexp&amp;gt; # 向前搜索源代码；regexp 是正则表达式 (gdb) search &amp;lt;regexp&amp;gt; (gdb) reverse-search &amp;lt;regexp&amp;gt; # 向后搜索源代码 (gdb) info line # 查看源代码在内存中的地址 (gdb) disassemble func # 查看源程序的当前执行时的机器码，这个命令会把目前内存中的指令 dump 出来  程序运行上下文  (gdb) set args arg1 # 这里指可以设置运行参数，不能加程序名 (gdb) show args (gdb) path &amp;lt;dir&amp;gt; # 设定程序运行路径 (gdb) show path # 查看程序运行路径 (gdb) cd /root # (gdb) pwd (gdb) set environment USER=sanshi # 设置环境变量 (gdb) show environment (gdb) info terminal # 显示程序用到的终端模式 (gdb) run &amp;gt; outfile # 重定向程序输出 (gdb) tty /dev/tty1 # 设置输入输出使用的终端设备 (gdb) set logging on # 将命令的输出保存到默认的 gdb.</description>
+    </item>
+    
+    <item>
+      <title>make</title>
+      <link>https://kylestones.github.io/hugo-blog/blog/tools/make/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/hugo-blog/blog/tools/make/</guid>
+      <description>make 可以自行决定一个大型程序中的哪些源文件需要重新编译，并根据指定的命令对其进行重新编译。make 不仅 可以用于 C 语言的编译，其可以用于任何可以使用 shell 命令进行编译的语言。而且 make 并不仅仅限于编译某 种语言，也可以使用 make 工具来做一些其它的事。例如，有这样的需求：当我们修改了某个或者某些文件后，需 要能够根据修改的文件来自动对相关文件进行重建或者更新。  需要编写 makefile 文件来使用 make 这个工具。makefile 用于告诉 make 需要编译哪些文件，以及如何编译。 makefile 文件中描述了文件之间的关系，并制定了一些命令用于编译更新。一般来说，一个可执行程序文件依赖 一些目标文件，而这些目标文件有某些源文件编译得到。一旦完成了一个有效的 makefile 文件，每次只需要执行 make 命令便可以完成增量编译。make 根据文件的最后修改时间来决定哪些文件需要被更新。 edit : main.o kbd.o command.o display.o \ insert.o search.o files.o utils.o cc -o edit main.o kbd.o command.o display.o \  insert.o search.o files.o utils.o main.o : main.c defs.h cc -c main.c kbd.o : kbd.c defs.h command.h cc -c kbd.</description>
+    </item>
+    
+    <item>
+      <title>mpayer</title>
+      <link>https://kylestones.github.io/hugo-blog/blog/tools/mplayer/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/hugo-blog/blog/tools/mplayer/</guid>
+      <description>拷贝路径 mplayer 参数说明  格式有点凌乱，待整理。 TODO  MPlayer 名称 概要 说明 一般注记 播放选项 ( 仅用于 MPLAYER) 分路器 / 媒体流选项 OSD/ 字幕选项 音频输出选项 ( 仅用于 MPLAYER) 视频输出选项 ( 仅用于 MPLAYER) 解码 / 滤镜选项 编码选项 ( 仅用于 MENCODER) 键盘控制 SLAVE 模式协议 文件 示例 BUGS 作者 标准声明 名称 mplayer − Linux下的电影播放器 mencoder − Linux下的电影编码器  概要 mplayer [选项] [ 文件 | URL | 播放列表 | - ] mplayer [全局选项] 文件1 [特定选项] [文件2] [特定选项] mplayer [全局选项] {一组文件和选项} [针对该组的特定选项] mplayer [dvd|vcd|cdda|cddb|tv]://title [选项] mplayer [mms[t]|http|http_proxy|rt[s]p]:// [用户名:密码@]URL[:端口] [选 项] mencoder [选项] [ 文件 | URL | - ] [−o 输出文件] gmplayer [选项] [−skin skin]  说明 mplayer 是一个LINUX下的电影播放器, (也能运行在许多其它的Unices 和 非x86 的CPU 上, 参看文档).</description>
+    </item>
+    
+  </channel>
+</rss>
