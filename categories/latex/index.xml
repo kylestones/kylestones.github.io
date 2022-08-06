@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>LaTex on Org Mode</title>
+    <link>https://kylestones.github.io/categories/latex/</link>
+    <description>Recent content in LaTex on Org Mode</description>
+    <image>
+      <url>https://kylestones.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://kylestones.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 24 May 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://kylestones.github.io/categories/latex/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LaTex</title>
+      <link>https://kylestones.github.io/blog/tools/latex/</link>
+      <pubDate>Thu, 24 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/blog/tools/latex/</guid>
+      <description>\(\LaTeX\) 是一个文档准备系统 (Document Preparing System)，它非常适用于生成高印刷质量的科技类和数学 类文档。它也能够生成所有其他种类的文档，小到简单的信件，大到完整的书籍。 \(\LaTeX\) 使用 \(\TeX\) 作 为它的排版引擎。
+\(\TeX\) 是高德纳 (Donald E.Knuth)开发的、以排版文字和数学公式为目的的一个计算机软件。高德纳从 1977 年开始开发 \(\TeX\) ，以发掘当时开始用于出版工业的数字印刷设备的潜力。正在编写著作《计算机程序设计艺 术》的高德纳，意图扭转排版质量每况愈下的状况，以免影响他的出书。我们现在使用的 \(\TeX\) 排版引擎发布 于 1982 年，在 1989 年又稍加改进以更好地支持 8-bit 字符和多语言排版。\(\TeX\) 以其卓越的稳定性、跨平 台、几乎没有 Bug 而著称。1990 年推出 3.1 版, 并宣布不再更新 (只修正 bug)。\(\TeX\) 的版本号不断趋近 于 \(\pi\)，当前为 3.141592653。
+\(\TeX\) 读作 &amp;#34;Tech&amp;#34; ，其中 &amp;#34;ch&amp;#34; 的发音类似于 &amp;#34;h&amp;#34; ，与汉字“泰赫”的发音类似。\(\TeX\) 的拼写来自希 腊词语 technique （技术） 的开头几个字母。在 ASCII 字符环境，\(\TeX\) 写作 TeX。\(\TeX\) 系统提供了 300 + 600 多条基本的排版命令。
+\(\TeX\) 提供的命令都是一些很底层的命令, 普通用户使用起来不太方便；大牛们在 \(\TeX\) 基础上, 定义新的命令, 为普通用户排版提供方便</description>
+    </item>
+    
+  </channel>
+</rss>

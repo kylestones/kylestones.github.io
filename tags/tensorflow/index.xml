@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>TensorFlow, on Org Mode</title>
+    <link>https://kylestones.github.io/tags/tensorflow/</link>
+    <description>Recent content in TensorFlow, on Org Mode</description>
+    <image>
+      <url>https://kylestones.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://kylestones.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 12 Aug 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://kylestones.github.io/tags/tensorflow/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>TensorFlow</title>
+      <link>https://kylestones.github.io/blog/machinelearning/tensorflow/</link>
+      <pubDate>Sun, 12 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/blog/machinelearning/tensorflow/</guid>
+      <description>架构 阅读大神的 《TensorFlow 内核剖析》 对 TensorFlow 的整个代码框架有了一些了解，以下是读书笔记。
+Graph (计算图)是 TensorFlow 领域模型的核心。计算图就是节点与边的集合，是一个 DAG (有向无环图)图。
+Node(节点)持有零条或多条输入/输出的边，分别使用 in_edges， out_edges 表示。
+Edge(边) 持有前驱节点与后驱节点，从而实现了计算图的连接，也是计算图前向遍历，后向遍历的衔接点。边上的数据以 Tensor 的形 式传递。计算图中存在两类边：
+普通边：用于承载 Tensor，常用实线表示； 控制依赖：控制节点的执行顺序，常用虚线表示。 TensorFlow 计算的单位是 OP，它表示了某种抽象计算。通过定义 OP 来构建 DAG 图。OP 拥有 0 个或多个「输入/输出」，及其 0 个 或多个「属性」。其中，输入/输出以Tensor 的形式存在。在系统实现中，OP 的元数据使用 Protobuf 格式的 OpDef 描述，实现前端与 后端的数据交换，及其领域模型的统一。OpDef 定义包括 OP 的名字，输入输出列表，属性列表，优化选项等。其中，属性常常用于描述 输入/输出的类型，大小，默认值，约束，及OP 的其他特性。
+计算图的执行过程将按照 DAG 的拓扑排序，依次启动 OP 的运算。其中，如果存在多个入度为 0 的节点，TensorFlow 运行时可以实现 并发，同时执行多个 OP 的运算，提高执行效率。
+架构设计 TensorFlow 遵循良好的分层架构：
+front end ： 用户接口，负责构造计算图 runtime ： 实现计算图的拆分。提供本地运行模式和分布式运行模式，两者共享大部分设计和实现 计算层 ： 基于 Eigen 实现计算的逻辑实现；同时支持各种硬件的并行加速 通信层 ： 基于 gRPC 实现组件间的数据交换。同时支持 RDMA 设备层 ： 支持多种异构计算设备。实际执行计算的载体 前端系统 Client 是前端系统的主要组成部分，它是一个支持多语言的编程环境，且对 Python 和 C++ 的支持比较完善。实现时通过 Swig 完成对 后端 C++ 的调用。基于这些编程接口来构造计算图。</description>
+    </item>
+    
+  </channel>
+</rss>

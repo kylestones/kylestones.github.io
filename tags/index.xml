@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Tags on Org Mode</title>
+    <link>https://kylestones.github.io/tags/</link>
+    <description>Recent content in Tags on Org Mode</description>
+    <image>
+      <url>https://kylestones.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://kylestones.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 04 Apr 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://kylestones.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Algorithm</title>
+      <link>https://kylestones.github.io/tags/algorithm/</link>
+      <pubDate>Sat, 04 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/tags/algorithm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>AutoML,</title>
+      <link>https://kylestones.github.io/tags/automl/</link>
+      <pubDate>Sat, 04 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/tags/automl/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>深度学习</title>
+      <link>https://kylestones.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Sat, 04 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>电影</title>
+      <link>https://kylestones.github.io/tags/%E7%94%B5%E5%BD%B1/</link>
+      <pubDate>Fri, 19 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/tags/%E7%94%B5%E5%BD%B1/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>目标检测,</title>
+      <link>https://kylestones.github.io/tags/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/</link>
+      <pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/tags/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>shell</title>
+      <link>https://kylestones.github.io/tags/shell/</link>
+      <pubDate>Thu, 31 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/tags/shell/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>生命</title>
+      <link>https://kylestones.github.io/tags/%E7%94%9F%E5%91%BD/</link>
+      <pubDate>Thu, 31 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/tags/%E7%94%9F%E5%91%BD/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>cuda,</title>
+      <link>https://kylestones.github.io/tags/cuda/</link>
+      <pubDate>Sun, 30 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/tags/cuda/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>卷积,</title>
+      <link>https://kylestones.github.io/tags/%E5%8D%B7%E7%A7%AF/</link>
+      <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/tags/%E5%8D%B7%E7%A7%AF/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>mxnet,</title>
+      <link>https://kylestones.github.io/tags/mxnet/</link>
+      <pubDate>Fri, 14 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/tags/mxnet/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ubuntu,</title>
+      <link>https://kylestones.github.io/tags/ubuntu/</link>
+      <pubDate>Fri, 14 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/tags/ubuntu/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>darknet,</title>
+      <link>https://kylestones.github.io/tags/darknet/</link>
+      <pubDate>Fri, 07 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/tags/darknet/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>幸福公开课</title>
+      <link>https://kylestones.github.io/tags/%E5%B9%B8%E7%A6%8F%E5%85%AC%E5%BC%80%E8%AF%BE/</link>
+      <pubDate>Sun, 02 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/tags/%E5%B9%B8%E7%A6%8F%E5%85%AC%E5%BC%80%E8%AF%BE/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>文学</title>
+      <link>https://kylestones.github.io/tags/%E6%96%87%E5%AD%A6/</link>
+      <pubDate>Sun, 02 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/tags/%E6%96%87%E5%AD%A6/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>目标分割,</title>
+      <link>https://kylestones.github.io/tags/%E7%9B%AE%E6%A0%87%E5%88%86%E5%89%B2/</link>
+      <pubDate>Tue, 27 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/tags/%E7%9B%AE%E6%A0%87%E5%88%86%E5%89%B2/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>性能测量,</title>
+      <link>https://kylestones.github.io/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E9%87%8F/</link>
+      <pubDate>Sat, 24 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E9%87%8F/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>python</title>
+      <link>https://kylestones.github.io/tags/python/</link>
+      <pubDate>Wed, 31 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/tags/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>机器学习</title>
+      <link>https://kylestones.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Thu, 23 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>人脸识别,</title>
+      <link>https://kylestones.github.io/tags/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB/</link>
+      <pubDate>Fri, 17 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/tags/%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>TensorFlow,</title>
+      <link>https://kylestones.github.io/tags/tensorflow/</link>
+      <pubDate>Sun, 12 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/tags/tensorflow/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>统计学习</title>
+      <link>https://kylestones.github.io/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Fri, 22 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43;</title>
+      <link>https://kylestones.github.io/tags/c&#43;&#43;/</link>
+      <pubDate>Wed, 30 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/tags/c&#43;&#43;/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>C</title>
+      <link>https://kylestones.github.io/tags/c/</link>
+      <pubDate>Tue, 29 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/tags/c/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>csapp,</title>
+      <link>https://kylestones.github.io/tags/csapp/</link>
+      <pubDate>Thu, 24 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/tags/csapp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>gcc</title>
+      <link>https://kylestones.github.io/tags/gcc/</link>
+      <pubDate>Thu, 24 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/tags/gcc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>gdb</title>
+      <link>https://kylestones.github.io/tags/gdb/</link>
+      <pubDate>Thu, 24 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/tags/gdb/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Git,</title>
+      <link>https://kylestones.github.io/tags/git/</link>
+      <pubDate>Thu, 24 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/tags/git/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>GTD,</title>
+      <link>https://kylestones.github.io/tags/gtd/</link>
+      <pubDate>Thu, 24 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/tags/gtd/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>LaTex</title>
+      <link>https://kylestones.github.io/tags/latex/</link>
+      <pubDate>Thu, 24 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/tags/latex/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Linux,</title>
+      <link>https://kylestones.github.io/tags/linux/</link>
+      <pubDate>Thu, 24 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/tags/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>make</title>
+      <link>https://kylestones.github.io/tags/make/</link>
+      <pubDate>Thu, 24 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/tags/make/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>time</title>
+      <link>https://kylestones.github.io/tags/time/</link>
+      <pubDate>Thu, 24 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/tags/time/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>emacs</title>
+      <link>https://kylestones.github.io/tags/emacs/</link>
+      <pubDate>Wed, 27 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/tags/emacs/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>org-mode,</title>
+      <link>https://kylestones.github.io/tags/org-mode/</link>
+      <pubDate>Wed, 27 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/tags/org-mode/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Network</title>
+      <link>https://kylestones.github.io/tags/network/</link>
+      <pubDate>Wed, 13 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/tags/network/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>book</title>
+      <link>https://kylestones.github.io/tags/book/</link>
+      <pubDate>Thu, 07 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/tags/book/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>read</title>
+      <link>https://kylestones.github.io/tags/read/</link>
+      <pubDate>Thu, 07 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/tags/read/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>老友记</title>
+      <link>https://kylestones.github.io/tags/%E8%80%81%E5%8F%8B%E8%AE%B0/</link>
+      <pubDate>Mon, 27 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/tags/%E8%80%81%E5%8F%8B%E8%AE%B0/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>幸福</title>
+      <link>https://kylestones.github.io/tags/%E5%B9%B8%E7%A6%8F/</link>
+      <pubDate>Sat, 18 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/tags/%E5%B9%B8%E7%A6%8F/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

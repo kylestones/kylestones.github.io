@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>目标检测, on Org Mode</title>
+    <link>https://kylestones.github.io/tags/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/</link>
+    <description>Recent content in 目标检测, on Org Mode</description>
+    <image>
+      <url>https://kylestones.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://kylestones.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 28 Feb 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://kylestones.github.io/tags/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Faster R-CNN</title>
+      <link>https://kylestones.github.io/blog/machinelearning/r-cnn/</link>
+      <pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/blog/machinelearning/r-cnn/</guid>
+      <description>预处理 减去 RGB 像素的均值（无论训练还是测试统一使用训练样本集的均值） Rescale 在图像的长边不超过阈值的情况下，将短边 resize 到指定值 def img_rescale(img, targetSize=600, maxSize=1000): w = img.width h = img.height minDim = min(w,h) maxDim = max(w,h) scale = targetSize / minDim if scale * maxDim &amp;gt; maxSize: scale = maxSize / maxDim img = rescale(img, scale) return img 为什么要这样 rescale 呢？这样仅仅只能让多数的图像的短边统一长度，长边的长度可能各不相同；另外一些图像长边都是最大值，但 是短边各不相同。这样做有什么意义呢？保持图像的横纵比？但是图像大小不一样，要怎样去训练呢？
+RoI Pooling RPN 生成的 RoI 由 (r,c,h,w) 表示，其中 (r,c) 是左上角的坐标，(h,w) 是高和宽。
+RoI max pooling works by dividing the h*w RoI window into an H*W grid of sub-windows of approximate size h/H * w/W and then max-pooling the values in each sub-window into the corresponding output grid cell.</description>
+    </item>
+    
+    <item>
+      <title>YOLO 实现细节</title>
+      <link>https://kylestones.github.io/blog/machinelearning/yolo/</link>
+      <pubDate>Tue, 01 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/blog/machinelearning/yolo/</guid>
+      <description>之前写的乱七八糟，现在开始重构，主要针对 YOLOv3。真的是得亲自动手实现，才能真正了解一个算法。The best way to go about learning object detection is to implement the algorithms by yourself, from scratch. – Ayoosh Kathuria
+主网络 主网络采用 Darknet53 ，网络为全卷积网络 FCN(Fully Convolutional Networks)，之前一直以为全卷积网络就是不包含全连接的网络， 现在才知道，全卷积网络连 Pooling 层都没有，Pooling 层使用步长为 2 的卷积代替，防止由于 Pooling 导致 low-level features 的丢失；分类之前使用 Global Average Pooling 。[Darknet53 中有全连接层呀，上面写错了]
+卷积层 Darknet 的每个卷积层都是由 Conv-BN-LReLU 组成，是网络的最小重复单元。
+def cbl_gen(channels, kernel_size, strides, padding): &amp;#39;&amp;#39;&amp;#39;conv-BN-LeakyReLU cell&amp;#39;&amp;#39;&amp;#39; cbl_unit = nn.HybridSequential() # 所有卷积后面都有 BN ，所以 bias 始终为 False cbl_unit.add( nn.Conv2D(channels, kernel_size=kernel_size, strides=strides, padding=padding, groups=1, use_bias=False), nn.</description>
+    </item>
+    
+    <item>
+      <title>目标检测</title>
+      <link>https://kylestones.github.io/blog/machinelearning/objectdetection/</link>
+      <pubDate>Fri, 24 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/blog/machinelearning/objectdetection/</guid>
+      <description>YOLO 非常敬佩作者 Joseph Redmon ，没有使用开源框架，而是自己使用 C 和 cuda 另外写了一套框架 DarkNet ，并且将其开源。而且 license 写的非常有意思，有点狂放不羁，可能这就是大牛该有的样子
+Darknet is public domain. Do whatever you want with it. Stop emailing me about it! YOLO 是 You Only Look Once 的简写。当然 YOLO 很可能让人想起另一句话 You only live once, but if you do it right, once is enough. – Mae West ，个人感觉作者可能有点故意让两者混淆。
+区别于 RNN 系列的文章，需要先查找 region proposals ，然后在之上进行目标检测。YOLO 只需要运行一遍卷积神经网络就可以完成目 标检测，所以其最主要的优点就是 速度 。而且 mAP (mean Average Precision) 随着算法的改进也表现的相当不错。</description>
+    </item>
+    
+  </channel>
+</rss>

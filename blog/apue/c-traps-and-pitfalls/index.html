@@ -1,0 +1,877 @@
+<!doctype html><html lang=en dir=auto><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>C Traps and Pitfalls | Org Mode</title><meta name=keywords content="C"><meta name=description content="导读 程序严格按照我们写明的程序来执行，但结果却并不是我们真正希望得到的。 程序设计错误实际上反应的是程序与程序员的“心智模式”两者的相异之处。（心智模式(mental model)解释为人 们深植心中，对于周遭世界如何运作的看法和行为；《列子》中记录有疑邻盗斧）
+练习 0-1 返修率高 你是否愿意购买一个返修率很高的厂商所生产的汽车？如果厂家声明它已经做出了改进，你的态度是否会改变？用 户为你找出程序中的 Bug，你真正损失的是什么？
+答：我们经常会依据厂商的信誉去购买其商品；会考虑其最近的高质量是真实的还是偶然的；会损失信誉。而信誉 一旦失去，就很难重新获得。
+0-2 修建一个 100 英尺长的护栏，护栏的栏杆之间相距 10 英尺，共需要多少根栏杆？ 答：11 根。
+0-3 菜刀 在烹饪时你是否失手用菜刀切伤过自己的手？怎样改进菜刀使得使用更安全？你是否愿意使用这样一把经过改良的 菜刀？
+答：我们很容易想到办法让一个工具更安全，代价是原来简单的工具现在要变得复杂一些。食品加工机一般有连锁 装置，保护使用者不让手指受伤。但是菜刀却不同，给这样一个简单、灵活的工具附加保护手指避免受伤的装置， 只能让其失去简单灵活的特点。实际上，这样做最后得到的也许更像一台食品加工机，而不是一把菜刀。 使其难于做“傻事”常常会使其难于做“聪明事”，正所谓“弄巧成拙”。
+第 1 章 词法陷阱 从较低层面考虑，程序是由 符号(token) 序列组成的，将程序分解成符号的过程称为“词法分析” 术语符号指的是程序的一个基本组成单元，其作用相当于一个句子中的单词，在不同的句子中用于相同的意义；但 是组成符号的字符序列就不同，同一组字符序列在某个上下文环境中属于一个符号，而在另一个上下文环境中可能 属于完全不同的另一个符号。 编译器中负责将程序分解为一个一个符号的部分称为“词法分析器” 在 C 语言中，符号之间的空白（包括空格符、制表符或换行符）将被忽略，因此 C 语言书写的格式可以很随意， 但这并不是好习惯。
+1.1 = is not == C 语言中赋值符号被作为一种操作符对待，因而重复进行赋值操作可以很容易的书写(a=b=c) 不要误用比较运算和赋值运算 比较运算时，如果有常量，将常量方在左侧 如果确实需要赋值运算，明确的表示出来，如下： if(x = y) foo(); //应写成 if (0 != (x = y)) foo(); 不要指望靠编译器来提醒这些警告消息，毕竟警告可以被忽略，而且有些编译器不支持 1."><meta name=author content="Kyle Three Stones"><link rel=canonical href=https://kylestones.github.io/blog/apue/c-traps-and-pitfalls/><meta name=google-site-verification content="XYZabc"><meta name=yandex-verification content="XYZabc"><meta name=msvalidate.01 content="XYZabc"><link crossorigin=anonymous href=/assets/css/stylesheet.bc1149f4a72aa4858d3a9f71462f75e5884ffe8073ea9d6d5761d5663d651e20.css integrity="sha256-vBFJ9KcqpIWNOp9xRi915YhP/oBz6p1tV2HVZj1lHiA=" rel="preload stylesheet" as=style><script defer crossorigin=anonymous src=/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG+9vmJ0cTS+ovo0FeA=" onload=hljs.initHighlightingOnLoad()></script>
+<link rel=icon href=https://kylestones.github.io/%3Clink%20/%20abs%20url%3E><link rel=icon type=image/png sizes=16x16 href=https://kylestones.github.io/%3Clink%20/%20abs%20url%3E><link rel=icon type=image/png sizes=32x32 href=https://kylestones.github.io/%3Clink%20/%20abs%20url%3E><link rel=apple-touch-icon href=https://kylestones.github.io/%3Clink%20/%20abs%20url%3E><link rel=mask-icon href=https://kylestones.github.io/%3Clink%20/%20abs%20url%3E><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--hljs-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><script type=application/javascript>var doNotTrack=!1;doNotTrack||(function(e,t,n,s,o,i,a){e.GoogleAnalyticsObject=o,e[o]=e[o]||function(){(e[o].q=e[o].q||[]).push(arguments)},e[o].l=1*new Date,i=t.createElement(n),a=t.getElementsByTagName(n)[0],i.async=1,i.src=s,a.parentNode.insertBefore(i,a)}(window,document,"script","https://www.google-analytics.com/analytics.js","ga"),ga("create","UA-123-45","auto"),ga("send","pageview"))</script><meta property="og:title" content="C Traps and Pitfalls"><meta property="og:description" content="导读 程序严格按照我们写明的程序来执行，但结果却并不是我们真正希望得到的。 程序设计错误实际上反应的是程序与程序员的“心智模式”两者的相异之处。（心智模式(mental model)解释为人 们深植心中，对于周遭世界如何运作的看法和行为；《列子》中记录有疑邻盗斧）
+练习 0-1 返修率高 你是否愿意购买一个返修率很高的厂商所生产的汽车？如果厂家声明它已经做出了改进，你的态度是否会改变？用 户为你找出程序中的 Bug，你真正损失的是什么？
+答：我们经常会依据厂商的信誉去购买其商品；会考虑其最近的高质量是真实的还是偶然的；会损失信誉。而信誉 一旦失去，就很难重新获得。
+0-2 修建一个 100 英尺长的护栏，护栏的栏杆之间相距 10 英尺，共需要多少根栏杆？ 答：11 根。
+0-3 菜刀 在烹饪时你是否失手用菜刀切伤过自己的手？怎样改进菜刀使得使用更安全？你是否愿意使用这样一把经过改良的 菜刀？
+答：我们很容易想到办法让一个工具更安全，代价是原来简单的工具现在要变得复杂一些。食品加工机一般有连锁 装置，保护使用者不让手指受伤。但是菜刀却不同，给这样一个简单、灵活的工具附加保护手指避免受伤的装置， 只能让其失去简单灵活的特点。实际上，这样做最后得到的也许更像一台食品加工机，而不是一把菜刀。 使其难于做“傻事”常常会使其难于做“聪明事”，正所谓“弄巧成拙”。
+第 1 章 词法陷阱 从较低层面考虑，程序是由 符号(token) 序列组成的，将程序分解成符号的过程称为“词法分析” 术语符号指的是程序的一个基本组成单元，其作用相当于一个句子中的单词，在不同的句子中用于相同的意义；但 是组成符号的字符序列就不同，同一组字符序列在某个上下文环境中属于一个符号，而在另一个上下文环境中可能 属于完全不同的另一个符号。 编译器中负责将程序分解为一个一个符号的部分称为“词法分析器” 在 C 语言中，符号之间的空白（包括空格符、制表符或换行符）将被忽略，因此 C 语言书写的格式可以很随意， 但这并不是好习惯。
+1.1 = is not == C 语言中赋值符号被作为一种操作符对待，因而重复进行赋值操作可以很容易的书写(a=b=c) 不要误用比较运算和赋值运算 比较运算时，如果有常量，将常量方在左侧 如果确实需要赋值运算，明确的表示出来，如下： if(x = y) foo(); //应写成 if (0 != (x = y)) foo(); 不要指望靠编译器来提醒这些警告消息，毕竟警告可以被忽略，而且有些编译器不支持 1."><meta property="og:type" content="article"><meta property="og:url" content="https://kylestones.github.io/blog/apue/c-traps-and-pitfalls/"><meta property="og:image" content="https://kylestones.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"><meta property="article:section" content="blog"><meta property="article:published_time" content="2017-08-29T00:00:00+00:00"><meta property="article:modified_time" content="2017-08-29T00:00:00+00:00"><meta property="og:site_name" content="ExampleSite"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://kylestones.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"><meta name=twitter:title content="C Traps and Pitfalls"><meta name=twitter:description content="导读 程序严格按照我们写明的程序来执行，但结果却并不是我们真正希望得到的。 程序设计错误实际上反应的是程序与程序员的“心智模式”两者的相异之处。（心智模式(mental model)解释为人 们深植心中，对于周遭世界如何运作的看法和行为；《列子》中记录有疑邻盗斧）
+练习 0-1 返修率高 你是否愿意购买一个返修率很高的厂商所生产的汽车？如果厂家声明它已经做出了改进，你的态度是否会改变？用 户为你找出程序中的 Bug，你真正损失的是什么？
+答：我们经常会依据厂商的信誉去购买其商品；会考虑其最近的高质量是真实的还是偶然的；会损失信誉。而信誉 一旦失去，就很难重新获得。
+0-2 修建一个 100 英尺长的护栏，护栏的栏杆之间相距 10 英尺，共需要多少根栏杆？ 答：11 根。
+0-3 菜刀 在烹饪时你是否失手用菜刀切伤过自己的手？怎样改进菜刀使得使用更安全？你是否愿意使用这样一把经过改良的 菜刀？
+答：我们很容易想到办法让一个工具更安全，代价是原来简单的工具现在要变得复杂一些。食品加工机一般有连锁 装置，保护使用者不让手指受伤。但是菜刀却不同，给这样一个简单、灵活的工具附加保护手指避免受伤的装置， 只能让其失去简单灵活的特点。实际上，这样做最后得到的也许更像一台食品加工机，而不是一把菜刀。 使其难于做“傻事”常常会使其难于做“聪明事”，正所谓“弄巧成拙”。
+第 1 章 词法陷阱 从较低层面考虑，程序是由 符号(token) 序列组成的，将程序分解成符号的过程称为“词法分析” 术语符号指的是程序的一个基本组成单元，其作用相当于一个句子中的单词，在不同的句子中用于相同的意义；但 是组成符号的字符序列就不同，同一组字符序列在某个上下文环境中属于一个符号，而在另一个上下文环境中可能 属于完全不同的另一个符号。 编译器中负责将程序分解为一个一个符号的部分称为“词法分析器” 在 C 语言中，符号之间的空白（包括空格符、制表符或换行符）将被忽略，因此 C 语言书写的格式可以很随意， 但这并不是好习惯。
+1.1 = is not == C 语言中赋值符号被作为一种操作符对待，因而重复进行赋值操作可以很容易的书写(a=b=c) 不要误用比较运算和赋值运算 比较运算时，如果有常量，将常量方在左侧 如果确实需要赋值运算，明确的表示出来，如下： if(x = y) foo(); //应写成 if (0 != (x = y)) foo(); 不要指望靠编译器来提醒这些警告消息，毕竟警告可以被忽略，而且有些编译器不支持 1."><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":2,"name":"Blogs","item":"https://kylestones.github.io/blog/"},{"@type":"ListItem","position":3,"name":"C Traps and Pitfalls","item":"https://kylestones.github.io/blog/apue/c-traps-and-pitfalls/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"C Traps and Pitfalls","name":"C Traps and Pitfalls","description":"导读 程序严格按照我们写明的程序来执行，但结果却并不是我们真正希望得到的。 程序设计错误实际上反应的是程序与程序员的“心智模式”两者的相异之处。（心智模式(mental model)解释为人 们深植心中，对于周遭世界如何运作的看法和行为；《列子》中记录有疑邻盗斧）\n练习 0-1 返修率高 你是否愿意购买一个返修率很高的厂商所生产的汽车？如果厂家声明它已经做出了改进，你的态度是否会改变？用 户为你找出程序中的 Bug，你真正损失的是什么？\n答：我们经常会依据厂商的信誉去购买其商品；会考虑其最近的高质量是真实的还是偶然的；会损失信誉。而信誉 一旦失去，就很难重新获得。\n0-2 修建一个 100 英尺长的护栏，护栏的栏杆之间相距 10 英尺，共需要多少根栏杆？ 答：11 根。\n0-3 菜刀 在烹饪时你是否失手用菜刀切伤过自己的手？怎样改进菜刀使得使用更安全？你是否愿意使用这样一把经过改良的 菜刀？\n答：我们很容易想到办法让一个工具更安全，代价是原来简单的工具现在要变得复杂一些。食品加工机一般有连锁 装置，保护使用者不让手指受伤。但是菜刀却不同，给这样一个简单、灵活的工具附加保护手指避免受伤的装置， 只能让其失去简单灵活的特点。实际上，这样做最后得到的也许更像一台食品加工机，而不是一把菜刀。 使其难于做“傻事”常常会使其难于做“聪明事”，正所谓“弄巧成拙”。\n第 1 章 词法陷阱 从较低层面考虑，程序是由 符号(token) 序列组成的，将程序分解成符号的过程称为“词法分析” 术语符号指的是程序的一个基本组成单元，其作用相当于一个句子中的单词，在不同的句子中用于相同的意义；但 是组成符号的字符序列就不同，同一组字符序列在某个上下文环境中属于一个符号，而在另一个上下文环境中可能 属于完全不同的另一个符号。 编译器中负责将程序分解为一个一个符号的部分称为“词法分析器” 在 C 语言中，符号之间的空白（包括空格符、制表符或换行符）将被忽略，因此 C 语言书写的格式可以很随意， 但这并不是好习惯。\n1.1 = is not == C 语言中赋值符号被作为一种操作符对待，因而重复进行赋值操作可以很容易的书写(a=b=c) 不要误用比较运算和赋值运算 比较运算时，如果有常量，将常量方在左侧 如果确实需要赋值运算，明确的表示出来，如下： if(x = y) foo(); //应写成 if (0 != (x = y)) foo(); 不要指望靠编译器来提醒这些警告消息，毕竟警告可以被忽略，而且有些编译器不支持 1.","keywords":["C"],"articleBody":" 导读 程序严格按照我们写明的程序来执行，但结果却并不是我们真正希望得到的。 程序设计错误实际上反应的是程序与程序员的“心智模式”两者的相异之处。（心智模式(mental model)解释为人 们深植心中，对于周遭世界如何运作的看法和行为；《列子》中记录有疑邻盗斧）\n练习 0-1 返修率高 你是否愿意购买一个返修率很高的厂商所生产的汽车？如果厂家声明它已经做出了改进，你的态度是否会改变？用 户为你找出程序中的 Bug，你真正损失的是什么？\n答：我们经常会依据厂商的信誉去购买其商品；会考虑其最近的高质量是真实的还是偶然的；会损失信誉。而信誉 一旦失去，就很难重新获得。\n0-2 修建一个 100 英尺长的护栏，护栏的栏杆之间相距 10 英尺，共需要多少根栏杆？ 答：11 根。\n0-3 菜刀 在烹饪时你是否失手用菜刀切伤过自己的手？怎样改进菜刀使得使用更安全？你是否愿意使用这样一把经过改良的 菜刀？\n答：我们很容易想到办法让一个工具更安全，代价是原来简单的工具现在要变得复杂一些。食品加工机一般有连锁 装置，保护使用者不让手指受伤。但是菜刀却不同，给这样一个简单、灵活的工具附加保护手指避免受伤的装置， 只能让其失去简单灵活的特点。实际上，这样做最后得到的也许更像一台食品加工机，而不是一把菜刀。 使其难于做“傻事”常常会使其难于做“聪明事”，正所谓“弄巧成拙”。\n第 1 章 词法陷阱 从较低层面考虑，程序是由 符号(token) 序列组成的，将程序分解成符号的过程称为“词法分析” 术语符号指的是程序的一个基本组成单元，其作用相当于一个句子中的单词，在不同的句子中用于相同的意义；但 是组成符号的字符序列就不同，同一组字符序列在某个上下文环境中属于一个符号，而在另一个上下文环境中可能 属于完全不同的另一个符号。 编译器中负责将程序分解为一个一个符号的部分称为“词法分析器” 在 C 语言中，符号之间的空白（包括空格符、制表符或换行符）将被忽略，因此 C 语言书写的格式可以很随意， 但这并不是好习惯。\n1.1 = is not == C 语言中赋值符号被作为一种操作符对待，因而重复进行赋值操作可以很容易的书写(a=b=c) 不要误用比较运算和赋值运算 比较运算时，如果有常量，将常量方在左侧 如果确实需要赋值运算，明确的表示出来，如下： if(x = y) foo(); //应写成 if (0 != (x = y)) foo(); 不要指望靠编译器来提醒这些警告消息，毕竟警告可以被忽略，而且有些编译器不支持 1.2 \u0026 and | is not \u0026\u0026 and || 比较容易使用错误，应注意\n1.3 词法分析中的“贪心法” C 语言有单字符符号和多字符符号。 C 语言解析规则：每一个符号都应该包含尽可能多的字符。Kernighan 与 Ritchie 描述为：“如果（编译器的） 的输入流截止至某个字符之前都已经被分解为一个个符号，那么下一个符号将包括从该字符之后可能组成一个符号 的最长字符串”\n除了字符串与字符常量，符号中间不能嵌有空白（空格符、制表符和换行符） 如果 / 是为判断下一个符号而读入的第一个字符，而 / 只有紧接着 *，那么无论上下文如何，这两个字符都将 被当做一个符号 /*，表示一段注释的开始：y = x/*p —\u003e y = x / (*p) 诸如此类的准二义性(near-ambiguity)问题，不同的上下文可能导致问题，应该明确书写出来。 1.4 整形常量 如果一个整形常量的第一个字符是数字 0，那么该常量将被视为八进制数。有时候为了上下文对齐的需要，可能无 意中将十进制数字写成八进制数字。\n1.5 字符与字符串 C 语言中单引号和双引号含义迥异，使用时注意不要用混淆。\n单引号引起的一个字符实际代表一个整数，整数值对应于该字符在编译器中用的字符集的序列值。对于采用 ASCII 字符集的编译器而言，'a' 的含义同 97 严格一致。 用双引号引起的字符串，代表的是一个指向无名数组起始字符的指针，该数组被双引号之间的字符以及一个额 外的二进制值为零的字符 '\\0' 初始化。 printf(\"Hello world!\\n\"); //等同于 char hello[] = {'H', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd', '!', '\\n', 0}; printf(hello); 练习 1-1 允许嵌套注释和不允许嵌套注释都可以编译通过，但是执行的结果不同 /*/**/\"*/\"/*\"/**/ /*/*/0*/**/1 1-2 你是否想让编译器支持嵌套注释 C 语言定义不允许嵌套注释。嵌套注释容易让人注意不到代码已经被移除了。 1-3 n–\u003e0 的含义？ 答：是 n-- \u003e 0，依据的是贪心法。 1-4 a+++++b 的含义是什么？ 答：是 a++ + ++b，而不是 (a++)++ + b，因为 a++ 不能作为左值 第 2 章 语法陷阱 程序员除了要理解程序的符号，还必须理解这些符号是如何组成声明、表达式、语句和程序的。\n2.1 理解函数声明 C 语言的 声明 由两部分组成：类型以及一组类似表达式的声明符(declarator)。 声明符与表达式类似，对他求值应该返回一个声明中给定类型的结果。 因为声明符与表达式相似，所以我们也可以在声明符中任意使用括号。 同样的逻辑也使用于函数和指针类型的声明。\nfloat f, g;//对其求值时，f,g 的类型为浮点数类型 float ff();//表达式 ff() 求值结果为浮点数，也就是说 ff 是一个返回值类型为浮点类型的函数 float *pf, foo;// *pf 是一个浮点数，也就是说，pf 是一个指向浮点数的指针；foo 只是一个浮点数，不是指针 float *g(), (*h)(); /* *g() 与 (*h)() 的值为浮点表达式，由于 () 的优先级高于 * 的优先级，*g() 也就是 *(g()) ：表示 g 是一个函数，该函数的返回值类型为指向浮点数的指针。同理，可得 h 是一个函数指针，h 指向函数的 返回值为浮点类型 */ 一旦知道了如何声明一个给定类型的变量，那么只需要把声明中的变量名和声明末尾的分号去掉，然后将剩余的部 分用一个括号封装起来即可变成类型转换符：\nfloat (*h)(); ---\u003e (float (*)()) 就是一个返回值类型为float的函数指针 (*fp)(); //fp 是一个函数指针，那么 *fp 就是该指针所指向的函数，所以 (*fp)() 就是调用该函数。 //ANSI C 允许程序员将上式简写成 fp()，但一定要记住这种写法只是一种简写形式。 //另外 *fp() 会被解释为 *(fp()) ，由于 () 优先级较高。注意不要混淆。 //利用上述只是可以理解 (*(void(*)()0))() //另外上式可以利用 typedef 来简化 typedef void (*funcptr) (); (* (funcptr) 0)(); //signal 函数接受两个参数：一个是需要被捕获的特定 signal 的整数值；另一个是指向用户提供的函数的指针， //该函数用于处理捕获到的特定 signal，返回值为 void； //其返回值为一个函数指针，函数的参数为一个整数值，返回值为 void void (*signal(int, void (*)(int)))(int); //利用 typedef 简化 typedef HANDLER void (*)(int); HANDLER signal(int, HANDLER); 2.2 运算符优先级 操作符即运算符：operator\nif(flags \u0026 FLAG != 0) ----\u003e if(flags \u0026 (FLAG != 0)) //因为 != 优先级高于 \u0026 r = hi\u003c\u003c4 + low; ---\u003e r = hi\u003c\u003c (4 + low); //因为加法运算优先级高于移位运算 添加括号可以解决运算符优先级的问题，但是表达式中有了太多的括号反而不容易理解。因此，C 语言中运算符优 先级是有益的。\n运算符 结合性 () [] -\u003e . 自左向右 ! ~ ++ – - (type) * \u0026 sizeof 自右向左 * / % 自左向右 + - 自左向右 左移 右移 自左向右 \u003c \u003c= \u003e \u003e= 自左向右 等于 不等于 自左向右 \u0026 自左向右 异或 自左向右 位或 自左向右 \u0026\u0026 自左向右 或 自左向右 ?: 自右向左 assignment 自右向左 , 自左向右 运算符优先级有 15 级，但如果把这些运算符恰当分组，并且理解各组之间的额相对优先级，那么运算符表其实也 不是那么难记。\\ref{tbl:operator-priority} 表可以通过 man opertor 来查看。单目运算符、赋值运算符、 条件运算符是自右向左结合的，其他的都是自左向右结合的。\n优先级最高的其实并不是真正意义上的运算符，包括：函数调用、数组下标、各结构成员选择操作符。他们都是自 左向右结合。a.b.c 的意义是 (a.b).c 不是 a.(b.c) ； 单目运算符的优先级仅次于前述运算符。函数调用的优先级高于单目运算符，因此假如 p 是一个函数指针，调用 p 所指向的函数必须写成(* p)()。类型转换也是单目运算符。单目运算符是自右向左结合，因此 *p++ 会被编译 器解释成 *(p++) ，取指针 p 所指向的对象，然后让 p 递增 1。而不是 (*p)++，取 p 所指向的对象，然后将该 对象递增 1。 优先级次于单目运算符就是双目运算符。双目运算符中，算数运算符优先级最高，移位运算符次之，关系运算符再 次之，接着是逻辑运算符。之后是条件运算符，最后是赋值运算符。\n需要记住的 最重要 的两点：\n任何一个逻辑运算符的优先级低于任何一个关系运算符 移位运算符的优先级比算数运算符要低，但是比关系运算符要高。 乘法、除法、求余优先级相同；加法、减法优先级相同；左移、右移优先级相同； 6 个逻辑运算符的优先级并不相同。\n=、! 运算符的优先级低于其他运算符的优先级。 a \u003c b == c \u003c d 可以用于比较 a 与 b 和 c 与 d 的相对大小顺序。 按位运算符优先级比顺序运算符优先级高 与运算比或运算优先级高 异或运算符优先级介于按位与和按位或之间 在涉及到赋值运算符时，经常引起优先级的混淆。赋值运算符低于任何一个比较运算符。\nwhile(c=getc(in) != EOF) //会首先将 getc 返回的值与 EOF 比较然后赋值给 c，结果将得到一组 1 的字节流 putc(c, out); //表达式复杂一点，这类错误就很难察觉。 lint 程序的一个版本就有下面的错误。 if( (t=BTYPE(pt1-\u003eaty)==STRTY) || t== UNIONTY){...} 2.3 注意作为语句结束标志的分号 在程序中多一个分号或者少一个分号都有肯能造成严重的错误。\n在 if、while 等语句后面多余一个分号，会导致其后面接的语句无条件执行 在 return 语句后少一个分号，可能会将 return 的后一条语句作为返回值 定义结构体后面少一个分号，假如后面仅跟着函数定义，有可能会将该结构体作为函数的返回值 2.4 switch 语句 C 语言中把 case 标号当做真正意义上的标号，程序的控制流程会径直通过 case 标号，而不会受到任何影响。 这种特性即是其优势所在，也是一大劣势。程序员很可能会遗漏某个 case 语句后的 break，造成一些难以理解的 程序行为；有时有意忽略 break 语句，则可以表达出一些其他方式很难实现的控制结构。但此时一定要加上注释。\ncase SUBTRACT: opnd2 = -opnd2;//此处没有 break case ADD: add(); 2.5 函数调用 C 语言要求：在函数调用时即使不带参数，也应包括参数列表。\nf();//如果 f 是一个没有参数的函数，f() 是函数调用 f; //计算函数 f 的地址，但并不调用该函数。 2.6 “悬挂”else 引发的问题 else 始终与同一对括号内最近的未匹配的 if 结合。 连续有两个 if 语句，之后接 else 语句就有可能出错。 解决办法：所有的 if 语句始终都加上大括号。谨记。\n练习 2-1 C 语言允许初始化列表中出现多余的逗号，这个特性有什么用？ 答：初始化列表的每一行都是以逗号结尾，这种语法的相似性，使得编辑器能够很方便的处理初始化列表。\nint days[ ] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31, }; 2-2 C 语言使用 ; 来结束语句，有没有其他的好方法 答：语句随着代码行的结束而结束，如果一个语句需要跨越多个行，需要其他的处理。\n第 3 章 语义“陷阱” [A] 3.1 指针与数组 C 语言中数组值得注意的地方有以下两点：\nC 语言中只有一维数组，而且数组大小必须在编译期就作为一个常数确定下来。然而， C 语言中数组的元素可 以是任何类型的对象，当然也可以是另外一个数组。这样，要“仿真”出一个多维数组就不是一件难事。 对于一个数组，我们只能够做两件事：确定该数组的大小，以及获得指向该数组下标为 0 的元素的指针。其他 有关数组的操作，哪怕他们乍看上去是以数组下标进行运算的，实际上都是通过指针进行的。换句话说，任何 一个数组下标运算都等同于一个对应的指针运算，因此我们完全可以依据指针行为定义数组下标的行为。 C99 标准允许变长数组(VLA)。GCC 实现了变长数组，但细节与 C99 标准不完全一致。 定义数组 int a[3];//声明 a 是一个拥有 3 个整形元素的数组 struct { int p[4]; double x; } b[17];//声明 b 是一个拥有 17 个元素的数组，每个元素都是一个结构体 int calendar[12][31];//声明 calendar 是一个拥有 12 个元素的数组，每个元素是一个拥有 31 个整形 //元素的数组；calendar 并不是一个拥有 31 个元素的数组 int num = sizeof(calendar);//值为 31 * 12 = 372 如果 calendar 不是用于 sizeof 的操作数，而是用于其他场合，那么 calendar 总是被转换成一个指向 calendar 数组的起始元素的指针。如果同类型的一个指针指向该数组，那么利用 sizeof 求取该指针时得到的是 指针的长度，不会得到数组的长度。(类型声明时不会转换，需要自己确保声明与实现类型一致)\nsizeof 和 strlen() 的区别 sizeof 求取类型及静态分配对象所占用的空间，无法求取动态分配的空间大小，且与对象的存储内容无关；在求 取对象所占用的空间时可以不用加括号，因为 sizeof 是运算符。在编译时就计算出结果，因此可以使用 sizeof 来定义数组的维数。 strlen() 求取以 '\\0' 结尾的字符串的长度，不包含结尾符，strlen() 是函数，可以求取动态分配的空间。\n指针 指针指向数组时，指针的类型是数组元素的类型， 任何指针都是指向某种类型的变量。我们可以将该类型变量的地址赋值给该指针，也可以通过该指针改变变量的值。 如果一个指针指向数组中的某一个元素，那么给该指针加 1，就能得到指向数组中下一个元素的指针，减 1 同理。 给指针加上一个整数，与给该指针的二进制表示加上同样的整数，两者的含义截然不同。 如果 ip 指向一个整 数，那么 ip+1 指向下一个整数，而不是所指向地址的下一个内存位置。如果两个指针指向的是同一个数组中的元 素，我们可以把这两个指针相减，这样做事有意义的。 只要是指针类型加减操作时都会以指向的类型为单位 数组名赋值给指针时，数组名代表下标为 0 的元素的指针。\np = a;//把数组 a 的下标为 0 的地址赋值给 p p = \u0026a;//出错，因为 \u0026a 代表指向数组的指针，而 p 是指向整数的指针，类型不匹配 p = p + 1; p++;//与上一句意义相同 *a = 12;//由于 a 代表下标为 0 的元素的指针，*a 即数组 a 中下标为 0 的元素的引用。 *(a+1)//同理可得其是数组 a 下标为 1 的元素的引用 *(a+i)/*数组 a 中下标为 i 的元素的引用，简单记为 a[i] 。实际上 a+i 和 i+a 的含义一样，因此 a[i] 与 i[a] 有同样的含义。但绝不推荐这种用法*/ 二维数组 二维数组是以数组为元素的数组。继续使用指针来操作会非常不便捷，需要与 C 语言中最为“晦暗不明”的部分 打交道。\nint calendar[12][31]; int *p; int i; /*因为 calendar 是一个有着 12 个‘数组类型’元素的数组，他的每个数组类型元素又是一个有着 31 个整形元素 的数组，所以 calendar[4] 是 calendar 数组的第 5 个元素，是 calendar 数组中 12 个有着 31 个整形元素的 数组之一。因此 calendar[4] 的行为也就表现为一个有着 31 个整形元素的数组的行为。*/ sizeof(calendar[4]) 结果为 31 与 sizeof(int) 的乘积 p = calendar[4]; // 指针 p 指向 calendar[4] 中下标为 0 的元素。 i = calendar[4][7]; //由于 calendar[4] 是一个数组，可以通过下标的形式来指定数组中的元素 i = *(calendar[4] + 7);// 类似前面的一维数组的讨论，词句与上面一句相同 i = *(*calendar+4)+7); //将上式进一步展开的结果 p = calendar; //calendar 是一个二维数组，即'数组的数组'，此处 calendar 会转换成指向数组的指针，与 //p 的类型不一致 int (*monthp) [31]; //声明了 *monthp 是一个拥有 31 个元素的数组 monthp = calendar; //monthp 指向 calendar 数组下标为 0 的元素，也就是数组 calendar 的 12 个拥有 //31 个元素数组类型元素之一。 //清空 calendar int month; for(month = 0; month \u003c 12; ++month) { int day; for(day = 0; day \u003c 31; ++day) { calendar[month][day] = 0; //等价于 *(*(calender + month) + day) } } //利用指针清空 calendar int (*monthp) [31]; for(monthp = calendar; monthp \u003c \u0026calendar[12]; ++monthp) { int *dayp; for(dayp = *monthp; dayp \u003c \u0026(*monthp)[31]; ++dayp) { *dayp = 0; } } 3.2 非数组指针 C 语言中，字符串常量代表了一块包括字符串中所有字符以及一个空字符（'\\0'）的内存区域的地址。因为 C 语 言要求字符串常量以空字符作为结束标志，对于其他字符串，C 程序员通常也沿用了这一惯例。 将两个字符串连接成单个字符串，如果使用数组，即使定义数组长度很大也无法保证空间足够，且有可能导致浪费。 所以此时可以动态为其分配内存。\nchar *s, *t; char *r = (char *)malloc(strlen(s) + strlen(t)); strcpy(r, s); strcpy(r, t); 例子有三个错误：\nmalloc 可能无法请求内存，从而返回一个空指针 在显示分配内存之后，没有显示释放内存 没有申请足够的内存空间，没有为空字符申请空间 char *s, *t; char *r = (char *)malloc(strlen(s) + strlen(t) + 1); if(NULL == r) { complain(); exit(1); } strcpy(r, s); strcpy(r, t); /*不在需要的时候*/ free(r); 3.3 作为参数的数组声明 在 C 语言中，我们没有办法可以将一个数组作为函数参数直接传递。如果我们使用数组名作为参数，那么数组名 会立刻被转换为指向该数组第 1 个元素的指针。 C 语言中会自动的将作为参数的数组声明转换为相应的指针声明。\nchar hello[] = \"hello\"; printf(\"%s\\n\", hello); printf(\"%s\\n\", \u0026hello[0]); //与上式完全等效 但不要假设，在其他情况下也会有这种自动转换。\nextern char *hello; extern char hello[]; //这两个语句之间有着天壤之别 如果一个指针并不实际代表一个数组，即使在技术上而言是正确的，采用数组形式的记法经常会起到误导作用。如 果一个指针参数代表一个数组，任选一种最能清楚反映自己意图的写法。\nint main(int argc, char* argv[]) { ... } //强调 argv 是一个指向某个数组起始元素的指针 int main(int argc, char** argv) { .... } 3.4 避免“举隅法（synecdoche）” 《牛津英语词典》对“举隅法”的解释是：“以含义更宽泛的词语代替含义相对较窄的词语，或者反之。” 其恰如其分的描述了 C 语言中一个常见的陷阱：混淆指针与指针所指向的数据。对于字符串的情形更是易错。\nchar *p, *q; p = \"xyz\"; /*有时候不妨认为 p 的值就是字符串 \"xyz\" ，但实际情况并非如此，谨记谨记。p 的值是一个指向由 'x' 'y' 'z' '\\0' 四个字符组成的字符串的起始元素的指针。*/ q = p; //复制指针并不同时赋值指针所指向的数据 3.5 空指针并非空字符串 编译器保证由整数 0 转换而来的指针不等效于任何有效的指针。处于文档化的考虑，常数 0 这个值经常用一个符 号来代替：\n#define NULL 0 当然无论直接使用常数 0，还是用符号 NULL，效果都是相同的。 但永远记住一点 空指针绝对不能解除引用 dereference 即绝不能企图使用该指针所指向内存中的存储内容，也 不可以打印该字符串（其行为未定义）。\n[A] 3.6 边界计算与不对称边界 C 语言中一个拥有 n 个元素的数组，却并不存在下标为 n 的元素，其下标范围是从 0 到 n-1。\nint i = 0; int a[10]; for(i = 1; i \u003c= 10; ++i) { a[i] = 0; //将 a[10] 设置为 0，其实是将 i 赋值为了 0，导致程序陷入死循环 } 最难察觉的常见的一类错误是 栏杆错误 或者 差一错误(off-by-one error) 。比如导读中提到的 100 英尺 长的围栏每隔 10 英尺需要一根支撑用的围栏，一共需要 11 根围栏，而不是 10 根。避免该错误的两个通用原则：\n首先考虑最简单情况下的特例，然后将得到的结果外推，这是原则一。 仔细计算边界，绝不掉以轻心，这是原则二。 造成栏杆错误的根源正是 \"right - left + 1\" 中的 \"+1\" 。有编程技巧可以降低该类错误的发生： 用第一个入界点和第一个出界点来表示一个数值范围。左闭右开 。 C 语言中数组从下标 0 开始，数组的上界就是数组元素的个数！\nint a[10], i; for(i = 0; i \u003c 10; ++i) a[i] = 0; //不要写成 int a[10], i; for(i = 0; i \u003c= 9; ++i) a[i] = 0; ANSI C 标准明确：数组中实际不存在的“溢界”元素的地址位于数组所占内存之后，这个地址可以用于进行赋值 和比较。 另一种考虑不对称边界的方式是，把上界视作某序列中第一个被占用的元素，而把下界视作序列中第一个被释放的 元素。 考虑一个函数：将长度无规律的输入数据送到缓冲区（一个能够容纳 N 个字符的内存）中去，每当这块内存被填 满时，就将缓冲区的内容写出。\n#define N 1024 static char buffer[N]; static char *bufptr; //指向缓冲区当前位置。指向第一个未占用的字符（不对称边界） *bufptr++ = c; //把 c 放入缓冲区，然后指针 bufptr 递增，指向缓冲区中第一个未占用字符 bufptr = \u0026buffer[0]; bufptr = buffer; //与上式等效。 /* 任何时候缓冲区中已经存在的字符数都是 bufptr - buffer ，因此我们可以将这个表达式与 N 比较来判断 缓冲区是否全部填满。 N - (bufptr-buffer) 表示缓冲区剩余的字符数*/ void bufwrite(char *p, int n) { while(--n \u003e= 0) { //验证 n = 1 、n = 0 时的情况，另外是否会越界？ if(bufptr == \u0026buffer[N]) //不对称边界。可以引用该地址 flushbuffer(); *bufptr++ = *p; } } /*每次迭代都要进行两个检查：循环计数器和缓冲区是否满。结果导致每次只能转移一个字符。可以利用库函数 memcpy 一次移动多个字符*/ void bufwrite(char *p, int n) { while(n \u003e 0) { int k, rem; if(bufptr == \u0026buffer[N]) flushbuffer(); rem = N - (bufptr - buffer); //另一种计算剩余缓冲区的方法：出界点（缓冲区之后位置）减去入界点（第一个未占用字符） // (buffer+N) - bufptr 可以看到和上式是结果是完全一样的 k = n \u003e rem ? rem : n; memcpy(bufptr, p, k); bufptr += k; p += k; n -= k; } } /*很多编程者在写出这样的程序时，总是感到有些犹豫不决，他们担心可能会写错。而有些程序员似乎有些“大无 畏”的精神，最后还是写错了。其实只要记住两个原则：特例外推和自己计算边界，我们完全有信心做对*/ 程序按一定的顺序生成一些整数，并将这些整数按列输出。程序的输出可能包括若干页的整数，每页包括 NCOLS 列，每列又包括 NROWS 个元素，每个元素就是一个待输出的整数。另外程序生成的整数时按列连续分布的，而不 是按行分布的。print 函数仅当缓冲区已满时才打印，未满时将数据传入缓冲区，最后一个数据生成后调用 flush 刷新，此时无论缓冲区是否已满，其中所有的数值都将被打印。 我们必须在看到第 1 列的所有元素之后，才可能知道第 2 列的第 1 个元素的内容；但是我们必须打印完第 1 行 之后，才能打印第 1 列的第 2 个元素。 缓冲区应该多大呢？乍一看来，似乎需要足够大以容纳整页内容，但仔细想想，并不需要这么大的空间，由于最后 一个的每一个元素都是相应行的最后一个元素，只要我们得到他的值就可以立即打印出来。因此我们的缓冲区不必 包括最后一列。 缓冲区中是同一行元素相邻还是同一列元素相邻？假定同一列元素相邻，这样所有的数值进入缓冲区非常的直接了 当，径直排列下去就是了，但是出缓冲区的方式却相对复杂一些。 如何打印当前行的所有元素呢？乍一想似乎漫无头绪，实际上如果看待问题的方式恰当，也就是俗话所说“思路对 了”，则相当简单。对于序号为 row 的行，其第一个元素就是 buffer[row] ,并且同一行的相邻元素在缓冲区中 相隔 NROWS 个元素排列，最后，指针 bufptr 指向的位置刚好是缓冲区中最后一个已占用元素之后。\n#define NROWS 100 #define NCOLS 100 #define BUFSIZE (NROWS*(NCOLS-1)) static int buffer[BUFSIZE]; void print(int n) { if(bufptr == \u0026buffer[BUFSIZE]) { static int row = 0; int *p; for(p = buffer + row; p \u003c bufptr; p += NROWS) { printnum(*p); } printnum(n); printnl(); if(++row == NROWS) { printpage(); row = 0; bufptr = buffer; } } else { *bufptr++ = n; } } void fulsh() { int row; int k = bufptr - buffer; if(k \u003e NROWS) { k = NROWS; } if(k \u003e 0) { for(row = 0; row \u003c k; ++row) { int *p; for(p = buffer + row; p \u003c bufptr; p += NROWS) { printnum(*p); } printnl(); } printpage(); } } 3.7 求值顺序 运算符的优先级和求值顺序完全是两码事。\n//运算符优先级用于确保 1) = 2) 而不是 1) = 3) 1) a + b *c 2) a + (b * c) 3) (a + b) * c //求值顺序保证下士不会产生求值错误 if(count != 0 \u0026\u0026 sum/count \u003c average) printf(\"average \u003c %g\\n\", average); a \u003c b \u0026\u0026 c \u003c d //编译器可以保证先求取 a \u003c b 的值，且其为真时再求取 c \u003c d 的值。 //编译器不保证求取 a \u003c b 时的顺序，可能先求 a 的值，也可能先求取 b 的值，还可能并行求值。 C 语言中只有四个运算符存在规定的求值顺序：\"\u0026\u0026、||、?:、,\"\n\u0026\u0026、|| 运算符首先对左侧操作数进行求值，只在需要的时候才对右侧操作数求值。 a ? b : c 操作数 a 先被求值，根据 a 的值在求操作数 b 或 c 的值。 逗号运算符首先对左侧操作数求值，然后该值被丢弃，再对右侧操作数求值。分割函数参数的逗号并非逗号运 算符。但函数 g((x, y)) 只有一个参数时，其中的逗号是逗号运算符。 i = 0; while(i \u003c n) y[i] = x[i++]; //或者 i = 0; while(i \u003c n) y[i++] = x[i]; //上面两个例子都对求值顺序做了太多的假设。赋值运算符并不保证求值顺序 3.8 运算符 \u0026\u0026、||、! 不要用错逻辑运算符和按位运算符。\ni = 0; while(i \u003c tabsize \u0026\u0026 tab[i] != x) ++i; //误写成 i = 0; while(i \u003c tabsize \u0026 tab[i] != x) //无法保证求值顺序，当 i==tabsize 时，访问了越界元素，读越界 ++i; //上面的代码也可以侥幸运行。因为 x\u0026y 和 x\u0026\u0026y 的结果相同只要限制 x 和 y 的取值都为 0 或者 1，且仅仅 //读了越界元素，而没有修改 3.9 整数溢出 运算结果发生溢出时，任何假设都是不安全的。 计算机将信息编码成位（比特），通常组织成字节序列。有不同的编码方式来表示整数、实数和字符串。大多数机 器对整数使用二进制补码编码，而对浮点数使用 IEEE 编码。不同的计算机模型在编码数字和多字节数据中的字节 顺序上使用不同的约定。 x、y 都是有符号正数，但是 x + y 有可能小于零。 C 语言标准规定在无符号和有符号整数之间进行强制类型转换时，基本的位模式不应该改变。 由于编码的长度有限，计算机运算与传统整数和实数运算相比，具有非常不同的属性。当超出表示范围时，有限长 度能够引起数值的溢出。 如果算数运算符的一个操作数是有符号整数，另一个是无符号整数，那么有符号整数会被转换成无符号整数。 不能用 x-y\u003c0 来取代 x","wordCount":"3462","inLanguage":"en","datePublished":"2017-08-29T00:00:00Z","dateModified":"2017-08-29T00:00:00Z","author":{"@type":"Person","name":"Kyle Three Stones"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://kylestones.github.io/blog/apue/c-traps-and-pitfalls/"},"publisher":{"@type":"Organization","name":"Org Mode","logo":{"@type":"ImageObject","url":"https://kylestones.github.io/%3Clink%20/%20abs%20url%3E"}}}</script></head><body id=top><script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add("dark"):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove("dark"):window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")</script><header class=header><nav class=nav><div class=logo><a href=https://kylestones.github.io accesskey=h title="Home (Alt + H)"><img src=https://kylestones.github.io/apple-touch-icon.png alt aria-label=logo height=35>Home</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu><li><a href=https://kylestones.github.io/categories/ title=categories><span>categories</span></a></li><li><a href=https://kylestones.github.io/tags/ title=tags><span>tags</span></a></li><li><a href=https://example.org title=example.org><span>example.org</span>&nbsp;<svg fill="none" shape-rendering="geometricPrecision" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><div class=breadcrumbs><a href=https://kylestones.github.io>Home</a>&nbsp;»&nbsp;<a href=https://kylestones.github.io/blog/>Blogs</a></div><h1 class=post-title>C Traps and Pitfalls</h1><div class=post-meta><span title='2017-08-29 00:00:00 +0000 UTC'>August 29, 2017</span>&nbsp;·&nbsp;17 min&nbsp;·&nbsp;3462 words&nbsp;·&nbsp;Kyle Three Stones&nbsp;|&nbsp;<a href=https://github.com/%3cpath_to_repo%3e/content/blog/apue/C-Traps-and-Pitfalls.org rel="noopener noreferrer" target=_blank>Suggest Changes</a></div></header><div class=post-content><div id=outline-container-headline-1 class=outline-3><h3 id=headline-1>导读</h3><div id=outline-text-headline-1 class=outline-text-3><p>程序严格按照我们写明的程序来执行，但结果却并不是我们真正希望得到的。
+程序设计错误实际上反应的是程序与程序员的“心智模式”两者的相异之处。（心智模式(mental model)解释为人
+们深植心中，对于周遭世界如何运作的看法和行为；《列子》中记录有疑邻盗斧）</p><div id=outline-container-headline-2 class=outline-4><h4 id=headline-2>练习</h4><div id=outline-text-headline-2 class=outline-text-4><div id=outline-container-headline-3 class=outline-5><h5 id=headline-3>0-1 返修率高</h5><div id=outline-text-headline-3 class=outline-text-5><p>你是否愿意购买一个返修率很高的厂商所生产的汽车？如果厂家声明它已经做出了改进，你的态度是否会改变？用
+户为你找出程序中的 Bug，你真正损失的是什么？</p><p>答：我们经常会依据厂商的信誉去购买其商品；会考虑其最近的高质量是真实的还是偶然的；会损失信誉。而信誉
+一旦失去，就很难重新获得。</p></div></div><div id=outline-container-headline-4 class=outline-5><h5 id=headline-4>0-2 修建一个 100 英尺长的护栏，护栏的栏杆之间相距 10 英尺，共需要多少根栏杆？</h5><div id=outline-text-headline-4 class=outline-text-5><p>答：11 根。</p></div></div><div id=outline-container-headline-5 class=outline-5><h5 id=headline-5>0-3 菜刀</h5><div id=outline-text-headline-5 class=outline-text-5><p>在烹饪时你是否失手用菜刀切伤过自己的手？怎样改进菜刀使得使用更安全？你是否愿意使用这样一把经过改良的
+菜刀？</p><p>答：我们很容易想到办法让一个工具更安全，代价是原来简单的工具现在要变得复杂一些。食品加工机一般有连锁
+装置，保护使用者不让手指受伤。但是菜刀却不同，给这样一个简单、灵活的工具附加保护手指避免受伤的装置，
+只能让其失去简单灵活的特点。实际上，这样做最后得到的也许更像一台食品加工机，而不是一把菜刀。
+使其难于做“傻事”常常会使其难于做“聪明事”，正所谓“弄巧成拙”。</p></div></div></div></div></div></div><div id=outline-container-headline-6 class=outline-3><h3 id=headline-6>第 1 章 词法陷阱</h3><div id=outline-text-headline-6 class=outline-text-3><p>从较低层面考虑，程序是由 <strong>符号(token)</strong> 序列组成的，将程序分解成符号的过程称为“词法分析”
+术语符号指的是程序的一个基本组成单元，其作用相当于一个句子中的单词，在不同的句子中用于相同的意义；但
+是组成符号的字符序列就不同，同一组字符序列在某个上下文环境中属于一个符号，而在另一个上下文环境中可能
+属于完全不同的另一个符号。
+编译器中负责将程序分解为一个一个符号的部分称为“词法分析器”
+在 C 语言中，符号之间的空白（包括空格符、制表符或换行符）将被忽略，因此 C 语言书写的格式可以很随意，
+但这并不是好习惯。</p><div id=outline-container-headline-7 class=outline-4><h4 id=headline-7>1.1 = is not ==</h4><div id=outline-text-headline-7 class=outline-text-4><p>C 语言中赋值符号被作为一种操作符对待，因而重复进行赋值操作可以很容易的书写(a=b=c)
+<strong>不要误用比较运算和赋值运算</strong></p><ul><li>比较运算时，如果有常量，将常量方在左侧</li><li>如果确实需要赋值运算，明确的表示出来，如下：</li></ul><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>if</span><span class=p>(</span><span class=n>x</span> <span class=o>=</span> <span class=n>y</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>foo</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=c1>//应写成
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>if</span> <span class=p>(</span><span class=mi>0</span> <span class=o>!=</span> <span class=p>(</span><span class=n>x</span> <span class=o>=</span> <span class=n>y</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=n>foo</span><span class=p>();</span></span></span></code></pre></div></div><ul><li>不要指望靠编译器来提醒这些警告消息，毕竟警告可以被忽略，而且有些编译器不支持</li></ul></div></div><div id=outline-container-headline-8 class=outline-4><h4 id=headline-8>1.2 & and | is not && and ||</h4><div id=outline-text-headline-8 class=outline-text-4><p>比较容易使用错误，应注意</p></div></div><div id=outline-container-headline-9 class=outline-4><h4 id=headline-9>1.3 词法分析中的“贪心法”</h4><div id=outline-text-headline-9 class=outline-text-4><p>C 语言有单字符符号和多字符符号。
+C 语言解析规则：每一个符号都应该包含尽可能多的字符。Kernighan 与 Ritchie 描述为：“如果（编译器的）
+的输入流截止至某个字符之前都已经被分解为一个个符号，那么下一个符号将包括从该字符之后可能组成一个符号
+的最长字符串”</p><ul><li>除了字符串与字符常量，符号中间不能嵌有空白（空格符、制表符和换行符）</li><li>如果 / 是为判断下一个符号而读入的第一个字符，而 / 只有紧接着 *，那么无论上下文如何，这两个字符都将
+被当做一个符号 /*，表示一段注释的开始：y = x/*p —> y = x / (*p)</li><li>诸如此类的准二义性(near-ambiguity)问题，不同的上下文可能导致问题，应该明确书写出来。</li></ul></div></div><div id=outline-container-headline-10 class=outline-4><h4 id=headline-10>1.4 整形常量</h4><div id=outline-text-headline-10 class=outline-text-4><p>如果一个整形常量的第一个字符是数字 0，那么该常量将被视为八进制数。有时候为了上下文对齐的需要，可能无
+意中将十进制数字写成八进制数字。</p></div></div><div id=outline-container-headline-11 class=outline-4><h4 id=headline-11>1.5 字符与字符串</h4><div id=outline-text-headline-11 class=outline-text-4><p>C 语言中单引号和双引号含义迥异，使用时注意不要用混淆。</p><ol><li>单引号引起的一个字符实际代表一个整数，整数值对应于该字符在编译器中用的字符集的序列值。对于采用
+ASCII 字符集的编译器而言，'a' 的含义同 97 严格一致。</li><li>用双引号引起的字符串，代表的是一个指向无名数组起始字符的指针，该数组被双引号之间的字符以及一个额
+外的二进制值为零的字符 '\0' 初始化。</li></ol><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=n>printf</span><span class=p>(</span><span class=s>&#34;Hello world!</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=c1>//等同于
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kt>char</span> <span class=n>hello</span><span class=p>[]</span> <span class=o>=</span> <span class=p>{</span><span class=sc>&#39;H&#39;</span><span class=p>,</span> <span class=sc>&#39;e&#39;</span><span class=p>,</span> <span class=sc>&#39;l&#39;</span><span class=p>,</span> <span class=sc>&#39;l&#39;</span><span class=p>,</span> <span class=sc>&#39;o&#39;</span><span class=p>,</span> <span class=sc>&#39; &#39;</span><span class=p>,</span> <span class=sc>&#39;w&#39;</span><span class=p>,</span> <span class=sc>&#39;o&#39;</span><span class=p>,</span> <span class=sc>&#39;r&#39;</span><span class=p>,</span> <span class=sc>&#39;l&#39;</span><span class=p>,</span> <span class=sc>&#39;d&#39;</span><span class=p>,</span> <span class=sc>&#39;!&#39;</span><span class=p>,</span> <span class=sc>&#39;\n&#39;</span><span class=p>,</span> <span class=mi>0</span><span class=p>};</span>
+</span></span><span class=line><span class=cl><span class=n>printf</span><span class=p>(</span><span class=n>hello</span><span class=p>);</span></span></span></code></pre></div></div></div></div><div id=outline-container-headline-12 class=outline-4><h4 id=headline-12>练习</h4><div id=outline-text-headline-12 class=outline-text-4><div id=outline-container-headline-13 class=outline-5><h5 id=headline-13>1-1 允许嵌套注释和不允许嵌套注释都可以编译通过，但是执行的结果不同</h5><div id=outline-text-headline-13 class=outline-text-5><pre class=example>
+/*/**/&#34;*/&#34;/*&#34;/**/
+/*/*/0*/**/1
+</pre></div></div><div id=outline-container-headline-14 class=outline-5><h5 id=headline-14>1-2 你是否想让编译器支持嵌套注释</h5><div id=outline-text-headline-14 class=outline-text-5><pre class=example>
+C 语言定义不允许嵌套注释。嵌套注释容易让人注意不到代码已经被移除了。
+</pre></div></div><div id=outline-container-headline-15 class=outline-5><h5 id=headline-15>1-3 n–>0 的含义？</h5><div id=outline-text-headline-15 class=outline-text-5><pre class=example>
+答：是 n-- &gt; 0，依据的是贪心法。
+</pre></div></div><div id=outline-container-headline-16 class=outline-5><h5 id=headline-16>1-4 a+++++b 的含义是什么？</h5><div id=outline-text-headline-16 class=outline-text-5><pre class=example>
+答：是 a++ + ++b，而不是 (a++)++ + b，因为 a++ 不能作为左值
+</pre></div></div></div></div></div></div><div id=outline-container-headline-17 class=outline-3><h3 id=headline-17>第 2 章 语法陷阱</h3><div id=outline-text-headline-17 class=outline-text-3><p>程序员除了要理解程序的符号，还必须理解这些符号是如何组成声明、表达式、语句和程序的。</p><div id=outline-container-headline-18 class=outline-4><h4 id=headline-18>2.1 理解函数声明</h4><div id=outline-text-headline-18 class=outline-text-4><p>C 语言的 <strong>声明</strong> 由两部分组成：类型以及一组类似表达式的声明符(declarator)。
+声明符与表达式类似，对他求值应该返回一个声明中给定类型的结果。
+因为声明符与表达式相似，所以我们也可以在声明符中任意使用括号。
+同样的逻辑也使用于函数和指针类型的声明。</p><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>float</span> <span class=n>f</span><span class=p>,</span> <span class=n>g</span><span class=p>;</span><span class=c1>//对其求值时，f,g 的类型为浮点数类型
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kt>float</span> <span class=nf>ff</span><span class=p>();</span><span class=c1>//表达式 ff() 求值结果为浮点数，也就是说 ff 是一个返回值类型为浮点类型的函数
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kt>float</span> <span class=o>*</span><span class=n>pf</span><span class=p>,</span> <span class=n>foo</span><span class=p>;</span><span class=c1>// *pf 是一个浮点数，也就是说，pf 是一个指向浮点数的指针；foo 只是一个浮点数，不是指针
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kt>float</span> <span class=o>*</span><span class=nf>g</span><span class=p>(),</span> <span class=p>(</span><span class=o>*</span><span class=n>h</span><span class=p>)();</span>
+</span></span><span class=line><span class=cl><span class=cm>/* *g() 与 (*h)() 的值为浮点表达式，由于 () 的优先级高于 * 的优先级，*g() 也就是
+</span></span></span><span class=line><span class=cl><span class=cm>*(g()) ：表示 g 是一个函数，该函数的返回值类型为指向浮点数的指针。同理，可得 h 是一个函数指针，h 指向函数的
+</span></span></span><span class=line><span class=cl><span class=cm>返回值为浮点类型 */</span></span></span></code></pre></div></div><p>一旦知道了如何声明一个给定类型的变量，那么只需要把声明中的变量名和声明末尾的分号去掉，然后将剩余的部
+分用一个括号封装起来即可变成类型转换符：</p><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>float</span> <span class=p>(</span><span class=o>*</span><span class=n>h</span><span class=p>)();</span>   <span class=o>---&gt;</span>     <span class=p>(</span><span class=kt>float</span> <span class=p>(</span><span class=o>*</span><span class=p>)())</span> <span class=err>就是一个返回值类型为</span><span class=n>float的函数指针</span>
+</span></span><span class=line><span class=cl><span class=p>(</span><span class=o>*</span><span class=n>fp</span><span class=p>)();</span>
+</span></span><span class=line><span class=cl><span class=c1>//fp 是一个函数指针，那么 *fp 就是该指针所指向的函数，所以 (*fp)() 就是调用该函数。
+</span></span></span><span class=line><span class=cl><span class=c1>//ANSI C 允许程序员将上式简写成 fp()，但一定要记住这种写法只是一种简写形式。
+</span></span></span><span class=line><span class=cl><span class=c1>//另外 *fp() 会被解释为 *(fp()) ，由于 () 优先级较高。注意不要混淆。
+</span></span></span></code></pre></div></div><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=c1>//利用上述只是可以理解 (*(void(*)()0))()
+</span></span></span><span class=line><span class=cl><span class=c1>//另外上式可以利用 typedef 来简化
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>typedef</span> <span class=nf>void</span> <span class=p>(</span><span class=o>*</span><span class=n>funcptr</span><span class=p>)</span> <span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=p>(</span><span class=o>*</span> <span class=p>(</span><span class=n>funcptr</span><span class=p>)</span> <span class=mi>0</span><span class=p>)();</span></span></span></code></pre></div></div><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=c1>//signal 函数接受两个参数：一个是需要被捕获的特定 signal 的整数值；另一个是指向用户提供的函数的指针，
+</span></span></span><span class=line><span class=cl><span class=c1>//该函数用于处理捕获到的特定 signal，返回值为 void；
+</span></span></span><span class=line><span class=cl><span class=c1>//其返回值为一个函数指针，函数的参数为一个整数值，返回值为 void
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kt>void</span> <span class=p>(</span><span class=o>*</span><span class=n>signal</span><span class=p>(</span><span class=kt>int</span><span class=p>,</span> <span class=kt>void</span> <span class=p>(</span><span class=o>*</span><span class=p>)(</span><span class=kt>int</span><span class=p>)))(</span><span class=kt>int</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=c1>//利用 typedef 简化
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>typedef</span> <span class=n>HANDLER</span> <span class=nf>void</span> <span class=p>(</span><span class=o>*</span><span class=p>)(</span><span class=kt>int</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>HANDLER</span> <span class=nf>signal</span><span class=p>(</span><span class=kt>int</span><span class=p>,</span> <span class=n>HANDLER</span><span class=p>);</span></span></span></code></pre></div></div></div></div><div id=outline-container-headline-19 class=outline-4><h4 id=headline-19>2.2 运算符优先级</h4><div id=outline-text-headline-19 class=outline-text-4><p>操作符即运算符：operator</p><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>if</span><span class=p>(</span><span class=n>flags</span> <span class=o>&amp;</span> <span class=n>FLAG</span> <span class=o>!=</span> <span class=mi>0</span><span class=p>)</span>  <span class=o>----&gt;</span>  <span class=k>if</span><span class=p>(</span><span class=n>flags</span> <span class=o>&amp;</span> <span class=p>(</span><span class=n>FLAG</span> <span class=o>!=</span> <span class=mi>0</span><span class=p>))</span> <span class=c1>//因为 != 优先级高于 &amp;
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>r</span> <span class=o>=</span> <span class=n>hi</span><span class=o>&lt;&lt;</span><span class=mi>4</span> <span class=o>+</span> <span class=n>low</span><span class=p>;</span> <span class=o>---&gt;</span>  <span class=n>r</span> <span class=o>=</span> <span class=n>hi</span><span class=o>&lt;&lt;</span> <span class=p>(</span><span class=mi>4</span> <span class=o>+</span> <span class=n>low</span><span class=p>);</span> <span class=c1>//因为加法运算优先级高于移位运算
+</span></span></span></code></pre></div></div><p>添加括号可以解决运算符优先级的问题，但是表达式中有了太多的括号反而不容易理解。因此，C 语言中运算符优
+先级是有益的。</p><table><thead><tr><th class=align-left>运算符</th><th class=align-center>结合性</th></tr></thead><tbody><tr><td class=align-left>() [] -> .</td><td class=align-center>自左向右</td></tr><tr><td class=align-left>! ~ ++ – - (type) * & sizeof</td><td class=align-center>自右向左</td></tr><tr><td class=align-left>* / %</td><td class=align-center>自左向右</td></tr><tr><td class=align-left>+ -</td><td class=align-center>自左向右</td></tr><tr><td class=align-left>左移 右移</td><td class=align-center>自左向右</td></tr><tr><td class=align-left>&lt; &lt;= > >=</td><td class=align-center>自左向右</td></tr><tr><td class=align-left>等于 不等于</td><td class=align-center>自左向右</td></tr><tr><td class=align-left>&</td><td class=align-center>自左向右</td></tr><tr><td class=align-left>异或</td><td class=align-center>自左向右</td></tr><tr><td class=align-left>位或</td><td class=align-center>自左向右</td></tr><tr><td class=align-left>&&</td><td class=align-center>自左向右</td></tr><tr><td class=align-left>或</td><td class=align-center>自左向右</td></tr><tr><td class=align-left>?:</td><td class=align-center>自右向左</td></tr><tr><td class=align-left>assignment</td><td class=align-center>自右向左</td></tr><tr><td class=align-left>,</td><td class=align-center>自左向右</td></tr></tbody></table><p>运算符优先级有 15 级，但如果把这些运算符恰当分组，并且理解各组之间的额相对优先级，那么运算符表其实也
+不是那么难记。\ref{tbl:operator-priority} 表可以通过 man opertor 来查看。单目运算符、赋值运算符、
+条件运算符是自右向左结合的，其他的都是自左向右结合的。</p><p>优先级最高的其实并不是真正意义上的运算符，包括：函数调用、数组下标、各结构成员选择操作符。他们都是自
+左向右结合。a.b.c 的意义是 (a.b).c 不是 a.(b.c) ；
+单目运算符的优先级仅次于前述运算符。函数调用的优先级高于单目运算符，因此假如 p 是一个函数指针，调用
+p 所指向的函数必须写成(* p)()。类型转换也是单目运算符。单目运算符是自右向左结合，因此 *p++ 会被编译
+器解释成 *(p++) ，取指针 p 所指向的对象，然后让 p 递增 1。而不是 (*p)++，取 p 所指向的对象，然后将该
+对象递增 1。
+优先级次于单目运算符就是双目运算符。双目运算符中，算数运算符优先级最高，移位运算符次之，关系运算符再
+次之，接着是逻辑运算符。之后是条件运算符，最后是赋值运算符。</p><p>需要记住的 <strong>最重要</strong> 的两点：</p><ol><li>任何一个逻辑运算符的优先级低于任何一个关系运算符</li><li>移位运算符的优先级比算数运算符要低，但是比关系运算符要高。</li></ol><p>乘法、除法、求余优先级相同；加法、减法优先级相同；左移、右移优先级相同；
+6 个逻辑运算符的优先级并不相同。</p><ul><li><code class=verbatim>=、!</code> 运算符的优先级低于其他运算符的优先级。 a &lt; b == c &lt; d 可以用于比较 a 与 b 和 c 与 d 的相对大小顺序。</li><li>按位运算符优先级比顺序运算符优先级高</li><li>与运算比或运算优先级高</li><li>异或运算符优先级介于按位与和按位或之间</li></ul><p>在涉及到赋值运算符时，经常引起优先级的混淆。赋值运算符低于任何一个比较运算符。</p><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>while</span><span class=p>(</span><span class=n>c</span><span class=o>=</span><span class=n>getc</span><span class=p>(</span><span class=n>in</span><span class=p>)</span> <span class=o>!=</span> <span class=n>EOF</span><span class=p>)</span> <span class=c1>//会首先将 getc 返回的值与 EOF 比较然后赋值给 c，结果将得到一组 1 的字节流
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>putc</span><span class=p>(</span><span class=n>c</span><span class=p>,</span> <span class=n>out</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=c1>//表达式复杂一点，这类错误就很难察觉。 lint 程序的一个版本就有下面的错误。
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>if</span><span class=p>(</span> <span class=p>(</span><span class=n>t</span><span class=o>=</span><span class=n>BTYPE</span><span class=p>(</span><span class=n>pt1</span><span class=o>-&gt;</span><span class=n>aty</span><span class=p>)</span><span class=o>==</span><span class=n>STRTY</span><span class=p>)</span> <span class=o>||</span> <span class=n>t</span><span class=o>==</span> <span class=n>UNIONTY</span><span class=p>){...}</span></span></span></code></pre></div></div></div></div><div id=outline-container-headline-20 class=outline-4><h4 id=headline-20>2.3 注意作为语句结束标志的分号</h4><div id=outline-text-headline-20 class=outline-text-4><p>在程序中多一个分号或者少一个分号都有肯能造成严重的错误。</p><ul><li>在 if、while 等语句后面多余一个分号，会导致其后面接的语句无条件执行</li><li>在 return 语句后少一个分号，可能会将 return 的后一条语句作为返回值</li><li>定义结构体后面少一个分号，假如后面仅跟着函数定义，有可能会将该结构体作为函数的返回值</li></ul></div></div><div id=outline-container-headline-21 class=outline-4><h4 id=headline-21>2.4 switch 语句</h4><div id=outline-text-headline-21 class=outline-text-4><p>C 语言中把 case 标号当做真正意义上的标号，程序的控制流程会径直通过 case 标号，而不会受到任何影响。
+这种特性即是其优势所在，也是一大劣势。程序员很可能会遗漏某个 case 语句后的 break，造成一些难以理解的
+程序行为；有时有意忽略 break 语句，则可以表达出一些其他方式很难实现的控制结构。但此时一定要加上注释。</p><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>case</span> <span class=nl>SUBTRACT</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>opnd2</span> <span class=o>=</span> <span class=o>-</span><span class=n>opnd2</span><span class=p>;</span><span class=c1>//此处没有 break
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>case</span> <span class=nl>ADD</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>add</span><span class=p>();</span></span></span></code></pre></div></div></div></div><div id=outline-container-headline-22 class=outline-4><h4 id=headline-22>2.5 函数调用</h4><div id=outline-text-headline-22 class=outline-text-4><p>C 语言要求：在函数调用时即使不带参数，也应包括参数列表。</p><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=n>f</span><span class=p>();</span><span class=c1>//如果 f 是一个没有参数的函数，f() 是函数调用
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>f</span><span class=p>;</span> <span class=c1>//计算函数 f 的地址，但并不调用该函数。
+</span></span></span></code></pre></div></div></div></div><div id=outline-container-headline-23 class=outline-4><h4 id=headline-23>2.6 “悬挂”else 引发的问题</h4><div id=outline-text-headline-23 class=outline-text-4><p>else 始终与同一对括号内最近的未匹配的 if 结合。
+连续有两个 if 语句，之后接 else 语句就有可能出错。
+解决办法：所有的 if 语句始终都加上大括号。谨记。</p></div></div><div id=outline-container-headline-24 class=outline-4><h4 id=headline-24>练习</h4><div id=outline-text-headline-24 class=outline-text-4><div id=outline-container-headline-25 class=outline-5><h5 id=headline-25>2-1 C 语言允许初始化列表中出现多余的逗号，这个特性有什么用？</h5><div id=outline-text-headline-25 class=outline-text-5><p>答：初始化列表的每一行都是以逗号结尾，这种语法的相似性，使得编辑器能够很方便的处理初始化列表。</p><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>int</span> <span class=n>days</span><span class=p>[</span> <span class=p>]</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=mi>31</span><span class=p>,</span> <span class=mi>28</span><span class=p>,</span> <span class=mi>31</span><span class=p>,</span> <span class=mi>30</span><span class=p>,</span> <span class=mi>31</span><span class=p>,</span> <span class=mi>30</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=mi>31</span><span class=p>,</span> <span class=mi>31</span><span class=p>,</span> <span class=mi>30</span><span class=p>,</span> <span class=mi>31</span><span class=p>,</span> <span class=mi>30</span><span class=p>,</span> <span class=mi>31</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>};</span></span></span></code></pre></div></div></div></div><div id=outline-container-headline-26 class=outline-5><h5 id=headline-26>2-2 C 语言使用 ; 来结束语句，有没有其他的好方法</h5><div id=outline-text-headline-26 class=outline-text-5><p>答：语句随着代码行的结束而结束，如果一个语句需要跨越多个行，需要其他的处理。</p></div></div></div></div></div></div><div id=outline-container-headline-27 class=outline-3><h3 id=headline-27>第 3 章 语义“陷阱”</h3><div id=outline-text-headline-27 class=outline-text-3><div id=outline-container-headline-28 class=outline-4><h4 id=headline-28><span class=priority>[A]</span>
+3.1 指针与数组</h4><div id=outline-text-headline-28 class=outline-text-4><p>C 语言中数组值得注意的地方有以下两点：</p><ol><li>C 语言中只有一维数组，而且数组大小必须在编译期就作为一个常数确定下来。然而， C 语言中数组的元素可
+以是任何类型的对象，当然也可以是另外一个数组。这样，要“仿真”出一个多维数组就不是一件难事。</li><li>对于一个数组，我们只能够做两件事：确定该数组的大小，以及获得指向该数组下标为 0 的元素的指针。其他
+有关数组的操作，哪怕他们乍看上去是以数组下标进行运算的，实际上都是通过指针进行的。换句话说，任何
+一个数组下标运算都等同于一个对应的指针运算，因此我们完全可以依据指针行为定义数组下标的行为。</li></ol><pre class=example>
+C99 标准允许变长数组(VLA)。GCC 实现了变长数组，但细节与 C99 标准不完全一致。
+</pre><div id=outline-container-headline-29 class=outline-5><h5 id=headline-29>定义数组</h5><div id=outline-text-headline-29 class=outline-text-5><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>int</span> <span class=n>a</span><span class=p>[</span><span class=mi>3</span><span class=p>];</span><span class=c1>//声明 a 是一个拥有 3 个整形元素的数组
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=k>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>p</span><span class=p>[</span><span class=mi>4</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=kt>double</span> <span class=n>x</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span> <span class=n>b</span><span class=p>[</span><span class=mi>17</span><span class=p>];</span><span class=c1>//声明 b 是一个拥有 17 个元素的数组，每个元素都是一个结构体
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=n>calendar</span><span class=p>[</span><span class=mi>12</span><span class=p>][</span><span class=mi>31</span><span class=p>];</span><span class=c1>//声明 calendar 是一个拥有 12 个元素的数组，每个元素是一个拥有 31 个整形
+</span></span></span><span class=line><span class=cl><span class=c1>//元素的数组；calendar 并不是一个拥有 31 个元素的数组
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=n>num</span> <span class=o>=</span> <span class=k>sizeof</span><span class=p>(</span><span class=n>calendar</span><span class=p>);</span><span class=c1>//值为 31 * 12 = 372
+</span></span></span></code></pre></div></div><p>如果 calendar 不是用于 sizeof 的操作数，而是用于其他场合，那么 calendar 总是被转换成一个指向
+calendar 数组的起始元素的指针。如果同类型的一个指针指向该数组，那么利用 sizeof 求取该指针时得到的是
+指针的长度，不会得到数组的长度。(类型声明时不会转换，需要自己确保声明与实现类型一致)</p><div id=outline-container-headline-30 class=outline-6><h6 id=headline-30>sizeof 和 strlen() 的区别</h6><div id=outline-text-headline-30 class=outline-text-6><p>sizeof 求取类型及静态分配对象所占用的空间，无法求取动态分配的空间大小，且与对象的存储内容无关；在求
+取对象所占用的空间时可以不用加括号，因为 sizeof 是运算符。在编译时就计算出结果，因此可以使用 sizeof
+来定义数组的维数。
+strlen() 求取以 '\0' 结尾的字符串的长度，不包含结尾符，strlen() 是函数，可以求取动态分配的空间。</p></div></div></div></div><div id=outline-container-headline-31 class=outline-5><h5 id=headline-31>指针</h5><div id=outline-text-headline-31 class=outline-text-5><p>指针指向数组时，指针的类型是数组元素的类型，
+任何指针都是指向某种类型的变量。我们可以将该类型变量的地址赋值给该指针，也可以通过该指针改变变量的值。
+如果一个指针指向数组中的某一个元素，那么给该指针加 1，就能得到指向数组中下一个元素的指针，减 1 同理。
+<strong>给指针加上一个整数，与给该指针的二进制表示加上同样的整数，两者的含义截然不同。</strong> 如果 ip 指向一个整
+数，那么 ip+1 指向下一个整数，而不是所指向地址的下一个内存位置。如果两个指针指向的是同一个数组中的元
+素，我们可以把这两个指针相减，这样做事有意义的。
+<strong>只要是指针类型加减操作时都会以指向的类型为单位</strong>
+数组名赋值给指针时，数组名代表下标为 0 的元素的指针。</p><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=n>p</span> <span class=o>=</span> <span class=n>a</span><span class=p>;</span><span class=c1>//把数组 a 的下标为 0 的地址赋值给 p
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>p</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>a</span><span class=p>;</span><span class=c1>//出错，因为 &amp;a 代表指向数组的指针，而 p 是指向整数的指针，类型不匹配
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>p</span> <span class=o>=</span> <span class=n>p</span> <span class=o>+</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>p</span><span class=o>++</span><span class=p>;</span><span class=c1>//与上一句意义相同
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=o>*</span><span class=n>a</span> <span class=o>=</span> <span class=mi>12</span><span class=p>;</span><span class=c1>//由于 a 代表下标为 0 的元素的指针，*a 即数组 a 中下标为 0 的元素的引用。
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=o>*</span><span class=p>(</span><span class=n>a</span><span class=o>+</span><span class=mi>1</span><span class=p>)</span><span class=c1>//同理可得其是数组 a 下标为 1 的元素的引用
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=o>*</span><span class=p>(</span><span class=n>a</span><span class=o>+</span><span class=n>i</span><span class=p>)</span><span class=cm>/*数组 a 中下标为 i 的元素的引用，简单记为 a[i] 。实际上 a+i 和 i+a 的含义一样，因此 a[i] 与 
+</span></span></span><span class=line><span class=cl><span class=cm>i[a] 有同样的含义。但绝不推荐这种用法*/</span></span></span></code></pre></div></div></div></div><div id=outline-container-headline-32 class=outline-5><h5 id=headline-32>二维数组</h5><div id=outline-text-headline-32 class=outline-text-5><p>二维数组是以数组为元素的数组。继续使用指针来操作会非常不便捷，需要与 C 语言中最为“晦暗不明”的部分
+打交道。</p><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>int</span> <span class=n>calendar</span><span class=p>[</span><span class=mi>12</span><span class=p>][</span><span class=mi>31</span><span class=p>];</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=o>*</span><span class=n>p</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=n>i</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=cm>/*因为 calendar 是一个有着 12 个‘数组类型’元素的数组，他的每个数组类型元素又是一个有着 31 个整形元素
+</span></span></span><span class=line><span class=cl><span class=cm>的数组，所以 calendar[4] 是 calendar 数组的第 5 个元素，是 calendar 数组中 12 个有着 31 个整形元素的
+</span></span></span><span class=line><span class=cl><span class=cm>数组之一。因此 calendar[4] 的行为也就表现为一个有着 31 个整形元素的数组的行为。*/</span>
+</span></span><span class=line><span class=cl>  <span class=k>sizeof</span><span class=p>(</span><span class=n>calendar</span><span class=p>[</span><span class=mi>4</span><span class=p>])</span> <span class=err>结果为</span> <span class=mi>31</span> <span class=err>与</span> <span class=k>sizeof</span><span class=p>(</span><span class=kt>int</span><span class=p>)</span> <span class=err>的乘积</span>
+</span></span><span class=line><span class=cl>  <span class=n>p</span> <span class=o>=</span> <span class=n>calendar</span><span class=p>[</span><span class=mi>4</span><span class=p>];</span> <span class=c1>// 指针 p 指向 calendar[4] 中下标为 0 的元素。
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=n>i</span> <span class=o>=</span> <span class=n>calendar</span><span class=p>[</span><span class=mi>4</span><span class=p>][</span><span class=mi>7</span><span class=p>];</span> <span class=c1>//由于 calendar[4] 是一个数组，可以通过下标的形式来指定数组中的元素
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=n>i</span> <span class=o>=</span> <span class=o>*</span><span class=p>(</span><span class=n>calendar</span><span class=p>[</span><span class=mi>4</span><span class=p>]</span> <span class=o>+</span> <span class=mi>7</span><span class=p>);</span><span class=c1>// 类似前面的一维数组的讨论，词句与上面一句相同
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=n>i</span> <span class=o>=</span> <span class=o>*</span><span class=p>(</span><span class=o>*</span><span class=n>calendar</span><span class=o>+</span><span class=mi>4</span><span class=p>)</span><span class=o>+</span><span class=mi>7</span><span class=p>);</span> <span class=c1>//将上式进一步展开的结果
+</span></span></span></code></pre></div></div><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=n>p</span> <span class=o>=</span> <span class=n>calendar</span><span class=p>;</span> <span class=c1>//calendar 是一个二维数组，即&#39;数组的数组&#39;，此处 calendar 会转换成指向数组的指针，与
+</span></span></span><span class=line><span class=cl><span class=c1></span>              <span class=c1>//p 的类型不一致
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kt>int</span> <span class=p>(</span><span class=o>*</span><span class=n>monthp</span><span class=p>)</span> <span class=p>[</span><span class=mi>31</span><span class=p>];</span> <span class=c1>//声明了 *monthp 是一个拥有 31 个元素的数组
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>monthp</span> <span class=o>=</span> <span class=n>calendar</span><span class=p>;</span> <span class=c1>//monthp 指向 calendar 数组下标为 0 的元素，也就是数组 calendar 的 12 个拥有 
+</span></span></span><span class=line><span class=cl><span class=c1></span>                   <span class=c1>//31 个元素数组类型元素之一。
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=c1>//清空 calendar
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kt>int</span> <span class=n>month</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>for</span><span class=p>(</span><span class=n>month</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>month</span> <span class=o>&lt;</span> <span class=mi>12</span><span class=p>;</span> <span class=o>++</span><span class=n>month</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>day</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span><span class=p>(</span><span class=n>day</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>day</span> <span class=o>&lt;</span> <span class=mi>31</span><span class=p>;</span> <span class=o>++</span><span class=n>day</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>calendar</span><span class=p>[</span><span class=n>month</span><span class=p>][</span><span class=n>day</span><span class=p>]</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=c1>//等价于 *(*(calender + month) + day)
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>//利用指针清空 calendar
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kt>int</span> <span class=p>(</span><span class=o>*</span><span class=n>monthp</span><span class=p>)</span> <span class=p>[</span><span class=mi>31</span><span class=p>];</span>
+</span></span><span class=line><span class=cl><span class=k>for</span><span class=p>(</span><span class=n>monthp</span> <span class=o>=</span> <span class=n>calendar</span><span class=p>;</span> <span class=n>monthp</span> <span class=o>&lt;</span> <span class=o>&amp;</span><span class=n>calendar</span><span class=p>[</span><span class=mi>12</span><span class=p>];</span> <span class=o>++</span><span class=n>monthp</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=o>*</span><span class=n>dayp</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span><span class=p>(</span><span class=n>dayp</span> <span class=o>=</span> <span class=o>*</span><span class=n>monthp</span><span class=p>;</span> <span class=n>dayp</span> <span class=o>&lt;</span> <span class=o>&amp;</span><span class=p>(</span><span class=o>*</span><span class=n>monthp</span><span class=p>)[</span><span class=mi>31</span><span class=p>];</span> <span class=o>++</span><span class=n>dayp</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=o>*</span><span class=n>dayp</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div></div></div></div></div></div><div id=outline-container-headline-33 class=outline-4><h4 id=headline-33>3.2 非数组指针</h4><div id=outline-text-headline-33 class=outline-text-4><p>C 语言中，字符串常量代表了一块包括字符串中所有字符以及一个空字符（'\0'）的内存区域的地址。因为 C 语
+言要求字符串常量以空字符作为结束标志，对于其他字符串，C 程序员通常也沿用了这一惯例。
+将两个字符串连接成单个字符串，如果使用数组，即使定义数组长度很大也无法保证空间足够，且有可能导致浪费。
+所以此时可以动态为其分配内存。</p><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>char</span> <span class=o>*</span><span class=n>s</span><span class=p>,</span> <span class=o>*</span><span class=n>t</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kt>char</span> <span class=o>*</span><span class=n>r</span> <span class=o>=</span> <span class=p>(</span><span class=kt>char</span> <span class=o>*</span><span class=p>)</span><span class=n>malloc</span><span class=p>(</span><span class=n>strlen</span><span class=p>(</span><span class=n>s</span><span class=p>)</span> <span class=o>+</span> <span class=n>strlen</span><span class=p>(</span><span class=n>t</span><span class=p>));</span>
+</span></span><span class=line><span class=cl><span class=n>strcpy</span><span class=p>(</span><span class=n>r</span><span class=p>,</span> <span class=n>s</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>strcpy</span><span class=p>(</span><span class=n>r</span><span class=p>,</span> <span class=n>t</span><span class=p>);</span></span></span></code></pre></div></div><p>例子有三个错误：</p><ol><li>malloc 可能无法请求内存，从而返回一个空指针</li><li>在显示分配内存之后，没有显示释放内存</li><li>没有申请足够的内存空间，没有为空字符申请空间</li></ol><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>char</span> <span class=o>*</span><span class=n>s</span><span class=p>,</span> <span class=o>*</span><span class=n>t</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kt>char</span> <span class=o>*</span><span class=n>r</span> <span class=o>=</span> <span class=p>(</span><span class=kt>char</span> <span class=o>*</span><span class=p>)</span><span class=n>malloc</span><span class=p>(</span><span class=n>strlen</span><span class=p>(</span><span class=n>s</span><span class=p>)</span> <span class=o>+</span> <span class=n>strlen</span><span class=p>(</span><span class=n>t</span><span class=p>)</span> <span class=o>+</span> <span class=mi>1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=k>if</span><span class=p>(</span><span class=nb>NULL</span> <span class=o>==</span> <span class=n>r</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>complain</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=n>exit</span><span class=p>(</span><span class=mi>1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=n>strcpy</span><span class=p>(</span><span class=n>r</span><span class=p>,</span> <span class=n>s</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>strcpy</span><span class=p>(</span><span class=n>r</span><span class=p>,</span> <span class=n>t</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=cm>/*不在需要的时候*/</span>
+</span></span><span class=line><span class=cl><span class=n>free</span><span class=p>(</span><span class=n>r</span><span class=p>);</span></span></span></code></pre></div></div></div></div><div id=outline-container-headline-34 class=outline-4><h4 id=headline-34>3.3 作为参数的数组声明</h4><div id=outline-text-headline-34 class=outline-text-4><p>在 C 语言中，我们没有办法可以将一个数组作为函数参数直接传递。如果我们使用数组名作为参数，那么数组名
+会立刻被转换为指向该数组第 1 个元素的指针。
+<strong>C 语言中会自动的将作为参数的数组声明转换为相应的指针声明。</strong></p><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>char</span> <span class=n>hello</span><span class=p>[]</span> <span class=o>=</span> <span class=s>&#34;hello&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>printf</span><span class=p>(</span><span class=s>&#34;%s</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span> <span class=n>hello</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>printf</span><span class=p>(</span><span class=s>&#34;%s</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>hello</span><span class=p>[</span><span class=mi>0</span><span class=p>]);</span> <span class=c1>//与上式完全等效
+</span></span></span></code></pre></div></div><p>但不要假设，在其他情况下也会有这种自动转换。</p><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>extern</span> <span class=kt>char</span> <span class=o>*</span><span class=n>hello</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>extern</span> <span class=kt>char</span> <span class=n>hello</span><span class=p>[];</span> <span class=c1>//这两个语句之间有着天壤之别
+</span></span></span></code></pre></div></div><p>如果一个指针并不实际代表一个数组，即使在技术上而言是正确的，采用数组形式的记法经常会起到误导作用。如
+果一个指针参数代表一个数组，任选一种最能清楚反映自己意图的写法。</p><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>(</span><span class=kt>int</span> <span class=n>argc</span><span class=p>,</span> <span class=kt>char</span><span class=o>*</span> <span class=n>argv</span><span class=p>[])</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=p>...</span>
+</span></span><span class=line><span class=cl><span class=p>}</span> <span class=c1>//强调 argv 是一个指向某个数组起始元素的指针
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>(</span><span class=kt>int</span> <span class=n>argc</span><span class=p>,</span> <span class=kt>char</span><span class=o>**</span> <span class=n>argv</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=p>....</span>
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div></div></div></div><div id=outline-container-headline-35 class=outline-4><h4 id=headline-35>3.4 避免“举隅法（synecdoche）”</h4><div id=outline-text-headline-35 class=outline-text-4><p>《牛津英语词典》对“举隅法”的解释是：“以含义更宽泛的词语代替含义相对较窄的词语，或者反之。”
+其恰如其分的描述了 C 语言中一个常见的陷阱：混淆指针与指针所指向的数据。对于字符串的情形更是易错。</p><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>char</span> <span class=o>*</span><span class=n>p</span><span class=p>,</span> <span class=o>*</span><span class=n>q</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>p</span> <span class=o>=</span> <span class=s>&#34;xyz&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=cm>/*有时候不妨认为 p 的值就是字符串 &#34;xyz&#34; ，但实际情况并非如此，谨记谨记。p 的值是一个指向由 &#39;x&#39; &#39;y&#39; &#39;z&#39;
+</span></span></span><span class=line><span class=cl><span class=cm> &#39;\0&#39; 四个字符组成的字符串的起始元素的指针。*/</span>
+</span></span><span class=line><span class=cl><span class=n>q</span> <span class=o>=</span> <span class=n>p</span><span class=p>;</span> <span class=c1>//复制指针并不同时赋值指针所指向的数据
+</span></span></span></code></pre></div></div></div></div><div id=outline-container-headline-36 class=outline-4><h4 id=headline-36>3.5 空指针并非空字符串</h4><div id=outline-text-headline-36 class=outline-text-4><p>编译器保证由整数 0 转换而来的指针不等效于任何有效的指针。处于文档化的考虑，常数 0 这个值经常用一个符
+号来代替：</p><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp>#define NULL 0</span></span></span></code></pre></div></div><p>当然无论直接使用常数 0，还是用符号 NULL，效果都是相同的。
+但永远记住一点 <strong>空指针绝对不能解除引用 dereference</strong> 即绝不能企图使用该指针所指向内存中的存储内容，也
+不可以打印该字符串（其行为未定义）。</p></div></div><div id=outline-container-headline-37 class=outline-4><h4 id=headline-37><span class=priority>[A]</span>
+3.6 边界计算与不对称边界</h4><div id=outline-text-headline-37 class=outline-text-4><p>C 语言中一个拥有 n 个元素的数组，却并不存在下标为 n 的元素，其下标范围是从 0 到 n-1。</p><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=n>a</span><span class=p>[</span><span class=mi>10</span><span class=p>];</span>
+</span></span><span class=line><span class=cl><span class=k>for</span><span class=p>(</span><span class=n>i</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;=</span> <span class=mi>10</span><span class=p>;</span> <span class=o>++</span><span class=n>i</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>a</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=c1>//将 a[10] 设置为 0，其实是将 i 赋值为了 0，导致程序陷入死循环
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span></span></span></code></pre></div></div><p>最难察觉的常见的一类错误是 <strong>栏杆错误</strong> 或者 <strong>差一错误(off-by-one error)</strong> 。比如导读中提到的 100 英尺
+长的围栏每隔 10 英尺需要一根支撑用的围栏，一共需要 11 根围栏，而不是 10 根。避免该错误的两个通用原则：</p><ol><li>首先考虑最简单情况下的特例，然后将得到的结果外推，这是原则一。</li><li>仔细计算边界，绝不掉以轻心，这是原则二。</li></ol><p>造成栏杆错误的根源正是 "right - left + 1" 中的 "+1" 。有编程技巧可以降低该类错误的发生：
+<strong>用第一个入界点和第一个出界点来表示一个数值范围。左闭右开</strong> 。
+C 语言中数组从下标 0 开始，数组的上界就是数组元素的个数！</p><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>int</span> <span class=n>a</span><span class=p>[</span><span class=mi>10</span><span class=p>],</span> <span class=n>i</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>for</span><span class=p>(</span><span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=mi>10</span><span class=p>;</span> <span class=o>++</span><span class=n>i</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>a</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>//不要写成
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kt>int</span> <span class=n>a</span><span class=p>[</span><span class=mi>10</span><span class=p>],</span> <span class=n>i</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>for</span><span class=p>(</span><span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;=</span> <span class=mi>9</span><span class=p>;</span> <span class=o>++</span><span class=n>i</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>a</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span></span></span></code></pre></div></div><p>ANSI C 标准明确：数组中实际不存在的“溢界”元素的地址位于数组所占内存之后，这个地址可以用于进行赋值
+和比较。
+另一种考虑不对称边界的方式是，把上界视作某序列中第一个被占用的元素，而把下界视作序列中第一个被释放的
+元素。
+考虑一个函数：将长度无规律的输入数据送到缓冲区（一个能够容纳 N 个字符的内存）中去，每当这块内存被填
+满时，就将缓冲区的内容写出。</p><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp>#define N 1024
+</span></span></span><span class=line><span class=cl><span class=cp></span><span class=k>static</span> <span class=kt>char</span> <span class=n>buffer</span><span class=p>[</span><span class=n>N</span><span class=p>];</span>
+</span></span><span class=line><span class=cl><span class=k>static</span> <span class=kt>char</span> <span class=o>*</span><span class=n>bufptr</span><span class=p>;</span> <span class=c1>//指向缓冲区当前位置。指向第一个未占用的字符（不对称边界）
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=o>*</span><span class=n>bufptr</span><span class=o>++</span> <span class=o>=</span> <span class=n>c</span><span class=p>;</span> <span class=c1>//把 c 放入缓冲区，然后指针 bufptr 递增，指向缓冲区中第一个未占用字符
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=n>bufptr</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>buffer</span><span class=p>[</span><span class=mi>0</span><span class=p>];</span>
+</span></span><span class=line><span class=cl><span class=n>bufptr</span> <span class=o>=</span> <span class=n>buffer</span><span class=p>;</span> <span class=c1>//与上式等效。
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=cm>/* 任何时候缓冲区中已经存在的字符数都是 bufptr - buffer ，因此我们可以将这个表达式与 N 比较来判断
+</span></span></span><span class=line><span class=cl><span class=cm>缓冲区是否全部填满。 N - (bufptr-buffer) 表示缓冲区剩余的字符数*/</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>bufwrite</span><span class=p>(</span><span class=kt>char</span> <span class=o>*</span><span class=n>p</span><span class=p>,</span> <span class=kt>int</span> <span class=n>n</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>while</span><span class=p>(</span><span class=o>--</span><span class=n>n</span> <span class=o>&gt;=</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span> <span class=c1>//验证 n = 1 、n = 0 时的情况，另外是否会越界？
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=k>if</span><span class=p>(</span><span class=n>bufptr</span> <span class=o>==</span> <span class=o>&amp;</span><span class=n>buffer</span><span class=p>[</span><span class=n>N</span><span class=p>])</span> <span class=c1>//不对称边界。可以引用该地址
+</span></span></span><span class=line><span class=cl><span class=c1></span>            <span class=n>flushbuffer</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=o>*</span><span class=n>bufptr</span><span class=o>++</span> <span class=o>=</span> <span class=o>*</span><span class=n>p</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=cm>/*每次迭代都要进行两个检查：循环计数器和缓冲区是否满。结果导致每次只能转移一个字符。可以利用库函数 
+</span></span></span><span class=line><span class=cl><span class=cm>memcpy 一次移动多个字符*/</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>bufwrite</span><span class=p>(</span><span class=kt>char</span> <span class=o>*</span><span class=n>p</span><span class=p>,</span> <span class=kt>int</span> <span class=n>n</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>while</span><span class=p>(</span><span class=n>n</span> <span class=o>&gt;</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=kt>int</span> <span class=n>k</span><span class=p>,</span> <span class=n>rem</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span><span class=p>(</span><span class=n>bufptr</span> <span class=o>==</span> <span class=o>&amp;</span><span class=n>buffer</span><span class=p>[</span><span class=n>N</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>            <span class=n>flushbuffer</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=n>rem</span> <span class=o>=</span> <span class=n>N</span> <span class=o>-</span> <span class=p>(</span><span class=n>bufptr</span> <span class=o>-</span> <span class=n>buffer</span><span class=p>);</span> 
+</span></span><span class=line><span class=cl>        <span class=c1>//另一种计算剩余缓冲区的方法：出界点（缓冲区之后位置）减去入界点（第一个未占用字符）
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=c1>// (buffer+N) - bufptr 可以看到和上式是结果是完全一样的
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=n>k</span> <span class=o>=</span> <span class=n>n</span> <span class=o>&gt;</span> <span class=n>rem</span> <span class=o>?</span> <span class=nl>rem</span> <span class=p>:</span> <span class=n>n</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>memcpy</span><span class=p>(</span><span class=n>bufptr</span><span class=p>,</span> <span class=n>p</span><span class=p>,</span> <span class=n>k</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=n>bufptr</span> <span class=o>+=</span> <span class=n>k</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>p</span> <span class=o>+=</span> <span class=n>k</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>n</span> <span class=o>-=</span> <span class=n>k</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=cm>/*很多编程者在写出这样的程序时，总是感到有些犹豫不决，他们担心可能会写错。而有些程序员似乎有些“大无
+</span></span></span><span class=line><span class=cl><span class=cm>畏”的精神，最后还是写错了。其实只要记住两个原则：特例外推和自己计算边界，我们完全有信心做对*/</span></span></span></code></pre></div></div><p>程序按一定的顺序生成一些整数，并将这些整数按列输出。程序的输出可能包括若干页的整数，每页包括 NCOLS
+列，每列又包括 NROWS 个元素，每个元素就是一个待输出的整数。另外程序生成的整数时按列连续分布的，而不
+是按行分布的。print 函数仅当缓冲区已满时才打印，未满时将数据传入缓冲区，最后一个数据生成后调用 flush
+刷新，此时无论缓冲区是否已满，其中所有的数值都将被打印。
+我们必须在看到第 1 列的所有元素之后，才可能知道第 2 列的第 1 个元素的内容；但是我们必须打印完第 1 行
+之后，才能打印第 1 列的第 2 个元素。
+缓冲区应该多大呢？乍一看来，似乎需要足够大以容纳整页内容，但仔细想想，并不需要这么大的空间，由于最后
+一个的每一个元素都是相应行的最后一个元素，只要我们得到他的值就可以立即打印出来。因此我们的缓冲区不必
+包括最后一列。
+缓冲区中是同一行元素相邻还是同一列元素相邻？假定同一列元素相邻，这样所有的数值进入缓冲区非常的直接了
+当，径直排列下去就是了，但是出缓冲区的方式却相对复杂一些。
+如何打印当前行的所有元素呢？乍一想似乎漫无头绪，实际上如果看待问题的方式恰当，也就是俗话所说“思路对
+了”，则相当简单。对于序号为 row 的行，其第一个元素就是 buffer[row] ,并且同一行的相邻元素在缓冲区中
+相隔 NROWS 个元素排列，最后，指针 bufptr 指向的位置刚好是缓冲区中最后一个已占用元素之后。</p><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp>#define NROWS 100
+</span></span></span><span class=line><span class=cl><span class=cp>#define NCOLS 100
+</span></span></span><span class=line><span class=cl><span class=cp>#define BUFSIZE (NROWS*(NCOLS-1))
+</span></span></span><span class=line><span class=cl><span class=cp></span><span class=k>static</span> <span class=kt>int</span> <span class=n>buffer</span><span class=p>[</span><span class=n>BUFSIZE</span><span class=p>];</span>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>print</span><span class=p>(</span><span class=kt>int</span> <span class=n>n</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span><span class=p>(</span><span class=n>bufptr</span> <span class=o>==</span> <span class=o>&amp;</span><span class=n>buffer</span><span class=p>[</span><span class=n>BUFSIZE</span><span class=p>])</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>static</span> <span class=kt>int</span> <span class=n>row</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=kt>int</span> <span class=o>*</span><span class=n>p</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>for</span><span class=p>(</span><span class=n>p</span> <span class=o>=</span> <span class=n>buffer</span> <span class=o>+</span> <span class=n>row</span><span class=p>;</span> <span class=n>p</span> <span class=o>&lt;</span> <span class=n>bufptr</span><span class=p>;</span> <span class=n>p</span> <span class=o>+=</span> <span class=n>NROWS</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>printnum</span><span class=p>(</span><span class=o>*</span><span class=n>p</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>printnum</span><span class=p>(</span><span class=n>n</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=n>printnl</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>if</span><span class=p>(</span><span class=o>++</span><span class=n>row</span> <span class=o>==</span> <span class=n>NROWS</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>printpage</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>            <span class=n>row</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=n>bufptr</span> <span class=o>=</span> <span class=n>buffer</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=o>*</span><span class=n>bufptr</span><span class=o>++</span> <span class=o>=</span> <span class=n>n</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>fulsh</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>row</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>k</span> <span class=o>=</span> <span class=n>bufptr</span> <span class=o>-</span> <span class=n>buffer</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>if</span><span class=p>(</span><span class=n>k</span> <span class=o>&gt;</span> <span class=n>NROWS</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>k</span> <span class=o>=</span> <span class=n>NROWS</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>if</span><span class=p>(</span><span class=n>k</span> <span class=o>&gt;</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>for</span><span class=p>(</span><span class=n>row</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>row</span> <span class=o>&lt;</span> <span class=n>k</span><span class=p>;</span> <span class=o>++</span><span class=n>row</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=kt>int</span> <span class=o>*</span><span class=n>p</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=k>for</span><span class=p>(</span><span class=n>p</span> <span class=o>=</span> <span class=n>buffer</span> <span class=o>+</span> <span class=n>row</span><span class=p>;</span> <span class=n>p</span> <span class=o>&lt;</span> <span class=n>bufptr</span><span class=p>;</span> <span class=n>p</span> <span class=o>+=</span> <span class=n>NROWS</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=n>printnum</span><span class=p>(</span><span class=o>*</span><span class=n>p</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=n>printnl</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=n>printpage</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div></div></div></div><div id=outline-container-headline-38 class=outline-4><h4 id=headline-38>3.7 求值顺序</h4><div id=outline-text-headline-38 class=outline-text-4><p>运算符的优先级和求值顺序完全是两码事。</p><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=c1>//运算符优先级用于确保 1) = 2) 而不是 1) = 3)
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=mi>1</span><span class=p>)</span> <span class=n>a</span> <span class=o>+</span> <span class=n>b</span> <span class=o>*</span><span class=n>c</span> 
+</span></span><span class=line><span class=cl><span class=mi>2</span><span class=p>)</span> <span class=n>a</span> <span class=o>+</span> <span class=p>(</span><span class=n>b</span> <span class=o>*</span> <span class=n>c</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=mi>3</span><span class=p>)</span> <span class=p>(</span><span class=n>a</span> <span class=o>+</span> <span class=n>b</span><span class=p>)</span> <span class=o>*</span> <span class=n>c</span>
+</span></span><span class=line><span class=cl><span class=c1>//求值顺序保证下士不会产生求值错误
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>if</span><span class=p>(</span><span class=n>count</span> <span class=o>!=</span> <span class=mi>0</span> <span class=o>&amp;&amp;</span> <span class=n>sum</span><span class=o>/</span><span class=n>count</span> <span class=o>&lt;</span> <span class=n>average</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>printf</span><span class=p>(</span><span class=s>&#34;average &lt; %g</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span> <span class=n>average</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>a</span> <span class=o>&lt;</span> <span class=n>b</span> <span class=o>&amp;&amp;</span> <span class=n>c</span> <span class=o>&lt;</span> <span class=n>d</span>
+</span></span><span class=line><span class=cl><span class=c1>//编译器可以保证先求取 a &lt; b 的值，且其为真时再求取 c &lt; d 的值。
+</span></span></span><span class=line><span class=cl><span class=c1>//编译器不保证求取 a &lt; b 时的顺序，可能先求 a 的值，也可能先求取 b 的值，还可能并行求值。
+</span></span></span></code></pre></div></div><p>C 语言中只有四个运算符存在规定的求值顺序："&&、||、?:、,"</p><ol><li>&&、|| 运算符首先对左侧操作数进行求值，只在需要的时候才对右侧操作数求值。</li><li>a ? b : c 操作数 a 先被求值，根据 a 的值在求操作数 b 或 c 的值。</li><li>逗号运算符首先对左侧操作数求值，然后该值被丢弃，再对右侧操作数求值。分割函数参数的逗号并非逗号运
+算符。但函数 g((x, y)) 只有一个参数时，其中的逗号是逗号运算符。</li></ol><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>while</span><span class=p>(</span><span class=n>i</span> <span class=o>&lt;</span> <span class=n>n</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>y</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=o>=</span> <span class=n>x</span><span class=p>[</span><span class=n>i</span><span class=o>++</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>//或者
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>while</span><span class=p>(</span><span class=n>i</span> <span class=o>&lt;</span> <span class=n>n</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>y</span><span class=p>[</span><span class=n>i</span><span class=o>++</span><span class=p>]</span> <span class=o>=</span> <span class=n>x</span><span class=p>[</span><span class=n>i</span><span class=p>];</span>
+</span></span><span class=line><span class=cl><span class=c1>//上面两个例子都对求值顺序做了太多的假设。赋值运算符并不保证求值顺序
+</span></span></span></code></pre></div></div></div></div><div id=outline-container-headline-39 class=outline-4><h4 id=headline-39>3.8 运算符 &&、||、!</h4><div id=outline-text-headline-39 class=outline-text-4><p>不要用错逻辑运算符和按位运算符。</p><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>while</span><span class=p>(</span><span class=n>i</span> <span class=o>&lt;</span> <span class=n>tabsize</span> <span class=o>&amp;&amp;</span> <span class=n>tab</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=o>!=</span> <span class=n>x</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=o>++</span><span class=n>i</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>//误写成
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>while</span><span class=p>(</span><span class=n>i</span> <span class=o>&lt;</span> <span class=n>tabsize</span> <span class=o>&amp;</span> <span class=n>tab</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=o>!=</span> <span class=n>x</span><span class=p>)</span> <span class=c1>//无法保证求值顺序，当 i==tabsize 时，访问了越界元素，读越界
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=o>++</span><span class=n>i</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=c1>//上面的代码也可以侥幸运行。因为 x&amp;y 和 x&amp;&amp;y 的结果相同只要限制 x 和 y 的取值都为 0 或者 1，且仅仅
+</span></span></span><span class=line><span class=cl><span class=c1>//读了越界元素，而没有修改
+</span></span></span></code></pre></div></div></div></div><div id=outline-container-headline-40 class=outline-4><h4 id=headline-40>3.9 整数溢出</h4><div id=outline-text-headline-40 class=outline-text-4><p>运算结果发生溢出时，任何假设都是不安全的。
+计算机将信息编码成位（比特），通常组织成字节序列。有不同的编码方式来表示整数、实数和字符串。大多数机
+器对整数使用二进制补码编码，而对浮点数使用 IEEE 编码。不同的计算机模型在编码数字和多字节数据中的字节
+顺序上使用不同的约定。
+x、y 都是有符号正数，但是 x + y 有可能小于零。
+C 语言标准规定在无符号和有符号整数之间进行强制类型转换时，基本的位模式不应该改变。
+由于编码的长度有限，计算机运算与传统整数和实数运算相比，具有非常不同的属性。当超出表示范围时，有限长
+度能够引起数值的溢出。
+如果算数运算符的一个操作数是有符号整数，另一个是无符号整数，那么有符号整数会被转换成无符号整数。
+不能用 x-y&lt;0 来取代 x&lt;y ，因为可能产生溢出。甚至也不能用表达式 -y&lt;-x 来代替，因为二进制补码表示中负
+数和正数的范围是不对称的。</p></div></div><div id=outline-container-headline-41 class=outline-4><h4 id=headline-41>3.10 为 main 函数提供返回值</h4><div id=outline-text-headline-41 class=outline-text-4><p>函数 main 和其他任何函数一样，如果没有显示声明返回类型，那么函数返回类型就默认是整型参数。
+大多数 C 语言实现都是通过函数 main 的返回值来告知操作系统该函数的执行是成功还是失败。典型的处理方案
+是，返回值为 0 代表程序执行成功，返回值非 0 则表示程序执行失败。
+不提供返回值可能导致判断错误。</p></div></div><div id=outline-container-headline-42 class=outline-4><h4 id=headline-42>练习</h4><div id=outline-text-headline-42 class=outline-text-4><div id=outline-container-headline-43 class=outline-5><h5 id=headline-43>练习 3-1 假定对于下标越界的数组元素，取地址也是非法的，那么该如何写 bufwrite 函数？</h5><div id=outline-text-headline-43 class=outline-text-5><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>void</span> <span class=nf>bufwrite</span><span class=p>(</span><span class=kt>char</span> <span class=o>*</span><span class=n>p</span><span class=p>,</span> <span class=kt>int</span> <span class=n>n</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>while</span><span class=p>(</span><span class=o>--</span><span class=n>n</span> <span class=o>&gt;=</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span><span class=p>(</span><span class=n>bufptr</span> <span class=o>==</span> <span class=o>&amp;</span><span class=n>buffer</span><span class=p>[</span><span class=n>N</span> <span class=o>-</span> <span class=mi>1</span><span class=p>])</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=o>*</span><span class=n>bufptr</span> <span class=o>=</span> <span class=o>*</span><span class=n>p</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=n>flushbuffer</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=o>*</span><span class=n>bufptr</span><span class=o>++</span> <span class=o>=</span> <span class=o>*</span><span class=n>p</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>if</span><span class=p>(</span><span class=n>n</span> <span class=o>&gt;</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>p</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>//版本二
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kt>void</span> <span class=nf>bufwrite</span><span class=p>(</span><span class=kt>char</span> <span class=o>*</span><span class=n>p</span><span class=p>,</span> <span class=kt>int</span> <span class=n>n</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>while</span><span class=p>(</span><span class=n>n</span> <span class=o>&gt;</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=kt>int</span> <span class=n>k</span><span class=p>,</span> <span class=n>rem</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>rem</span> <span class=o>=</span> <span class=n>N</span> <span class=o>-</span> <span class=p>(</span><span class=n>bufptr</span> <span class=o>-</span> <span class=n>buffer</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=n>k</span> <span class=o>=</span> <span class=n>n</span> <span class=o>&gt;</span> <span class=n>rem</span> <span class=o>?</span> <span class=nl>rem</span> <span class=p>:</span> <span class=n>n</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>memcpy</span><span class=p>(</span><span class=n>bufptr</span><span class=p>,</span> <span class=n>p</span><span class=p>,</span> <span class=n>k</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>if</span><span class=p>(</span><span class=n>k</span> <span class=o>==</span> <span class=n>rem</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>flushbuffer</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=n>n</span> <span class=o>-=</span> <span class=n>k</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span><span class=p>(</span><span class=n>n</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>p</span> <span class=o>+=</span> <span class=n>k</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div></div></div></div><div id=outline-container-headline-44 class=outline-5><h5 id=headline-44>练习 3-2 比较书中函数 flush 的最后一个版本与以下版本</h5><div id=outline-text-headline-44 class=outline-text-5><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c></code></pre></div></div><p>程序反映程序员实际编程意图的版本，就是最好的版本。</p></div></div><div id=outline-container-headline-45 class=outline-5><h5 id=headline-45>练习 3-3 对一个以排序的数组执行二分查找。</h5><div id=outline-text-headline-45 class=outline-text-5><p>函数输入包括一个指向表头的指针，表中元素的个数，以及待查找的数值。输出找到元素的指针，未查找到则输出
+NULL 指针。</p><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>int</span> <span class=o>*</span> <span class=nf>bsearch</span><span class=p>(</span><span class=kt>int</span> <span class=o>*</span><span class=n>t</span><span class=p>,</span> <span class=kt>int</span> <span class=n>len</span><span class=p>,</span> <span class=kt>int</span> <span class=n>x</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>lo</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>hi</span> <span class=o>=</span> <span class=n>len</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>while</span><span class=p>(</span><span class=n>lo</span> <span class=o>&lt;</span> <span class=n>hi</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=kt>int</span> <span class=n>mid</span> <span class=o>=</span> <span class=p>(</span><span class=n>hi</span> <span class=o>+</span> <span class=n>lo</span><span class=p>)</span> <span class=o>/</span> <span class=mi>2</span><span class=p>;</span> <span class=c1>//仔细分析表达式是否合理：特例外推
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=kt>int</span> <span class=o>*</span><span class=n>p</span> <span class=o>=</span> <span class=n>t</span> <span class=o>+</span> <span class=n>mid</span><span class=p>;</span> <span class=c1>//避免多次求取。很多机器上下标运算比指针慢
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span><span class=p>(</span><span class=n>x</span> <span class=o>&lt;</span> <span class=o>*</span><span class=n>p</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>hi</span> <span class=o>=</span> <span class=n>mid</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=k>else</span> <span class=k>if</span><span class=p>(</span><span class=n>x</span> <span class=o>&gt;</span> <span class=o>*</span><span class=n>p</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>lo</span> <span class=o>=</span> <span class=n>mid</span> <span class=o>+</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=n>p</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nb>NULL</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>//用指针代替下标
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kt>int</span> <span class=o>*</span><span class=nf>bsearch</span><span class=p>(</span><span class=kt>int</span> <span class=o>*</span><span class=n>t</span><span class=p>,</span> <span class=kt>int</span> <span class=n>len</span><span class=p>,</span> <span class=kt>int</span> <span class=n>x</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=o>*</span><span class=n>lo</span> <span class=o>=</span> <span class=n>t</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=o>*</span><span class=n>hi</span> <span class=o>=</span> <span class=n>t</span> <span class=o>+</span> <span class=n>len</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>while</span><span class=p>(</span><span class=n>lo</span> <span class=o>&lt;</span> <span class=n>hi</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=kt>int</span> <span class=o>*</span><span class=n>mid</span> <span class=o>=</span> <span class=n>t</span> <span class=o>+</span> <span class=p>((</span><span class=n>hi</span> <span class=o>-</span> <span class=n>lo</span><span class=p>)</span> <span class=o>&gt;&gt;</span> <span class=mi>1</span><span class=p>);</span> <span class=c1>//右移操作一定要加括号，优先级较低
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=c1>//另外不可以将两个指针相加
+</span></span></span><span class=line><span class=cl><span class=c1></span>        
+</span></span><span class=line><span class=cl>        <span class=k>if</span><span class=p>(</span><span class=n>x</span> <span class=o>&lt;</span> <span class=o>*</span><span class=n>mid</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>hi</span> <span class=o>=</span> <span class=n>mid</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=k>else</span> <span class=k>if</span><span class=p>(</span><span class=n>x</span> <span class=o>&gt;</span> <span class=o>*</span><span class=n>mid</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>lo</span> <span class=o>=</span> <span class=n>mid</span> <span class=o>+</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=n>mid</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nb>NULL</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>//使用对称边界
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kt>int</span> <span class=o>*</span> <span class=nf>bsearch</span><span class=p>(</span><span class=kt>int</span> <span class=o>*</span><span class=n>t</span><span class=p>,</span> <span class=kt>int</span> <span class=n>len</span><span class=p>,</span> <span class=kt>int</span> <span class=n>x</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>lo</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>hi</span> <span class=o>=</span> <span class=n>len</span> <span class=o>-</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>while</span><span class=p>(</span><span class=n>lo</span> <span class=o>&lt;=</span> <span class=n>hi</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=kt>int</span> <span class=n>mid</span> <span class=o>=</span> <span class=p>(</span><span class=n>hi</span> <span class=o>+</span> <span class=n>lo</span><span class=p>)</span> <span class=o>/</span> <span class=mi>2</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=kt>int</span> <span class=o>*</span><span class=n>p</span> <span class=o>=</span> <span class=n>t</span> <span class=o>+</span> <span class=n>mid</span><span class=p>;</span> <span class=c1>//避免多次求取。很多机器上下标运算比指针慢
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span><span class=p>(</span><span class=n>x</span> <span class=o>&lt;</span> <span class=o>*</span><span class=n>p</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>hi</span> <span class=o>=</span> <span class=n>mid</span> <span class=o>-</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=k>else</span> <span class=k>if</span><span class=p>(</span><span class=n>x</span> <span class=o>&gt;</span> <span class=o>*</span><span class=n>p</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>lo</span> <span class=o>=</span> <span class=n>mid</span> <span class=o>+</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=n>p</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nb>NULL</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span><span class=c1>//此时使用纯指针较麻烦
+</span></span></span></code></pre></div></div></div></div></div></div></div></div><div id=outline-container-headline-46 class=outline-3><h3 id=headline-46>第 4 章 连接</h3><div id=outline-text-headline-46 class=outline-text-3><p>一个 C 程序可能是由多个编译部分组成，这些不同部分通过连接器合并成一个整体。</p><ol><li>编译器一次只处理一个文件，所以不能检测出那些需要一次了解多个源程序文件才能察觉的错误。</li><li>连接器是独立于 C 语言实现的，因此如果上述错误的原因与 C 语言相关，连接器同样对此束手无策。</li></ol><p>lint 程序可以捕捉到大量上述错误，一定要善加利用，这一点无论怎么强调都不为过。</p><div id=outline-container-headline-47 class=outline-4><h4 id=headline-47>4.1 什么是连接器</h4><div id=outline-text-headline-47 class=outline-text-4><p>C 语言中一个重要的思想就是分别编译（Separate Compilation），即若干个源程序可以在不同的时候单独进行编
+译，然后再恰当的时候整合到一起。但是连接器一般是与 C 编译器分离的，他不可能了解 C 语言的诸多细节，但
+却能够理解机器语言和内存布局。编译器的责任就是把 C 源程序翻译成对连接器有意义的形式，这样连接器就能
+够读懂 C 语言了。
+工作方式： <strong>连接器读入目标模块和库文件，生成能够被操作系统执行的载入模块。</strong>
+外部对象（external object）代表机器内存中的某个部分，并通过一个外部名称来识别。程序中的每个函数和每
+个外部变量都是外部对象，在未声明为 static 的情况下。某些 C 编译器会对静态函数和静态变量的名称做一定
+的改变，将他们也作为外部对象。由于经过了“名称修饰”，所以他们不会与其他源程序文件中的同名函数或者同
+名变量发生冲突。总结： <strong>外部对象就是全局函数和全局变量</strong></p><p>连接器工作方式：
+对每个目标模块的每个外部对象，都要查看载入模块是否已有同名的外部对象，没有则将该外部对象加入载入模块，
+有则处理命令冲突。同时要解析出该目标文件中定义的所有外部对象的引用，并作出标记说明这些外部对象不再是
+未定义的。</p></div></div><div id=outline-container-headline-48 class=outline-4><h4 id=headline-48>4.2 声明与定义</h4><div id=outline-text-headline-48 class=outline-text-4><p>int a; //这是定义，其说明了 a 是一个外部整型变量，且为其分配存储空间，C 编译器有责任以适当的方式通知
+连接器，确保未指定初始值的外部变量被初始化为 0。（定义的位置在所有函数体之外）
+extern int a; //声明，仅仅说明了 a 是一个外部整型变量，是对一个外部对象的显示引用，即使出现在一个函
+数的内部，也仍然具有同样的含义。
+外部对象只可以定义一次，但可以声明多次，声明可以在任意文件中。</p></div></div><div id=outline-container-headline-49 class=outline-4><h4 id=headline-49>4.3 命名冲突与 static 修饰符</h4><div id=outline-text-headline-49 class=outline-text-4><p>外部对象进可以定义一次（系统提供的库函数同样遵循此规则）。
+static 修饰符用于将外部对象的作用域限制在一个源文件内，对其他文件，该对象不可见。static 修饰符适用于
+变量和函数。可以避免命名冲突。
+<strong>原则：</strong> 为了避免可能的命名冲突，如果一个函数仅仅被同一个源文件内的其他函数调用，我们就应该声明该函
+数为 static。只在声明的时候使用，定义时不再需要指明 static。</p></div></div><div id=outline-container-headline-50 class=outline-4><h4 id=headline-50>4.4 形参、实参与返回值</h4><div id=outline-text-headline-50 class=outline-text-4><div id=outline-container-headline-51 class=outline-5><h5 id=headline-51>形参-实参</h5><div id=outline-text-headline-51 class=outline-text-5><p>任何 C 函数都有一个形参列表，列表中的每个参数都是一个变量，该变量在函数调用过程中被初始化。调用方将
+实参列表传递给被调函数。当然形参列表可能为空。</p><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>int</span> <span class=nf>abs</span><span class=p>(</span><span class=kt>int</span> <span class=n>n</span><span class=p>)</span> <span class=p>{</span> <span class=c1>//有一个整型形参
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>return</span> <span class=n>n</span> <span class=o>&lt;</span> <span class=mi>0</span> <span class=o>?</span> <span class=o>-</span><span class=nl>n</span> <span class=p>:</span> <span class=n>n</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>c</span> <span class=o>=</span> <span class=n>abs</span><span class=p>(</span><span class=n>a</span> <span class=o>-</span> <span class=n>b</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=c1>//a-b 是传递给函数的实参
+</span></span></span></code></pre></div></div><p>在 ANSI C 之前，函数的声明只声明返回值类型和函数名称，不声明形参的类型。ANSI C 运行程序员在声明时指
+定函数的参数类型，但兼容之前的版本。如果一个函数没有 float、short、char 类型的参数，那么函数的声明中
+完全可以省略参数类型的说明（但定义中万万不能省略参数类型的说明），因为 float 类型的参数会自动转换为
+double 类型，short 或 char 类型的参数会自动转换成 int 类型。如果有这三种类型的形参不声明时会自动转换。
+不声明形参时依赖调用者提供数目正确且类型恰当的实参。最好利用头文件来声明函数类型，声明之后，即使传入
+的实参类型不符，编译器会进行强制类型转换。
+函数 printf 和 scanf 在不同的情形下可以接受不同类型的参数，所以他们特别容易出错。</p><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;stdio.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>i</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>char</span> <span class=n>c</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span><span class=p>(</span><span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=mi>5</span><span class=p>;</span> <span class=o>++</span><span class=n>i</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>scanf</span><span class=p>(</span><span class=s>&#34;%d&#34;</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>c</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=n>printf</span><span class=p>(</span><span class=s>&#34;%d &#34;</span><span class=p>,</span> <span class=n>i</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=n>printf</span><span class=p>(</span><span class=s>&#34;</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=c1>//从标准输入设备读入 5 个数， 0 1 2 3 4 ，然后输出到标准输出
+</span></span></span><span class=line><span class=cl><span class=c1>//但是运行结果却是 0 0 0 0 0 1 2 3 4
+</span></span></span></code></pre></div></div><p>因为这里的 c 被声明为 char 类型，而不是 int 类型。当程序要求 scanf 读入一个整数，应该传递给他一个指
+向整数的指针，但程序中却是一个指向字符的指针，scanf 函数并不能分辨，只是将这个指向字符的指针作为指向
+整数的指针接受，并且在指针指向的位置存储一个整数，因为整数所占的内存空间大于字符所占的存储空间，所以
+字符 c 附近的内存将被覆盖。覆盖变量 i 的低端部分为 0，直到到达文件的末尾，scanf 函数不再试图读入新的
+数值到 c，此时循环可以正常递增，最终终止循环。</p><p>利用头文件声明函数，且让形参和实参最好保持类型一致。</p></div></div><div id=outline-container-headline-52 class=outline-5><h5 id=headline-52>返回值</h5><div id=outline-text-headline-52 class=outline-text-5><p>任何一个 C 函数都有返回类型，要么是 void，要么是函数生成结果的类型。如果任何一个函数在调用它的每个文
+件中，都在第一次被调用之前进行了声明或者定义，那么就不由有任何与返回类型先关的麻烦。如果一个函数在被
+定义或者声明之前被调用，那么他的返回类型就默认为整型。会有编译告警，运行结果也可能出错。</p></div></div></div></div><div id=outline-container-headline-53 class=outline-4><h4 id=headline-53>4.5 检查外部类型</h4><div id=outline-text-headline-53 class=outline-text-4><p>保证一个特定（变量或函数）名称的所有外部定义在每个目标模块中都有严格意义上相同的类型。</p><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>char</span> <span class=n>filename</span><span class=p>[]</span> <span class=o>=</span> <span class=s>&#34;/etc/passwd&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>extern</span> <span class=kt>char</span> <span class=o>*</span> <span class=n>filename</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=cm>/*尽管在某些上下文环境中，数组和指针非常类似，但他们毕竟不同。
+</span></span></span><span class=line><span class=cl><span class=cm> *字符数组名就类似其他变量名一样，代表着该数组本身
+</span></span></span><span class=line><span class=cl><span class=cm> *而指向字符串数组的指针，则是一个指针，其内容存储着该字符数组起始元素的地址。
+</span></span></span><span class=line><span class=cl><span class=cm> *所以利用 sizeof 分别求取两者时得到不同的结果。
+</span></span></span><span class=line><span class=cl><span class=cm>*/</span></span></span></code></pre></div></div></div></div><div id=outline-container-headline-54 class=outline-4><h4 id=headline-54>4.6 头文件</h4><div id=outline-text-headline-54 class=outline-text-4><p>每个外部对象只在一个地方声明。一般在某个头文件，需要用到该外部对象的所有模块都应该引用这个头文件。特
+别需要指出的是，定义该外部对象的模块也应该包括这个头文件。我们希望只在一处改动这个特定的文件名，所有
+模块中的文件名就同时得到更新。
+定义也是声明，声明可以有多个，但定义只能有一个。</p></div></div><div id=outline-container-headline-55 class=outline-4><h4 id=headline-55>练习</h4><div id=outline-text-headline-55 class=outline-text-4><div id=outline-container-headline-56 class=outline-5><h5 id=headline-56>练习 4-1 声明与定义不符</h5><div id=outline-text-headline-56 class=outline-text-5><p>long foo;
+extern short foo;
+给 long 类型的 foo 赋值 37，short 类型的 foo 同时获得了一个值为 37。可以推断机器是小段对齐的；
+给 long 类型的 foo 赋值 37，short 类型的 foo 却获得了的值为 0。可以推断机器是大段对齐的。</p></div></div><div id=outline-container-headline-57 class=outline-5><h5 id=headline-57>练习 4-2 printf("%g\n", sqrt(2))</h5><div id=outline-text-headline-57 class=outline-text-5><p>打印为 %g。可以连接器无从得知需要浮点格式项，调用了不支持浮点的打印函数（连接器在从库函数中取 sqrt
+函数之前就已经做出选择）</p></div></div></div></div></div></div><div id=outline-container-headline-58 class=outline-3><h3 id=headline-58>第 5 章 库函数</h3><div id=outline-text-headline-58 class=outline-text-3><p>C 语言没有定义输入/输出语句。ANSI C 标准定义了一个标准库。
+对于库函数的使用，我们能给出的最好建议是尽量使用系统头文件（ANSI C 强制要求引用头文件）</p><div id=outline-container-headline-59 class=outline-4><h4 id=headline-59>5.1 返回整数的 getchar 函数</h4><div id=outline-text-headline-59 class=outline-text-4><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;stdio.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>char</span> <span class=n>c</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>while</span><span class=p>((</span><span class=n>c</span> <span class=o>=</span> <span class=n>getchar</span><span class=p>())</span> <span class=o>!=</span> <span class=n>EOF</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>putchar</span><span class=p>(</span><span class=n>c</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div></div><p>程序希望实现从标准输入复制到标准输出。但由于变量 c 被声明为 char 类型，而不是 int 类型，这意味着 c
+无法容下所有可能的字符，特别是，可能无法容下 EOF。程序可能中途停止，也可能是一个死循环，还可能恰巧能
+够工作（由于编译器实现有问题）</p></div></div><div id=outline-container-headline-60 class=outline-4><h4 id=headline-60>5.2 更新顺序文件</h4><div id=outline-text-headline-60 class=outline-text-4><p>许多系统中标准输入/输出库口允许程序员打开一个文件，同时进行写入和独处操作。遗憾的是，为了与过去不能
+同时进行读写操作的程序向下兼容，一个输入操作不能随后直接紧跟一个输出操作，反之亦然。中间必须插入
+fseek 或者 fgetpos 函数。</p><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=n>FILE</span> <span class=o>*</span><span class=n>fp</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>struct</span> <span class=n>record</span> <span class=n>rec</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>...</span>
+</span></span><span class=line><span class=cl><span class=k>while</span><span class=p>(</span><span class=n>fread</span><span class=p>(</span> <span class=p>(</span><span class=kt>char</span> <span class=o>*</span><span class=p>)</span><span class=o>&amp;</span><span class=n>rec</span><span class=p>,</span> <span class=k>sizeof</span><span class=p>(</span><span class=n>rec</span><span class=p>),</span> <span class=mi>1</span><span class=p>,</span> <span class=n>fp</span><span class=p>)</span> <span class=o>==</span> <span class=mi>1</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=cm>/* 对 rec 执行某些操作 */</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span><span class=p>(</span><span class=cm>/* rec 必须被写入 */</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>fseek</span><span class=p>(</span><span class=n>fp</span><span class=p>,</span> <span class=o>-</span><span class=p>(</span><span class=kt>long</span><span class=p>)</span><span class=k>sizeof</span><span class=p>(</span><span class=n>rec</span><span class=p>),</span> <span class=mi>1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=n>fwrite</span><span class=p>(</span> <span class=p>(</span><span class=kt>char</span> <span class=o>*</span><span class=p>)</span><span class=o>&amp;</span><span class=n>rec</span><span class=p>,</span> <span class=k>sizeof</span><span class=p>(</span><span class=n>rec</span><span class=p>),</span> <span class=mi>1</span><span class=p>,</span> <span class=n>fp</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=n>fseek</span><span class=p>(</span><span class=n>fp</span><span class=p>,</span> <span class=mi>0L</span><span class=p>,</span> <span class=mi>1</span><span class=p>);</span> <span class=c1>//很容易丢掉该句；似乎没有做什么操作，但其改变了文件的状态
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div></div></div></div><div id=outline-container-headline-61 class=outline-4><h4 id=headline-61>5.3 缓冲输出与内存分配</h4><div id=outline-text-headline-61 class=outline-text-4><p>程序输出有两种方式：一种是即时处理方式，另一种是先暂存起来，然后再大块写入（行缓存和块缓存）；第一种
+往往造成较高的系统负担。C 语言实现通常允许程序员进行实际的写操作之前控制产生的输出数据量。
+库函数 setbuf 用于实现该功能。</p><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;stdio.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>c</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>char</span> <span class=n>buf</span><span class=p>[</span><span class=n>BUFSIZ</span><span class=p>];</span> <span class=c1>//BUFSIZ 定义在头文件 stdio.h 中
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=n>setbuf</span><span class=p>(</span><span class=n>stdout</span><span class=p>,</span> <span class=n>buf</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=c1>//setbuf(stdout, NULL); //不进行缓冲
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=k>while</span><span class=p>((</span><span class=n>c</span> <span class=o>=</span> <span class=n>getchar</span><span class=p>())</span> <span class=o>!=</span> <span class=n>EOF</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>putchar</span><span class=p>(</span><span class=n>c</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div></div><p>最后一次刷新缓冲区在 main 函数之后，这样会导致程序输出错误，因为此时 buf 已经被释放！作者建议将数组
+buf 声明为 static 或者为其动态分配内存且不主动释放，让 C 运行库进行清理。其实在 main 函数返回之前刷
+新一下缓冲区也是可以的。</p></div></div><div id=outline-container-headline-62 class=outline-4><h4 id=headline-62>5.4 使用 errno 检查错误</h4><div id=outline-text-headline-62 class=outline-text-4><p>每个线程有一个 errno ，在信号处理函数中，应该保存之前的 errno ，返回前恢复，因为其有可能改变 errno
+的值。
+很多库函数，特别是那些与操作系统相关的，当执行失败时会设置外部变量 errno ，来通知程序该函数调用失败。
+但是库函数调用没有失败的情况下，并没有强制要求库函数一定要将 errno 设置为 0 ，同时调用成功时也没有强
+制要求将 errno 清零，也没有禁止设置 errno （比如 ：fopen 函数打开一个不存在的文件时，即使打开成功
+也会设置 errno ）。
+调用库函数时， <strong>应该首先检查返回值确定程序执行失败再检查 errno</strong> ，来搞清楚错误原因。</p></div></div><div id=outline-container-headline-63 class=outline-4><h4 id=headline-63>5.5 库函数 signal</h4><div id=outline-text-headline-63 class=outline-text-4><p>C 语言实现中，信号是真正意义上的“异步”。从理论上说，一个信号可能在　C 程序执行期间的任何时刻上产生。
+特别强调的是，信号甚至可能出现在某些复杂库函数（如 malloc ）的执行过程中。因此从安全角度考虑，信号的
+处理函数不应该调用不可重入的函数。（可重入的主要特点是不包含全局或者静态变量）
+假设 malloc 函数的执行被一个信号中断。此时，malloc 函数用来跟踪可用内存的数据结构很可能只有部分被更
+新。如果信号处理函数也调用 malloc 函数，结果可能是 malloc 函数用到的数据结构完全崩溃。
+同样信号处理函数使用 longjmp 退出，也可能是不安全的。信号发生时，malloc 函数可能只更新了部分数据结
+构。此时信号处理函数能够做的安全的事情，似乎只有设置一个标志然后返回，期待主程序能够检查到这个标志。
+然而，当一个算数运算错误引发一个信号时，信号处理函数完成后可能继续之前的失败操作，这样将马上引发一个
+同样的信号。此时，信号处理函数唯一安全、可移植的操作就是打印一条出错消息，然后使用 longjmp 或 exit
+退出程序。
+结论： <strong>信号非常棘手，而且有一些从本质上而言不可移植的特性</strong> 。解决这个问题最好采取“受势”，让信号处
+理函数尽可能简单，并将他们组织在一起。当需要使用一个新系统时，我们可以很容易的进行修改。</p></div></div><div id=outline-container-headline-64 class=outline-4><h4 id=headline-64>练习</h4><div id=outline-text-headline-64 class=outline-text-4><div id=outline-container-headline-65 class=outline-5><h5 id=headline-65>5-1 当一个程序异常终止时，程序输出的最后几行常常会丢失，原因是什么？我们能够采取怎样的措施来解决这个问题？</h5><div id=outline-text-headline-65 class=outline-text-5><p>一个异常终止的程序可能没有机会来清空其输出缓冲区。因此，该程序的输出可能位于内存的某个位置，但却永远
+不会被输出了。</p><p>如果调试程序时，最好在 main 函数的第一句就设置成不缓存 setbug(stdout, NULL); 从而准确找到程序出错的
+位置。</p></div></div><div id=outline-container-headline-66 class=outline-5><h5 id=headline-66>5-2 getchar 一般会实现为宏，同时实现为函数。使用函数会减慢程序的运行速度。</h5></div></div></div></div></div><div id=outline-container-headline-67 class=outline-3><h3 id=headline-67>第 6 章 预处理器</h3><div id=outline-text-headline-67 class=outline-text-3><p>C 语言预处理器首先对程序代码作了必要的转换。因此我们运行的程序实际上并不是我们所写的程序。预处理器使
+得编程者可以简化某些工作，其重要性体现在两个方面：</p><ol><li>将某个特定的数量定义为一个显示常量（manifest constant），然后再需要的地方使用这个常量即可。而且很
+容易把所有常量定义都集中在一起，这样便于找到这些常量。</li><li>C 语言在实现函数调用时都会带来重大的系统开销。利用宏可以实现类似函数却没有额外开销的功能。例如：
+getchar 和 putchar 经常被实现为宏。</li></ol><p>虽然宏非常有用，但是宏只是对程序的文本起作用。
+也就是说， <strong>宏提供了一种对组成 C 程序的字符进行变换的方式，而并不作用于程序中的对象。</strong>
+因而，宏既可以使一段看上去完全不合法的代码称为一个有效的 C 程序，也能使一段看上去无害的代码成为一个
+可怕的怪物。</p><div id=outline-container-headline-68 class=outline-4><h4 id=headline-68>6.1 不能忽视宏定义中的空格</h4><div id=outline-text-headline-68 class=outline-text-4><p>预处理器从宏定义中可以知道宏调用时是否需要参数。与宏调用相比，宏定义显得有些“暗藏机关”。</p><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp>#define f (x) ((x)-1)
+</span></span></span><span class=line><span class=cl><span class=cp></span><span class=c1>//上述宏定义意义： f 代表 (x)((x)-1) 而不是 f(x) 代表 ((x)-1)
+</span></span></span><span class=line><span class=cl><span class=c1>//上述规则不适用宏调用，只对宏定义使用
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=cp>#define f(x) ((x)-1)
+</span></span></span><span class=line><span class=cl><span class=cp></span><span class=c1>//完成上述定义后， f(3) 和 f (3) 求值的结果都是 2
+</span></span></span></code></pre></div></div></div></div><div id=outline-container-headline-69 class=outline-4><h4 id=headline-69>6.2 宏并不是函数</h4><div id=outline-text-headline-69 class=outline-text-4><p>宏定义中出现的所有括号都是预防引起与优先级有关的问题。最好在宏定义中把每个参数都用括号括起来，同样整
+个表达式也应该用括号括起来，以防止宏用于一个更大的表达式中可能出现的问题。但仍然可能有其他问题。</p><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp>#define abs(x) (((x)&gt;=0)?(x):-(x))
+</span></span></span><span class=line><span class=cl><span class=cp>#define max(a,b) ((a)&gt;(b)?(a):(b))
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=n>x</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=o>=</span> <span class=mi>2</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>x</span><span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=o>=</span> <span class=mi>3</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>x</span><span class=p>[</span><span class=mi>2</span><span class=p>]</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>biggest</span> <span class=o>=</span> <span class=n>x</span><span class=p>[</span><span class=mi>0</span><span class=p>];</span>
+</span></span><span class=line><span class=cl><span class=n>i</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>while</span><span class=p>(</span><span class=n>i</span> <span class=o>&lt;</span> <span class=n>n</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>biggest</span> <span class=o>=</span> <span class=n>max</span><span class=p>(</span><span class=n>biggest</span><span class=p>,</span> <span class=n>x</span><span class=p>[</span><span class=n>i</span><span class=o>++</span><span class=p>]);</span></span></span></code></pre></div></div><p>一个操作数如果在两处用到，就会被求值两次。例如上式中 max(a,b) ，如果 a 大于 b ，那么 a 将被求值两次：
+第一次在 a 与 b 比较期间，第二次是在计算 max 应该得到的结果时。
+上式中求取 biggest 时，如果 max 是一个真正的函数，代码完全可以正常工作。但如果是宏，就无法正常工作。
+<strong>因为其混用了宏和递增运算。</strong> 解决：确保参数没有副作用（即没有递增运算）或者使用函数。
+使用宏的另一个危险，宏展开肯能产生非常庞大的表达式，占用的空间远远超过编程者所期望的空间。比如用 max
+宏求取四个数中的作答者时。</p></div></div><div id=outline-container-headline-70 class=outline-4><h4 id=headline-70>6.3 宏并不是语句</h4><div id=outline-text-headline-70 class=outline-text-4><p>编程者有时会试图定义宏的行为与语句类似，但要保证其正确性往往很困难。举例来说，assert 宏，他的参数是
+一个表达式，如果该表达式为 0，就使程序终止执行，并给出一条适当的出错信息。</p><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp>#define assert(e) if(!e) assert_error(__FILE__, __LINE__)
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=k>if</span><span class=p>(</span><span class=n>x</span> <span class=o>&gt;</span> <span class=mi>0</span> <span class=o>&amp;&amp;</span> <span class=n>y</span> <span class=o>&gt;</span> <span class=mi>0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>assert</span><span class=p>(</span><span class=n>x</span> <span class=o>&gt;</span> <span class=n>y</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=k>else</span>
+</span></span><span class=line><span class=cl>    <span class=nf>assert</span><span class=p>(</span><span class=n>y</span> <span class=o>&gt;</span> <span class=n>x</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=cm>/*上面展开后将出错，宏定义的 if 将于程序中的 else 配对*/</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=cm>/*如果给宏定义加上大括号那么展开后语句最后会多一个分号导致语法错误*/</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>//assert 宏的正确定义，其不类似一个语句，而类似一个表达式
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=cp>#define assert(e) ((void)((e)||_assert_error(__FILE__, __LINE__)))</span></span></span></code></pre></div></div></div></div><div id=outline-container-headline-71 class=outline-4><h4 id=headline-71>6.4 宏并不是类型定义</h4><div id=outline-text-headline-71 class=outline-text-4><p>定义一个新类型的时候使用 typedef 而不是 define 。</p><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp>#define FOOTYPE struct foo
+</span></span></span><span class=line><span class=cl><span class=cp></span><span class=n>FOOTYPE</span> <span class=n>a</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>FOOTYPE</span> <span class=n>b</span><span class=p>,</span><span class=n>c</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=c1>// 上面的程序可以正常运行
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=cp>#define T1 struct foo *
+</span></span></span><span class=line><span class=cl><span class=cp></span><span class=k>typedef</span> <span class=k>struct</span> <span class=n>foo</span> <span class=o>*</span><span class=n>T2</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>T1</span> <span class=n>a</span><span class=p>,</span><span class=n>b</span><span class=p>;</span> <span class=c1>// 展开就成了 struct foo * a, b; 并没有将 b 定义长指针
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>T2</span> <span class=n>c</span><span class=p>,</span><span class=n>d</span><span class=p>;</span></span></span></code></pre></div></div></div></div><div id=outline-container-headline-72 class=outline-4><h4 id=headline-72>练习</h4><div id=outline-text-headline-72 class=outline-text-4><div id=outline-container-headline-73 class=outline-5><h5 id=headline-73>6-1 使用宏实现 max 的一个版本</h5><div id=outline-text-headline-73 class=outline-text-5><p>答：只能把每个参数存储在一个临时变量中。遗憾的是，我们没有办法可以在一个 c 表达式的内部声明一个临时
+变量。</p><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>static</span> <span class=kt>int</span> <span class=n>max_temp1</span><span class=p>,</span> <span class=n>max_temp2</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=cp>#define max(p, q) (max_temp1 = (p),max_temp2=(q), \
+</span></span></span><span class=line><span class=cl><span class=cp>        max_temp1&gt;max_temp2 ? max_temp1:max_temp2)
+</span></span></span><span class=line><span class=cl><span class=cp></span><span class=c1>//对 max 宏嵌套调用会出错
+</span></span></span></code></pre></div></div></div></div><div id=outline-container-headline-74 class=outline-5><h5 id=headline-74>6-2 怎样使表达式 (x) ((x)-1) 称为一个合法的 C 表达式？</h5><div id=outline-text-headline-74 class=outline-text-5><p>答：当 x 是一种类型名时是一个合法的表达式，如 typedef int x，将 -1 强制转换了两次
+当 x 是函数指针的时候。</p><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>typedef</span> <span class=nf>void</span> <span class=p>(</span><span class=o>*</span><span class=n>T</span><span class=p>)(</span><span class=kt>void</span> <span class=o>*</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>T</span> <span class=n>x</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=c1>//x 是一个函数指针，其参数是任何 T 都可以被强制转换的类型，如 void * 
+</span></span></span><span class=line><span class=cl><span class=c1>//如果某个上下文需要函数而实际上却用了函数指针，那么该指针所指向的函数会被自动地取得并替换这个函数指针。
+</span></span></span></code></pre></div></div><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=err>问：先定义了个函数：</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=n>function</span><span class=p>(</span><span class=kt>int</span> <span class=n>a</span><span class=p>,</span> <span class=kt>int</span> <span class=n>b</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>     <span class=p>..........</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>main函数里面有个函数指针</span>
+</span></span><span class=line><span class=cl><span class=err>问题</span><span class=mi>1</span><span class=err>：那么下面两种对函数指针的赋值哪个是正确的，还是都可以？</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=n>main</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>     <span class=nl>A</span><span class=p>:</span>     <span class=kt>int</span> <span class=p>(</span><span class=o>*</span><span class=n>FP</span><span class=p>)(</span><span class=kt>int</span><span class=p>,</span> <span class=kt>int</span><span class=p>)</span> <span class=o>=</span> <span class=n>function</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>     <span class=nl>B</span><span class=p>:</span>     <span class=kt>int</span> <span class=p>(</span><span class=o>*</span><span class=n>FP</span><span class=p>)(</span><span class=kt>int</span><span class=p>,</span> <span class=kt>int</span><span class=p>)</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>function</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=err>问题</span><span class=mi>2</span><span class=err>：使用</span><span class=n>FP这个函数指针的时候</span><span class=err>，下面哪种是正确的，还是都正确？</span>
+</span></span><span class=line><span class=cl><span class=nl>A</span><span class=p>:</span>     <span class=n>FP</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span><span class=mi>2</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nl>B</span><span class=p>:</span>     <span class=p>(</span><span class=o>*</span><span class=n>FP</span><span class=p>)(</span><span class=mi>1</span><span class=p>,</span><span class=mi>2</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=err>第一个问题，两个都是可以的。函数名是一个地址，可以将他赋值给一个指向函数的指针。前面加了</span> <span class=o>&amp;</span> <span class=err>符号其</span>
+</span></span><span class=line><span class=cl><span class=err>意义是一样的。这些都是设计语言时这样规定的</span>
+</span></span><span class=line><span class=cl><span class=err>第二个问题，两个也都是可以的，所有这些设计都是为了方便使用，而不是为了符合同一个规则。</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=n>a</span><span class=p>[</span><span class=mi>10</span><span class=p>];</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=o>*</span><span class=n>p</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>p</span> <span class=o>=</span> <span class=n>a</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>p</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>a</span><span class=p>;</span> <span class=c1>//错误
+</span></span></span></code></pre></div></div></div></div></div></div></div></div><div id=outline-container-headline-75 class=outline-3><h3 id=headline-75>第 7 章 可移植性缺陷</h3><div id=outline-text-headline-75 class=outline-text-3><p>C 语言的实现存在细微差别，程序员如果希望自己写的程序在另一个编程环境也能够工作，他就必须掌握许多这类
+细小的差别。可移植性涵盖的范围非常宽泛。本章重点放在语言的属性上。</p><div id=outline-container-headline-76 class=outline-4><h4 id=headline-76>7.1 应对 C 语言的标准变更</h4><div id=outline-text-headline-76 class=outline-text-4><p>是否应该使用某个新特性或特定的特性？使用该特性也许能给编程带来巨大的方便，但代价却是使程序失去了一部
+分潜在的用户。而不适用新特性代价也有些昂贵。所以必须慎重选择，不能等闲视之。
+程序的生命期往往超过了编程者最初的预料，即使这个程序只是编程者出于自用目的而编写的。因此，我们不能只
+看到当前的需要，而忽视未来可能的需要。</p></div></div><div id=outline-container-headline-77 class=outline-4><h4 id=headline-77>7.2 标识符名称额限制</h4><div id=outline-text-headline-77 class=outline-text-4><p>有些 c 语言实现会自动截断过长的标识符，有些连接器也会对名称强加限制（只允许大写字母）。
+ANSI C 保证， C 实现必须能够区分出前 6 个字符不同的外部名称。不保证区分大小写。</p></div></div><div id=outline-container-headline-78 class=outline-4><h4 id=headline-78>7.3 整数的大小</h4><div id=outline-text-headline-78 class=outline-text-4><p>C 语言提供 short、int、long、long long 型不同长度的整数。C 语言规定如下：</p><ol><li>4 种整型长度是非递减的。</li><li>一个普通整数足够容纳任何数组下标。</li><li>字符长度由硬件特性决定。</li></ol><p>ASNI C 要求 long 至少是 32 位，而 short 和 int 至少为 16 位。
+我们不能指望哪种类型的整数拥有任何可用的精度。另外如果有千万量级的数值，怎样表示数组下标呢？此时最好
+定义一种新类型，这样更清晰，而且以后也便于统一更改： typedef long tenmil;</p></div></div><div id=outline-container-headline-79 class=outline-4><h4 id=headline-79>7.4 字符是有符号整数还是无符号整数</h4><div id=outline-text-headline-79 class=outline-text-4><p>C 编译器把字符实现为 8 位整数，但可能是有符号整数也可能是无符号整数。这个问题在将一个字符值转换为一
+个较大的整数时，问题变得严重起来。是扩展符号位还是直接填充零会导致不一样的结果。</p><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=c1>//c 是一个字符变量，
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>(</span><span class=kt>unsigned</span><span class=p>)</span><span class=n>c</span> <span class=c1>//得到一个等价的无符号整数时，需要先将 c 转换为 int 型整数，此时结果可能非预期。
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>(</span><span class=kt>unsigned</span> <span class=kt>char</span><span class=p>)</span><span class=n>c</span> <span class=c1>//这样转换可以保证结果正确
+</span></span></span></code></pre></div></div><p>如果编程者关注最高位是 1 的字符其值是正还是负，可以将字符声明为 unsigned char 。这样可以得到统一的结
+果。</p></div></div><div id=outline-container-headline-80 class=outline-4><h4 id=headline-80>7.5 移位运算</h4><div id=outline-text-headline-80 class=outline-text-4><p>移位操作时两个感到困惑的问题：</p><ol><li>向右移位时，空出来的位是由 0 填充，还是由符号位的副本填充？</li><li>移位运算运行的取值范围是什么？</li></ol><p>第一个问题：操作数是无符号数时，空出来的位由 0 填充。有符号数时与具体实现有关。
+第二个问题：假如被移位对象的长度是 n 位，那么移位技术必须大于等于 0，而严格小于 n。这个限制可以在硬
+件上高效的实现移位运算。可以看到，不可能做到在单次操作中将某个数值中所有位移出。
+<strong>无符号数的移位运算等效于乘除 2 的某次幂，但有符号数并不相等</strong> 。即使向右移位时最高位填充符号位时也不
+相等。例 (-1)>>1 结果并不是 0，而 (-1)/2 结果为 0.</p></div></div><div id=outline-container-headline-81 class=outline-4><h4 id=headline-81>7.6 内存位置 0</h4><div id=outline-text-headline-81 class=outline-text-4><p>null 指针不指向任何对象。除非是用于赋值或者比较运算，处于其他任何目的使用 null 指针都是非法的。
+误用 null 指针的结果都是未定义的。很可能引起程序异常终止。</p></div></div><div id=outline-container-headline-82 class=outline-4><h4 id=headline-82>7.7 除法运算时发生的截断</h4><div id=outline-text-headline-82 class=outline-text-4><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=c1>//假定我们让 a 除以 b，商为 q，余数为 r。
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=n>q</span> <span class=o>=</span> <span class=n>a</span> <span class=o>/</span> <span class=n>b</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>r</span> <span class=o>=</span> <span class=n>a</span> <span class=o>%</span> <span class=n>b</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=c1>//假定 b &gt; 0
+</span></span></span></code></pre></div></div><p>我们希望维持的关系：</p><ol><li>追重要的一点，我们希望 q*b+r==a</li><li>如果我们改变 a 的正负号，我们希望这会改变 q 的符号，但不改变 q 的绝对值。</li><li>当 b>0 时，保证 r>=0 且 r&lt;b 。</li></ol><p>然而这三点无法同时得到满足。大多数 C 语言实现满足前两点。
+C 语言的定义只保证了第一条性质，以及当 a>=0 且 b>0 时，保证 |r|&lt;|b| 以及 r>=0 。
+C 语言的定义有时候会带来不需要的灵活性。
+用余数表示哈希表时最好使用无符号数。</p></div></div><div id=outline-container-headline-83 class=outline-4><h4 id=headline-83>7.8 随机数的大小</h4><div id=outline-text-headline-83 class=outline-text-4><p>最早的 C 语言实现运行于 PDP-11 计算机上，他提供了 rand 函数，用于产生一个（伪）随机非负整数。PDP-11
+计算机的整数长度为 16 位，因此 rand 函数的返回值是一个介于 0 到 2^15 -1 之间的整数。而 VAX-11 计算机
+整数长度为 32 位，加州大学伯克利分校实现的 rand 函数的返回值介于 0 到 2^31 -1 之间；而 AT&T 实现返回
+值介于 0 到 2^15 -1 之间。
+ANSI C 标准定义了一个常数 RAND_MAX 来表示随机数的最大值。</p></div></div><div id=outline-container-headline-84 class=outline-4><h4 id=headline-84>7.9 大小写的转换</h4><div id=outline-text-headline-84 class=outline-text-4><p>库函数 toupper 和 tolower 最初均被实现为宏，但是没有对参数的合法性进行检查，且假定所有大写字母与相应
+的小写字母之间的差值时一个常量。这个假定对 ASCII 字符集和 EBCDIC 字符集来说都是正确的。
+后来有些系统上将这两个函数实现为真正的函数，实现中检查了参数的有效性。但为了速度又重新定义了两个宏。</p><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp>#define _toupper(c) ((c)+&#39;A&#39;-&#39;a&#39;)
+</span></span></span><span class=line><span class=cl><span class=cp>#define _tolower(c) ((c)+&#39;a&#39;-&#39;A&#39;)</span></span></span></code></pre></div></div><p>但有的版本并没有这么实现，需要自己注意参数的有效性。</p></div></div><div id=outline-container-headline-85 class=outline-4><h4 id=headline-85>7.10 首先释放，然后重新分配</h4><div id=outline-text-headline-85 class=outline-text-4><p>大多数 C 语言实现都为使用者提供了 3 个内存分配函数： malloc、realloc、free 。
+realloc 函数把一块已经分配内存的区域指针以及这块内存新的大小作为参数传入，就可以调整这块内存区域为新
+的大小，这个过程有可能涉及到内存的拷贝。
+UNIX 系统实现时，realloc 函数可以使用最近一次刚刚释放的内存指针。即下面程序是合法的。</p><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=n>free</span><span class=p>(</span><span class=n>p</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>p</span> <span class=o>=</span> <span class=n>realloc</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=n>newsize</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>for</span><span class=p>(</span><span class=n>p</span> <span class=o>=</span> <span class=n>head</span><span class=p>;</span> <span class=n>p</span> <span class=o>!=</span> <span class=nb>NULL</span><span class=p>;</span> <span class=n>p</span> <span class=o>=</span> <span class=n>p</span><span class=o>-&gt;</span><span class=n>next</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>free</span><span class=p>((</span><span class=kt>char</span> <span class=o>*</span><span class=p>)</span><span class=n>p</span><span class=p>);</span> <span class=c1>//此处不必担心调用 free 后，会使 p-&gt;next 无效。
+</span></span></span><span class=line><span class=cl><span class=c1>//但是这种方法不值得推荐，因为并非所有的 C 实现在某块内存被释放后还能较长时间保留。同时早期的 realloc 
+</span></span></span><span class=line><span class=cl><span class=c1>//函数是首先释放某块内存，然后再重新分配。
+</span></span></span></code></pre></div></div></div></div><div id=outline-container-headline-86 class=outline-4><h4 id=headline-86>7.11 可移植性问题的一个例子</h4><div id=outline-text-headline-86 class=outline-text-4><p>程序接受两个参数：一个 long 型整数和一个函数指针。作用是把给出的 long 型整数转换为其 10 进制表示，并
+且对 10 进制表示的每个字符都调用函数指针所指向的函数。</p><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>void</span> <span class=nf>printnum</span><span class=p>(</span><span class=kt>long</span> <span class=n>n</span><span class=p>,</span> <span class=kt>void</span> <span class=p>(</span><span class=o>*</span><span class=n>p</span><span class=p>)()</span> <span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span><span class=p>(</span><span class=n>n</span> <span class=o>&lt;</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=p>(</span><span class=o>*</span><span class=n>p</span><span class=p>)(</span><span class=sc>&#39;-&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=n>n</span> <span class=o>=</span> <span class=o>-</span><span class=n>n</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span><span class=p>(</span><span class=n>n</span> <span class=o>&gt;=</span> <span class=mi>10</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>printnum</span><span class=p>(</span><span class=n>n</span><span class=o>/</span><span class=mi>10</span><span class=p>,</span> <span class=n>p</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>(</span><span class=o>*</span><span class=n>p</span><span class=p>)((</span><span class=kt>int</span><span class=p>)(</span><span class=n>n</span> <span class=o>%</span> <span class=mi>10</span><span class=p>)</span> <span class=o>+</span> <span class=sc>&#39;0&#39;</span><span class=p>);</span> 
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div></div><ol><li>假定字符集中数字是顺序排列的。一个字符串常量可以用来表示字符数组，可以在数组名出现的地方用字符串
+常量替换。</li><li>基于 2 的补码的计算机一般允许的负数取值范围大于正数的取值范围。-2^k ~ 2^k -1 即该 long 型整数能够
+表示 -2^k 却不能表示 2^k 。将一个负数取反有可能会溢出。但改变一个正整数的符号可以保证不会溢出。</li><li>n 是负数时， n%10 可能是一个正数</li></ol><div class="src src-c"><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>void</span> <span class=nf>printneg</span><span class=p>(</span> <span class=kt>long</span> <span class=n>n</span><span class=p>,</span> <span class=kt>void</span> <span class=p>(</span> <span class=o>*</span><span class=n>p</span> <span class=p>)()</span> <span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>     <span class=kt>long</span> <span class=n>q</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>     <span class=kt>int</span> <span class=n>r</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>     <span class=n>q</span> <span class=o>=</span> <span class=n>n</span> <span class=o>/</span> <span class=mi>10</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>     <span class=n>r</span> <span class=o>=</span> <span class=n>n</span> <span class=o>%</span> <span class=mi>10</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>     <span class=k>if</span><span class=p>(</span> <span class=n>r</span> <span class=o>&gt;</span> <span class=mi>0</span> <span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>          <span class=n>r</span> <span class=o>-=</span> <span class=mi>10</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>          <span class=n>q</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>     <span class=p>}</span>
+</span></span><span class=line><span class=cl>     <span class=k>if</span><span class=p>(</span> <span class=n>n</span> <span class=o>&lt;=</span> <span class=o>-</span><span class=mi>10</span> <span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>          <span class=n>printneg</span><span class=p>(</span> <span class=n>q</span><span class=p>,</span> <span class=n>p</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl>     <span class=p>}</span>
+</span></span><span class=line><span class=cl>     <span class=p>(</span> <span class=o>*</span><span class=n>p</span> <span class=p>)(</span> <span class=s>&#34;0123456789&#34;</span><span class=p>[</span><span class=o>-</span><span class=n>r</span><span class=p>]</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>printnum</span><span class=p>(</span> <span class=kt>long</span> <span class=n>n</span><span class=p>,</span> <span class=kt>void</span> <span class=p>(</span> <span class=o>*</span><span class=n>p</span> <span class=p>)()</span> <span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=k>if</span><span class=p>(</span><span class=n>n</span> <span class=o>&lt;</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>           <span class=p>(</span><span class=o>*</span><span class=n>p</span><span class=p>)(</span><span class=sc>&#39;-&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>           <span class=n>printneg</span><span class=p>(</span> <span class=n>n</span><span class=p>,</span> <span class=n>p</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl>      <span class=p>}</span>
+</span></span><span class=line><span class=cl>      <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>           <span class=n>printneg</span><span class=p>(</span> <span class=o>-</span><span class=n>n</span><span class=p>,</span> <span class=n>p</span> <span class=p>);</span>
+</span></span><span class=line><span class=cl>      <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span></span></span></code></pre></div></div><p>我们所处的是一个编程环境不断改变的世界，尽管软件看上去不像硬件那么实在，但是大多数软件的声明周期却要
+长于其所允许的硬件，而且我们很难预料未来硬件的特性。努力提高软件的可移植性，实际上是延长了软件的生命
+期。可移植性强的软件比较不容易出错。本例中的代码看上去是提高软件的可移植性，实际上大多数工作是确保边
+界条件的正确。作者本人就见过一些商业软件产品，正是因为对这种情况处理不好而出了大错。</p></div></div><div id=outline-container-headline-87 class=outline-4><h4 id=headline-87>练习</h4><div id=outline-text-headline-87 class=outline-text-4><div id=outline-container-headline-88 class=outline-5><h5 id=headline-88>7-1 如果一个机器的字符长度为 8 位，那么其整数长度很可能是 16 位或 32 位。为什么？</h5></div><div id=outline-container-headline-89 class=outline-5><h5 id=headline-89>7-2 写一个函数 atol ，接收一个指向 null 结尾的字符串指针作为参数，返回一个对应 long 型整数值。</h5><div id=outline-text-headline-89 class=outline-text-5><p>假定输入参数指针，指向的字符串总是代表一个合法的 long 型整数值，因此函数无需检查函数是否越界；唯一合
+法的输入字符是数组和正负号，输入字符串遇到第一个非法字符时结束。写一个可移植的版本。</p></div></div></div></div></div></div><div id=outline-container-headline-90 class=outline-3><h3 id=headline-90>第 8 章 建议</h3><div id=outline-text-headline-90 class=outline-text-3><p>最重要的规避 C 语言中问题的技巧： <strong>知道自己在做什么</strong> 。最令人生厌的问题都来自那些看起来能工作，其实
+却潜藏着 Bug 的程序。正因为这些问题潜伏不露，要检测他们最容易的办法就是事前周密思考。拿到一个程序不
+加思索、动手就做，使之能运行起来就万事大吉。可以肯定，这样得到的只是一个“几乎能工作”的程序。</p><p>David Jacques Way 写的一本大键琴制作手册的一段话，作者深谙对知识充满自信的重要：
+“思考”是一切错误之源；我可以轻易的举出事实来证明这一点：犯了错的人总会说，“哦，我原以为……”只要
+大键琴的各个部件还没有粘合到一起，你就应该反复思考直到真正的理解，这种“思考”是无妨的。你应该再不用
+粘合剂的情况下把所有的部件拼装起来（称为演习或排练），研究它们是如何接合的，并与装配图仔细对照。
+在你把某些部件粘合起来之后，还应该再检查一遍。我听说过很多次这种不幸的故事：“昨晚我做了什么什么，可
+是今天早上我再看就……”
+亲爱的制作者，如果你昨晚就好好看了的话，那么你可能已经把不合适的部件拆下来重新装好了。很多制作者是利
+用业余时间来动手 DIY 一个大键琴，所以经常忍不住要干到深夜。但是，根据我接听求助电话的经验，大多数错
+误都出在制作者在上床睡觉之前做的最后一件工作。所以，在你准备做一点什么之前，还是早点休息吧。</p><p>上述过程可以类比程序设计。在实际组合程序之前想清楚应该如何组合，对得到一个可靠的结果至关重要。在面临
+压力的情况下，对程序组合方式的理解尤为重要。编程者几乎都有这样的经历：在调试程序很长时间之后，疲惫不
+堪的程序员开始漫无目的地瞎碰，这里试一下，那里改一点，如果凑巧程序似乎可以运行了，便万事大吉。这种工
+作方式往往最后导致一场灾难。</p><p>高德纳：
+当我在斯坦福大学从事AI项目时（20世纪60年代末），每个感恩节我们都会与在湾区做研究项目的人们进行一次
+编程竞赛。奖品是一只火鸡。麦卡锡为竞赛出题。高德纳参加的那一年，他一举拿下了两个奖项：程序调试所用的
+时间最少、算法执行效率最高。而且他用的是所有参赛者中最烂的系统，叫做Wilbur系统，只能远程批处理。可
+以说他把所有人都打得屁滚尿流。然后他们问他：“你怎么这么牛？”他回答说：“我学编程的时候，一天能摸
+5 分钟计算机就不错了。想让程序跑起来，就必须写得没有错误。所以编程就像在石头上雕刻一样，必须小心翼
+翼。我就是这样学编程的。
+用铅笔而非键盘写稿，这样的怪咖也只有高德纳。高德纳将原因归咎于打字速度远高于思考速度（每分钟 80 个
+单词以上），而这会导致思考出现太多停顿，用铅笔可以让思考与输入速度保持一致——“我打字的速度比我思考
+的速度更快，这样当我试图用键盘创作重要内容时，就会产生同步问题。速度通常不会是最重要的标准。科学一般
+都难以迅速解释或迅速领会……我通常的工作方式是用铅笔和纸先把所有东西都写下来，然后在旁边放一个大废纸
+篓。然后使用 Emacs 将所有文本键入到机器中……特定的 Emacs 快捷键使得写书的过程有点儿像演奏风琴……”
+高德纳对此解释道：“我知道我的书是不容易读，不过要知道的是，如果不是我精雕细琢地写的话，它们会比现在
+难读一百倍。”
+我尝试尽我所能的去熟悉电脑科学里的一些领域，然后把这些知识摘要成大家比较容易了解的方式，让没有那么多
+时间做这种学习的人也能够吸收它们。 ——高德纳
+Computer programming is an art, because it applies accumulated knowledge to the
+world, because it requires skill and ingenuity, and especially because it produces
+objects of beauty.</p><div id=outline-container-headline-91 class=outline-4><h4 id=headline-91>8.1 建议</h4><div id=outline-text-headline-91 class=outline-text-4><p><strong>不要说服自己相信皇帝的新装* 。有的错误极具伪装性和欺骗性。
+*直截了当地表明意图</strong> 。当你编写代码的本意是希望表达某个意思，但这些代码有可能被误解为另一种意思时，
+请使用括号或者其他方式让你的意图尽可能清除明了。这样做不仅有助于你日后重读程序时能够更好地理解自己的
+用意，也方便其他程序员日后维护你的代码。有时候我们还应该预料哪些错误有可能出现，在代码的编写方式上做
+到事先预防，一旦错误真正发生能够马上捕获。利于把常量放在判断相等的比较表达式的左侧。
+<strong>考察最简单的特例</strong> 。无论是构思程序的工作方式，还是测试程序的工作情况，这一原则都是使用的。当部分输
+入数据为空或者只有一个元素时，很多程序都会执行失败，其实这些情况应该是一早就应该考虑到的。这一原则还
+适用于程序的设计。我们可以首先考虑一组输入数据为空的情形，从最简单的特例获得启发。
+<strong>使用不对称边界</strong> 。本书 3.6 节值得一读再读。 C 语言中数组下标取值从 0 开始，各种计算错误的产生于这一
+点或多或少有关系。我们一旦理解了这个事实，处理这些计算错误就变得不那么困难了。
+<strong>注意潜伏在暗处的 Bug</strong> 。各种 C 语言实现之间都存在或多或少的差别。同时要应对那些细节处处理欠周到的库
+函数，预先采取某些防备性措施。当你准备使用某些只被特定厂商的产品所支持的特性时，这个建议显得尤为重要。
+记住，程序的生命期往往长于他运行其上的机器的生命期。
+<strong>防御性编程</strong> 。再怎么不可能发生的事情，某些时候还是有可能会发生的。一个健壮的程序应该预先考虑到这种
+异常情况。（长期以来人们习惯于用 C 语言来完成以前用汇编语言做的工作，比如操作系统）一个 C 编译器要做
+到严格检查程序中的各种错误，就要对程序中本意是可移植的部分做到严格检查，同时对程序中那些需要完成与特
+定机器相关工作的部分网开一面。任何 C 语言实现都无法捕捉到所有的程序错误。</p></div></div></div></div><div id=outline-container-headline-92 class=outline-3><h3 id=headline-92>附录 A printf，varargs，stdarg</h3></div><div id=outline-container-headline-93 class=outline-3><h3 id=headline-93>附录 B Koenig 和 Moo 夫妇访谈</h3><div id=outline-text-headline-93 class=outline-text-3><p>C++ 是一种非常低级的语言。唯有利用库，才能写出高层次的程序来。库由于语言细节，从而更容易建立整体语言
+的全局观念，了解到其真正的威力。同时能够培养良好的习惯，复用代码库，不用凡事自己动手。
+糟糕的手艺人常常责备自己的工具。设计是很困难的，语言问题相对容易的多，需要花费大量的时间来形成正确的
+抽象。C++ 中模板才是最重要的。
+《C++ 沉思录》： <span style=text-decoration:underline>用类表示概念；类设计就是语言设计，语言设计就是类设计</span>
+如果发现两个不同部分里做了相同的事情，试着把这两部分合并到一个子过程中。如果发现两个类的行为相近，试
+着把这两个类的相似部分同意到基类或模板中。
+成为更好 C++ 程序员的三个重要建议：</p><ol><li>避免使用指针</li><li>提倡使用程序库</li><li>使用类来表示概念</li></ol><p><strong>模板是 C++ 支持参数化多态的工具</strong> ，使用模板可以使用户为类或者函数声明一种一般模式，使得类中的某些数据
+成员或者成员函数的参数、返回值取得任意类型。</p><ol><li>模板是一种对类型进行参数化的工具；</li><li>通常有两种形式：函数模板和类模板；</li><li>函数模板针对仅参数类型不同的函数；</li><li>类模板针对仅数据成员和成员函数类型不同的类。</li></ol><p>*使用模板的目的就是能够让程序员编写与类型无关的代码*。比如编写了一个交换两个整型 int 类型的swap函数，
+这个函数就只能实现 int 型，对 double，字符这些类型无法实现，要实现这些类型的交换就要重新编写另一个
+swap 函数。使用模板的目的就是要让这程序的实现与类型无关，比如一个swap模板函数，即可以实现int 型，
+又可以实现 double 型的交换。模板可以应用于函数和类。
+<strong>注意：模板的声明或定义只能在全局，命名空间或类范围内进行。即不能在局部范围，函数内进行，比如不能在
+main 函数中声明或定义一个模板。</strong></p><p>元编程
+Meta- 这个前缀在希腊语中的本意是「在…后，越过…的」，类似于拉丁语的 post-，比如 metaphysics
+就是「在物理学之后」，这个词最开始指一些亚里士多德的著作，因为它们通常排序在《物理学》之后。但西方哲
+学界在几千年中渐渐赋予该词缀一种全新的意义：关于某事自身的某事。比如 meta-knowledge 就是「关于知
+识本身的知识」，meta-data 就是「关于数据的数据」，meta-language 就是「关于语言的语言」，
+而 meta-programming 也是由此而来，是「关于编程的编程」。弄清了词源和字面意思，可知大陆将 meta- 这
+个前缀译为「元」并不恰当。台湾译为「后设」，稍微好一点点，但仍旧无法望文生义。也许「自相关」是个不错
+的选择，「自相关数据」、「自相关语言」、「自相关编程」——但是好像又太罗嗦了。Anyway。
+先看看 meta-data：「我的电话是 +86 123 4567 8910」 ——这是一条数据；「+86 123 4567 8910
+有十三个数字和一个字符，前两位是国家代码，后面是一个移动电话号码」 —— 这是关于前面那条数据的数据。
+那么照猫画虎，怎样才算 meta-programming 呢？泛泛来说，只要是与编程相关的编程就算是
+meta-programming 了——比如，若编程甲可以输出 A - Z，那么写程序甲算「编程」；而程序乙可以生成
+程序甲（也许还会连带着运行它输出 A - Z），那么编写程序乙的活动，就可以算作 meta-programming，
+「元编程」。注意，程序甲和程序乙并不一定是同一种语言：('A'..'Z').each do |char|
+system("python -c 'print \"#{char}\"'")
+end
+如此说来，inline SQL 甚至动态生成 HTML 也是元编程了？抠定义的话是这样吧。不过 metaprogramming
+更狭义的意思应该是指「编写能改变语言语法特性或者运行时特性的程序」。换言之，一种语言本来做不到的事情，
+通过你编程来修改它，使得它可以做到了，这就是元编程。
+本版同文提及 method_missing，那么 Wat — Destroy All Software Talks 之中给出了运行时元
+编程的经典范例：
+>> ruby has no bare words
+NameError: undefined local variable or method `words' for main:Object
+from (irb) 1
+>> def method_missing(*args); args.join(" "); end
+=> nil
+>> ruby has bare words
+=> "ruby has bare words"
+>> bare words can even have bangs!
+=> "bare words can even have bangs!"
+C、C++、Python、JavaScript…… 多数流行的语言或多或少都有元编程能力；Lisp 诸方言更是以元编程为基本。
+而 Ruby 更是因为元编程易用又强大，被许多人拿来写 DSL，因为元编程可以捏出「本不存在的语法特性」来让书
+写 DSL 变得简单。</p><p>boost使用模板元实现了一些和"开发新语言"相关的模块,但模板元和"开发新语言"没什么关系:当今各种编程语言,
+相比于90年代,就干了两件事:</p><ol><li>把本该发生在编译阶段的一些工作挪到运行期</li><li>把本该发生在运行阶段的一些工作挪到编译期</li></ol><p>这两个方向分别代表着两种思维方式,即更自由还是更高性能.
+1.的代表就是各种动态编译的脚本语言,
+而2在我看来最典型的代表就是C++的模板元编程了,
+但其实,模板元编程对大多数人来说确实用处不大,因为性能在今天对于大多数人已经不是最重要的了(不是最不重
+要的我就感到很欣慰了…),但是,毕竟有一些情况我们还是需要性能的.</p><p>模板元编程的根在模板。模板的使命很简单：为自动代码生成提供方便。提高程序员生产率的一个非常有效的方法
+就是“代码复用”，而面向对象很重要的一个贡献就是通过内部紧耦合和外部松耦合将“思想”转化成一个一个容
+易复用的“概念”。但是面向对象提供的工具箱里面所包含的继承，组合与多态并不能完全满足实际编程中对于代
+码复用的全部要求，于是模板就应运而生了。模板是更智能的宏。模板和宏都是编译前代码生成，像宏一样，模板
+代码会被编译器在编译的第一阶段（在内部转，这点儿与预编译器不同）就展开成合法的C++代码，然后根据展开
+的代码生成目标代码，链接到最终的应用程序之中。模板与宏相比，它站在更高的抽象层上面，宏操作的是字符串
+中的token，然而模板却能够操作C++中的类型。所以模板更加安全（因为有类型检查），更加智能（可以根据上
+下文自动特化）……说完模板，来说说模板元编程。模板元编程其实就是复杂点儿的模板，简单的模板在特化时基
+本只包含类型的查找与替换，这种模板可以看作是“类型安全的宏”。而模板元编程就是将一些通常编程时才有的
+概念比如：递归，分支等加入到模板特化过程中的模板，但其实说白了还是模板，自动代码生成而已。
+模板元编程缺点也是显而易见的，有人说它是C++里面的函数式编程语言，我觉得也有道理，维基百科上面说模板
+是图灵完全的，也就是理论上可以写出任何算法。然后这些信息综合一下儿就是尼玛命令式语言里面藏着一个函数
+式语言，一个编程语言里面放着另一个编程语言，这尼玛绝对是唯恐天下不乱的节奏呀！总而言之，这东西真有用，
+不信你出门问问，现在模板或宏已经成主流语言的标配了。但是这东西真的别乱用，想好了再用，码农何苦为难码
+农。如果你不觉得它有什么应用，就先别用。它不狭窄，是你还没看开……</p></div></div></div><footer class=post-footer><ul class=post-tags><li><a href=https://kylestones.github.io/tags/c/>C</a></li></ul><nav class=paginav><a class=prev href=https://kylestones.github.io/blog/emotion/self-improvement/><span class=title>« Prev</span><br><span>自我完善</span></a>
+<a class=next href=https://kylestones.github.io/blog/emotion/secret/><span class=title>Next »</span><br><span>秘密--吸引力法则</span></a></nav><div class=share-buttons><a target=_blank rel="noopener noreferrer" aria-label="share C Traps and Pitfalls on twitter" href="https://twitter.com/intent/tweet/?text=C%20Traps%20and%20Pitfalls&url=https%3a%2f%2fkylestones.github.io%2fblog%2fapue%2fc-traps-and-pitfalls%2f&hashtags=C"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM195.519 424.544c135.939.0 210.268-112.643 210.268-210.268.0-3.218.0-6.437-.153-9.502 14.406-10.421 26.973-23.448 36.935-38.314-13.18 5.824-27.433 9.809-42.452 11.648 15.326-9.196 26.973-23.602 32.49-40.92-14.252 8.429-30.038 14.56-46.896 17.931-13.487-14.406-32.644-23.295-53.946-23.295-40.767.0-73.87 33.104-73.87 73.87.0 5.824.613 11.494 1.992 16.858-61.456-3.065-115.862-32.49-152.337-77.241-6.284 10.881-9.962 23.601-9.962 37.088.0 25.594 13.027 48.276 32.95 61.456-12.107-.307-23.448-3.678-33.41-9.196v.92c0 35.862 25.441 65.594 59.311 72.49-6.13 1.686-12.72 2.606-19.464 2.606-4.751.0-9.348-.46-13.946-1.38 9.349 29.426 36.628 50.728 68.965 51.341-25.287 19.771-57.164 31.571-91.8 31.571-5.977.0-11.801-.306-17.625-1.073 32.337 21.15 71.264 33.41 112.95 33.41z"/></svg></a><a target=_blank rel="noopener noreferrer" aria-label="share C Traps and Pitfalls on linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fkylestones.github.io%2fblog%2fapue%2fc-traps-and-pitfalls%2f&title=C%20Traps%20and%20Pitfalls&summary=C%20Traps%20and%20Pitfalls&source=https%3a%2f%2fkylestones.github.io%2fblog%2fapue%2fc-traps-and-pitfalls%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM160.461 423.278V197.561h-75.04v225.717h75.04zm270.539.0V293.839c0-69.333-37.018-101.586-86.381-101.586-39.804.0-57.634 21.891-67.617 37.266v-31.958h-75.021c.995 21.181.0 225.717.0 225.717h75.02V297.222c0-6.748.486-13.492 2.474-18.315 5.414-13.475 17.767-27.434 38.494-27.434 27.135.0 38.007 20.707 38.007 51.037v120.768H431zM123.448 88.722C97.774 88.722 81 105.601 81 127.724c0 21.658 16.264 39.002 41.455 39.002h.484c26.165.0 42.452-17.344 42.452-39.002-.485-22.092-16.241-38.954-41.943-39.002z"/></svg></a><a target=_blank rel="noopener noreferrer" aria-label="share C Traps and Pitfalls on reddit" href="https://reddit.com/submit?url=https%3a%2f%2fkylestones.github.io%2fblog%2fapue%2fc-traps-and-pitfalls%2f&title=C%20Traps%20and%20Pitfalls"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM446 265.638c0-22.964-18.616-41.58-41.58-41.58-11.211.0-21.361 4.457-28.841 11.666-28.424-20.508-67.586-33.757-111.204-35.278l18.941-89.121 61.884 13.157c.756 15.734 13.642 28.29 29.56 28.29 16.407.0 29.706-13.299 29.706-29.701.0-16.403-13.299-29.702-29.706-29.702-11.666.0-21.657 6.792-26.515 16.578l-69.105-14.69c-1.922-.418-3.939-.042-5.585 1.036-1.658 1.073-2.811 2.761-3.224 4.686l-21.152 99.438c-44.258 1.228-84.046 14.494-112.837 35.232-7.468-7.164-17.589-11.591-28.757-11.591-22.965.0-41.585 18.616-41.585 41.58.0 16.896 10.095 31.41 24.568 37.918-.639 4.135-.99 8.328-.99 12.576.0 63.977 74.469 115.836 166.33 115.836s166.334-51.859 166.334-115.836c0-4.218-.347-8.387-.977-12.493 14.564-6.47 24.735-21.034 24.735-38.001zM326.526 373.831c-20.27 20.241-59.115 21.816-70.534 21.816-11.428.0-50.277-1.575-70.522-21.82-3.007-3.008-3.007-7.882.0-10.889 3.003-2.999 7.882-3.003 10.885.0 12.777 12.781 40.11 17.317 59.637 17.317 19.522.0 46.86-4.536 59.657-17.321 3.016-2.999 7.886-2.995 10.885.008 3.008 3.011 3.003 7.882-.008 10.889zm-5.23-48.781c-16.373.0-29.701-13.324-29.701-29.698.0-16.381 13.328-29.714 29.701-29.714 16.378.0 29.706 13.333 29.706 29.714.0 16.374-13.328 29.698-29.706 29.698zM160.91 295.348c0-16.381 13.328-29.71 29.714-29.71 16.369.0 29.689 13.329 29.689 29.71.0 16.373-13.32 29.693-29.689 29.693-16.386.0-29.714-13.32-29.714-29.693z"/></svg></a><a target=_blank rel="noopener noreferrer" aria-label="share C Traps and Pitfalls on facebook" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fkylestones.github.io%2fblog%2fapue%2fc-traps-and-pitfalls%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H342.978V319.085h66.6l12.672-82.621h-79.272v-53.617c0-22.603 11.073-44.636 46.58-44.636H425.6v-70.34s-32.71-5.582-63.982-5.582c-65.288.0-107.96 39.569-107.96 111.204v62.971h-72.573v82.621h72.573V512h-191.104c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892z"/></svg></a><a target=_blank rel="noopener noreferrer" aria-label="share C Traps and Pitfalls on whatsapp" href="https://api.whatsapp.com/send?text=C%20Traps%20and%20Pitfalls%20-%20https%3a%2f%2fkylestones.github.io%2fblog%2fapue%2fc-traps-and-pitfalls%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentcolor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zm-58.673 127.703c-33.842-33.881-78.847-52.548-126.798-52.568-98.799.0-179.21 80.405-179.249 179.234-.013 31.593 8.241 62.428 23.927 89.612l-25.429 92.884 95.021-24.925c26.181 14.28 55.659 21.807 85.658 21.816h.074c98.789.0 179.206-80.413 179.247-179.243.018-47.895-18.61-92.93-52.451-126.81zM263.976 403.485h-.06c-26.734-.01-52.954-7.193-75.828-20.767l-5.441-3.229-56.386 14.792 15.05-54.977-3.542-5.637c-14.913-23.72-22.791-51.136-22.779-79.287.033-82.142 66.867-148.971 149.046-148.971 39.793.014 77.199 15.531 105.329 43.692 28.128 28.16 43.609 65.592 43.594 105.4-.034 82.149-66.866 148.983-148.983 148.984zm81.721-111.581c-4.479-2.242-26.499-13.075-30.604-14.571-4.105-1.495-7.091-2.241-10.077 2.241-2.986 4.483-11.569 14.572-14.182 17.562-2.612 2.988-5.225 3.364-9.703 1.12-4.479-2.241-18.91-6.97-36.017-22.23C231.8 264.15 222.81 249.484 220.198 245s-.279-6.908 1.963-9.14c2.016-2.007 4.48-5.232 6.719-7.847 2.24-2.615 2.986-4.484 4.479-7.472 1.493-2.99.747-5.604-.374-7.846-1.119-2.241-10.077-24.288-13.809-33.256-3.635-8.733-7.327-7.55-10.077-7.688-2.609-.13-5.598-.158-8.583-.158-2.986.0-7.839 1.121-11.944 5.604-4.105 4.484-15.675 15.32-15.675 37.364.0 22.046 16.048 43.342 18.287 46.332 2.24 2.99 31.582 48.227 76.511 67.627 10.685 4.615 19.028 7.371 25.533 9.434 10.728 3.41 20.492 2.929 28.209 1.775 8.605-1.285 26.499-10.833 30.231-21.295 3.732-10.464 3.732-19.431 2.612-21.298-1.119-1.869-4.105-2.99-8.583-5.232z"/></svg></a><a target=_blank rel="noopener noreferrer" aria-label="share C Traps and Pitfalls on telegram" href="https://telegram.me/share/url?text=C%20Traps%20and%20Pitfalls&url=https%3a%2f%2fkylestones.github.io%2fblog%2fapue%2fc-traps-and-pitfalls%2f"><svg viewBox="2 2 28 28" height="30" width="30" fill="currentcolor"><path d="M26.49 29.86H5.5a3.37 3.37.0 01-2.47-1 3.35 3.35.0 01-1-2.47V5.48A3.36 3.36.0 013 3 3.37 3.37.0 015.5 2h21A3.38 3.38.0 0129 3a3.36 3.36.0 011 2.46V26.37a3.35 3.35.0 01-1 2.47 3.38 3.38.0 01-2.51 1.02zm-5.38-6.71a.79.79.0 00.85-.66L24.73 9.24a.55.55.0 00-.18-.46.62.62.0 00-.41-.17q-.08.0-16.53 6.11a.59.59.0 00-.41.59.57.57.0 00.43.52l4 1.24 1.61 4.83a.62.62.0 00.63.43.56.56.0 00.4-.17L16.54 20l4.09 3A.9.9.0 0021.11 23.15zM13.8 20.71l-1.21-4q8.72-5.55 8.78-5.55c.15.0.23.0.23.16a.18.18.0 010 .06s-2.51 2.3-7.52 6.8z"/></svg></a></div></footer></article></main><footer class=footer><span>&copy; 2022 <a href=https://kylestones.github.io>Org Mode</a></span>
+<span>Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg></a><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script></body></html>

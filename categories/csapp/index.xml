@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>csapp on Org Mode</title>
+    <link>https://kylestones.github.io/categories/csapp/</link>
+    <description>Recent content in csapp on Org Mode</description>
+    <image>
+      <url>https://kylestones.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://kylestones.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 24 May 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://kylestones.github.io/categories/csapp/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Computer Systems - A Programmer&#39;s Perspective</title>
+      <link>https://kylestones.github.io/blog/apue/csapp/</link>
+      <pubDate>Thu, 24 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/blog/apue/csapp/</guid>
+      <description>局部性 局部性良好的代码速度会大大提高
+分为时间局部性和空间局部性；时间局部性表明一个变量在不远的将来会再次被访问；空间局部性表明一个变量周围的变量很快会被访问。
+代码提升的关键在于充分利用高速缓存 cache (CPU 和主存读写速度之间的差距在不断增大）
+程序的机器级表示 汇编代码以及机器码都不包含任何变量名字以及类型信息 。程序就仅仅是一些数字序列而已。
+在代码中假如汇编的方法：
+函数使用汇编代码实现，然后链接的回收使用 使用 GCC 提供的选项，直接在 C 函数中插入汇编代码 x86-64 16 个通用寄存器 Instruction pointer %rip Stack pointer %rsp Return value %rax Arguments passed in registers %rdi, %rsi, %rdx, %rcx, %r8, %r9 Callee-saved %rbx, %r12, %r13, %r14, %rbp, %rsp Caller-saved %rdi, %rsi, %rdx, %rcx, %r8, %r9, %rax, %r10, %r11 x86-64 惯例，操作 32 位寄存器，会将该寄存器的高 32 位设置为 0 。
+栈 栈的地址向下增长，即每次压栈都会导致寄存器 %rsp 的值减小。大多数函数都需要栈帧（栈上的一段内存）来保存信息，栈帧的结构从 栈底到栈顶依次为 保存的 callee-saved 寄存器的值 局部变量 调用其他函数需要的 6 个参数寄存器以外的内存 返回地址 程序使用栈完成函数调用，此时主要由寄存器 %rip 以及 %rsp 完成</description>
+    </item>
+    
+  </channel>
+</rss>

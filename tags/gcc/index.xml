@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>gcc on Org Mode</title>
+    <link>https://kylestones.github.io/tags/gcc/</link>
+    <description>Recent content in gcc on Org Mode</description>
+    <image>
+      <url>https://kylestones.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://kylestones.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 24 May 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://kylestones.github.io/tags/gcc/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>GNU Compiler Collection</title>
+      <link>https://kylestones.github.io/blog/tools/gcc/</link>
+      <pubDate>Thu, 24 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/blog/tools/gcc/</guid>
+      <description>GCC 由最初的 GNU C Compiler 逐渐演变为 GNU Compiler Collection ，支持 C, C++, Objective-C, Fortran, Ada, Go 语言的编译，当然也包含这些语言的库。不同的语言会有不同的版本， gcc 是 c 语言的编译器。
+编译 编译过程通常包含 4 个步骤，可以指定选项来只完成某一步操作：
+预处理或预编译 (Preprocessing)，进行宏替换、注释消除、找到库文件 : gcc -E test.c -o test.i 编译 (Compilation) ，编译成汇编代码 : gcc -S test.i -o test.s 汇编 (Assembly) ，生成机器代码（目标代码）: gcc -c test.s -o test.o 连接 (Linking) ，将目标文件和库文件连接起来，生成可执行文件 : gcc test.o -o test # 没有连接选项 多文件编译 # 方法一 gcc test1.c test2.c -o test # 方法二 gcc test1.</description>
+    </item>
+    
+  </channel>
+</rss>

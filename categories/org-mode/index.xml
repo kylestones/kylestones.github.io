@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>org-mode on Org Mode</title>
+    <link>https://kylestones.github.io/categories/org-mode/</link>
+    <description>Recent content in org-mode on Org Mode</description>
+    <image>
+      <url>https://kylestones.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://kylestones.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 27 Dec 2017 00:00:00 +0000</lastBuildDate><atom:link href="https://kylestones.github.io/categories/org-mode/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Org-mode笔记</title>
+      <link>https://kylestones.github.io/blog/tools/org-mode/</link>
+      <pubDate>Wed, 27 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/blog/tools/org-mode/</guid>
+      <description>概要 以 # 号后加一空格开始的行表示注释，文件导出时这些内容不被导出，上面第一行就是。 以 #+ 符号开始的行用于设置文档参数或内容属性，比如文档的标题、作者，org-mode打开时文档的呈现状态等。 用 括起来的内容表示外部链接 用 &amp;lt;&amp;lt;&amp;gt;&amp;gt; 括起来的内容表示文档的内部链接 以 * 符号开始的行，表示该行为标题。 标题内容前的 TODO 标记是待办任务的标记符号。 标题行后面两个 : 符号间的内容表示标签（ TAG ）。 标题行如果标题文本前有 COMMENT 标记表示该标题下的所有内容为注释。 位于 #+BEGIN_XXX 和 #+END_XXX 之间的内容为特殊文档块，如代码块、例子、引用等。 C-c C-x C-h查看按键的帮助信息 元数据 文档元数据 具体包括： #+TITLE: the title to be shown (default is the buffer name) #+AUTHOR: the author (default taken from user-full-name) #+DATE: a date, an Org timestamp1, or a format string for format-time-string #+EMAIL: his/her email address (default from user-mail-address) #+DESCRIPTION: the page description, e.</description>
+    </item>
+    
+  </channel>
+</rss>

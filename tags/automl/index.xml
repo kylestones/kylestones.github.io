@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>AutoML, on Org Mode</title>
+    <link>https://kylestones.github.io/tags/automl/</link>
+    <description>Recent content in AutoML, on Org Mode</description>
+    <image>
+      <url>https://kylestones.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://kylestones.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 04 May 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://kylestones.github.io/tags/automl/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AutoML</title>
+      <link>https://kylestones.github.io/blog/machinelearning/automl/</link>
+      <pubDate>Sat, 04 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/blog/machinelearning/automl/</guid>
+      <description>就像使用 CNN 提取特征来代替人工设计的特征，使用 AutoML 代替人设计网络的架构，应该是可以达到更好的效果。
+前提 CNN 通常需要大量的时间来设计网络的架构。当然我们可以使用迁移学习，但是 只有针对数据集设计自己的网络才能达到最好的性能 。然而设计网络架构需要专业的技能，且具有很大的挑战（对于商业应用来说代价太大）。
+NAS Neural Architecture Search 就是用于搜索最优网络架构的算法。提供了深度学习的一个新的研究方向。
+定义候选 building blocks 使用一个 RNN 作为控制器，用于选择拼装 building blocks 在交叉验证集上，训练拼装好的网络，使其收敛 根据网络的准确率来更新 RNN 控制器（update with policy gradient），希望其能选择出更好的网络架构 In simple terms: have an algorithm grab diierent blocks and put those blocks together to make a network. Train and test out that network. Based on your results, adjust the blocks you used to make the network and how you put them together!</description>
+    </item>
+    
+  </channel>
+</rss>

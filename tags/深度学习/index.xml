@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>深度学习 on Org Mode</title>
+    <link>https://kylestones.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/</link>
+    <description>Recent content in 深度学习 on Org Mode</description>
+    <image>
+      <url>https://kylestones.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://kylestones.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 04 May 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://kylestones.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AutoML</title>
+      <link>https://kylestones.github.io/blog/machinelearning/automl/</link>
+      <pubDate>Sat, 04 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/blog/machinelearning/automl/</guid>
+      <description>就像使用 CNN 提取特征来代替人工设计的特征，使用 AutoML 代替人设计网络的架构，应该是可以达到更好的效果。
+前提 CNN 通常需要大量的时间来设计网络的架构。当然我们可以使用迁移学习，但是 只有针对数据集设计自己的网络才能达到最好的性能 。然而设计网络架构需要专业的技能，且具有很大的挑战（对于商业应用来说代价太大）。
+NAS Neural Architecture Search 就是用于搜索最优网络架构的算法。提供了深度学习的一个新的研究方向。
+定义候选 building blocks 使用一个 RNN 作为控制器，用于选择拼装 building blocks 在交叉验证集上，训练拼装好的网络，使其收敛 根据网络的准确率来更新 RNN 控制器（update with policy gradient），希望其能选择出更好的网络架构 In simple terms: have an algorithm grab diierent blocks and put those blocks together to make a network. Train and test out that network. Based on your results, adjust the blocks you used to make the network and how you put them together!</description>
+    </item>
+    
+    <item>
+      <title>乱想</title>
+      <link>https://kylestones.github.io/blog/machinelearning/guess/</link>
+      <pubDate>Mon, 08 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/blog/machinelearning/guess/</guid>
+      <description>目标检测 loss 改进。类似人脸识别，通过改进 loss 来提高 map ； FocalLoss 也算是一种改进 微软的 Deformable-Convolutional 应该大有用处，现在功力没有很好的发挥出来 神经网络对细节很敏感，通过在图片上粘贴一些胶带就可以成功的误导网络。是不是说明网络没有很好的区分背景？或者说背景没有 达到随机的效果？将目标完全分割出来（没有背景）用于训练会怎样？感觉人类在观察事物的时候，第一步就是先对目标进行了分割 呀？ 网络参数剪枝 先训练一个大型的网络，然后裁剪成一个小一点的网络，其性能比直接训练的同等大小的网络效果要好很多。说明现在的网络训练方 法还是有很大的问题。 人类做梦是在进行无监督学习吗？ 神经网络的训练能否设计成监督训练和无监督训练相结合的方法？ AutoML 人工设计的特征远远没有网络自己提取的特征好，人工设计的网络结构也很有可能没有自己学习的结构效果好。每个人的大脑内的神经元 也应该是各不相同，我们只是被告知什么是猫、什么是鸟，而我们的神经元会自己学习怎样链接。
+婚礼现场生成 一个人的一系列帧，可以插入视频某起始帧的某个地方 可以换脸，让自己喜欢的明星来参加自己的婚礼 边缘计算 软件硬化：高通 CMDA 、思科路由器、地平线
+专业话，继续推动摩尔定律。由计算变化成 AI 低功耗 软件和硬件联合优化 特殊场景的特殊问题，一定要有场景。Google X 成立了 6-7 年，但只是一地鸡毛。
+做东西一定要解决实际问题 。
+对话系统：对话一定是要有目的，而不是仅仅为了对话。对话是要解决实际问题的。
+亚马逊老总左贝斯：将理想和现实分开，
+把握住十年中不变的东西。
+最终由 big data 转变到 big computer 的
+发展历程 余凯：历史都是先是 toC ，然后再是 toB 。
+英伟达股票大幅增长，英伟达是 toC 。
+创业 创业就是赌，如果是实实在在的放在桌子上东西，那根本不是创业，那是上班。
+看长线，踏踏实实做下去，更可能钓大鱼。
+看短期（最近 2-3 个月）和远期（目标），不用看半年或者 1-2 年，因为到时候，你的这段时间的思考都会废掉。</description>
+    </item>
+    
+    <item>
+      <title>fast.ai</title>
+      <link>https://kylestones.github.io/blog/machinelearning/fast-ai/</link>
+      <pubDate>Sun, 24 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/blog/machinelearning/fast-ai/</guid>
+      <description>调参 分阶段使用多个学习速率 越接近输入的层，在 fine-tune 的时候，参数需要调节的越小，越靠近输出层，参数需要调节的越大。因此在 fine-tune 的时候，不同 的层最好使用不同的学习速率。例如 1-2 层使用 0.001 ，3-4 层使用 0.01 ，5-6 层使用 0.1 等等，越远离输出层，逐渐让学习速率 缩小 10 倍。[ Once the last layers are producing good results, we implement differential learning rates to alter the lower layers as well. The lower layers want to be altered less, so it is good practice to set each learning rate to be 10 times lower than the last. ]
+找到最优学习速率 学习速率几乎是训练神经网络时的最重要的超参。可以通过让学习速率从一个很小的值开始，然后每个 mini-batch 都以指数级增长，同 时记录每个学习速率所对应的 loss ，然后画出 loss 和学习速率的关系曲线图，找到学习速率最大，但 loss 仍然在下降的点，这个学 习速率就是最好的学习速率。[ Do a trial run and train the neural network using a low learning rate, but increase it exponentially with each batch.</description>
+    </item>
+    
+    <item>
+      <title>Faster R-CNN</title>
+      <link>https://kylestones.github.io/blog/machinelearning/r-cnn/</link>
+      <pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/blog/machinelearning/r-cnn/</guid>
+      <description>预处理 减去 RGB 像素的均值（无论训练还是测试统一使用训练样本集的均值） Rescale 在图像的长边不超过阈值的情况下，将短边 resize 到指定值 def img_rescale(img, targetSize=600, maxSize=1000): w = img.width h = img.height minDim = min(w,h) maxDim = max(w,h) scale = targetSize / minDim if scale * maxDim &amp;gt; maxSize: scale = maxSize / maxDim img = rescale(img, scale) return img 为什么要这样 rescale 呢？这样仅仅只能让多数的图像的短边统一长度，长边的长度可能各不相同；另外一些图像长边都是最大值，但 是短边各不相同。这样做有什么意义呢？保持图像的横纵比？但是图像大小不一样，要怎样去训练呢？
+RoI Pooling RPN 生成的 RoI 由 (r,c,h,w) 表示，其中 (r,c) 是左上角的坐标，(h,w) 是高和宽。
+RoI max pooling works by dividing the h*w RoI window into an H*W grid of sub-windows of approximate size h/H * w/W and then max-pooling the values in each sub-window into the corresponding output grid cell.</description>
+    </item>
+    
+    <item>
+      <title>YOLO 实现细节</title>
+      <link>https://kylestones.github.io/blog/machinelearning/yolo/</link>
+      <pubDate>Tue, 01 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/blog/machinelearning/yolo/</guid>
+      <description>之前写的乱七八糟，现在开始重构，主要针对 YOLOv3。真的是得亲自动手实现，才能真正了解一个算法。The best way to go about learning object detection is to implement the algorithms by yourself, from scratch. – Ayoosh Kathuria
+主网络 主网络采用 Darknet53 ，网络为全卷积网络 FCN(Fully Convolutional Networks)，之前一直以为全卷积网络就是不包含全连接的网络， 现在才知道，全卷积网络连 Pooling 层都没有，Pooling 层使用步长为 2 的卷积代替，防止由于 Pooling 导致 low-level features 的丢失；分类之前使用 Global Average Pooling 。[Darknet53 中有全连接层呀，上面写错了]
+卷积层 Darknet 的每个卷积层都是由 Conv-BN-LReLU 组成，是网络的最小重复单元。
+def cbl_gen(channels, kernel_size, strides, padding): &amp;#39;&amp;#39;&amp;#39;conv-BN-LeakyReLU cell&amp;#39;&amp;#39;&amp;#39; cbl_unit = nn.HybridSequential() # 所有卷积后面都有 BN ，所以 bias 始终为 False cbl_unit.add( nn.Conv2D(channels, kernel_size=kernel_size, strides=strides, padding=padding, groups=1, use_bias=False), nn.</description>
+    </item>
+    
+    <item>
+      <title>cuda 编程基础</title>
+      <link>https://kylestones.github.io/blog/cuda/cuda-basic/</link>
+      <pubDate>Sun, 30 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/blog/cuda/cuda-basic/</guid>
+      <description>学习周斌老师的《NVIDIA CUDA 初级教程视频》笔记
+重看 CPU CPU 芯片中大量的晶体管用于 cache3 ，可以看到芯片中很大一部分面积都是 cache3 。主要由于 CPU 始终在大量的移动数据，将硬盘 中的数据移动到内存，将内存中的数据缓存到 cache ，将 cache 中的数据移动到寄存器，将某个寄存器移动到另一个寄存器，还有反向 的操作，将数据再写回硬盘，这些都是在大量的移动数据。CPU 主要是在为串行做优化，为了高速的数据移动，设计了内存管理单元、占 用很大芯片面积的 cache3 （或许是可以称 CPU 为吞吐机的原因），为了快速执行命令设计了各种分支预测、流水线、乱序执行等等。
+整体架构 CPU 可以分成 数据通道 和 控制逻辑 两个部分。 Fetch 取址 -&amp;gt; Decode 译码 -&amp;gt; Execute 执行 -&amp;gt; Memory 访存 -&amp;gt; Writeback 写回 Pipeline 流水线是指令级并行 ILP 。可以极大的减小时钟周期，但同时也可能存在延迟（啥？），会增大芯片面积，指令流前后有关系时，无法 很好的利用流水线。流水线的长度称为级，并不是越大越好，通常在 14-20 级，不公开，涉及到芯片设计的商业秘密。
+Bypassing 不等待前一条指令的所有流水线执行完成，只需要得到前一条指令结果的某一个数据，直接通过一个特殊的通道传递。
+Branches 分支预测 Branch Prediction ，猜测下一条指令 ，基于过去分支记录，通常准确率大于 90% 分支断定 Branch Predication ，不使用分支预测，同时执行所有的分支。可减小面积、减小错误预测 IPC instructions per cycle ；超标量 superscalar ，增加流水线的宽度， N 条流水线。从而提高 IPC</description>
+    </item>
+    
+    <item>
+      <title>convolution</title>
+      <link>https://kylestones.github.io/blog/machinelearning/convolution/</link>
+      <pubDate>Sun, 16 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/blog/machinelearning/convolution/</guid>
+      <description>cs231n 斯坦福大学的课程 CS231n: Convolutional Neural Networks for Visual Recognition 。发现写的很好，后悔没有早点看。可惜只看了 卷积这一部分。有中文翻译的部分可以只看中文总结，后面的英文原文更方便理解。
+卷积 卷积神经网络明确假设输入是 images ，根据这个假设可以大量的减少参数的个数。同时有利于更 efficient 的实现。普通的神经网 络采用全连接，用于图像中会产生太多的参数，导致 overfitting 。卷积神经网络的 layers 拥有神经元的维数为 (width,height,channels) 。
+A ConvNet is made up of Layers. Every Layer has a simple API: It transforms an input 3D volume to an output 3D volume with some differentiable function that may or may not have parameters.
+卷积操作的本质就是滤波器和输入的部分区域做点积。卷积的反向传播也是卷积，只是做了转置。Note that the convolution operation essentially performs dot products between the filters and local regions of the input.</description>
+    </item>
+    
+    <item>
+      <title>ubuntu18.04 install gpu mxnet</title>
+      <link>https://kylestones.github.io/blog/machinelearning/gpu-mxnet-install/</link>
+      <pubDate>Fri, 14 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/blog/machinelearning/gpu-mxnet-install/</guid>
+      <description>安装 Ubuntu18.04 从 中科大源 下载系统镜像，并制作 u 盘启动盘 # 使用 wget 下载 Ubuntu18.04 $ wget http://mirrors.aliyun.com/ubuntu-releases/bionic/ubuntu-18.04.1-desktop-amd64.iso # fdisk 查看 u 盘分区 $ sudo fdisk -l # 使用 dd 命令制作 u 盘启动镜像 $ dd if=ubuntu18.04.1-desktop-amd64.iso of=/dev/sdb 启动电脑，修改为 U 盘启动 关闭 uefi 安全检查，有秘钥的通通删掉 使用 U 盘启动后，选择安装 Ubuntu 手动分区，建议只有两个分区，一个根分区，一个 home 分区；这样在需要重装系统的时候可以格式化根分区，同时保留 home 分区 的内容 安装完成后，修改 root 的密码，从而可以使用 root 登录系统 安装 NVIDIA 驱动 硬件配置 GPU GTX2070 由于 GPU 较新，需要添加 PPA；如非必要可以直接使用 Ubuntu repository 查看驱动列表 安装驱动 重启使驱动生效 # Ubuntu repository 的驱动虽然比较旧，但是更加稳定，bug 较少； # 如果想要安装最先的版本，可以添加由 Ubuntu 团队维护的 PPA # PPA 仍然在测试，可能存在某些依赖问题 # 不需要手动更新，Ubuntu18.</description>
+    </item>
+    
+    <item>
+      <title>Darknet</title>
+      <link>https://kylestones.github.io/blog/machinelearning/darknet/</link>
+      <pubDate>Fri, 07 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/blog/machinelearning/darknet/</guid>
+      <description> darknet 以 layer 为中心，通过构建不同的 layer 构成一个 net ； 所有的层保存在 net.layers 中 net-&amp;gt;layers = calloc(net-&amp;gt;n, sizeof(layer)); darknet 需要一个“.txt”文件，每行表示一张图像的信息： &amp;lt;object-class&amp;gt; &amp;lt;x&amp;gt; &amp;lt;y&amp;gt; &amp;lt;width&amp;gt; &amp;lt;height&amp;gt; 每个单元格会预测B个边界框（bounding box）以及边界框的置信度（confidence score）。 所谓置信度其实包含两个方面，一是这个边界框含有目标的可能性大小，二是这个边界框的准确度。前者记为 Pr(object)，后者记为 预测框与实际框（ground truth）的 IOU 。很多人可能将 Yolo 的置信度看成边界框是否含有目标的概率，但是其实它是两个因子的 乘积，预测框的准确度也反映在里面。 中心坐标的预测值 (x,y) 是相对于每个单元格左上角坐标点的偏移值，并且单位是相对于单元格大小的。而边界框的 w 和 h 预测值 是相对于整个图片的宽与高的比例，这样理论上4个元素的大小应该在 [0,1] 范围。通过 sigmoid 函数保证 (x,y) 在 0-1 之间， 这样，每个边界框的预测值实际上包含5个元素：(x,y,w,h,c)，其中前4个表征边界框的大小与位置，而最后一个值是置信度。 加速库： NNPACK </description>
+    </item>
+    
+    <item>
+      <title>Mask R-CNN</title>
+      <link>https://kylestones.github.io/blog/machinelearning/maskrcnn/</link>
+      <pubDate>Tue, 27 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/blog/machinelearning/maskrcnn/</guid>
+      <description>训练 train 输入 mini-batch 论文指出每个 GPU 上面跑 2 张图片，共 8 个 GPU ，所以 batch-size = 16 TODO ；每张图片上 sample 256 个 anchor 用于训练。
+image spatial 图片大小
+到底是用多大尺寸的图片训练网络的？ paper 中将图像的短边 resize 为 800 （测试的时候也会 resize 吗？）; 800*1024 ? 800*800 ? 1024*1024 ? 任意 size ? TODO
+anchor anchor 用于生产目标的最初候选区域
+生成 anchor 的方法
+anchor scale [32, 64, 128, 256, 512] anchor ratio [0.5, 1, 2] 在 RPN 网络最后一层的 feature map 上每个点生成一组 anchor （按照指定的 scale 和 ratio） 判断为 positive anchor 的标准：</description>
+    </item>
+    
+    <item>
+      <title>mAP</title>
+      <link>https://kylestones.github.io/blog/machinelearning/map/</link>
+      <pubDate>Sat, 24 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/blog/machinelearning/map/</guid>
+      <description>词语解释 mAP 是 Mean Average Precision 的缩写，是检测算法的评价指标。这个名词中包含两个平均，其中 Mean 取的是不同类别的平均值， Average 取的是不同的召回率的平均值，当然计算的是正确率 Precision 的平均值。另外 coco 数据集还取了不同 IoU 阈值的平均。
+另外想说一下，recall 这个单词被国内广泛翻译称召回率，大多数人根本无法从字面理解这个召回率到底是个什么鬼。而周志华老师在 其西瓜书中，将 recall 翻译成查全率，将 precision 翻译成查准率。一下子直观了很多。查准率表示模型查找到结果的准确率，就是 你说这些都是好瓜，但其中真正是好瓜的比例；查全率表示模型找到所有正样本的比例，就是说在所有好瓜中，你判别出来了多少。
+计算方法 不同的数据集有不同的 mAP 计算方法。主要包括 PASCAL 07 、PASCAL 10、COCO 数据集的计算方法较常用。
+PASCAL 数据集使用的都是固定的 IoU 阈值（默认为 0.5），就是只要预测的 box 和真实的 box 的 IoU 大于等于 0.5 ，就认为检测正 确（当然类别也必须正确）。所不同的是 PASCAL 07 只计算 11 个查准率 precision 的平均值，而 PASCAL 10 则要求所有的检测结果 都用于计算 AP 。
+PASCAL 07 只计算查全率 recall 在 0.1-1 之间，以 0.01 为间隔，共 11 个点所对应的查准率的平均值。而 PASCAL 10 则在计算 PR 曲线的 AUC 。coco 数据集则会分别计算 IoU 为 0.</description>
+    </item>
+    
+    <item>
+      <title>mxnet</title>
+      <link>https://kylestones.github.io/blog/machinelearning/gluon/</link>
+      <pubDate>Wed, 31 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/blog/machinelearning/gluon/</guid>
+      <description>mxnet 常用包 from mxnet import gluon # 提供简单易用的 mxnet 接口 from mxnet import nd from mxnet import init # 用于权重参数初始化 from mxnet import autograd # 自动求导 from mxnet.gluon import nn # 用于构建网络结构 from mxnet.gluon import data as gdata from mxnet.gluon.data.vision import transforms # 用于变换数据 import sys import time 常用函数 transfroms.Compose 实现数据格式的转换，转换成 (height, width, channel) 格式，以及变成浮点数；这是 mxnet 要求的格式； 同时可以实现 argument gluon.data.DataLoader 读取数据，可以实现随机读取随机的 batch ，指定 batch_size ，指定同时读取数据的线程数；返回值可 迭代的对象，分别为数据和标签对 gluon.loss 常用的标准损失函数 gluon.Trainer 设定学习算法（SGD、Adam 等），设置学习速率，等等训练参数 x.</description>
+    </item>
+    
+    <item>
+      <title>something</title>
+      <link>https://kylestones.github.io/blog/machinelearning/summarize/</link>
+      <pubDate>Wed, 31 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/blog/machinelearning/summarize/</guid>
+      <description>https://pan.baidu.com/s/1hs3Z2ao https://www.aliyun.com/zixun/wenji/1283158.html https://www.cnblogs.com/objectDetect/p/5947169.html https://www.zhihu.com/question/43609045/answer/132235276 https://blog.csdn.net/shentanyue/article/details/82109580?utm_source=blogxgwz1 https://blog.csdn.net/qq_33783896/article/details/80675398
+网络架构 解释resnet、优缺点以及适用范围 解释inception net、优缺点以及适用范围 densenet结构优缺点以及应用场景 dilated conv优缺点以及应用场景 moblenet、shufflenet的结构 卷积核参数 一个标准卷积层参数的个数是 input*ksize*ksize*output ，不知道为什么自己会两次犯了相同错却仍然不自知。
+如果卷积分组 group ，那么每个卷积核的大小将变小，变为 imput/group*ksize*ksize ，一个 group 的参数为 input/group*ksize*ksize*output/group ；所有 group 组成整个卷积层的参数，input/group*ksize*ksize*output/group*group = input/group*ksize*ksize*output 。即参数会变为原来的 1/group 倍。
+deepwith conv 对输入的每一个 channel 分别进行独立的卷积操作，此时输入的 channel 个数必然等于输出 channel 的个数，此卷积 层参数的个数为 ksize*ksize*input。
+感受野 vgg 论文上说明两次 3x3 卷积可以达到 5x5 卷积核的效果、三层 3x3 卷积可以达到 7x7 卷积核的效果； 现在终于理解作者的意思， 使用两次 3x3 卷积，第二层卷积核的感受野就是 5x5 ，而三层 3x3 卷积，第三层卷积的感受野为 7x7 。
+感受野计算公式：
+Dilated conv vs Deconvolution Dilated convolution 在卷积核的每两个值中间插入 d-1 个空洞 Deconvolution 在 feature map 上插入像素值为 0 的点 Unlike dilated convolutions, which have same output size as input size (if input borders are properly padded) &amp;#34;deconvolution&amp;#34; layers actually produce upsampling (larger input then output) 数学公式：</description>
+    </item>
+    
+    <item>
+      <title>目标检测</title>
+      <link>https://kylestones.github.io/blog/machinelearning/objectdetection/</link>
+      <pubDate>Fri, 24 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/blog/machinelearning/objectdetection/</guid>
+      <description>YOLO 非常敬佩作者 Joseph Redmon ，没有使用开源框架，而是自己使用 C 和 cuda 另外写了一套框架 DarkNet ，并且将其开源。而且 license 写的非常有意思，有点狂放不羁，可能这就是大牛该有的样子
+Darknet is public domain. Do whatever you want with it. Stop emailing me about it! YOLO 是 You Only Look Once 的简写。当然 YOLO 很可能让人想起另一句话 You only live once, but if you do it right, once is enough. – Mae West ，个人感觉作者可能有点故意让两者混淆。
+区别于 RNN 系列的文章，需要先查找 region proposals ，然后在之上进行目标检测。YOLO 只需要运行一遍卷积神经网络就可以完成目 标检测，所以其最主要的优点就是 速度 。而且 mAP (mean Average Precision) 随着算法的改进也表现的相当不错。</description>
+    </item>
+    
+    <item>
+      <title>见招拆招</title>
+      <link>https://kylestones.github.io/blog/machinelearning/seethemove/</link>
+      <pubDate>Thu, 23 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/blog/machinelearning/seethemove/</guid>
+      <description>机器学习并不是若干算法的堆积，熟练掌握了“十大算法”或“二十大算法”并不能让一切问题迎刃而解。所以不能将目光仅聚焦在具体算法 的推导和编程实现上。基本算法仅能呈现典型“套路”，而现实世界任务千变万化，以有限的套路应对无限的变化，焉有不败！所以务必掌 握算法背后的思想脉络，面对现实问题时，根据任务特点对现有套路进行改造融通。无论科研创新还是应用实践，皆以此为登堂入室之始。 — 周志华 &amp;lt;机器学习&amp;gt;
+还有张三丰传授太极剑法给张无忌时，张无忌忘记了剑法具体的招式，仅记住了太极剑法的指导思想，从而根据敌人的招式使用相应的制 敌之策，达到见招拆招的目的。
+Easy to learn. Hard to master.
+YOLO 下面举 YOLO 算法中的几个的例子
+作者通过均方无法来计算预测的 binding boxes 和 ground truth 之间的误差，由于 loss function 中还包含分类错误的误差。而 由于大多数的 grid cell 都没有目标，所以不应该让有目标和没有目标的 grid cell 产生相同权重的误差，所以作者让目标位置误 差的权重 \(\lambda_{coord} = 5\) ，让没有目标的分类误差权重 \(\lambda_{noobj} = 0.5\) ，从而来平衡由于数量悬殊导致的 问题。 使用均方误差计算，size 比较大的目标相比于 size 比较小的目标产生更大的误差。所以作者使用开方之后的宽度和高度值相减然后 求平方。 作者使用 224x224 的图像在 ImageNet 上使用分类网络对检测网络进行预训练，同时作者想让检测网络输入的分辨率为 448x448 。 由于需要同时改变输入的尺寸以及网络的任务，作者先使用 448x448 的ImageNet 对网络进行 fine-tune，然后在使用检测误差进行 调优，以达到更好的效果。 作者想要使用 Anchor Boxes ，但是 R-CNN 一般都是人为设定其大小，这个是目标的先验，如果能有更好的先验，那么应该会有更好 的检测结果，所以作者使用 k-means 聚类方法来求取 Anchor Boxes 先验的大小。 k-means 算法一般使用欧式距离度量误差，而此处，作者真实关心的是两者的 IOU ，所以作者用 1 - IOU 作为损失函数。 可以发现作者始终在依据自己的实际需求，对算法进行了一些改进，而不是直接生搬硬套 。</description>
+    </item>
+    
+    <item>
+      <title>VGG GoogLeNet ResNet</title>
+      <link>https://kylestones.github.io/blog/machinelearning/vgg-googlenet-resnet/</link>
+      <pubDate>Wed, 22 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/blog/machinelearning/vgg-googlenet-resnet/</guid>
+      <description>VGG VERY DEEP CONVOLUTIONAL NETWORKS FOR LARGE-SCALE IMAGE RECOGNITION 论文表明增加网络的深度可能提高网络的性能，论文成功将网络的深度推到 16-19 层 使用 small size (3x3) filter ：两层 3x3 的卷积与 5x5 的卷积等效，三层 3x3 的卷积与 7x7 的卷积等效；选用小尺寸的 filter 可以减小参数 第一层卷积的滤波器的个数是 64 ，之后每经过一个 max-pooling 层都将滤波器的个数乘 2，直到最大为 512 之后不再继续翻倍 Not all the conv layer are followed by max-pooling. 论文为了训练 19 层深层网络，先构建了一些浅层的网络，用于预训练，然后逐渐使用预训练好的浅层网络参数对深层的网络进行初始化。 不过文章中作者也指出，写完 paper 后发现，使用随机初始化是不需要预训练的。看来大神们发 paper 也是历经坎坷呀。
+GoogLeNet 强调算法的重要性，比硬件、大的数据量更加重要。Most of the progress is not just the result of more powerful hardware, larger dataset and bigger models, but mainly a consequence of new ideas, algorithms and improved network architechtures.</description>
+    </item>
+    
+    <item>
+      <title>卷积神经网络进化</title>
+      <link>https://kylestones.github.io/blog/machinelearning/revolution/</link>
+      <pubDate>Wed, 22 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/blog/machinelearning/revolution/</guid>
+      <description>总体趋势：选取的函数越来越简单，手工设计的部分越来越少
+CNN Yann Lecun 在 1998 的 LeNet 奠定了神经网络的基本架构 : CONV - POLING - FC 。
+激活函数 在经典的神经网络以及 LeNet 中使用的激活函数都是 sigmoid 函数。sigmoid 函数是非线性函数，且在输入较大或者较小的时候斜率会 变得很小，不利于参数的学习。
+从 AlexNet 开始，激活函数变成了 ReLU ，为分段线性，且 non-saturating，大大加快了网络的训练速度。同时为防止过拟合，提出了 Dropout 方法， Dropout 随机的使网络中的一些节点失活，使得节点不能过度依赖某一个输入，从而权重得以分散开来，另外使用随机 失活的网络，有预训练的效果，类似于先训练一个简单的网络，然后在没有失活的大型网络上 fine-tune 。虽然 AlexNet 网络与 LeNet 的架构基本相同，但由于其 ReLU 和 Dropout 等方法的使用，网络使用了 120 万张训练图片，从数据中学到了更本质的特征，将 cumulative match character (CMC) top5的正确率一下子提升了 10% ，成功掀起了深度学习的研究热潮。
+何凯明大神在一次报告中使用 RevoLUtion 来表示 ReLU 对深度学习的贡献，同时使用红色字体高亮了单词中的 ReLU ，非常形象。
+Network in NetWork 除了 mini-batch size 外，网络的一层的输入维度为 height * width * channels ，可以通过 polling 操作来减小 height 和 width ，但是怎样减少 channel 的个数呢？ 1 * 1 卷积可以大显身手。当然，如果你愿意也可以用来增加 channel 的个数。</description>
+    </item>
+    
+    <item>
+      <title>人脸识别</title>
+      <link>https://kylestones.github.io/blog/machinelearning/facerecognition/</link>
+      <pubDate>Fri, 17 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/blog/machinelearning/facerecognition/</guid>
+      <description>FaceNet A Unified Embedding for Face Recognition and Clustering
+原来使用卷积神经网络来提取人脸的特征通常都是使用 softmax-loss 来训练网络，以期望网络的到的 embedding 足够好。本文作者直 接使用 embedding 的误差来训练网络，然后通过计算 embedding 的欧式距离来实现人脸验证。
+triplet loss 每次使用三张图像，一个是 anchor ，另外两张中一张图像与 anchor 是同一个人，另一张是不同的人。
+\begin{align*} L = ∑_i^N ≤ft [||f(x_i^a) - f(x_i^p)||_2^2 - ||f(x_i^a) - f(x_i^n)||_2^2 + α \right ]_+ \end{align*}
+Triplet Selection 为了较好的训练效果，挑选hard-positive 和 hard-negative 的人脸对，就是同一个人时选择两张差别最大的图像，不同人脸的时候， 挑选差别最小的两张图像。其中 \(\alpha\) 是 margin 。当然所有这些选择都是在一个 mini-batch 中，而不是整个训练样本中。
+另外为了防止网络进入局部最优解或者训练崩溃（如 f(x) = 0），选择 semi-hard negative 样本，即满足 \[ ||f(x_i^a) - f(x_i^p)||_2^2 - ||f(x_i^a) - f(x_i^n)||_2^2 \]</description>
+    </item>
+    
+    <item>
+      <title>损失函数</title>
+      <link>https://kylestones.github.io/blog/machinelearning/loss-function/</link>
+      <pubDate>Fri, 17 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/blog/machinelearning/loss-function/</guid>
+      <description>为了度量算法关于某个数据集的性能，我们需要损失函数。当算法希望生成比真实值一个较小的数字，那么损失函数中应该体现出现，较 大的输出比较小的输出有更大的惩罚。
+Loss: Used to evaluate and diagnose model optimization only. Metric: Used to evaluate and choose models in the context of the project. Mean Squared Error MSE 是经常被使用的损失函数，易于理解，且表现很好。
+take the difference between your predictions and the ground truth square it average it out across the whole dataset def MSE(y_predicted, y): squared_error = (y_predicted, y) ** 2 sum_squared_error = np.sum(squared_error) mse = sum_squared_error / y.size return mse Cross Entropy Loss (Log Loss) 交叉熵损失经常用于分类问题。函数定义如下</description>
+    </item>
+    
+    <item>
+      <title>TensorFlow</title>
+      <link>https://kylestones.github.io/blog/machinelearning/tensorflow/</link>
+      <pubDate>Sun, 12 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/blog/machinelearning/tensorflow/</guid>
+      <description>架构 阅读大神的 《TensorFlow 内核剖析》 对 TensorFlow 的整个代码框架有了一些了解，以下是读书笔记。
+Graph (计算图)是 TensorFlow 领域模型的核心。计算图就是节点与边的集合，是一个 DAG (有向无环图)图。
+Node(节点)持有零条或多条输入/输出的边，分别使用 in_edges， out_edges 表示。
+Edge(边) 持有前驱节点与后驱节点，从而实现了计算图的连接，也是计算图前向遍历，后向遍历的衔接点。边上的数据以 Tensor 的形 式传递。计算图中存在两类边：
+普通边：用于承载 Tensor，常用实线表示； 控制依赖：控制节点的执行顺序，常用虚线表示。 TensorFlow 计算的单位是 OP，它表示了某种抽象计算。通过定义 OP 来构建 DAG 图。OP 拥有 0 个或多个「输入/输出」，及其 0 个 或多个「属性」。其中，输入/输出以Tensor 的形式存在。在系统实现中，OP 的元数据使用 Protobuf 格式的 OpDef 描述，实现前端与 后端的数据交换，及其领域模型的统一。OpDef 定义包括 OP 的名字，输入输出列表，属性列表，优化选项等。其中，属性常常用于描述 输入/输出的类型，大小，默认值，约束，及OP 的其他特性。
+计算图的执行过程将按照 DAG 的拓扑排序，依次启动 OP 的运算。其中，如果存在多个入度为 0 的节点，TensorFlow 运行时可以实现 并发，同时执行多个 OP 的运算，提高执行效率。
+架构设计 TensorFlow 遵循良好的分层架构：
+front end ： 用户接口，负责构造计算图 runtime ： 实现计算图的拆分。提供本地运行模式和分布式运行模式，两者共享大部分设计和实现 计算层 ： 基于 Eigen 实现计算的逻辑实现；同时支持各种硬件的并行加速 通信层 ： 基于 gRPC 实现组件间的数据交换。同时支持 RDMA 设备层 ： 支持多种异构计算设备。实际执行计算的载体 前端系统 Client 是前端系统的主要组成部分，它是一个支持多语言的编程环境，且对 Python 和 C++ 的支持比较完善。实现时通过 Swig 完成对 后端 C++ 的调用。基于这些编程接口来构造计算图。</description>
+    </item>
+    
+    <item>
+      <title>Deep Learning</title>
+      <link>https://kylestones.github.io/blog/machinelearning/deeplearning/</link>
+      <pubDate>Thu, 12 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/blog/machinelearning/deeplearning/</guid>
+      <description>神经网络和深度学习 神经网络概论 结构化数据(structured data)：每个特征都有清晰、明确有意义的定义；比如房屋的面积，人的身高等 非结构化数据(unstructured data)：特征无法精确定义；比如图像的像素点，音频，文字 人类很擅长处理结构化的数据，但机器很不擅长。而归功于深度学习，使得机器在非结构化数据的处理有了明显的提高；但是现在比较挣 钱的仍然是让机器处理结构化数据，如广告投放、理解处理公司的海量数据并进行预测等。吴恩达希望设计的网络可以处理结构化数据也 可以处理非结构化的数据。
+每个神经元类似一个乐高积木(Lego brick) ，将许多神经元堆叠在一起就形成了一个较大的神经网络。而且并不会人为决定每个神经元 的作用，而是由神经网络自己决定每个神经元的作用。如果给神经网络足够多的训练数据，其非常擅长计算从输入到输出的精确映射。神 经网络在监督学习中效果很好很强大。
+神经网络有不同的种类，有用于处理图像的 CNN(Convolution Neural Network)、处理一维序列的 RNN(Recurrent Neural Network)、以 及自动驾驶中用于处理雷达数据的混合神经网络(Hybrid Neural Network)[对于复杂的问题，需要自行构建网络的架构；和机器学习中的 算法一样，针对具体的问题，需要去做具体的优化，而不是一成不变的使用基本的算法]
+scale 使得神经网络在最近流行起来，这里的 scale 并不单单指神经网络的规模，还包括数据的规模。当训练样本不是很大的时候，神 经网络与传统的机器学习算法之间的优劣并不明显，此时主要取决有人为设计算法的技巧和能力以及算法处理的细节，可能一个设计良好 的 SVM 算法结果要优于一个神经网络的效果；但是随着样本量不断变大，传统的机器学习算法的性能会在达到一定的性能之后效果变无 法继续提升，而神经网络此时的效果将明显领先于传统的算法[需要很大的样本，且网络的规模越大，性能越好]。数据、计算能力、算法 都促使了深度学习的发展；算法的主要改进都在加快算法的速度，比如使用 ReLU 函数替代 sigmoid 函数就大大加快了算法的训练速度， 因为 sigmoid 函数在自变量趋向于正负无穷大的时候，导数趋向于 0，而使用梯度下降法，梯度的减小将使得参数的变化变得缓慢，从 而学习将变得缓慢；而 ReLU 函数右侧的斜率始终为 1，由于斜率不会逐渐趋向于 0，使得算法训练速度大大提高（ReLu: rectified linear unit ，修正线性单元；修正指的是取不小于 0 的值）。速度的提升使得我们可以训练大型的网络或者在一定的时间内完成网络 的训练。而且训练神经网络的过程一般是 idea - code - experiment - idea 不断循环，迭代的更快使得验证自己的想法更加快速得到 验证，将有机会取验证更多的想法，从而更有可能找到合适的结果。
+1989 年 Robert Hecht-Nielsen 证明了万能逼近定理：对于任何闭区间的一个连续函数都可以用一个隐含层的 BP 网络来逼近（完成任 意m 维到 n 维的映射）。虽然如此，但是若要模拟复杂的函数可能需要特别特别多的隐层神经元，因此现代网络总是加大网络的深度， 以让每一层的函数尽量简单，而整个网络完成复杂的映射。</description>
+    </item>
+    
+  </channel>
+</rss>

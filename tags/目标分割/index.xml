@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>目标分割, on Org Mode</title>
+    <link>https://kylestones.github.io/tags/%E7%9B%AE%E6%A0%87%E5%88%86%E5%89%B2/</link>
+    <description>Recent content in 目标分割, on Org Mode</description>
+    <image>
+      <url>https://kylestones.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://kylestones.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 27 Nov 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://kylestones.github.io/tags/%E7%9B%AE%E6%A0%87%E5%88%86%E5%89%B2/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Mask R-CNN</title>
+      <link>https://kylestones.github.io/blog/machinelearning/maskrcnn/</link>
+      <pubDate>Tue, 27 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/blog/machinelearning/maskrcnn/</guid>
+      <description>训练 train 输入 mini-batch 论文指出每个 GPU 上面跑 2 张图片，共 8 个 GPU ，所以 batch-size = 16 TODO ；每张图片上 sample 256 个 anchor 用于训练。
+image spatial 图片大小
+到底是用多大尺寸的图片训练网络的？ paper 中将图像的短边 resize 为 800 （测试的时候也会 resize 吗？）; 800*1024 ? 800*800 ? 1024*1024 ? 任意 size ? TODO
+anchor anchor 用于生产目标的最初候选区域
+生成 anchor 的方法
+anchor scale [32, 64, 128, 256, 512] anchor ratio [0.5, 1, 2] 在 RPN 网络最后一层的 feature map 上每个点生成一组 anchor （按照指定的 scale 和 ratio） 判断为 positive anchor 的标准：</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>性能测量, on Org Mode</title>
+    <link>https://kylestones.github.io/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E9%87%8F/</link>
+    <description>Recent content in 性能测量, on Org Mode</description>
+    <image>
+      <url>https://kylestones.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://kylestones.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 24 Nov 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://kylestones.github.io/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E9%87%8F/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>mAP</title>
+      <link>https://kylestones.github.io/blog/machinelearning/map/</link>
+      <pubDate>Sat, 24 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/blog/machinelearning/map/</guid>
+      <description>词语解释 mAP 是 Mean Average Precision 的缩写，是检测算法的评价指标。这个名词中包含两个平均，其中 Mean 取的是不同类别的平均值， Average 取的是不同的召回率的平均值，当然计算的是正确率 Precision 的平均值。另外 coco 数据集还取了不同 IoU 阈值的平均。
+另外想说一下，recall 这个单词被国内广泛翻译称召回率，大多数人根本无法从字面理解这个召回率到底是个什么鬼。而周志华老师在 其西瓜书中，将 recall 翻译成查全率，将 precision 翻译成查准率。一下子直观了很多。查准率表示模型查找到结果的准确率，就是 你说这些都是好瓜，但其中真正是好瓜的比例；查全率表示模型找到所有正样本的比例，就是说在所有好瓜中，你判别出来了多少。
+计算方法 不同的数据集有不同的 mAP 计算方法。主要包括 PASCAL 07 、PASCAL 10、COCO 数据集的计算方法较常用。
+PASCAL 数据集使用的都是固定的 IoU 阈值（默认为 0.5），就是只要预测的 box 和真实的 box 的 IoU 大于等于 0.5 ，就认为检测正 确（当然类别也必须正确）。所不同的是 PASCAL 07 只计算 11 个查准率 precision 的平均值，而 PASCAL 10 则要求所有的检测结果 都用于计算 AP 。
+PASCAL 07 只计算查全率 recall 在 0.1-1 之间，以 0.01 为间隔，共 11 个点所对应的查准率的平均值。而 PASCAL 10 则在计算 PR 曲线的 AUC 。coco 数据集则会分别计算 IoU 为 0.</description>
+    </item>
+    
+  </channel>
+</rss>

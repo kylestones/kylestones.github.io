@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>统计学习 on Org Mode</title>
+    <link>https://kylestones.github.io/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0/</link>
+    <description>Recent content in 统计学习 on Org Mode</description>
+    <image>
+      <url>https://kylestones.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://kylestones.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 22 Jun 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://kylestones.github.io/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Machine Learning</title>
+      <link>https://kylestones.github.io/blog/machinelearning/machine-learning/</link>
+      <pubDate>Fri, 22 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://kylestones.github.io/blog/machinelearning/machine-learning/</guid>
+      <description>ML *机器学习* machine learning: Field of study that gives computers the ability to learn without being explicitly program.
+机器学习并不是仅仅是若干算法的堆积，学会“十大算法”，熟练掌握具体算法算法的推导与编程实现，并不能让所有问题迎刃而解，因为 现实世界的问题千变万化。而应该像张无忌那样，忘记张三丰传授的太极剑法的具体招式，而只记住一些规则和套路，从而根据敌人的招 式去不断变化自己的招式，达到以不变应万变的效果。或者说用 Andrew Ng 的话，要成为一个 master carpenter （顶级木匠），可以 灵活使用工具来制造桌椅，只有手艺差的木匠才会抱怨工具不合适。因此必须把握算法背后的思想脉络，针对具体的任务特点，对现有套 路进行改造融通；要记住算法是 死 的，思想才是 活 的。
+数据库提供数据管理技术，机器学习提供数据分析技术。
+Supervised Learning 样本有标签的时候称为监督学习
+Linear Regression 首先可以根据样本输入的维数来选择参数的个数（最终依据交叉验证的结果来选择模型和特征） \[ h_{\theta}(x) = \sum_{i=1}^{n} \theta_i x_i = \theta^{T}x \] 求取 \(\theta\) 的策略：在训练集上使得 \(h(x)\) 尽可能接近 y 。那么就涉及到距离的定义，距离通常定义为两者差的平方。因此 损失函数(cost function)定义为 \[ J(\theta) = \frac{1}{2} \sum_{i=1}^m (h_{\theta}(x^{(i)}) - y^{(i)})^2 \]
+认为数据服从高斯分布 \(y|x;\theta \thicksim (\mu, \sigma^2)\) ，即其前置概率估计是高斯分布。</description>
+    </item>
+    
+  </channel>
+</rss>
