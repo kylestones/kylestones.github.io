@@ -9,3 +9,4 @@
 
 1. [[https://36kr.com/p/5042735]]
 1. Conway's law
+1. [[[https://www.ruanyifeng.com/blog]]
